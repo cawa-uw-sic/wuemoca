@@ -1,0 +1,66 @@
+{
+  "name": "GeoExt",
+  "format": "1",
+  "version": "3.0.0",
+  "creator": "GeoExt Contributors",
+  "summary": "GIS Package for ExtJS",
+  "detailedDescription": "GeoExt is Open Source and enables building desktop-like GIS applications through the web. It is a JavaScript framework that combines the GIS functionality of OpenLayers with the user interface savvy of the ExtJS library provided by Sencha.",
+  "type": "code",
+  "signatures": [
+    {
+      "name": "GeoExt Contributors",
+      "uuid": "72a75b41-e0ee-4a0c-979b-20d77ef4b3b6",
+      "created": "2016-04-14T09:02:32Z",
+      "algorithm": "SHA1withRSA",
+      "nonce": "tZ8g6aLlgAg\u003d",
+      "signature": "cqlBf8G/s6gpszyQqBnoQTX+n964m8QwXZ9BHAMgqaFr04FleO9VQOhsUO2ZKY5wIEGz7XMiiye2IetrqU9sHJlx8/T3gnT+IdVnvfbRMUuuFpFAhGboHWZdtVEp0jgyZXj8dx/A0W9Hm44MUZL1XzsQPx+Srm8usfc8y+KYbscYOPVglHuYqNt1XJtMpTAgURi/KtRIbnJ8V2m9yDXf6bUuTi2M+RqYYxpq3Fg6XR+4LJWeMGvZflOar14Qu4aaS67RwJXQepn9i24xJffub28bbF+iPecof6N7FA9Y+NKyPTMIV+fKhwEV6r5Kx64R+RJE3fve54XZLRuPXsSxtQ\u003d\u003d"
+    }
+  ],
+  "slicer": {
+    "js": [
+      {
+        "path": "${package.dir}/sass/example/custom.js",
+        "isWidgetManifest": true
+      }
+    ]
+  },
+  "license": "GPL-3.0",
+  "output": "${package.dir}/build",
+  "theme": "theme-neptune",
+  "toolkit": "classic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geoext/geoext3.git"
+  },
+  "scripts": {
+    "clean": "rm -rf coverage apidoc",
+    "lint": "eslint src/ examples/ \u0026\u0026 eslint -c test/.eslintrc test/",
+    "pretest": "npm run-script lint",
+    "test": "karma start test/karma.conf.js --single-run",
+    "test:debug": "karma start test/karma.conf.js --single-run --debug",
+    "test:coverage": "karma start test/karma.conf.js --single-run --reporters coverage",
+    "test:watch": "karma start test/karma.conf.js",
+    "test:watch:debug": "karma start test/karma.conf.js --debug",
+    "start": "browser-sync start --server --directory --files \u0027src, test, examples\u0027",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "generate:example": "node bin/example-generator/index.js",
+    "generate:doc": "jsduck --config jsduck-cfg.json"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "2.11.2",
+    "coveralls": "2.11.9",
+    "eslint": "2.7.0",
+    "expect.js": "0.3.1",
+    "karma": "0.13.20",
+    "karma-coverage": "0.5.3",
+    "karma-eslint": "2.0.1",
+    "karma-expect": "1.1.2",
+    "karma-mocha": "0.2.1",
+    "karma-phantomjs-launcher": "0.2.3",
+    "karma-sinon": "1.0.4",
+    "mocha": "2.3.3",
+    "phantomjs": "1.9.19",
+    "sinon": "1.17.3"
+  }
+}

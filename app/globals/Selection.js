@@ -8,7 +8,7 @@ var __Selection = {
 
   Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
   Crop             : __LocalDB.get('Selections.Crop', 'cotton'),
-  Unit             : __LocalDB.get('Selections.Unit', 'administration'),
+  Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Min),

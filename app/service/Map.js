@@ -109,7 +109,7 @@ Ext.define('App.service.Map', {
   },
 
   getLayerStyles: function () {
-    var styles = 'wuemoca:a_' + App.service.Watcher.get('Indicator');
+    var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
     if (App.service.Watcher.get('Aggregation') == 'grid') styles += '_grid';
     if (App.service.Watcher.getIndicator().yearsPrefix) styles += '_noyears';

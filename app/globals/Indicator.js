@@ -130,7 +130,7 @@ var __Indicator = [
     ruName         : 'Орошаемое использование земель по с/х культуре',
     enUnit         : '',
     ruUnit         : '',
-    crops          : 'all',
+    crops          : ['cotton', 'wheat', 'rice', 'other', 'orchard', 'garden'],
     aggregation    : 'all',
     years          : 'all',
     yearsPrefix    : false,

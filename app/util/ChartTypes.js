@@ -30,7 +30,7 @@ Ext.define('App.util.ChartTypes', {
     });
   },
 
-  KirFir: function (data) {
+ /* KirFir: function (data) {
     var self = this;
     var firn = App.service.Helper.getById(__Indicator, 'firn');
     var firb = App.service.Helper.getById(__Indicator, 'firb');
@@ -75,7 +75,7 @@ Ext.define('App.util.ChartTypes', {
         }
       ]
     });
-  },
+  },*/
 
   Majority: function (data) {
     var self = this;

@@ -18,7 +18,7 @@ var __Indicator = [
     maximum        : 2500,
     chart          : 'KirFir',
     color          : '#e6550d'
-  }, {
+ /* }, {
     id             : 'firb',
     field          : 'area_ha',
     enName         : 'Irrigated land area(gross)',
@@ -51,7 +51,7 @@ var __Indicator = [
     median         : 0.63,
     maximum        : 1,
     chart          : 'KirFir',
-    color          : ['#000', '#82b525']
+    color          : ['#000', '#82b525']*/
   }, {
     id             : 'firf',
     field          : '{crop}_ha',
@@ -69,7 +69,7 @@ var __Indicator = [
     median         : [1050, 300, 325, 125, 262.5, 125, 50],
     maximum        : [5500, 2850, 2925, 2410, 2275, 2800, 300],
     chart          : 'Defaults'
-  }, {
+ /* }, {
     id             : 'firf_state',
     field          : 'idx_sta',
     enName         : 'State order acreage',
@@ -86,7 +86,7 @@ var __Indicator = [
     median         : 650,
     maximum        : 2950,
     chart          : 'Defaults',
-    color          : '#6a3d9a'
+    color          : '#6a3d9a'*/
   }, {
     id             : 'uirn',
     field          : 'idx_uir_net',
@@ -105,7 +105,7 @@ var __Indicator = [
     maximum        : 220,
     chart          : 'Defaults',
     color          : '#de2d26'
-  }, {
+  /*}, {
     id             : 'uirb',
     field          : 'idx_uir_brt',
     enName         : 'Irrigated land use (gross)',
@@ -122,7 +122,7 @@ var __Indicator = [
     median         : 42.0,
     maximum        : 220,
     chart          : 'Defaults',
-    color          : '#e6550d'
+    color          : '#e6550d'*/
   }, {
     id             : 'uiri',
     field          : '{crop}_percent',
@@ -140,7 +140,7 @@ var __Indicator = [
     median         : [18.4, 27.3, 4.6, 18.0, 7.9, 2.0],
     maximum        : [100, 100, 100, 100, 100, 100],
     chart          : 'Defaults'
-  }, {
+  /*}, {
     id             : 'uir_state',
     field          : 'idx_sta_irr',
     enName         : 'State order land use',
@@ -157,7 +157,7 @@ var __Indicator = [
     median         : 49.3,
     maximum        : 118,
     chart          : 'Defaults',
-    color          : '#6a3d9a'
+    color          : '#6a3d9a'*/
   }, {
     id             : 'pirf',
     field          : 'idx_pir_{crop}',
@@ -190,7 +190,7 @@ var __Indicator = [
     mapType        : 'coloured',
     median         : [[1.46, 1.73, 2, 2.39, 2.94, 3.6, 25.5], [1.84, 2.27, 2.66, 3.09, 3.53, 4.06, 8.74]],
     chart          : 'Defaults'
-  }, {
+  /*}, {
     id             : 'intensity',
     field          : 'double_percent',
     enName         : 'Land use intensity',
@@ -207,7 +207,7 @@ var __Indicator = [
     median         : 11.11,
     maximum        : 100,
     chart          : 'Defaults',
-    color          : '#ccaa00'
+    color          : '#ccaa00'*/
   }, {
     id             : 'fallow',
     field          : 'fallow_percent',
@@ -244,7 +244,7 @@ var __Indicator = [
   }, {
     id             : 'diversity',
     field          : 'diversity',
-    enName         : 'Crop diversity',
+    enName         : 'Crop rotation',
     ruName         : 'Разнообразие с/х культур',
     enUnit         : '',
     ruUnit         : '',

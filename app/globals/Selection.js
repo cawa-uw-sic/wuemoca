@@ -6,10 +6,10 @@ var __Selection = {
   Buis             : __LocalDB.get('Selections.Buis'),
   Uis              : __LocalDB.get('Selections.Uis'),
 
-  Indicator        : __LocalDB.get('Selections.Indicator', 'firf_state'),
-  Crop             : __LocalDB.get('Selections.Crop', ''),
-  Unit             : __LocalDB.get('Selections.Unit', 'grid'),
-  Aggregation      : __LocalDB.get('Selections.Aggregation', 'grid'),
+  Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
+  Crop             : __LocalDB.get('Selections.Crop', 'cotton'),
+  Unit             : __LocalDB.get('Selections.Unit', 'administration'),
+  Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Min),
 

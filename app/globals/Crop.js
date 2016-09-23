@@ -1,4 +1,4 @@
-var __Crop         = ['cotton', 'wheat', 'rice', 'other', 'orchard', 'garden', 'sum'];
+var __Crop         = ['sum', 'cotton', 'wheat', 'rice', 'other', 'orchard', 'garden'];
 var __CropMajority = ['cotton', 'wheat', 'rice', 'fallow', 'double', 'other', 'orchard', 'garden'];
 
 var __CropColors = {

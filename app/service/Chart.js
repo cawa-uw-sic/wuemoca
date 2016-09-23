@@ -22,8 +22,8 @@ Ext.define('App.service.Chart', {
 
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
-    kir       : Ext.create('Ext.data.JsonStore'),
-    fir       : Ext.create('Ext.data.JsonStore'),
+    //kir       : Ext.create('Ext.data.JsonStore'),
+    //fir       : Ext.create('Ext.data.JsonStore'),
     diversity : Ext.create('Ext.data.JsonStore'),
     frequency : Ext.create('Ext.data.JsonStore')
   },
@@ -68,8 +68,10 @@ Ext.define('App.service.Chart', {
       );
 
       self.window.removeAll();
-      self.window.add(App.util.ChartTypes[indicator.chart](self.data));
-      return self.window.show();
+      if (!!indicator.chart){
+        self.window.add(App.util.ChartTypes[indicator.chart](self.data));
+        return self.window.show();
+      }
     }
     self.window.close();
 

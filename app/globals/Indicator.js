@@ -16,7 +16,7 @@ var __Indicator = [
     mapType        : 'labeled',
     median         : 1575,
     maximum        : 2500,
-    chart          : 'KirFir',
+    chart          : 'false',
     color          : '#e6550d'
  /* }, {
     id             : 'firb',

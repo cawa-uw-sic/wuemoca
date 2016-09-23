@@ -185,8 +185,8 @@ Ext.define('App.service.Map', {
 
     if (!!indicator.crops) {
       var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
-      median  = indicator.median [index] || 0;
-      maximum = indicator.maximum[index] || 0;
+      median  = indicator.median  ? indicator.median  [index] : 0;
+      maximum = indicator.maximum ? indicator.maximum [index] : 0;
     }
 
     if (!!median && median != 0) {

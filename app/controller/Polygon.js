@@ -29,7 +29,7 @@ Ext.define('App.controller.Polygon', {
   },
 
   onCalculate: function () {
-    console.log('clicked onCalculate');
+    App.service.Polygon.calculate();
   },
 
   onRemove: function () {

@@ -10,6 +10,7 @@ Ext.define('App.controller.Zoom', {
     App.service.Helper.hideComponents(['zoom-cb-oblast', 'zoom-btn-oblast', 'zoom-cb-buis', 'zoom-btn-buis']);
 
     if (val) {
+      //avoid zoom to country if other parameters are stored
       var oblast = App.service.Watcher.get('Oblast');
       var buis = App.service.Watcher.get('Buis');
       if ((oblast == null || oblast == '0') && (buis == null || buis == '0')){

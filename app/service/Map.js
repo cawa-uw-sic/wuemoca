@@ -109,7 +109,7 @@ Ext.define('App.service.Map', {
   },
 
   getLayerStyles: function () {
-    var styles = 'wuemoca:a_' + App.service.Watcher.get('Indicator');
+    var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
     if (App.service.Watcher.get('Aggregation') == 'grid') styles += '_grid';
     if (App.service.Watcher.getIndicator().yearsPrefix) styles += '_noyears';
@@ -185,8 +185,8 @@ Ext.define('App.service.Map', {
 
     if (!!indicator.crops) {
       var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
-      median  = indicator.median [index] || 0;
-      maximum = indicator.maximum[index] || 0;
+      median  = indicator.median  ? indicator.median  [index] : 0;
+      maximum = indicator.maximum ? indicator.maximum [index] : 0;
     }
 
     if (!!median && median != 0) {

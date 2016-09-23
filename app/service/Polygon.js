@@ -17,6 +17,7 @@ Ext.define('App.service.Polygon', {
   activated: false,
 
   selected: false,
+  isBusy: false,
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
@@ -161,6 +162,37 @@ Ext.define('App.service.Polygon', {
     return this.all.map(function (d) {
       return d.uid;
     }).indexOf(this.selected.get('uid'));
+  },
+
+  calculate: function () {
+    var polygon = this.all[this.getSelectedIndex()];
+    this.doRequest(this.prepareRequestGeometry(polygon.geometry));
+  },
+
+  doRequest: function (geometry) {
+    var self = this;
+    self.isBusy = true;
+    Ext.data.JsonP.request({
+      url : __Global.api.Polygon + '&geometry=' + geometry,
+      callbackName: 'PolygonResponse',
+      params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
+      success: function (results) {
+        self.isBusy = false;
+        console.log(results);
+      }
+    });
+  },
+
+  prepareRequestGeometry: function (geometry) {
+    var result = [];
+    App.service.Helper.transformPoints(
+      geometry,
+      __Global.projection.Mercator,
+      __Global.projection.Geographic
+    ).map(function (g) {
+      result.push(g.join(' '));
+    });
+    return result.join(',');
   }
 
 });

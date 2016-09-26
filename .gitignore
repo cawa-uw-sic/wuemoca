@@ -4,7 +4,7 @@ ext/
 packages/
 build/
 sass/
-bootrstrap.json
+bootstrap.json
 bootstrap.jsonp
 build.xml
 workspace.json

@@ -45,7 +45,7 @@ var __Aggregation = [
     ]
   },
 
-  {
+  /*{
     id: 'natural',
     enName: 'Natural units',
     ruName: 'Еcтеcтвенные объекты',
@@ -62,7 +62,7 @@ var __Aggregation = [
         ruName         : 'Река подбассейна'
       }
     ]
-  },
+  },*/
 
   {
     id: 'grid',

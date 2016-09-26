@@ -2,7 +2,7 @@ var __Indicator = [
 
   {
     id             : 'firn',
-    field          : 'area_irr',
+    field          : 'firn',
     enName         : 'Irrigated land area (net)',
     ruName         : 'Поливная площадь (нетто)',
     enUnit         : 'ha',
@@ -54,7 +54,7 @@ var __Indicator = [
     color          : ['#000', '#82b525']*/
   }, {
     id             : 'firf',
-    field          : '{crop}_ha',
+    field          : 'firf_{crop}',
     enName         : 'Irrigated crop acreage',
     ruName         : 'Орошаемые посевные площади с/х культур',
     enUnit         : 'ha',
@@ -89,7 +89,7 @@ var __Indicator = [
     color          : '#6a3d9a'*/
   }, {
     id             : 'uirn',
-    field          : 'idx_uir_net',
+    field          : 'uirn',
     enName         : 'Irrigated land use (net)',
     ruName         : 'Орошаемое землепользование (нетто)',
     enUnit         : '',
@@ -125,20 +125,20 @@ var __Indicator = [
     color          : '#e6550d'*/
   }, {
     id             : 'uiri',
-    field          : '{crop}_percent',
+    field          : 'uiri_{crop}',
     enName         : 'Irrigated land use per crop',
     ruName         : 'Орошаемое использование земель по с/х культуре',
     enUnit         : '',
     ruUnit         : '',
-    crops          : ['cotton', 'wheat', 'rice', 'other', 'orchard', 'garden'],
+    crops          : ['cotton', 'wheat', 'rice', 'other', 'orchard', 'garden','maize', 'veg', 'sun'],
     aggregation    : 'all',
     years          : 'all',
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'coloured',
-    median         : [18.4, 27.3, 4.6, 18.0, 7.9, 2.0],
-    maximum        : [100, 100, 100, 100, 100, 100],
+    median         : [18.4, 27.3, 4.6, 18.0, 7.9, 2.0, 3.8, 5.5, 1.6],
+    maximum        : [100, 100, 100, 100, 100, 100, 100, 100, 100],
     chart          : 'Defaults'
   /*}, {
     id             : 'uir_state',
@@ -160,7 +160,7 @@ var __Indicator = [
     color          : '#6a3d9a'*/
   }, {
     id             : 'pirf',
-    field          : 'idx_pir_{crop}',
+    field          : 'pirf_{crop}',
     enName         : 'Farm gross output actual',
     ruName         : 'Ферма валовой продукции фактическая',
     enUnit         : 'tons',
@@ -176,7 +176,7 @@ var __Indicator = [
     chart          : 'Defaults'
   }, {
     id             : 'yield',
-    field          : '{crop}_tons',
+    field          : 'yield_{crop}',
     enName         : 'Yield',
     ruName         : 'Урожайность',
     enUnit         : 'tons/ha',

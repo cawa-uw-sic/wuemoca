@@ -1,10 +1,14 @@
 var LayerParams = {
-  Irrigation  : 'wuemoca:ca_irrigation_mask_smooth',
-  Country     : 'wuemoca:ca_country_geom_' + lang,
-  Channel     : 'wuemoca:channel_geom_'+lang,
-  Aggreg      : 'wuemoca:ca_{aggreg}',
-  Styles      : 'wuemoca:ca_{type}_{crop}',
-  Grid        : 'wuemoca:ca_{aggreg}_{type}_{crop}'
+  Irrigation  : 'wuemoca_v3:ca_irrigation_mask_smooth',
+  //Country     : 'wuemoca_v3:ca_country_geom_' + lang,
+  //v3
+  Country     : 'wuemoca_v3:ca_country_geom',
+  //Channel     : 'wuemoca_v3:channel_geom_'+lang,
+  //v3
+  Channel     : 'wuemoca_v3:channel_geom',
+  Aggreg      : 'wuemoca_v3:ca_{aggreg}',
+  Styles      : 'wuemoca_v3:ca_{type}_{crop}',
+  Grid        : 'wuemoca_v3:ca_{aggreg}_{type}_{crop}'
 };
 
 var BackgroundLayers = {
@@ -35,6 +39,19 @@ var BackgroundLayers = {
     })
   }),
 
+  irrigation_overview: new ol.layer.Image({
+    opacity: 0.5,
+    visible: true,
+    source: new ol.source.ImageWMS({
+      url: __Global.urls.Mapserver + 'wms?',
+      params: {
+        LAYERS: LayerParams.Irrigation,
+        TRANSPARENT: true,
+        FORMAT: 'image/png'
+      }
+    })
+  }),
+
   country: new ol.layer.Image({
     opacity: 1,
     visible: true,
@@ -43,7 +60,8 @@ var BackgroundLayers = {
       params: {
         LAYERS: LayerParams.Country,
         TRANSPARENT: true,
-        FORMAT: 'image/png'
+        FORMAT: 'image/png',
+        STYLES: 'ca_country_' + __Global.Lang
       }
     })
   }),
@@ -56,7 +74,8 @@ var BackgroundLayers = {
       params: {
         LAYERS: LayerParams.Channel,
         TRANSPARENT: true,
-        FORMAT: 'image/png'
+        FORMAT: 'image/png',
+        STYLES: 'channel_' + __Global.Lang
       }
     })
   }),
@@ -67,9 +86,9 @@ var BackgroundLayers = {
     zIndex: 15,
     source: new ol.source.Vector({}),
     style: new ol.style.Style({
-      fill: new ol.style.Fill({
+      /*fill: new ol.style.Fill({
         color: [255,0,0,0.2]
-      }),
+      }),*/
       stroke: new ol.style.Stroke({
         color: [255,0,0,0.6],
         width: 2
@@ -96,6 +115,12 @@ Ext.define('App.util.Layer', {
     ,BackgroundLayers.country
     ,BackgroundLayers.channel
     ,BackgroundLayers.highlight
+  ],
+
+  overview: [
+     BackgroundLayers.osm
+    ,BackgroundLayers.irrigation_overview
+    ,BackgroundLayers.country
   ],
 
   params: LayerParams,

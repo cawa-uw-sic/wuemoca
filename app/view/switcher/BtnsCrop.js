@@ -15,7 +15,18 @@ Ext.define('App.view.switcher.BtnsCrop', {
   frame: false,
   columns: 5,
   flex: 1,
-  titleAlign : 'left',
+  titleAlign : 'left', 
+
+  defaults:{
+    width: 36,
+    height: 36,
+    padding: 3,
+    margin: '0 5 5 0'
+  },
+
   items: []
 
 });
+
+
+

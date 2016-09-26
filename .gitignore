@@ -3,3 +3,8 @@
 ext/
 packages/
 build/
+sass/
+bootrstrap.json
+bootstrap.jsonp
+build.xml
+workspace.json

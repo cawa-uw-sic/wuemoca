@@ -23,7 +23,7 @@ var __Global = {
   },
 
   api: {
-    Polygon       : api + 'refreshPolygon.jsp?'  + langParam,
+    Polygon       : api + 'calculatePolygon_v3.jsp?'  + langParam,
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,

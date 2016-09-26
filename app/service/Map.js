@@ -61,19 +61,25 @@ Ext.define('App.service.Map', {
     var map = this.instance;
 
     map.removeLayer(App.util.Layer.admin);
-    App.util.Layer.admin = new ol.layer.Image({
-      opacity: 1,
-      visible: true,
-      source: new ol.source.ImageWMS({
-        url: __Global.urls.Mapserver + 'wms?',
-        params: {
-          LAYERS: 'wuemoca:ca_' + App.service.Watcher.get('Aggregation') + '_geom_' + __Global.Lang,
-          TRANSPARENT: true,
-          FORMAT: 'image/png'
-        }
-      })
-    });
-    map.addLayer(App.util.Layer.admin);
+    if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
+      App.util.Layer.admin = new ol.layer.Image({
+        opacity: 1,
+        visible: true,
+        source: new ol.source.ImageWMS({
+          url: __Global.urls.Mapserver + 'wms?',
+          params: {
+            //LAYERS: 'wuemoca:ca_' + App.service.Watcher.get('Aggregation') + '_geom_' + __Global.Lang,
+            //v3:
+            LAYERS: 'wuemoca_v3:ca_' + App.service.Watcher.get('Aggregation') + '_geom',            
+            TRANSPARENT: true,
+            FORMAT: 'image/png',
+            //v3:
+            STYLES: 'ca_' + App.service.Watcher.get('Aggregation') + '_' + __Global.Lang
+          }
+        })
+      });
+      map.addLayer(App.util.Layer.admin);
+    }
   },
 
   getLayerSource: function (yearIncluded) {
@@ -103,7 +109,7 @@ Ext.define('App.service.Map', {
   },
 
   getLayerName: function () {
-    var layerName = 'wuemoca:ca_' + App.service.Watcher.get('Aggregation');
+    var layerName = 'wuemoca_v3:ca_' + App.service.Watcher.get('Aggregation');
     if (App.service.Watcher.getIndicator().yearsPrefix) layerName += '_noyears';
     return layerName;
   },

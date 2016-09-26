@@ -9,6 +9,7 @@ Ext.define('App.controller.Map', {
     App.service.Helper.getComponentExt('app-overview').add(
       Ext.create('GeoExt.component.OverviewMap', {
         parentMap: map,
+        layers: App.util.Layer.overview,
         magnification: 15
       })
     );

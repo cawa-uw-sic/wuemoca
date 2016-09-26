@@ -5,6 +5,7 @@ var __Selection = {
   Rayon            : __LocalDB.get('Selections.Rayon'),
   Buis             : __LocalDB.get('Selections.Buis'),
   Uis              : __LocalDB.get('Selections.Uis'),
+  Wua              : __LocalDB.get('Selections.Wua'),
 
   Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
   Crop             : __LocalDB.get('Selections.Crop', 'cotton'),

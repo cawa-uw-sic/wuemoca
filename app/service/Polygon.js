@@ -193,6 +193,47 @@ Ext.define('App.service.Polygon', {
       result.push(g.join(' '));
     });
     return result.join(',');
+  },
+
+  interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){
+    var red1 = (color1 & 0xff0000) >> 16;
+    var green1 = (color1 & 0x00ff00) >> 8;
+    var blue1 = (color1 & 0x0000ff) >> 0;
+
+    var red2 = (color2 & 0xff0000) >> 16;
+    var green2 = (color2 & 0x00ff00) >> 8;
+    var blue2 = (color2 & 0x0000ff) >> 0;
+
+    var red3 = (color3 & 0xff0000) >> 16;
+    var green3 = (color3 & 0x00ff00) >> 8;
+    var blue3 = (color3 & 0x0000ff) >> 0;
+
+    if (value < median){
+      redResult = this.interpolate(red1, red2, value, minimum, median);
+      greenResult = this.interpolate(green1, green2, value, minimum, median);
+      blueResult = this.interpolate(blue1, blue2, value, minimum, median);
+    }
+    else if (value == median){
+      redResult = red2;
+      greenResult = green2;
+      blueResult = blue2;
+    }
+    else if (value > median){
+      redResult = this.interpolate(red2, red3, value, median, maximum);
+      greenResult = this.interpolate(green2, green3, value, median, maximum);
+      blueResult = this.interpolate(blue2, blue3, value, median, maximum);
+    }
+    //RGB to Hex: http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    return ((1 << 24) + (redResult << 16) + (greenResult << 8) + blueResult).toString(16).slice(1,7);
+  },
+
+  interpolate: function(color_a, color_b, idx, min, max){
+    if (color_a < color_b) {
+      return ((color_b - color_a) * (idx / (max-min))) + color_a;
+    } 
+    else {
+      return ((color_a - color_b) * (1 - (idx / (max-min)))) + color_b;
+    }
   }
 
 });

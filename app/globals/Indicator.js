@@ -104,7 +104,8 @@ var __Indicator = [
     median         : 81.2,
     maximum        : 220,
     chart          : 'Defaults',
-    color          : '#de2d26'
+    color          : '#de2d26',
+    legendcolors   : ['#fee0d2','#fc9272','#de2d26']
   /*}, {
     id             : 'uirb',
     field          : 'idx_uir_brt',
@@ -139,7 +140,8 @@ var __Indicator = [
     mapType        : 'coloured',
     median         : [18.4, 27.3, 4.6, 18.0, 7.9, 2.0, 3.8, 5.5, 1.6],
     maximum        : [100, 100, 100, 100, 100, 100, 100, 100, 100],
-    chart          : 'Defaults'
+    chart          : 'Defaults',
+    legendcolors   : [['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']]
   /*}, {
     id             : 'uir_state',
     field          : 'idx_sta_irr',
@@ -172,7 +174,7 @@ var __Indicator = [
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'labeled',
-    median        : [[129, 306, 560, 923, 1475, 2577, 11907], [173, 408, 783, 1373, 2271, 3758, 15555]],
+    median         : [[129, 306, 560, 923, 1475, 2577, 11907], [173, 408, 783, 1373, 2271, 3758, 15555]],
     chart          : 'Defaults'
   }, {
     id             : 'yield',
@@ -189,7 +191,8 @@ var __Indicator = [
     type           : 'descriptive',
     mapType        : 'coloured',
     median         : [[1.46, 1.73, 2, 2.39, 2.94, 3.6, 25.5], [1.84, 2.27, 2.66, 3.09, 3.53, 4.06, 8.74]],
-    chart          : 'Defaults'
+    chart          : 'Defaults',
+    legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c']
   /*}, {
     id             : 'intensity',
     field          : 'double_percent',
@@ -225,7 +228,8 @@ var __Indicator = [
     median         : 37.50,
     maximum        : 100,
     chart          : 'Defaults',
-    color          : '#b29972'
+    color          : '#b29972',
+    legendcolors   : ['#F1F6F2','#B29972','#3B5441']
   }, {
     id             : 'majority',
     field          : 'majority',

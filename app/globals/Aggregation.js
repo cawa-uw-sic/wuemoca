@@ -8,12 +8,12 @@ var __Aggregation = [
     items: [
       {
         id             : 'oblast',
-        enName         : 'Oblast (Province)',
+        enName         : 'Province (Oblast)',
         ruName         : 'Область (Province)',
         isDefault      : true
       }, {
         id             : 'rayon',
-        enName         : 'Rayon (District)',
+        enName         : 'District (Rayon)',
         ruName         : 'Район (District)'
       }, {
         id             : 'wua',
@@ -30,12 +30,12 @@ var __Aggregation = [
     items: [
       {
         id             : 'buis',
-        enName         : 'BUIS (Basin Irrig. System Admin.)',
+        enName         : 'BISA (Basin Irrig. System Admin.)',
         ruName         : 'БУИС (Basin Irrig. System Admin.)',
         isDefault      : true
       }, {
         id             : 'uis',
-        enName         : 'UIS (Irrigation System Admin.)',
+        enName         : 'ISA (Irrigation System Admin.)',
         ruName         : 'УИС (Irrigation System Admin.)'
       }, {
         id             : 'command',

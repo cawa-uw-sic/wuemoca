@@ -116,9 +116,12 @@ Ext.define('App.service.Polygon', {
     var polygon = {
       uid: 'polygon-' + new Date().getTime(),
       info: { name: '', location: '' },
+      totalArea: this.calculateTotalArea(geometry),
       data: [],
       geometry: geometry.getCoordinates()[0]
     };
+    console.log(polygon.totalArea);
+
     this.all.push(polygon);
     this.saveAll();
     return polygon;
@@ -166,7 +169,8 @@ Ext.define('App.service.Polygon', {
 
   calculate: function () {
     var polygon = this.all[this.getSelectedIndex()];
-    this.doRequest(this.prepareRequestGeometry(polygon.geometry));
+    var transformedGeometry = this.prepareRequestGeometry(polygon.geometry);
+    this.doRequest(transformedGeometry);
   },
 
   doRequest: function (geometry) {
@@ -181,6 +185,14 @@ Ext.define('App.service.Polygon', {
         console.log(results);
       }
     });
+  },
+  calculateTotalArea: function (polygon){
+    var wgs84Sphere = new ol.Sphere(6378137);
+    var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
+    __Global.projection.Mercator, __Global.projection.Geographic));
+    var coordinates = geom.getLinearRing(0).getCoordinates();
+    var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
+    return area/10000;
   },
 
   prepareRequestGeometry: function (geometry) {

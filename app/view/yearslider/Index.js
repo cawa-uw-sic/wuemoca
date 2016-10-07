@@ -3,10 +3,9 @@ Ext.define('App.view.yearslider.Index', {
 
   requires: [
     'Ext.layout.container.VBox',
-
     'App.controller.Yearslider',
-
-    'App.view.yearslider.Slider'
+    'App.view.yearslider.Slider',
+    'App.view.yearslider.Label'
   ],
 
   xtype: 'app-yearslider',
@@ -22,6 +21,7 @@ Ext.define('App.view.yearslider.Index', {
   },
 
   items: [
-     { xtype: 'app-yearslider-slider' }
+     { xtype: 'app-yearslider-slider' },
+     { xtype: 'app-yearslider-label' }
   ]
 });

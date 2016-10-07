@@ -110,7 +110,7 @@ Ext.define('App.service.Map', {
 
   getLayerName: function () {
     var layerName = 'wuemoca_v3:ca_' + App.service.Watcher.get('Aggregation');
-    if (App.service.Watcher.getIndicator().yearsPrefix) layerName += '_noyears';
+    if (App.service.Watcher.getIndicator().yearsPrefix) layerName += '_no_years';
     return layerName;
   },
 
@@ -118,7 +118,7 @@ Ext.define('App.service.Map', {
     var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
     if (App.service.Watcher.get('Aggregation') == 'grid') styles += '_grid';
-    if (App.service.Watcher.getIndicator().yearsPrefix) styles += '_noyears';
+    if (App.service.Watcher.getIndicator().yearsPrefix) styles += '_no_years';
     return styles;
   },
 
@@ -128,9 +128,14 @@ Ext.define('App.service.Map', {
       var indicator = App.service.Watcher.getIndicator();
       var aggregation = App.service.Watcher.getAggregation();
       var title = indicator[__Global.Lang + 'Name'];
-      if (!!App.service.Watcher.get('Crop')) title += ': ' + i18n.crop[App.service.Watcher.get('Crop')];
-      title += '[' + aggregation[__Global.Lang + 'Name'] + ']';
-      if (!!indicator.years) title += ' - ' + App.service.Watcher.get('Year');
+      if (!!indicator.crops) title += ': ' + App.service.Helper.getCropName();
+      title += ' (' + aggregation[__Global.Lang + 'NameShort'] + ')';
+      if (!!indicator.years) {
+        title += ' - ' + App.service.Watcher.get('Year');
+      }
+      else if (!!indicator.yearsPrefix) {
+        title += ' ' + __Global.year.Min + ' - ' + __Global.year.Max;
+      }
       panel.setTitle(title);
     }
   },
@@ -163,20 +168,39 @@ Ext.define('App.service.Map', {
 
   setLegend: function () {
     var self = this;
+    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(self.getLegendTitle(true)); 
     App.service.Helper.getComponentExt('legend-image').setSrc(self.getLegendImage());
-    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(self.getLegendTitle());
     App.service.Helper.getComponentExt('legend-text').setStyle({ lineHeight: self.getLegendMedianStyle() });
     App.service.Helper.getComponentExt('legend-text').update(self.getLegendMedian());
   },
 
   getLegendImage: function () {
-    var img = App.service.Watcher.get('Indicator');
-    img += !App.service.Watcher.get('Crop') ? '_nocrops' : '_' + App.service.Watcher.get('Crop');
-    return 'resources/images/' + img + '.png';
+    var image_src = '';
+    if (App.service.Watcher.getIndicator().mapType == 'coloured' || App.service.Watcher.get('Aggregation') == 'grid'){
+      var img = App.service.Watcher.get('Indicator');
+      img += !App.service.Watcher.get('Crop') ? '_nocrops' : '_' + App.service.Watcher.get('Crop');
+      image_src = 'resources/images/' + img + '.png';
+    }
+    return image_src;
   },
 
-  getLegendTitle: function () {
+ /* getLegendTitle: function () {
     return App.service.Watcher.getIndicator()[ __Global.Lang + 'Name' ];
+  },*/
+  getLegendTitle: function(withUnit){
+    var legend_title = '';
+    var indicator = App.service.Watcher.getIndicator();
+    if (indicator[__Global.Lang + 'Legend'].length > 1){
+      //indicators with crop list
+      legend_title = App.service.Helper.getCropName();
+    } 
+    else{
+      legend_title = indicator[__Global.Lang + 'Legend'][0];
+    }
+    if (withUnit && indicator[__Global.Lang + 'Unit'] != '') {
+      legend_title += i18n.chart._in + indicator[__Global.Lang + 'Unit'];
+    }
+    return legend_title;
   },
 
   getLegendMedian: function () {
@@ -188,23 +212,29 @@ Ext.define('App.service.Map', {
 
     var median        = 0;
     var maximum       = 0;
+    if (indicator.mapType == 'coloured' || App.service.Watcher.get('Aggregation') == 'grid'){
+      if (!!indicator.median) {
+        if (!!indicator.crops){
+          var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
+          median  = indicator.median  ? indicator.median  [index] : 0;
+          maximum = indicator.maximum ? indicator.maximum [index] : 0;
+        }
+        else{
+          median  = indicator.median;
+          maximum = indicator.maximum;
+        }
+      }
 
-    if (!!indicator.crops) {
-      var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
-      median  = indicator.median  ? indicator.median  [index] : 0;
-      maximum = indicator.maximum ? indicator.maximum [index] : 0;
+      if (!!median && median != 0) {
+        text = (typeof median == 'object')
+              ? i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low
+              : '0' + br + median + br + maximum;
+      }
+
+      if (indicator.id == 'majority') {
+        indicator[__Global.Lang + 'CropNames'].map(function (c) { text += indicator[__Global.Lang + 'CropNames'][c] + '<br />' });
+      }
     }
-
-    if (!!median && median != 0) {
-      text = (typeof median == 'object')
-            ? i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low
-            : '0' + br + median + br + maximum;
-    }
-
-    if (indicator.id == 'majority') {
-      __CropMajority.map(function (c) { text += i18n.crop[c] + '<br />' });
-    }
-
     return text;
   },
 

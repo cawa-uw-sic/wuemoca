@@ -39,7 +39,7 @@ Ext.define('App.view.Main', {
   bodyBorder: false,
 
   defaults: {
-    split: true,
+    //split: true,
     bodyPadding: 0
   },
 

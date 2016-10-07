@@ -41,7 +41,7 @@ var __Global = {
   },
 
   chart: {
-    Width: 515,
+    Width: 450,
     Height: 350,
     MaxBars: 10
   }

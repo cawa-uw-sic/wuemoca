@@ -110,8 +110,34 @@
   bottom: auto !important;
 }
 
-#legend-window {
+/*#legend-window {
   left: initial !important;
   right: 185px !important;
   top: 175px !important;
+}*/
+
+.justify {
+    text-align: justify;
+    padding: 0px 10px 10px 10px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #00589C;
+}
+
+.justify a {
+    display: inline-block;
+    position: relative;
+    top: 17px; /* your line-height */
+}
+
+.justify:before {
+    content: '';
+    display: block;
+    width: 100%;
+    margin-bottom: -17px; /* your line-height */
+}
+.justify:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
 }

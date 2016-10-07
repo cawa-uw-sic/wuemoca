@@ -103,6 +103,16 @@ Ext.define('App.service.Helper', {
     return points.map(function (point) {
       return ol.proj.transform(point, from, to);
     });
+  },
+
+  getCropName: function(){
+    var indicator = App.service.Watcher.getIndicator();
+    var cropName = '';
+    if (!!indicator.crops){
+      var idx = indicator.crops.indexOf(App.service.Watcher.get('Crop'));
+      cropName = indicator[__Global.Lang + 'Legend'][idx];
+    }
+    return cropName;
   }
 
 });

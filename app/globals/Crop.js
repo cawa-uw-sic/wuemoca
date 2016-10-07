@@ -8,7 +8,7 @@ var __CropColors = {
   other      : '#dd3497',
   orchard    : '#00858e',
   garden     : '#e31a1c',
-  maize		 : '#33a02c',
+  maize		   : '#33a02c',
   veg        : '#6a3d9a',
   sun        : '#CCAA00',
   sum        : '#33a02c'

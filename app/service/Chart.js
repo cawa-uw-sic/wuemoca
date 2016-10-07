@@ -16,6 +16,8 @@ Ext.define('App.service.Chart', {
 
   data: [],
 
+  maxData: 0,
+
   startFrom: 0,
 
   maxBars: __Global.chart.MaxBars,
@@ -59,12 +61,13 @@ Ext.define('App.service.Chart', {
 
   showWindow: function () {
     var self = this;
-    if (self.data.length > 0) {
-      var indicator = App.service.Watcher.getIndicator();
+    var indicator = App.service.Watcher.getIndicator();
+    if (!!indicator.chart && self.data.length > 0) {
       var first = self.data[0];
       self.window.setTitle(
-        App.service.Watcher.getAggregation()[ __Global.Lang + 'Name' ] + ' '
-        + (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang ] || '')
+        (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang] || '') + ' '
+        + App.service.Watcher.getAggregation()[__Global.Lang + 'NameShort'] + ' - '
+        + App.service.Map.getLegendTitle(true)
       );
 
       self.window.removeAll();
@@ -79,7 +82,16 @@ Ext.define('App.service.Chart', {
 
   dataResponse: function (data) {
     this.data = [];
+    this.maxData = 0;
+    var indicator = App.service.Watcher.getIndicator();
+    var yField = indicator.field;
+    if (!!indicator.crops) {
+      yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
+    }
     for (var i = 0; i < data.length; i++) {
+      if (data[i].properties[yField] > this.maxData){
+        this.maxData = data[i].properties[yField];
+      }
       var index = this.data.map(function (d) { return d.year; }).indexOf(data[i].properties.year);
       if (index < 0) this.data.push(data[i].properties);
     }

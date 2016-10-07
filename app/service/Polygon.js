@@ -177,7 +177,7 @@ Ext.define('App.service.Polygon', {
     var self = this;
     self.isBusy = true;
     Ext.data.JsonP.request({
-      url : __Global.api.Polygon + '&geometry=' + geometry,
+      url : __Global.api.Polygon + 'geometry=' + geometry,
       callbackName: 'PolygonResponse',
       params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
       success: function (results) {

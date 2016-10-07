@@ -39,18 +39,20 @@ Ext.define('App.controller.Switcher', {
 
   fillCrops: function (component) {
     var indicator = App.service.Watcher.getIndicator();
-    var data = __Crop;
+    var data = [];
+    var cropNames = [];
 
     component.removeAll();
 
     if (!indicator.crops) {
-      data = [];
+      //data = [];
       App.service.Watcher.set('Crop', '');
       return App.service.Helper.hideComponents(['switcher-btns-crop']);
     }
 
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
       data = indicator.crops;
+      cropNames = indicator[__Global.Lang + 'Legend'];
       if (indicator.crops.indexOf(App.service.Watcher.get('Crop')) < 0) {
         App.service.Watcher.set('Crop', indicator.crops[0]);
       }
@@ -62,7 +64,7 @@ Ext.define('App.controller.Switcher', {
         iconCls: data[i],
         itemId: data[i],
         scale: 'large',
-        tooltip: i18n.crop[data[i]],
+        tooltip: cropNames[i],
         toggleGroup: 'map-filters-crops',
         pressed: App.service.Watcher.get('Crop') == data[i],
         handler: this.onCrop

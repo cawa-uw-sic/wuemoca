@@ -17,13 +17,17 @@ Ext.define('App.util.ChartTypes', {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
       color = __CropColors[App.service.Watcher.get('Crop')];
     }
+    var maximum = NaN;
+    if (App.service.Chart.maxData < 10){
+      maximum = 10;
+    }
 
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
            xtype  : 'app-chart-vbar',
            store  : App.service.Chart.stores.defaults,
-           axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ]),
+           axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum),
            series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color)
         }
       ]

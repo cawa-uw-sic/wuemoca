@@ -10,15 +10,21 @@ var __Aggregation = [
         id             : 'oblast',
         enName         : 'Province (Oblast)',
         ruName         : 'Область (Province)',
+        enNameShort    : 'Province',
+        ruNameShort    : 'Область',       
         isDefault      : true
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
-        ruName         : 'Район (District)'
+        ruName         : 'Район (District)',
+        enNameShort    : 'District',
+        ruNameShort    : 'Район'  
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
-        ruName         : 'АВП (Water User Association)'
+        ruName         : 'АВП (Water User Association)',
+        enNameShort    : 'WUA',
+        ruNameShort    : 'АВП'   
       }
     ]
   },
@@ -32,15 +38,21 @@ var __Aggregation = [
         id             : 'buis',
         enName         : 'BISA (Basin Irrig. System Admin.)',
         ruName         : 'БУИС (Basin Irrig. System Admin.)',
+        enNameShort    : 'BISA',
+        ruNameShort    : 'БУИС',        
         isDefault      : true
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
-        ruName         : 'УИС (Irrigation System Admin.)'
+        ruName         : 'УИС (Irrigation System Admin.)',
+        enNameShort    : 'ISA',
+        ruNameShort    : 'УИС' 
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
-        ruName         : 'Командная площадь'
+        ruName         : 'Командная площадь',
+        enNameShort    : 'Comm. Area',
+        ruNameShort    : 'Comm. Area' 
       }
     ]
   },
@@ -68,6 +80,8 @@ var __Aggregation = [
     id: 'grid',
     enName: 'regular Raster',
     ruName: 'Регулярный растр',
+    enNameShort    : 'reg. Raster',
+    ruNameShort    : 'reg. Raster',    
     tiled: true,
     items: false
   }

@@ -78,12 +78,13 @@ __Chart.HBar = {
 
 __Chart.VBar = {
 
-  getAxes: function (x, y, measure) {
+  getAxes: function (x, y, measure, maximum) {
     return [{
       type: 'numeric',
       position: 'left',
       fields: y,
       minimum: 0,
+      maximum: maximum,
       title: false,
       grid: true,
       renderer: function (axis, value) {

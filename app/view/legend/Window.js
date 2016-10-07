@@ -26,6 +26,8 @@ Ext.define('App.view.legend.Window', {
   border: false,
   width: 300,
   height: 300,
+  x: Ext.getBody().getWidth() - 755,
+  y: 10,
   initCenter: false,
   collapsed: false,
   resizable: false,
@@ -33,7 +35,7 @@ Ext.define('App.view.legend.Window', {
   shadow: true,
   bodyBorder: false,
   bodyPadding: 10,
-
+  //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
     layout: { type: 'hbox', align: 'stretch' },
     items: [

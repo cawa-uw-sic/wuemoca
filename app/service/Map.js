@@ -70,7 +70,7 @@ Ext.define('App.service.Map', {
           params: {
             //LAYERS: 'wuemoca:ca_' + App.service.Watcher.get('Aggregation') + '_geom_' + __Global.Lang,
             //v3:
-            LAYERS: 'wuemoca_v3:ca_' + App.service.Watcher.get('Aggregation') + '_geom',            
+            LAYERS: __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_geom',            
             TRANSPARENT: true,
             FORMAT: 'image/png',
             //v3:
@@ -109,7 +109,7 @@ Ext.define('App.service.Map', {
   },
 
   getLayerName: function () {
-    var layerName = 'wuemoca_v3:ca_' + App.service.Watcher.get('Aggregation');
+    var layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation');
     if (App.service.Watcher.getIndicator().yearsPrefix) layerName += '_no_years';
     return layerName;
   },
@@ -127,15 +127,21 @@ Ext.define('App.service.Map', {
     if (panel.isVisible()) {
       var indicator = App.service.Watcher.getIndicator();
       var aggregation = App.service.Watcher.getAggregation();
-      var title = indicator[__Global.Lang + 'Name'];
-      if (!!indicator.crops) title += ': ' + App.service.Helper.getCropName();
-      title += ' (' + aggregation[__Global.Lang + 'NameShort'] + ')';
+      var title = aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' ';
       if (!!indicator.years) {
-        title += ' - ' + App.service.Watcher.get('Year');
+        title += App.service.Watcher.get('Year');
       }
       else if (!!indicator.yearsPrefix) {
-        title += ' ' + __Global.year.Min + ' - ' + __Global.year.Max;
+        title += __Global.year.Min + '-' + __Global.year.Max;
       }
+      if (indicator[__Global.Lang + 'NameShort']){
+        title += ': ' + indicator[__Global.Lang + 'NameShort'];       
+      }
+      else{
+        title += ': ' + indicator[__Global.Lang + 'Name'];
+      }
+      if (!!indicator.crops) title += ' ' + i18n.product._of + ' ' + App.service.Helper.getCropName();
+
       panel.setTitle(title);
     }
   },
@@ -176,7 +182,7 @@ Ext.define('App.service.Map', {
 
   getLegendImage: function () {
     var image_src = '';
-    if (App.service.Watcher.getIndicator().mapType == 'coloured' || App.service.Watcher.get('Aggregation') == 'grid'){
+    if (App.service.Watcher.getIndicator().mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       var img = App.service.Watcher.get('Indicator');
       img += !App.service.Watcher.get('Crop') ? '_nocrops' : '_' + App.service.Watcher.get('Crop');
       image_src = 'resources/images/' + img + '.png';
@@ -212,7 +218,7 @@ Ext.define('App.service.Map', {
 
     var median        = 0;
     var maximum       = 0;
-    if (indicator.mapType == 'coloured' || App.service.Watcher.get('Aggregation') == 'grid'){
+    if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
         if (!!indicator.crops){
           var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
@@ -231,9 +237,12 @@ Ext.define('App.service.Map', {
               : '0' + br + median + br + maximum;
       }
 
-      if (indicator.id == 'majority') {
-        indicator[__Global.Lang + 'CropNames'].map(function (c) { text += indicator[__Global.Lang + 'CropNames'][c] + '<br />' });
-      }
+
+    }
+    if (indicator.id == 'majority') {
+      indicator[__Global.Lang + 'CropNames'].map(function (c) { 
+        text += c + '<br />' 
+      });
     }
     return text;
   },

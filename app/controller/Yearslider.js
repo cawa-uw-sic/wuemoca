@@ -9,6 +9,14 @@ Ext.define('App.controller.Yearslider', {
 
   onAfterRender: function (el) {
     el.setValue(App.service.Watcher.get('Year'));
+  },
+  
+  onPlay: function () {
+    App.service.Yearslider.play();
+  },
+
+  onPause: function () {
+    App.service.Yearslider.pause();
   }
 
 });

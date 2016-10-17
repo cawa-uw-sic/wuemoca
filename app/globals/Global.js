@@ -18,7 +18,7 @@ var __Global = {
   },
 
   year: {
-    Max           : new Date().getFullYear(),
+    Max           : 2015,
     Min           : 2000
   },
 
@@ -36,9 +36,11 @@ var __Global = {
     Server        : server,
     Mapserver     : server + 'geoserver/',
     Documents     : server + 'wuemoca/documents/',
-    Faq           : server + 'wuemoca/faq.html',
+    Faq           : server + 'wuemoca/documents/glossary_wuemoca_vers2.htm',
     Impressum     : server + 'wuemoca/documents/Impressum.pdf'
   },
+
+  geoserverWorkspace : 'wuemoca_v3',
 
   chart: {
     Width: 450,

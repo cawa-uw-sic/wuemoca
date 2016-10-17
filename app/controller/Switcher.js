@@ -122,6 +122,7 @@ Ext.define('App.controller.Switcher', {
         valueField: 'id',
         itemId: 'switcher-filter-' + filter.id,
         value: __FilterSelection[filter.id],
+        emptyText: __EmptyFilter[__Global.Lang + 'Name'],
         listeners: { change: self.changeFilters }
       });
       fieldset.add(cb);
@@ -132,6 +133,17 @@ Ext.define('App.controller.Switcher', {
     var cFilter = cb.getItemId().replace('switcher-filter-', '');
     __LocalDB.set('FilterSelections.' + cFilter, val);
     __FilterSelection[cFilter] = val;
+    App.service.Watcher.activateFilters();
+  },
+
+  resetFilters: function (fieldset, eOpts){
+    //load entire list, but keep filters stored in LocalDB
+    var indicators = __Indicator;     
+    Ext.getStore('indicator').removeAll();
+    Ext.getStore('indicator').loadData(indicators);
+  },
+
+  loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
   }
 

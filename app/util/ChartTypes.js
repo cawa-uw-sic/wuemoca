@@ -28,12 +28,37 @@ Ext.define('App.util.ChartTypes', {
            xtype  : 'app-chart-vbar',
            store  : App.service.Chart.stores.defaults,
            axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum),
-           series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color)
+           series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color, indicator.decimals)
         }
       ]
     });
   },
 
+  Stacked: function (data) {
+    self = this;
+    App.service.Chart.loadData();
+    var indicator = App.service.Watcher.getIndicator();
+    var ind_id = indicator.id;
+    var yFields = [];
+    var cropNames = indicator[ __Global.Lang + 'Legend'].slice(1);
+    //if (!!indicator.crops) {
+      indicator.crops.map(function(crop) {
+        if (crop != 'sum'){
+          return yFields.push(ind_id + '_' + crop);
+        }
+      });
+    //}
+    return Ext.create('App.view.chart.FPanel', {
+      items: [
+        {
+           xtype  : 'app-chart-stackedvbar',
+           store  : App.service.Chart.stores.defaults, 
+           axes   : __Chart.StackedVBar.getAxes   ('year', yFields, indicator[ __Global.Lang + 'Unit' ]),
+           series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, indicator[ __Global.Lang + 'Unit' ], indicator.decimals)
+        }
+      ]
+    });
+  },
  /* KirFir: function (data) {
     var self = this;
     var firn = App.service.Helper.getById(__Indicator, 'firn');
@@ -81,25 +106,35 @@ Ext.define('App.util.ChartTypes', {
     });
   },*/
 
-  Majority: function (data) {
+  Multiannual: function (data) { 
     var self = this;
 
-    var diversity = App.service.Helper.getById( __Indicator, 'diversity' );
+    var rotation = App.service.Helper.getById( __Indicator, 'rotation' );
     var frequency = App.service.Helper.getById( __Indicator, 'frequency' );
+    var majority = App.service.Helper.getById( __Indicator, 'majority' );
+    var cropNameList = majority[__Global.Lang + 'CropNames'];
+    var cropList = majority['croplist'];
+    //workaround for numeric axis label bug (multiply by 10)
+    App.service.Chart.stores.rotation.setData([ { data: data[0].rotation * 10 } ]);
+    App.service.Chart.stores.frequency.setData([ { data: data[0].frequency * 10} ]);
 
-    App.service.Chart.stores.diversity.setData([ { data: data[0].diversity } ]);
-    App.service.Chart.stores.frequency.setData([ { data: data[0].frequency } ]);
+    var deltaYears = __Global.year.Max - __Global.year.Min;
+    deltaYears++;
+    if (deltaYears % 2 == 1){
+      deltaYears++;
+    }
+
 
     return Ext.create('App.view.chart.VPanel', {
       items: [
         {
-          html: i18n.chart.majorityHeader,
+          html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' + i18n.chart.multiannualHeader2,
           cls: 't-center t-bold t-bigger majority-header'
         },{
-          html: i18n.chart.majorLandUse + ': ' + i18n.crop[ __Crop[data[0].majority] ],
+          html: majority[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].majority - 1],
           cls: 't-center t-bigger majority-landuse'
         },{
-          html: '<img src="/resources/images/' + __Crop[data[0].majority] + '_icon.png">',
+          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '">',         
           cls: 't-center majority-landuse-img'
         },{
           layout: {
@@ -110,18 +145,21 @@ Ext.define('App.util.ChartTypes', {
             xtype: 'app-chart-gauge',
             width: '50%',
             height: 120,
-            store: App.service.Chart.stores.diversity,
-            axes: __Chart.Gauge.getAxes(6, 6),
-            series: __Chart.Gauge.getSeries('data', diversity.color),
-            maximum: 6,
+            store: App.service.Chart.stores.rotation,
+            gradients:__Chart.Gauge.getGradient(rotation.legendcolors[0],rotation.legendcolors[1],rotation.legendcolors[2], 'rotation'), 
+            colors: ['url(#gradient-rotation)'],           
+            axes: __Chart.Gauge.getAxes(rotation.maximum, rotation.maximum),
+            series: __Chart.Gauge.getSeries('data'),
             margin: '0 10 0 0'
           },{
             xtype: 'app-chart-gauge',
             width: '50%',
             height: 120,
             store: App.service.Chart.stores.frequency,
-            axes: __Chart.Gauge.getAxes(16, 8),
-            series: __Chart.Gauge.getSeries('data', frequency.color)
+            gradients: __Chart.Gauge.getGradient(frequency.legendcolors[0],frequency.legendcolors[1],frequency.legendcolors[2], 'frequency'),
+            colors: ['url(#gradient-frequency)'],             
+            axes: __Chart.Gauge.getAxes(deltaYears, deltaYears/2),
+            series: __Chart.Gauge.getSeries('data')
           }]
         },{
           layout: {
@@ -129,11 +167,11 @@ Ext.define('App.util.ChartTypes', {
             pack: 'center'
           },
           items: [{
-            html: i18n.chart.cropRotation + '<br/>' + i18n.chart.numCrops + ': <b>' + data[0].diversity.toFixed(2) + '</b>',
+            html: rotation[__Global.Lang + 'Name'] + '<br/>' + rotation[__Global.Lang + 'Legend']  + ': <b>' + data[0].rotation.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           },{
-            html: i18n.chart.frequency + '<br/>' + i18n.chart.yearsFallow + ': <b>' + data[0].frequency.toFixed(2) + '</b>',
+            html: frequency[__Global.Lang + 'Name'] + '<br/>' + frequency[__Global.Lang + 'Legend'] + ': <b>' + data[0].frequency.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           }]

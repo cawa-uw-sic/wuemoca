@@ -9,13 +9,7 @@ Ext.define('App.controller.Main', {
     App.service.Map.setMainTitle();
   },
 
-  onPlay: function () {
-    App.service.Yearslider.play();
-  },
 
-  onPause: function () {
-    App.service.Yearslider.pause();
-  },
 
   onLegendBtn: function () {
     App.service.Helper.getComponentExt('legend-window').show();

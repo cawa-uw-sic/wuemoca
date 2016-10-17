@@ -25,6 +25,16 @@ Ext.define('App.service.Helper', {
     }
   },
 
+  getComponentValue: function (itemId) {
+      var cmp = this.getComponentExt(itemId);
+      if (cmp) {
+        return cmp.getValue();
+      }
+      else{
+        return '';        
+      }
+  },
+
   hideComponents: function (components) {
     for (var i = components.length - 1; i >= 0; i--) {
       var cmp = this.getComponentExt(components[i]);

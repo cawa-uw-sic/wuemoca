@@ -17,7 +17,9 @@ Ext.define('App.view.zoom.Index', {
 
     'App.view.zoom.BtnOblast',
     'App.view.zoom.BtnRayon',
-    'App.view.zoom.BtnUis'
+    'App.view.zoom.BtnBuis',   
+    'App.view.zoom.BtnUis',
+    'App.view.zoom.BtnWua'
   ],
 
   xtype: 'app-zoom',

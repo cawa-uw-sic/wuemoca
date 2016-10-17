@@ -5,15 +5,11 @@ Ext.define('App.view.yearslider.Slider', {
 
   itemId: 'yearslider-slider',
 
-  margin: '0 10',
-
   increment: 1,
   
   alwaysOnTop: true,
 
-//  minValue: __Global.year.Min,
-
-//  maxValue: __Global.year.Max,
+  width: 300,
 
   listeners: {
 

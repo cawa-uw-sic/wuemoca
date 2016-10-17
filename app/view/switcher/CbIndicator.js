@@ -11,6 +11,8 @@ Ext.define('App.view.switcher.CbIndicator', {
 
   fieldLabel: i18n.product.label,
 
+  labelAlign: 'top',
+
   store: {
     type: 'indicator'
   },

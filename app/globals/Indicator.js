@@ -3,6 +3,7 @@ var __Indicator = [
   {
     id             : 'firn',
     field          : 'firn',
+    outputname     : 'irrigated_land_area_net',
     enName         : 'Irrigated land area (net)',
     ruName         : 'Поливная площадь (нетто)',
     enUnit         : 'ha',
@@ -19,7 +20,8 @@ var __Indicator = [
     median         : 1575,
     maximum        : 2500,
     chart          : false,
-    color          : '#e6550d'
+    decimals       : 0
+    //color          : '#e6550d'
  /* }, {
     id             : 'firb',
     field          : 'area_ha',
@@ -49,7 +51,7 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     median         : 0.63,
     maximum        : 1,
     chart          : 'KirFir',
@@ -57,8 +59,11 @@ var __Indicator = [
   }, {
     id             : 'firf',
     field          : 'firf_{crop}',
+    outputname     : 'irrigated_crop_acreage',    
     enName         : 'Irrigated crop acreage',
     ruName         : 'Орошаемые посевные площади с/х культур',
+    enNameShort         : 'Irrigated acreage',
+    ruNameShort         : 'Орошаемые посевные площади',
     enUnit         : 'ha',
     ruUnit         : 'га',
     crops          : ['sum', 'cotton', 'wheat', 'rice', 'other', 'orchard', 'garden', 'maize', 'veg', 'sun'],
@@ -68,11 +73,12 @@ var __Indicator = [
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'labeled',
-    enLegend       : ['Sum of crops', 'Cotton', 'Wheat', 'Rice', 'Other Crop', 'Orchard/Vineyard', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],
-    ruLegend       : ['Sum of crops', 'хлопок', 'пшеница', 'рис', 'Other Crop', 'фруктовый сад/Виноградник', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],    
+    enLegend       : ['All crops', 'Cotton', 'Wheat', 'Rice', 'Other Crop', 'Orchard/Vineyard', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],
+    ruLegend       : ['All crops', 'хлопок', 'пшеница', 'рис', 'Other Crop', 'фруктовый сад/Виноградник', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],    
     median         : [1050, 300, 325, 125, 263, 125, 50, 38, 60, 15],
     maximum        : [5500, 2850, 2925, 2410, 2275, 2800, 300, 646, 715, 218],
-    chart          : 'Defaults'
+    chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
+        decimals       : 0
  /* }, {
     id             : 'firf_state',
     field          : 'idx_sta',
@@ -104,7 +110,7 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     median         : 81.2,
     maximum        : 220,
     chart          : 'Defaults',
@@ -123,7 +129,7 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     median         : 42.0,
     maximum        : 220,
     chart          : 'Defaults',
@@ -131,8 +137,11 @@ var __Indicator = [
   }, {
     id             : 'uiri',
     field          : 'uiri_{crop}',
+    outputname     : 'irrigated_land_use',
     enName         : 'Irrigated land use (per crop)',
     ruName         : 'Орошаемое использование земель по с/х культуре',
+    enNameShort    : 'Irrigated land use',
+    ruNameShort    : 'Орошаемое использование земель по',    
     enUnit         : '%',
     ruUnit         : '%',
     crops          : ['sum', 'cotton', 'wheat', 'rice', 'other', 'orchard', 'garden', 'maize', 'veg', 'sun'],
@@ -141,13 +150,14 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
-    enLegend       : ['Irrigated land use', 'Cotton', 'Wheat', 'Rice', 'Other Crop', 'Orchard/Vineyard', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],
-    ruLegend       : ['нетто б земля', 'хлопок', 'пшеница', 'рис', 'Other Crop', 'фруктовый сад/Виноградник', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],    
+    mapType        : 'colored',
+    enLegend       : ['All crops', 'Cotton', 'Wheat', 'Rice', 'Other Crop', 'Orchard/Vineyard', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],
+    ruLegend       : ['All crops', 'хлопок', 'пшеница', 'рис', 'Other Crop', 'фруктовый сад/Виноградник', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],    
     median         : [81.2, 18.4, 27.3, 4.6, 18.0, 7.9, 2.0, 3.8, 5.5, 1.6],
     maximum        : [220, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-    chart          : 'Defaults',
-    legendcolors   : [['#fee0d2','#fc9272','#de2d26'],['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']]  
+    chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
+    legendcolors   : [['#fee0d2','#fc9272','#de2d26'],['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']] , 
+        decimals       : 1
   /*}, {
     id             : 'uir_state',
     field          : 'idx_sta_irr',
@@ -161,7 +171,7 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     median         : 49.3,
     maximum        : 118,
     chart          : 'Defaults',
@@ -169,6 +179,7 @@ var __Indicator = [
   }, {
     id             : 'pirf',
     field          : 'pirf_{crop}',
+    outputname     : 'farm_gross_output_actual',
     enName         : 'Farm gross output actual',
     ruName         : 'Ферма валовой продукции фактическая',
     enUnit         : 'tons',
@@ -183,10 +194,12 @@ var __Indicator = [
     enLegend       : ['Cotton', 'Wheat'],
     ruLegend       : ['Хлопок', 'Пшеница'],    
     median         : [[129, 306, 560, 923, 1475, 2577, 11907], [173, 408, 783, 1373, 2271, 3758, 15555]],
-    chart          : 'Defaults'
+    chart          : 'Defaults',
+        decimals       : 0
   }, {
     id             : 'yield',
     field          : 'yield_{crop}',
+    outputname     : 'yield',
     enName         : 'Yield',
     ruName         : 'Урожайность',
     enUnit         : 't/ha',
@@ -197,12 +210,13 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     enLegend       : ['Cotton', 'Wheat'],
     ruLegend       : ['Хлопок', 'Пшеница'],
     median         : [[1.46, 1.73, 2, 2.39, 2.94, 3.6, 25.5], [1.84, 2.27, 2.66, 3.09, 3.53, 4.06, 8.74]],
     chart          : 'Defaults',
-    legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c']
+    legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c'],
+        decimals       : 1
   /*}, {
     id             : 'intensity',
     field          : 'double_percent',
@@ -216,7 +230,7 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'analytical',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     median         : 11.11,
     maximum        : 100,
     chart          : 'Defaults',
@@ -224,6 +238,7 @@ var __Indicator = [
   }, {
     id             : 'fallow',
     field          : 'fallow_percent',
+    outputname     : 'fallow',
     enName         : 'Temporarily unused irrigable land',
     ruName         : 'Неиспользованный орошаемые земли',
     enUnit         : '%',
@@ -234,14 +249,15 @@ var __Indicator = [
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'analytical',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     enLegend       : ['Fallow land'],
     ruLegend       : ['Площадь неисп. земель'],    
     median         : 37.50,
     maximum        : 100,
     chart          : 'Defaults',
     color          : '#b29972',
-    legendcolors   : ['#F1F6F2','#B29972','#3B5441']
+    legendcolors   : ['#F1F6F2','#B29972','#3B5441'],
+        decimals       : 1
   }, {
     id             : 'majority',
     field          : 'majority',
@@ -255,15 +271,16 @@ var __Indicator = [
     yearsPrefix    : true,
     category       : 'landuse',
     type           : 'analytical',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     enLegend       : ['Predominant crop type'],
     ruLegend       : ['Преобладающий тип урожая'],
+    croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'other', 'orchard', 'garden'],
     enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Double season', 'Other crops', 'Orchard/Vineyard', 'Urban Garden'],
     ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'Double season', 'Другие культуры', 'фруктовый сад/Виноградник', 'Urban Garden'],
-    chart          : 'Majority'
+    chart          : 'Multiannual'
   }, {
-    id             : 'diversity',
-    field          : 'diversity',
+    id             : 'rotation',
+    field          : 'rotation',
     enName         : 'Crop rotation',
     ruName         : 'Разнообразие с/х культур',
     enUnit         : '',
@@ -274,13 +291,13 @@ var __Indicator = [
     yearsPrefix    : true,
     category       : 'landuse',
     type           : 'analytical',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     enLegend       : ['Number of crop types'],
     ruLegend       : ['Количество типов культур'],   
     median         : 3.4,
     maximum        : 6,
-    chart          : 'Majority',
-    color          : ['#000', '#f49d10']
+    chart          : 'Multiannual',
+    legendcolors   : ['#732A06','#e6550d', '#FCEEE6']
   }, {
     id             : 'frequency',
     field          : 'frequency',
@@ -294,13 +311,13 @@ var __Indicator = [
     yearsPrefix    : true,
     category       : 'landuse',
     type           : 'analytical',
-    mapType        : 'coloured',
+    mapType        : 'colored',
     enLegend       : ['Years of fallow'],
     ruLegend       : ['Years of fallow'],    
     median         : 6.7,
     maximum        : 16,
-    chart          : 'Majority',
-    color          : ['#000', '#82b525']
+    chart          : 'Multiannual',
+    legendcolors   : ['#EAF5E9','#33a02c', '#195016']
   }
 
 ];

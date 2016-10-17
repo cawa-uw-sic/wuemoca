@@ -56,7 +56,12 @@ Ext.define('App.service.Tooltip', {
       //content = i18n.crop[ App.service.Watcher.get('Crop') ];
     }
 
-    content += ': ' + parseFloat(properties[yField]).toFixed(2) + ' ' + ( indicator[ __Global.Lang + 'Unit' ] || '' );
+    if (indicator.id == 'majority'){
+      content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
+    }
+    else{
+      content += ': ' + parseFloat(properties[yField]).toFixed(2) + ' ' + ( indicator[ __Global.Lang + 'Unit' ] || '' );
+    }
 
     return {
       title   : title,

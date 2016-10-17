@@ -7,6 +7,8 @@ Ext.define('App.view.yearslider.BtnPlay', {
 
   cls: 'fa fa-play',
 
+  tooltip: i18n.timeSlider.startAnimation,
+
   callback: 'onPlay'
 
 });

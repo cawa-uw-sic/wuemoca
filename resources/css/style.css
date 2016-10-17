@@ -1,9 +1,12 @@
 .app-yearslider .x-panel-body {
-  background: rgba(246, 246, 246, 0.4);
+  background: #5fa2dd;
 }
+/*.app-yearslider-slider-bodyEl{
+     height: 20px !important; 
+  }
 .app-yearslider .x-panel-body:hover {
-  background: #5FA2DD;
-}
+  background: rgba(95, 162, 221, 0.9);
+}*/
 
 .map-container .x-tool {
   top: -2px !important;
@@ -16,9 +19,11 @@
   background-image: none;
 }
 .map-container .x-title {
-  left: 35px !important;
   top: 0 !important;
 }
+.x-slider{
+  margin: 0 !important;
+  }
 .sum {
   background-image:url(../images/sum_icon.png) !important;
   background-size: 100% 100%;
@@ -63,6 +68,18 @@
   background-image:url(../images/sun_icon.png) !important;
   background-size: 100% 100%;
 }
+
+.glossary {
+  background-image:url(../images/glossary.png) !important;
+  /*background-size: 100% 100%;*/
+}
+.help {
+  background-image:url(../images/help.png) !important;
+  /*background-size: 100% 100%;*/
+}
+.email {
+  background-image:url(../images/icon-email-16px.png) !important;
+}
 .zoomButton{
   padding: 3px !important;
   height: 37px !important;
@@ -70,6 +87,29 @@
 .x-boundlist-item{
   line-height: 15px !important;
   padding: 5px 10px !important;
+}
+.x-legend{
+  padding: 0px 5px 0px 5px !important;
+}
+.x-legend-container{
+  border: 0 none;
+  width: 430px;
+  overflow: hidden;
+}
+.x-legend-item{
+  border-left: 0 none !important;
+  font-size: 11px;
+  line-height: 11px;
+ /* max-width: 80px;*/
+  padding: 5px 0px 5px 20px;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+}
+.x-legend-item-marker {
+  /*padding: 5px 5px 5px 0px;*/
+  top: 6px;
+  /*left: 0;*/
 }
 
 .kir-fir-header {
@@ -118,7 +158,7 @@
 
 .justify {
     text-align: justify;
-    padding: 0px 10px 10px 10px;
+    //padding: 0px 10px 10px 10px;
     font-weight: bold;
     font-size: 15px;
     color: #00589C;
@@ -140,4 +180,16 @@
     content: '';
     display: inline-block;
     width: 100%;
+}
+
+.stretch{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #014477;
+    white-space: pre;
+}
+
+.x-form-item-label-top > .x-form-item-label-inner {
+    padding-bottom: 0px !important;
 }

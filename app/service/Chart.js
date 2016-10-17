@@ -24,9 +24,10 @@ Ext.define('App.service.Chart', {
 
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
+    //stacked   : Ext.create('Ext.data.JsonStore'),
     //kir       : Ext.create('Ext.data.JsonStore'),
     //fir       : Ext.create('Ext.data.JsonStore'),
-    diversity : Ext.create('Ext.data.JsonStore'),
+    rotation  : Ext.create('Ext.data.JsonStore'),
     frequency : Ext.create('Ext.data.JsonStore')
   },
 
@@ -62,19 +63,27 @@ Ext.define('App.service.Chart', {
   showWindow: function () {
     var self = this;
     var indicator = App.service.Watcher.getIndicator();
+    var crop = App.service.Watcher.get('Crop');
     if (!!indicator.chart && self.data.length > 0) {
       var first = self.data[0];
-      self.window.setTitle(
-        (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang] || '') + ' '
-        + App.service.Watcher.getAggregation()[__Global.Lang + 'NameShort'] + ' - '
-        + App.service.Map.getLegendTitle(true)
-      );
+      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang] || '') + ' '
+        + App.service.Watcher.getAggregation()[__Global.Lang + 'NameShort'];
 
-      self.window.removeAll();
-      if (!!indicator.chart){
-        self.window.add(App.util.ChartTypes[indicator.chart](self.data));
-        return self.window.show();
+      if (indicator.chart != 'Multiannual'){
+        title += ' - ' + App.service.Map.getLegendTitle(true);
       }
+      self.window.setTitle(title);
+      self.window.removeAll();
+
+      if (typeof indicator.chart != 'object'){
+        self.window.add(App.util.ChartTypes[indicator.chart](self.data));
+      }
+      else{
+        var idx = indicator.crops.indexOf(crop);
+        self.window.add(App.util.ChartTypes[indicator.chart[idx]](self.data));
+      }
+      return self.window.show();
+
     }
     self.window.close();
 
@@ -85,8 +94,9 @@ Ext.define('App.service.Chart', {
     this.maxData = 0;
     var indicator = App.service.Watcher.getIndicator();
     var yField = indicator.field;
+    var crop = App.service.Watcher.get('Crop');
     if (!!indicator.crops) {
-      yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
+      yField = yField.replace('{crop}', crop);
     }
     for (var i = 0; i < data.length; i++) {
       if (data[i].properties[yField] > this.maxData){
@@ -109,7 +119,9 @@ Ext.define('App.service.Chart', {
       if (i < self.startFrom || data.length > self.maxBars - 1) return false;
       return data.push(rec);
     });
-    self.stores.defaults.setData(data);
+
+      self.stores.defaults.setData(data);
+
   },
 
   prev: function () {

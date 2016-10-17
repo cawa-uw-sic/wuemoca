@@ -31,6 +31,8 @@ var i18n = {
     contact                 : 'Contact',
     responsible             : 'persons responsible',
     faq                     : 'Frequently asked questions',
+    glossary: 'Glossary',
+    glossary_tooltip: 'Definitions and explanations',
     univer                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg'
   },
 
@@ -39,7 +41,7 @@ var i18n = {
     tooltip                 : 'Zoom to Pilot Areas'
   },
   fergana: {
-    text                    : 'Fergana<br>Province',
+    text                    : 'Fergana Province',
     tooltip                 : 'Zoom to Pilot Area Fergana Province'
   },
   khorezm: {
@@ -63,17 +65,17 @@ var i18n = {
   adminFilters: {
     title                   : 'Zoom to area of interest',
     country                 : 'Country',
-    country_empty:'Aral Sea Basin',
-    oblast                  : 'Province (oblast)',
-    oblast_empty:'all provinces of country',
-    rayon                   : 'District (rayon)',
-    rayon_empty:'all districts of province',
+    country_empty           : 'Aral Sea Basin',
+    oblast                  : 'Province',
+    oblast_empty            : 'all provinces of country',
+    rayon                   : 'District',
+    rayon_empty             : 'all districts of province',
     buis                    : 'BISA',
-    buis_empty:'all BISA of country',
+    buis_empty              : 'all BISAs of country',
     uis                     : 'ISA',
-    uis_empty:'all ISA of BISA',
-      wua                     : 'Type WUA name',
-    wua_empty:'all WUAs',
+    uis_empty               : 'all ISAs of BISA',
+    wua                     : 'WUA',
+    wua_empty               : 'type WUA name',  
     oblastBtnText           : 'Province<br>map',
     rayonBtnText            : 'District<br>map',
     uisBtnText              : 'ISA<br>map',
@@ -115,12 +117,13 @@ mapSelection:{
     subbasinShort           : 'Subbasin',
     wua                     : 'WUA (Water User Association)',
     wuaShort                : 'WUA',
-    buis                    : 'BUIS (Basin Irrig. System Admin.)',
-    buisShort               : 'BUIS',
-    uis                     : 'UIS (Irrigation System Admin.)',
-    uisShort                : 'UIS',
+    buis                    : 'BISA (Basin Irrig. System Admin.)',
+    buisShort               : 'BISA',
+    uis                     : 'ISA (Irrigation System Admin.)',
+    uisShort                : 'ISA',
     command                 : 'Channel Command Area',
-    commandShort            : 'Comm. Area'
+    commandShort            : 'Comm. Area',
+    map                     : 'Map'
   },
   product: {
     label                   : 'Select indicator',
@@ -131,7 +134,7 @@ mapSelection:{
     firf_state              : 'State order acreage',
     uirn                    : 'Irrigated land use (net)',
     uirb                    : 'Irrigated land use (gross)',
-    uiri                    : 'Irrigated land use per crop',
+    uiri                    : 'Irrigated land use (per crop)',
     uir_state               : 'State order land use',
     pirf                    : 'Farm gross output actual',
     yield                   : 'Yield',
@@ -140,7 +143,8 @@ mapSelection:{
     majority                : 'Major land use',
     diversity               : 'Crop rotation',
     frequency               : 'Fallow land frequency',
-    filter                  : 'Indicator filter'
+    filter                  : 'Activate filter for indicator list',
+    _of: 'of'
   },
 
   crop: {
@@ -262,7 +266,8 @@ mapSelection:{
     yield                   : 'yield (t/ha)',
     kirFirHeader            : 'Coefficient of irrigated land use',
     kirFirCoef              : 'Land use coefficient',
-    majorityHeader          : 'Multiannual analysis 2000 - 2015 <br> (aggregated at 5km x 5km grid cells)',
+    multiannualHeader1          : 'Multiannual analysis',
+    multiannualHeader2          : '(aggregated at 5km x 5km grid cells)',
     majorLandUse            : 'Major land use',
     cropRotation            : 'Crop rotation',
     numCrops                : 'Number of crop types',
@@ -273,7 +278,8 @@ mapSelection:{
   exp: {
     title                   : 'Export',
     opts                    : 'Export selection options',
-    tableCsv                : 'Table as .csv',
+    tableCsv                : 'Table as CSV',
+    tableExcel              : 'Export as EXCEL',    
     reportPdf               : 'Report as .pdf',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
@@ -324,6 +330,7 @@ mapSelection:{
     title                   : 'Polygon edit',
     inputName               : 'Name',
     inputLocation           : 'Location',
+    totalArea: 'Total area',
     inputCrop               : 'Select crop',
     inputPeriod             : 'Select period',
     inputYear               : 'Select year',
@@ -398,6 +405,8 @@ switch (locale){
       contact               : 'Контакты',
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
+      glossary: 'Glossary',
+      glossary_tooltip: 'Definitions and explanations',
       univer                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга'
     };
 
@@ -427,7 +436,7 @@ switch (locale){
     };
 
     i18n.fergana = {
-      text                  : 'Ферганская<br>область',
+      text                  : 'Ферганская< область',
       tooltip               : 'Масштабировать до Ферганской области'
     };
 
@@ -449,11 +458,11 @@ switch (locale){
       rayon                 : 'Район',
       rayon_empty:'all districts of province',
       buis                  : 'БУИС',
-      buis_empty:'all BISA of country',
+      buis_empty:'all BISAs of country',
       uis                   : 'УИС',
-      uis_empty:'all ISA of BISA',
-      wua                     : 'Type WUA name',
-      wua_empty:'all WUAs',
+      uis_empty:'all ISAs of BISA',
+      wua                     : 'АВП',
+      wua_empty:'type WUA name',
       oblastBtnText         : 'Показатьy<br>обл.карту',
       rayonBtnText          : 'Показать<br>р-н карту',
       uisBtnText            : 'Показать<br>УИС карту',
@@ -505,7 +514,8 @@ i18n.mapSelection ={
       uis                   : 'УИС (Irrigation System Admin.)',
       uisShort              : 'УИС',
       command               : 'Командная площадь',
-      commandShort          : 'Comm. area'
+      commandShort          : 'Comm. area',
+      map                   : 'карту'
     };
     i18n.product = {
       label                 : 'Выберите тип карты',
@@ -525,7 +535,8 @@ i18n.mapSelection ={
       majority              : 'Основные землепользования',
       diversity             : 'разнообразие сельскохозяйственных культур',
       frequency             : 'Fallow land frequency',
-      filter                : 'Фильтры индикаторов'
+      filter                : 'Activate filter for indicator list',
+          _of: 'of'
     };
 
     i18n.crop = {
@@ -647,7 +658,8 @@ i18n.mapSelection ={
       yield                 : 'урожай (т/га)',
       kirFirHeader          : 'Коэффициент использования орошаемых земель',
       kirFirCoef            : 'Коэффициент землепользования',
-      majorityHeader        : 'Многолетний анализ 2000 - 2015 <br> (одна ячейка = 5км x 5км)',
+      multiannualHeader1          : 'Многолетний анализ',
+      multiannualHeader2          : '(одна ячейка = 5км x 5км)',     
       majorLandUse          : 'Основная культура',
       cropRotation          : 'Севооборот',
       numCrops              : 'Кол-во типов культур',
@@ -658,7 +670,8 @@ i18n.mapSelection ={
     i18n.exp = {
       title                 : 'Экспорт',
       opts                  : 'Выбор опций экспорта',
-      tableCsv              : 'Таблица как .csv',
+      tableCsv              : 'Таблица как CSV',
+      tableExcel              : 'Таблица как EXCEL',      
       reportPdf             : 'Отчет как .pdf',
       selectWUAs            : 'Выберите АВП',
       selectRayons          : 'Select rayon',
@@ -710,6 +723,7 @@ i18n.mapSelection ={
       title                 : 'Редактирование полигона',
       inputName             : 'Наименование',
       inputLocation         : 'Расположение',
+      totalArea: 'Total area',      
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',
       inputYear             : 'Выберите года',

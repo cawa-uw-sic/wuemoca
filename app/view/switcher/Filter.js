@@ -7,10 +7,26 @@ Ext.define('App.view.switcher.Filter', {
 
   itemId: 'switcher-filter',
 
-  bodyPadding: 10,
+ //padding: 5,
 
+  checkboxToggle: true,
   collapsible: true,
   collapsed: true,
+
+  listeners:{
+  	beforecollapse: 'resetFilters',
+  	beforeexpand:  'loadFilters'
+  },
+
+  layout: {
+	type: 'vbox',
+	align: 'stretch'
+  },
+  defaults: {
+  	labelWidth: 60,
+  	margin: '5 0 0 0'
+
+  },
 
   items: []
 });

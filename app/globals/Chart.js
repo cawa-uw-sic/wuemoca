@@ -8,27 +8,44 @@ __Chart.Gauge = {
       type: 'numeric',
       position: 'gauge',
       minimum: 0,
-      maximum: max,
+      //workaround for numeric axis label bug (multiply by 10)
+      maximum: max * 10,
       majorTickSteps: steps,
       renderer: function (axis, label, layoutContext) {
         label = label.toFixed();
-        if (max < 100) return label;
-        return label / 100;
+        //workaround for numeric axis label bug (divide by 10)
+        return label / 10;
       }
     }];
   },
 
-  getSeries: function (field, colors) {
+  getSeries: function (field) {
     return [{
       type: 'gauge',
       angleField: field,
-      donut: 80,
-      needle: true,
-      colors: colors
+      donut: 60,
+      needle: true
+      //colors: colors
+    }];
+  },
+
+  getGradient: function (color1, color2, color3, ind_id){
+    return [{
+        id: 'gradient-' + ind_id,
+        stops: {
+            0: {
+                color: color1
+            },
+            50: {
+                color: color2
+            },                         
+            100: {
+                color: color3
+            }
+        }
     }];
   }
-
-};
+}
 
 
 __Chart.HBar = {
@@ -98,7 +115,7 @@ __Chart.VBar = {
     }];
   },
 
-  getSeries: function (x, y, measure, color) {
+  getSeries: function (x, y, measure, color, decimals) {
     return [{
       type: 'bar',
       axis: 'left',
@@ -108,7 +125,7 @@ __Chart.VBar = {
         trackMouse: true,
         renderer: function(storeItem, item) {
           return this.getTooltip().update(
-            parseFloat(item.get(y)).toFixed(1) + ' ' + measure
+            parseFloat(item.get(y)).toFixed(decimals) + ' ' + measure
           );
         }
       },
@@ -117,6 +134,62 @@ __Chart.VBar = {
           fill: color
         });
       }
+    }];
+  }
+
+};
+
+__Chart.StackedVBar = {
+
+  getAxes: function (x, yFields, measure) {
+    return [{
+      type: 'numeric',
+      position: 'left',
+      fields: yFields,
+      minimum: 0,
+      //maximum: maximum,
+      title: false,
+      grid: true,
+      renderer: function (axis, value) {
+        return parseFloat(value).toFixed(0) + ' ' + measure;
+      }
+    }, {
+      type: 'category',
+      position: 'bottom',
+      fields: [ x ],
+      title: ''
+    }];
+  },
+
+  getSeries: function (names, x, yFields, measure, decimals) {
+    return [{
+      type: 'bar',
+      axis: 'left',
+      title: names,
+      xField: x,
+      yField: yFields,
+      stacked: true,
+      tooltip: {
+        trackMouse: true,
+        renderer: function (tooltip, record, item) {
+            var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
+                crop = item.series.getTitle()[fieldIndex];
+
+            tooltip.setHtml(crop + ': ' +
+                record.get(item.field).toFixed(decimals) + ' ' + measure);
+        }
+
+        /*function(storeItem, item) {
+          return this.getTooltip().update(
+            parseFloat(item.get(y)).toFixed(1) + ' ' + measure
+          );
+        }*/
+      }
+     /* renderer: function(sprite, attr, record, index, store) {
+        return Ext.apply(attr, {
+          fill: color
+        });
+      }*/
     }];
   }
 

@@ -28,6 +28,10 @@ veg_color = '#6a3d9a'; //  10% #F0EBF4 / #6a3d9a / 50% #351E4D / violett
 garden_color = '#E31A1C';//    10% #FCE8E8 / #E31A1C / 50% #710D0E / red
 maize_color = '#33a02c';//    10% #EAF5E9 / #33a02c / 50% #195016 / green
 sun_color = '#CCAA00'; //  10% #FFFAE5 / #FFD500 (middle) / 20% #CCAA00 (symbol) / 50% #7F6A00 / yellow
+frequency_color = '#33a02c';//   50% #195016  / #33a02c / 10% #EAF5E9 / green inverted
+rotation_color = '#e6550d';//#FCEEE6 / #e6550d / #732A06
+
+
 
 cotton_minimum = '#F1F6F2';
 cotton_median = cotton_color;

@@ -38,6 +38,12 @@ Ext.define('App.controller.Polygon', {
 
   onFormSubmit: function (el, form, val) {
     App.service.Polygon.save(el.up().up().getValues());
+    App.service.Polygon.windowEdit.hide();
+
+  },
+
+  onExcel: function(){
+    App.service.Polygon.JSONToCSVConvertor();
   }
 
 });

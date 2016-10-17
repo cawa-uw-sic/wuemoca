@@ -9,6 +9,8 @@ Ext.define('App.view.yearslider.BtnPause', {
 
   hidden: true,
 
+  tooltip: i18n.timeSlider.stopAnimation,
+
   callback: 'onPause'
 
 });

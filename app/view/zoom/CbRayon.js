@@ -8,7 +8,7 @@ Ext.define('App.view.zoom.CbRayon', {
   xtype: 'app-zoom-cb-rayon',
 
   itemId: 'zoom-cb-rayon',
-
+  emptyText: i18n.adminFilters.rayon_empty,
   fieldLabel: i18n.adminFilters.rayon,
 
   hidden: true,

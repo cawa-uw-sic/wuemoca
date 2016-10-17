@@ -50,6 +50,12 @@ Ext.define('App.service.Watcher', {
     }
     Ext.getStore('indicator').removeAll();
     Ext.getStore('indicator').loadData(indicators);
+
+    //keep selected indicator only if it is still in filtered list after activation; don't show indicators which are filtered out
+    var selected_indicator = App.service.Helper.getComponentValue('switcher-cb-indicator');
+    if (!App.service.Helper.inArrayId(indicators, selected_indicator)){
+      App.service.Helper.resetComboboxes(['switcher-cb-indicator']); 
+    }
   }
 
 });

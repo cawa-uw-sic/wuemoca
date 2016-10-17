@@ -3,20 +3,21 @@ Ext.define('App.view.header.Help', {
 
   xtype: 'app-header-help',
 
+  scale: 'large',
   tooltip: i18n.header.about,
-  iconCls: 'fa fa-question',
+  iconCls: 'help',
   menu: new Ext.menu.Menu({
     items: [{
       text: i18n.header.contact,
       tooltip: i18n.header.responsible,
-      iconCls: 'fa fa-envelope',
+      iconCls: 'email',
       listeners: {
         click: 'onContact'
       }
     },{
-      text: 'FAQ´s',
-      tooltip: i18n.header.faq,
-      iconCls: 'fa fa-question',
+      text: i18n.header.glossary,
+      tooltip: i18n.header.glossary_tooltip,
+      iconCls: 'glossary',
       listeners: {
         click: 'onFAQ'
       }

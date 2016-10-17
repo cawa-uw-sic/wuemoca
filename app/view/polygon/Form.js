@@ -38,6 +38,13 @@ Ext.define('App.view.polygon.Form', {
       afterLabelTextTpl: required,
       name: 'location',
       allowBlank: false
+    },{
+      xtype: 'textfield',
+      itemId: 'exportui-area',
+      fieldLabel: i18n.exportUI.totalArea,
+      //afterLabelTextTpl: required,
+      name: 'area',
+      readOnly: true      
     }]
   }],
 

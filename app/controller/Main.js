@@ -5,14 +5,23 @@ Ext.define('App.controller.Main', {
 
   interval: false,
 
-  onAfterRender: function () {
+  onMainAfterRender: function () {
+    //App.service.Helper.getComponentExt('app-introwindow').show();
+  },
+
+  onMapAfterRender: function () {
     App.service.Map.setMainTitle();
   },
 
-
-
   onLegendBtn: function () {
     App.service.Helper.getComponentExt('legend-window').show();
-  }
+  },
 
+  onShowPolygon: function(){
+    App.service.Polygon.switchView(true);
+  },
+
+  onHidePolygon: function(){
+    App.service.Polygon.switchView(false);
+  }
 });

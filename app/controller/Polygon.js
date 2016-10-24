@@ -38,12 +38,12 @@ Ext.define('App.controller.Polygon', {
 
   onFormSubmit: function (el, form, val) {
     App.service.Polygon.save(el.up().up().getValues());
-    App.service.Polygon.windowEdit.hide();
-
+    App.service.Polygon.windowEdit.close();
+    App.service.Helper.enableComponents(['polygon-btn-calculate']);
   },
 
-  onExcel: function(){
-    App.service.Polygon.JSONToCSVConvertor();
+  onShowChart: function(){
+    App.service.Polygon.showChartWindow();
   }
 
 });

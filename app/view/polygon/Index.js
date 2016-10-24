@@ -16,14 +16,23 @@ Ext.define('App.view.polygon.Index', {
   },
   //layout: 'fit',
   defaults:{
-    padding: '7px 4px 7px 4px'
+    //padding: '7px 3px 7px 3px',
+    //maxWidth: 140 
   },
   items: [
      { 
+      /*xtype: 'checkbox',
+      fieldLabel: i18n.polygon.showPolygon, 
+      labelWidth: 120,
+      handler: 'onShowPolygon', 
+      checked: __LocalDB.get('Selections.UserPolygon', false),  
+      itemId: 'polygon-cx-show' 
+    },{*/       
       text: i18n.polygon.activate,   
       iconCls: 'x-fa fa-edit', 
       handler: 'onActivate',   
-      itemId: 'polygon-btn-activate' 
+      itemId: 'polygon-btn-activate',
+      disabled: !__LocalDB.get('Selections.UserPolygon', false)
     },{ 
       text: i18n.polygon.deactivate, 
       iconCls: 'x-fa fa-lock', 
@@ -38,7 +47,7 @@ Ext.define('App.view.polygon.Index', {
       disabled: true 
     },{ 
       xtype: 'label',
-      html: 'Click on a polygon<br>to activate<br>the buttons below!'
+      html: 'Click on a polygon<br>to activate<br>the buttons below'
     },{       
       text: i18n.polygon.edit,       
       iconCls: 'x-fa fa-map-marker', 
@@ -51,18 +60,18 @@ Ext.define('App.view.polygon.Index', {
       handler: 'onCalculate',  
       itemId: 'polygon-btn-calculate',   
       disabled: true 
-   /* },{ 
-      text: 'Show Values',           
-      iconCls: 'x-fa fa-list', 
-      handler: 'onShowValues',     
-      itemId: 'polygon-btn-show',      
-      disabled: true */
+    /*},{ 
+      text: 'Show Chart',           
+      iconCls: 'x-fa fa-bar-chart', 
+      handler: 'onShowChart',     
+      itemId: 'polygon-btn-chart',      
+      disabled: true
     },{ 
-      text: 'Export to EXCEL',       
+      text: i18n.polygon.exportExcel,       
       iconCls: 'x-fa  fa-file-excel-o', 
       handler: 'onExcel',     
       itemId: 'polygon-btn-excel',      
-      disabled: true 
+      disabled: true */
     },{ 
       text: i18n.polygon.remove,     
       iconCls: 'x-fa  fa-remove', 

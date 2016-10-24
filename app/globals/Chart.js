@@ -176,7 +176,7 @@ __Chart.StackedVBar = {
                 crop = item.series.getTitle()[fieldIndex];
 
             tooltip.setHtml(crop + ': ' +
-                record.get(item.field).toFixed(decimals) + ' ' + measure);
+                parseFloat(record.get(item.field)).toFixed(decimals) + ' ' + measure);
         }
 
         /*function(storeItem, item) {

@@ -52,10 +52,11 @@ Ext.define('App.view.switcher.Index', {
         ,{ xtype: 'app-switcher-cb-indicator'   }]
     },{ 
       //crop buttons
-      xtype: 'app-switcher-btns-crop',       bodyPadding: '0'
+      xtype: 'app-switcher-btns-crop', bodyPadding: '0'
     },{ 
       //aggregation container
       xtype: 'container',
+      itemId: 'app-switcher-container-aggreg',
       style:{backgroundColor:'#f0f0f0'},
       layout: {
         type: 'vbox',
@@ -67,8 +68,8 @@ Ext.define('App.view.switcher.Index', {
       },      
       items:[
           { xtype: 'app-switcher-cb-unit'        }
-         ,{ xtype: 'app-switcher-cb-aggregation' }]
-      }
-
+         ,{ xtype: 'app-switcher-cb-aggregation' }
+      ]
+    }
   ]
 });

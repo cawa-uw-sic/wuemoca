@@ -279,7 +279,7 @@ mapSelection:{
     title                   : 'Export',
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
-    tableExcel              : 'Export as EXCEL',    
+    tableExcel              : 'Export all indicators to Excel',    
     reportPdf               : 'Report as .pdf',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
@@ -311,6 +311,7 @@ mapSelection:{
   },
 
    polygon: {
+    showPolygon             : 'My Polygons',
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
     exportPressed           : 'Report mode',
@@ -320,10 +321,11 @@ mapSelection:{
 
     activate                : 'Draw Polygon',
     deactivate              : 'Stop drawing',
-    upload                  : 'Upload Polygon(s)',
+    upload                  : 'Upload Polygon',
     edit                    : 'Edit Name',
-    calculate               : 'Calculate Values',
-    remove                  : 'Delete Polygon(s)'
+    calculate               : 'Calculate<br>Indicators',
+    exportExcel: 'Export to EXCEL',
+    remove                  : 'Delete Polygon'
   },
 
   exportUI: {
@@ -376,16 +378,6 @@ mapSelection:{
   },
   alert: {
     ambiguous               : 'The clicked point is ambiguous, please click one unit only (maybe zoom in).'
-  },
-
-  fieldname: {
-  field_irr_area_name       : "irr_area_name" ,
-  field_rayon_name          : "rayon_name",
-  field_wua_name            : "wua_name"
-  },
-  tablename: {
-  table_irr_areas_name      : "ca_irr_areas_en" ,
-  table_rayons_name         : "ca_rayons_en"
   }
 };
 
@@ -627,7 +619,7 @@ i18n.mapSelection ={
       uiri_maize              : 'Maize in %',
     uiri_veg                : 'Vegetable in %',
     uiri_sun                : 'Sunflower in %',
-  //uiri_sum        : 'Sum of crops in %',
+  uiri_sum        : 'Sum of crops in %',
   uir_state_nocrops   : 'хлопок и пшеница в %',
     pirf_wheat                 : 'пшеница в т',
   pirf_cotton                  : 'хлопок в т',
@@ -704,6 +696,7 @@ i18n.mapSelection ={
     };
 
     i18n.polygon = {
+          showPolygon             : 'Show my Polygons',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -715,7 +708,8 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить полигон',
       edit                  : 'Редактировать',
-      calculate             : 'Расчитать значения',
+      calculate             : 'Расчитать<br>значения',
+          exportExcel: 'Export to EXCEL',
       remove                : 'Удалить'
     };
 

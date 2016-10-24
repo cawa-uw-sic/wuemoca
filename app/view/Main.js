@@ -30,6 +30,8 @@ Ext.define('App.view.Main', {
     'App.view.legend.Button',
     'App.view.legend.Window'
 
+    //'App.view.introwindow.Window'
+
   ],
 
   controller: 'main',
@@ -42,12 +44,14 @@ Ext.define('App.view.Main', {
     //split: true,
     bodyPadding: 0
   },
-
+  listener:{
+    afterrender: 'onMainAfterRender'
+  },
   items: [
     {
       region: 'north',
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
-      title: 'blubb',
+      title: 'blupp',
       header: false,
       height: 55,
       items: [{ xtype: 'app-header' }]
@@ -55,7 +59,7 @@ Ext.define('App.view.Main', {
     {
       title: i18n.filter.title,
       region:'west',
-      margin: '5 5 0 0',
+      margin: '0 5 0 0',
       width: 300,
       layout:{
         type: 'accordion',
@@ -82,39 +86,22 @@ Ext.define('App.view.Main', {
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: 'blabla',
       region: 'center',
-      margin: '5 0 0 0',
+      margin: '0 0 0 0',
       layout: 'absolute',
       cls: 'map-container',
      // titlePosition: 100,
       header: {
         height: 44,
-        //padding: 0,
-
-        //padding: '5px 16px 5px 16px',
         items: [
-          //{ xtype: 'app-yearslider-btn-play'  }
-         //,{ xtype: 'app-yearslider-btn-pause' }
-        // ,{ xtype: 'label', text: __Global.year.Min, padding: '0 5px 0 0', style: {color: '#f0f0f0', fontWeight: 'bold'}}
          { xtype: 'app-yearslider'}
-         //,{xtype: 'label', text: __Global.year.Max, padding: '0 0 0 5px',style: {color: '#f0f0f0', fontWeight: 'bold'}}    
       ]},
-     /* tools: [
-         { xtype: 'app-yearslider-btn-play'  }
-        ,{ xtype: 'app-yearslider-btn-pause' }
-      ],*/
       items: [
         { xtype: 'app-map', anchor: '100% 100%' },
         { xtype: 'app-legend-window'},
         { xtype: 'app-legend-button'}
-       /* {
-          xtype: 'app-yearslider',
-          x: 50,
-          y: 10,
-          width: 400
-        }*/
       ],
 
-      rbar: [{ xtype: 'app-polygon' }],
+     // rbar: [{ xtype: 'app-polygon' }],
 
       bbar: Ext.create('Ext.ux.StatusBar', {
         defaultText: 'Move the mouse over the map',
@@ -124,7 +111,29 @@ Ext.define('App.view.Main', {
       }),
 
       listeners: {
-        afterrender: 'onAfterRender'
+        afterrender: 'onMapAfterRender'
+      }
+    },{
+      itemId: 'user-polygon',
+      //id: 'map-panel',
+      //Per WAI-ARIA, all regions should have a heading element that contains region's title.
+      title: i18n.polygon.showPolygon,
+      region: 'east',
+      width: 150,
+      collapsible: true, 
+      collapsed: !__LocalDB.get('Selections.UserPolygon', false),  
+
+      margin: '0 0 0 5',
+      //layout: 'fit',
+      //cls: 'map-container',
+     // titlePosition: 100,
+      items: [
+        { xtype: 'app-polygon'}
+      ],
+      listeners: {
+        collapse: 'onHidePolygon',
+        expand: 'onShowPolygon'
+
       }
     }
   ]

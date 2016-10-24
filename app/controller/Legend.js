@@ -12,6 +12,10 @@ Ext.define('App.controller.Legend', {
   onCurrentLayer: function (el, val) {
     App.util.Layer.current.setVisible(val);
     App.util.Layer.admin.setVisible(val);
+    App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(val);
+    if (val == false){
+      App.service.Chart.window.close();
+    }
   },
 
   onOpacityIrrigation: function (el, val) {

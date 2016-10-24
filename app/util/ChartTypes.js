@@ -41,13 +41,11 @@ Ext.define('App.util.ChartTypes', {
     var ind_id = indicator.id;
     var yFields = [];
     var cropNames = indicator[ __Global.Lang + 'Legend'].slice(1);
-    //if (!!indicator.crops) {
-      indicator.crops.map(function(crop) {
-        if (crop != 'sum'){
-          return yFields.push(ind_id + '_' + crop);
-        }
-      });
-    //}
+    indicator.crops.map(function(crop) {
+      if (crop != 'sum'){
+        return yFields.push(ind_id + '_' + crop);
+      }
+    });
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {

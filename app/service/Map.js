@@ -48,7 +48,7 @@ Ext.define('App.service.Map', {
 
     var opts = {
       opacity: App.util.Layer.currentOpaque / 100,
-      visible: true,
+      visible: App.service.Helper.getComponentExt('legend-cx-current').getValue(),
       source: self.getLayerSource(!!App.service.Watcher.getIndicator().years)
     };
 
@@ -64,7 +64,7 @@ Ext.define('App.service.Map', {
     if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
       App.util.Layer.admin = new ol.layer.Image({
         opacity: 1,
-        visible: true,
+        visible: App.service.Helper.getComponentExt('legend-cx-current').getValue(),
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           params: {
@@ -174,7 +174,11 @@ Ext.define('App.service.Map', {
 
   setLegend: function () {
     var self = this;
-    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(self.getLegendTitle(true)); 
+    var aggregation = App.service.Watcher.getAggregation();
+    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(
+      aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
+      self.getLegendTitle(true)
+    ); 
     App.service.Helper.getComponentExt('legend-image').setSrc(self.getLegendImage());
     App.service.Helper.getComponentExt('legend-text').setStyle({ lineHeight: self.getLegendMedianStyle() });
     App.service.Helper.getComponentExt('legend-text').update(self.getLegendMedian());

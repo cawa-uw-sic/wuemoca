@@ -21,6 +21,8 @@ Ext.define('App.service.Polygon', {
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
+  windowChart: Ext.create('App.util.Window'),
+
   initialize: function () {
 
     var self = this;
@@ -32,6 +34,8 @@ Ext.define('App.service.Polygon', {
     });
 
     self.layer.setMap(App.service.Map.instance);
+
+    //self.layer.setVisible(__LocalDB.get('Selections.UserPolygon', false));
 
     self.drawControl = new ol.interaction.Draw({ type: ('Polygon') });
 
@@ -56,16 +60,45 @@ Ext.define('App.service.Polygon', {
       self.rerenderFeatures();
       self.deactivate();
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
-      App.service.Helper.showComponents(['polygon-btn-activate']);      
+      App.service.Helper.showComponents(['polygon-btn-activate']); 
     });
 
     self.rerenderFeatures();
+    self.switchView(__LocalDB.get('Selections.UserPolygon', false));
+  },
+
+  switchView: function(val){
+    App.service.Watcher.set('UserPolygon', val);
+    this.layer.setVisible(val);
+    this.selectControl.setActive(val);
+
+    if (val == false){
+      this.selectControl.getFeatures().clear();
+      this.drawControl.setActive(false);
+      this.activated = false;   
+      this.whenUnselect();
+      this.windowChart.close();
+      this.windowEdit.close();
+    } 
+    else{
+      App.service.Chart.window.close();
+      //App.service.Highlight.clear();
+      App.service.Status.set(' ');
+      App.service.Helper.getComponentExt('app-switcher').expand();
+    }
+    App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
+    App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
+    App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
   },
 
   activate: function () {
     this.drawControl.setActive(true);
     this.selectControl.setActive(false);
     this.activated = true;
+    this.selectControl.getFeatures().clear();
+    this.whenUnselect();
+    this.selected = false;      
+    this.windowChart.close();
   },
 
   deactivate: function () {
@@ -77,7 +110,8 @@ Ext.define('App.service.Polygon', {
   getDefaultColor: function (feature) {
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        color: '#41b6c4'
+        //color: '#41b6c4'
+        color: 'rgba(65, 182, 196, 0.7)'
       }),
       stroke: new ol.style.Stroke({
         color: '#2b8cbe'
@@ -91,7 +125,8 @@ Ext.define('App.service.Polygon', {
   getSelectColor: function (feature) {
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        color: '#fff'
+        color: 'rgba(255, 255, 255, 0.7)'        
+        //color: '#fff'
       }),
       stroke: new ol.style.Stroke({
         color: '#4d004b'
@@ -112,14 +147,28 @@ Ext.define('App.service.Polygon', {
   },
 
   whenUnselect: function (e) {
-    App.service.Helper.disableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove', 'polygon-btn-show', 'polygon-btn-excel']);
+    App.service.Helper.disableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
     //if (!this.windowEdit.isHidden()) this.windowEdit.close();
   },
 
   whenSelect: function (e) {
-    App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove', 'polygon-btn-show', 'polygon-btn-excel']);
+    App.service.Chart.window.close();
     this.selected = e.selected[0];
     if (!this.windowEdit.isHidden()) this.updateWindowEdit();
+    var name = this.all[this.getSelectedIndex()].info.name;
+    if (name == ''){
+      this.windowChart.close();
+      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-remove']);      
+      this.updateWindowEdit();
+      this.windowEdit.show();
+    }
+    else{
+      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
+      App.service.Status.set('Selected polygon: ' + name); 
+      this.showChartWindow();
+    }
+
+
   },
 
   registerPolygon: function (geometry) {
@@ -151,6 +200,8 @@ Ext.define('App.service.Polygon', {
     this.selectControl.getFeatures().clear();
     this.whenUnselect();
     this.selected = false;
+    this.windowEdit.close();
+    this.windowChart.close();
   },
 
   save: function (info) {
@@ -186,7 +237,7 @@ Ext.define('App.service.Polygon', {
       this.doRequest(transformedGeometry);
     }
     else{
-      alert('Values already calculated - press Show Values!');
+      alert('Indicators already calculated!');
     }
   },
 
@@ -194,6 +245,7 @@ Ext.define('App.service.Polygon', {
     var self = this;
     self.isBusy = true;
     Ext.getBody().setStyle('cursor','progress');
+    App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','progress');
 
     Ext.data.JsonP.request({
       url : __Global.api.Polygon + 'geometry=' + geometry,
@@ -201,62 +253,47 @@ Ext.define('App.service.Polygon', {
       params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
       success: function (results) {
         self.isBusy = false;
-         Ext.getBody().setStyle('cursor','auto');
-       
-       /* //temporary html table to show results
-        var table = '<table border="1"><tbody><tr>';
-        for (var i = 0; i < Object.keys(results[0]).length; i++) {
-          th = "<th>" + Object.keys(results[0])[i] + "</th>";
-          table += th;
-        }
-        table += '</tr>';
-        for (var r = 0; r < results.length; r++) {
-          table += '<tr>';
-          for (var i = 0; i < Object.values(results[r]).length; i++) {
-              td = "<td>" + Object.values(results[r])[i].toString() + "</td>"; 
-              table += td;              
-          }
-          table += '</tr>';          
-        }
-        table += '</tbody></table>'; 
-        try{
-          window.open("", "Calculation", "width=300,height=300").document.write(table);
-        }
-        catch(err) {
-          alert('Deactivate Popup Blocker and calculate again.');
-        }*/
-  
-        self.all[self.getSelectedIndex()].data = results;
+        Ext.getBody().setStyle('cursor','auto');
+        App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','auto');        
+        var polygon = self.all[self.getSelectedIndex()];
+        polygon.data = results;
         self.saveAll();
+        alert('Indicators of ' +  polygon.info.name + ' calculated successfully');
+        self.showChartWindow();
       }
     });
   },
-  
-  /*showValues: function(){
-    var calcValues = this.all[this.getSelectedIndex()].data;
-    if (calcValues.length > 0){
-       //temporary html table to show values
-      var table = '<table border="1"><tbody><tr>';
-      for (var i = 0; i < Object.keys(calcValues[0]).length; i++) {
-        th = "<th>" + Object.keys(calcValues[0])[i] + "</th>";
-        table += th;
-      }
-      table += '</tr>';
-      for (var r = 0; r < calcValues.length; r++) {
-        table += '<tr>';
-        for (var i = 0; i < Object.values(calcValues[r]).length; i++) {
-            td = "<td>" + Object.values(calcValues[r])[i].toString() + "</td>"; 
-            table += td;              
+
+  showChartWindow: function (){
+    var self = this;
+    var polygon = self.all[self.getSelectedIndex()];
+    var indicator = App.service.Watcher.getIndicator();
+    var crop = App.service.Watcher.get('Crop');
+    if (polygon.data.length > 0) {
+      if (!!indicator.chart && indicator.chart != 'Multiannual'){
+        var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
+        self.windowChart.setTitle(title);
+        self.windowChart.removeAll();
+        App.service.Chart.dataResponse(polygon.data);
+
+        if (typeof indicator.chart != 'object'){
+          self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
         }
-        table += '</tr>';          
+        else{
+          var idx = indicator.crops.indexOf(crop);
+          self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+        }
+        App.service.Chart.userPolygon = true;
+        return self.windowChart.show();
       }
-      table += '</tbody></table>'; 
-      window.open("", "Calculation", "width=300,height=300").document.write(table);
-    }  
-    else{
-      alert('First press Calculate Values!');
+      self.windowChart.close();
+      alert('No chart available for selected indicator.');
     }
-  },*/
+    else{
+      self.windowChart.close();
+      alert('First press ' + i18n.polygon.calculate + '!');
+    }    
+  },
 
   calculateTotalArea: function (polygon){
     var wgs84Sphere = new ol.Sphere(6378137);
@@ -318,82 +355,6 @@ Ext.define('App.service.Polygon', {
     else {
       return ((color_a - color_b) * (1 - (idx / (max-min)))) + color_b;
     }
-  },
-
-  JSONToCSVConvertor: function () {
-    //http://jsfiddle.net/JXrwM/5298/
-    var polygon = this.all[this.getSelectedIndex()];
-    var JSONData = polygon.data;
-    if (JSONData.length > 0){
-      //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-      var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-      
-      var CSV = '';    
-
-          var row = "";
-          
-          //This loop will extract the label from 1st index of on array
-          for (var index in arrData[0]) {
-              
-              //Now convert each value to string and semicolon comma-seprated
-              row += index + ';';
-          }
-
-          row = row.slice(0, -1);
-          
-          //append Label row with line break
-          CSV += row + '\r\n';
-      
-      //1st loop is to extract each row
-      for (var i = 0; i < arrData.length; i++) {
-          var row = "";
-          
-          //2nd loop will extract each column and convert it in string comma-seprated
-          for (var index in arrData[i]) {
-              row += '"' + arrData[i][index] + '";';
-          }
-
-          row.slice(0, row.length - 1);
-          
-          //add a line break after each row
-          CSV += row + '\r\n';
-      }
-
-      if (CSV == '') {        
-          alert("Invalid data");
-          return;
-      }   
-      CSV = CSV.replace(/\./g, ",");
-      //Generate a file name
-
-      var fileName = 'WUEMoCA_indicators_' + polygon.info.name + '_' + polygon.info.location;
-      //this will remove the blank-spaces from the title and replace it with an underscore
-      fileName = fileName.replace(/ /g,"_");   
-      
-      //Initialize file format you want csv or xls
-      var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-      
-      // Now the little tricky part.
-      // you can use either>> window.open(uri);
-      // but this will not work in some browsers
-      // or you will not get the correct file extension    
-      
-      //this trick will generate a temp <a /> tag
-      var link = document.createElement("a");    
-      link.href = uri;
-      
-      //set the visibility hidden so it will not effect on your web-layout
-      link.style = "visibility:hidden";
-      link.download = fileName + ".csv";
-      
-      //this part will append the anchor tag and remove it after automatic click
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    else{
-      alert('First press Calculate Values!');
-    }
-}
+  }
 
 });

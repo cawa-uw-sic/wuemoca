@@ -9,7 +9,7 @@ Ext.define('App.view.yearslider.Slider', {
   
   alwaysOnTop: true,
 
-  width: 300,
+  width: 280,
 
   listeners: {
 

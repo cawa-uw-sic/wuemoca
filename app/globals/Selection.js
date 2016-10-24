@@ -8,11 +8,11 @@ var __Selection = {
   Wua              : __LocalDB.get('Selections.Wua'),
 
   Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
-  Crop             : __LocalDB.get('Selections.Crop', 'cotton'),
+  Crop             : __LocalDB.get('Selections.Crop', 'sum'),
   Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
 
-  Year             : __LocalDB.get('Selections.Year', __Global.year.Min),
+  Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
 
   IrrigationExtent : false
 

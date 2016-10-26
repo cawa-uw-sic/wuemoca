@@ -293,7 +293,8 @@ mapSelection:{
     singleRayon             : 'single District (rayon)',
     singleOblast            : 'single Province (oblast)',
     allRayonsOblast         : 'all Districts of Province (oblast)',
-    allOblastsCountry       : 'all Provinces of Country'
+    allOblastsCountry       : 'all Provinces of Country',
+          allOblastsCA : 'all Provinces of CA'
   },
 
   timeSlider: {
@@ -678,7 +679,8 @@ i18n.mapSelection ={
 
       selectOblasts         : 'Select Province (oblast)',
       singleOblast          : 'single Province (oblast)',
-      allOblastsCountry     : 'all Provinces of Country'
+      allOblastsCountry     : 'all Provinces of Country',
+      allOblastsCA : 'all Provinces of CA'
     };
 
     i18n.timeSlider = {

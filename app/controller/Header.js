@@ -4,11 +4,16 @@ Ext.define('App.controller.Header', {
   alias: 'controller.header',
 
   requires: [
-    'App.view.header.DetailWindow'
+    'App.view.header.DetailWindow',
+    'App.view.header.IntroWindow',
+    'App.view.header.PrintChartWindow'  
   ],
 
   init: function () {
     this.DetailWindow = Ext.create('App.view.header.DetailWindow');
+    this.IntroWindow = Ext.create('App.view.header.IntroWindow');
+    this.PrintChartWindow = Ext.create('App.view.header.PrintChartWindow');
+    Ext.getStore('printchart').load({params: {indicator: 'uiri', aggregation: 'oblast'}});
   },
 
   onLocale: function () {
@@ -31,6 +36,16 @@ Ext.define('App.controller.Header', {
   onDetail: function () {
     this.DetailWindow.show();
   },
+
+  onIntroWindowBtn: function () {
+    this.IntroWindow.show();
+  },
+
+  onPrintChartWindowBtn: function () {
+        this.PrintChartWindow.show();
+      },
+
+
 
   onPilot: function (country, oblast, rayon, buis, uis, wua) {
     //clear zoom comboboxes

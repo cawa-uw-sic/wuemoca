@@ -112,6 +112,7 @@ __Chart.VBar = {
       position: 'bottom',
       fields: [ x ],
       title: ''
+      //visibleRange: [0.5,1]
     }];
   },
 
@@ -158,6 +159,7 @@ __Chart.StackedVBar = {
       position: 'bottom',
       fields: [ x ],
       title: ''
+      //visibleRange: [0.5,1]
     }];
   },
 

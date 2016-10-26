@@ -29,9 +29,6 @@ Ext.define('App.view.Main', {
 
     'App.view.legend.Button',
     'App.view.legend.Window'
-
-    //'App.view.introwindow.Window'
-
   ],
 
   controller: 'main',
@@ -58,7 +55,7 @@ Ext.define('App.view.Main', {
     },
     {
       title: i18n.filter.title,
-      region:'west',
+      region: 'west',
       margin: '0 5 0 0',
       width: 300,
       layout:{

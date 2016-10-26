@@ -13,3 +13,4 @@ Ext.define('App.view.legend.Button', {
   handler: 'onLegendBtn'
 
 });
+

@@ -26,6 +26,7 @@ Ext.define('App.view.chart.FPanel', {
       ,{ xtype: 'tbfill' }
       ,{ xtype: 'button', style:{padding: '0px 7px'}, text: '<<', tooltip: 'show previous year', handler: 'onPrev' }
       ,{ xtype: 'button', style:{padding: '0px 7px'}, text: '>>', tooltip: 'show next year', handler: 'onNext' }
+      ,{ xtype: 'button', style:{padding: '0px 7px'}, text: 'Chart as PNG', handler: 'onPreview' }
     ]
   }
 });

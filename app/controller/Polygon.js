@@ -20,7 +20,7 @@ Ext.define('App.controller.Polygon', {
   },
 
   onUpload: function () {
-    console.log('clicked onUpload');
+    App.service.Polygon.windowUpload.show(); 
   },
 
   onEdit: function () {

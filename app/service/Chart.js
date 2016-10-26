@@ -89,7 +89,6 @@ Ext.define('App.service.Chart', {
       return self.window.show();
     }
     self.window.close();
-
   },
 
   dataResponse: function (data) {

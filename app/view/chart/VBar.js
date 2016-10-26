@@ -14,6 +14,7 @@ Ext.define('App.view.chart.VBar', {
 
   width: 300,
 
-  height: 240
+  height: 240,
+  reference: 'chart'
 
 });

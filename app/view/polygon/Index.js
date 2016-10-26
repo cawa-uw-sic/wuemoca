@@ -43,8 +43,7 @@ Ext.define('App.view.polygon.Index', {
       text: i18n.polygon.upload,     
       iconCls: 'x-fa fa-upload', 
       handler: 'onUpload',     
-      itemId: 'polygon-btn-upload',      
-      disabled: true 
+      itemId: 'polygon-btn-upload'
     },{ 
       xtype: 'label',
       html: 'Click on a polygon<br>to activate<br>the buttons below'

@@ -19,6 +19,7 @@ Ext.define('App.view.chart.StackedVBar', {
 
   width: 300,
 
-  height: 240
+  height: 240,
+  reference: 'chart'
 
 });

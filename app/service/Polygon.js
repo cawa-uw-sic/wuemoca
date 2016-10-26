@@ -21,6 +21,8 @@ Ext.define('App.service.Polygon', {
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
+  windowUpload: Ext.create('App.util.Window', { title: 'Upload a shapefile', items: [{ xtype: 'app-polygon-formupload' }] }),
+
   windowChart: Ext.create('App.util.Window'),
 
   initialize: function () {
@@ -148,6 +150,8 @@ Ext.define('App.service.Polygon', {
 
   whenUnselect: function (e) {
     App.service.Helper.disableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
+    this.windowChart.close();
+    this.windowEdit.close();
     //if (!this.windowEdit.isHidden()) this.windowEdit.close();
   },
 

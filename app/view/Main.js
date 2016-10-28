@@ -24,8 +24,6 @@ Ext.define('App.view.Main', {
     'App.view.polygon.Index',
 
     'App.view.yearslider.Index',
-   // 'App.view.yearslider.BtnPlay',
-    //'App.view.yearslider.BtnPause',
 
     'App.view.legend.Button',
     'App.view.legend.Window'
@@ -38,7 +36,6 @@ Ext.define('App.view.Main', {
   bodyBorder: false,
 
   defaults: {
-    //split: true,
     bodyPadding: 0
   },
   listener:{
@@ -61,7 +58,6 @@ Ext.define('App.view.Main', {
       layout:{
         type: 'accordion',
         animate: true
-       // multi: true
       },
       defaults: {
         scrollable: 'vertical',
@@ -86,7 +82,6 @@ Ext.define('App.view.Main', {
       margin: '0 0 0 0',
       layout: 'absolute',
       cls: 'map-container',
-     // titlePosition: 100,
       header: {
         height: 44,
         items: [
@@ -97,8 +92,6 @@ Ext.define('App.view.Main', {
         { xtype: 'app-legend-window'},
         { xtype: 'app-legend-button'}
       ],
-
-     // rbar: [{ xtype: 'app-polygon' }],
 
       bbar: Ext.create('Ext.ux.StatusBar', {
         defaultText: 'Move the mouse over the map',
@@ -112,7 +105,6 @@ Ext.define('App.view.Main', {
       }
     },{
       itemId: 'user-polygon',
-      //id: 'map-panel',
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: i18n.polygon.showPolygon,
       region: 'east',
@@ -121,9 +113,6 @@ Ext.define('App.view.Main', {
       collapsed: !__LocalDB.get('Selections.UserPolygon', false),  
 
       margin: '0 0 0 5',
-      //layout: 'fit',
-      //cls: 'map-container',
-     // titlePosition: 100,
       items: [
         { xtype: 'app-polygon'}
       ],

@@ -12,7 +12,6 @@ Ext.define('App.view.header.Index', {
     'App.view.header.Title',
     'App.view.header.Pilot',
     'App.view.header.IntroWindowButton',
-    'App.view.header.PrintChartWindowButton',
     //'App.view.header.Feedback',
     'App.view.header.Help',
     'App.view.header.Locale'
@@ -39,8 +38,7 @@ Ext.define('App.view.header.Index', {
      { xtype: 'app-header-cawalogo' }
     ,{ xtype: 'app-header-title'    }
     ,{ xtype: 'app-header-pilot'  }
-    ,{ xtype: 'app-introwindow-button'  }
-    ,{ xtype: 'app-printchartwindow-button'  }   
+    //,{ xtype: 'app-introwindow-button'  }
 
     ,'->'
 

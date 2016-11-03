@@ -21,8 +21,6 @@ Ext.define('App.service.Polygon', {
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
-  windowUpload: Ext.create('App.util.Window', { title: 'Upload a shapefile', items: [{ xtype: 'app-polygon-formupload' }] }),
-
   windowChart: Ext.create('App.util.Window'),
 
   initialize: function () {
@@ -85,6 +83,7 @@ Ext.define('App.service.Polygon', {
     else{
       App.service.Chart.window.close();
       //App.service.Highlight.clear();
+
       App.service.Status.set(' ');
       App.service.Helper.getComponentExt('app-switcher').expand();
     }
@@ -179,7 +178,7 @@ Ext.define('App.service.Polygon', {
     var polygon = {
       uid: 'polygon-' + new Date().getTime(),
       info: { name: '', location: '' },
-      totalArea: Array.isArray(geometry) ? '' : this.calculateTotalArea(geometry),
+      totalArea: Array.isArray(geometry) ? this.calculateTotalArea(geometry, true) : this.calculateTotalArea(geometry, false),
       data: [],
       geometry: Array.isArray(geometry) ? geometry : geometry.getCoordinates()[0]
     };
@@ -209,7 +208,6 @@ Ext.define('App.service.Polygon', {
   },
 
   save: function (info) {
-
     this.all[this.getSelectedIndex()].info = info;
     this.rerenderFeatures();
     this.saveAll();
@@ -299,11 +297,24 @@ Ext.define('App.service.Polygon', {
     }
   },
 
-  calculateTotalArea: function (polygon){
+  calculateTotalArea: function (polygon, array){
     var wgs84Sphere = new ol.Sphere(6378137);
-    var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
-    __Global.projection.Mercator, __Global.projection.Geographic));
-    var coordinates = geom.getLinearRing(0).getCoordinates();
+    var coordinates = [];
+
+    if (!array){
+      var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
+        __Global.projection.Mercator, 
+        __Global.projection.Geographic
+      ));
+      coordinates = geom.getLinearRing(0).getCoordinates();
+    }
+    else{
+      coordinates = App.service.Helper.transformPoints(
+        polygon,
+        __Global.projection.Mercator,
+        __Global.projection.Geographic
+      );
+    }
     var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
     return (area/10000).toFixed();
   },

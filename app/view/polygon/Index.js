@@ -14,20 +14,13 @@ Ext.define('App.view.polygon.Index', {
   listeners: {
     afterrender: 'onAfterRender'
   },
-  //layout: 'fit',
+  layout: 'fit',
   defaults:{
-    //padding: '7px 3px 7px 3px',
-    //maxWidth: 140
+    //width: 138,
+    border: '1px'
   },
   items: [
      {
-      /*xtype: 'checkbox',
-      fieldLabel: i18n.polygon.showPolygon,
-      labelWidth: 120,
-      handler: 'onShowPolygon',
-      checked: __LocalDB.get('Selections.UserPolygon', false),
-      itemId: 'polygon-cx-show'
-    },{*/
       text: i18n.polygon.activate,
       iconCls: 'x-fa fa-edit',
       handler: 'onActivate',
@@ -40,11 +33,19 @@ Ext.define('App.view.polygon.Index', {
       itemId: 'polygon-btn-deactivate',
       hidden: true
     },{
-      buttonText :i18n.polygon.upload,
+      xtype: 'filefield',
+      buttonOnly: true,
       listeners : { afterrender: 'onUpload' },
       itemId: 'polygon-btn-upload',
-      xtype: 'filefield',
-      buttonOnly: true
+      buttonConfig: {
+        text: i18n.polygon.upload,
+        iconCls: 'x-fa fa-upload',
+       // tooltip: 'only zipped Shapefile, coordinate system WGS 84 (EPSG:4326)',
+        ui: 'default-toolbar',
+        handler: function(){ alert('Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)');},
+        baseCls: 'x-btn'
+      }
+
     },{
       xtype: 'label',
       html: 'Click on a polygon<br>to activate<br>the buttons below'

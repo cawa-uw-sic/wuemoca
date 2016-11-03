@@ -150,7 +150,7 @@ SHPParser.prototype.parseShape = function(dv, idx, length) {
      */
 
     // Creates global namespace.
-DBF = {};
+/*DBF = {};
 
 DBFParser = function() {};
 
@@ -351,4 +351,4 @@ DBFParser.prototype.parse = function(arrayBuffer,src,response,encoding) {
         o.records.push(record);
     }
     return o;
-};
+};*/

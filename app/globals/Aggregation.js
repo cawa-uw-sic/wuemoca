@@ -8,17 +8,23 @@ var __Aggregation = [
     items: [
       {
         id             : 'oblast',
-        enName         : 'Oblast (Province)',
+        enName         : 'Province (Oblast)',
         ruName         : 'Область (Province)',
+        enNameShort    : 'Province',
+        ruNameShort    : 'Область',       
         isDefault      : true
       }, {
         id             : 'rayon',
-        enName         : 'Rayon (District)',
-        ruName         : 'Район (District)'
+        enName         : 'District (Rayon)',
+        ruName         : 'Район (District)',
+        enNameShort    : 'District',
+        ruNameShort    : 'Район'  
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
-        ruName         : 'АВП (Water User Association)'
+        ruName         : 'АВП (Water User Association)',
+        enNameShort    : 'WUA',
+        ruNameShort    : 'АВП'   
       }
     ]
   },
@@ -30,17 +36,23 @@ var __Aggregation = [
     items: [
       {
         id             : 'buis',
-        enName         : 'BUIS (Basin Irrig. System Admin.)',
+        enName         : 'BISA (Basin Irrig. System Admin.)',
         ruName         : 'БУИС (Basin Irrig. System Admin.)',
+        enNameShort    : 'BISA',
+        ruNameShort    : 'БУИС',        
         isDefault      : true
       }, {
         id             : 'uis',
-        enName         : 'UIS (Irrigation System Admin.)',
-        ruName         : 'УИС (Irrigation System Admin.)'
+        enName         : 'ISA (Irrigation System Admin.)',
+        ruName         : 'УИС (Irrigation System Admin.)',
+        enNameShort    : 'ISA',
+        ruNameShort    : 'УИС' 
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
-        ruName         : 'Командная площадь'
+        ruName         : 'Командная площадь',
+        enNameShort    : 'Comm. Area',
+        ruNameShort    : 'Comm. Area' 
       }
     ]
   },
@@ -68,6 +80,8 @@ var __Aggregation = [
     id: 'grid',
     enName: 'regular Raster',
     ruName: 'Регулярный растр',
+    enNameShort    : 'reg. Raster',
+    ruNameShort    : 'reg. Raster',    
     tiled: true,
     items: false
   }

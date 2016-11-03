@@ -7,10 +7,12 @@ Ext.define('App.view.header.Index', {
     'App.controller.Header',
 
     'App.view.header.CawaLogo',
-    'App.view.header.WULogo',
+    'App.view.header.UniLogo',
+    'App.view.header.SicLogo',
     'App.view.header.Title',
     'App.view.header.Pilot',
-    'App.view.header.Feedback',
+    'App.view.header.IntroWindowButton',
+    //'App.view.header.Feedback',
     'App.view.header.Help',
     'App.view.header.Locale'
   ],
@@ -36,13 +38,15 @@ Ext.define('App.view.header.Index', {
      { xtype: 'app-header-cawalogo' }
     ,{ xtype: 'app-header-title'    }
     ,{ xtype: 'app-header-pilot'  }
+    //,{ xtype: 'app-introwindow-button'  }
 
     ,'->'
 
-    ,{ xtype: 'app-header-feedback' }
+    //,{ xtype: 'app-header-feedback' }
     ,{ xtype: 'app-header-help'     }
     ,{ xtype: 'app-header-locale'   }
-    ,{ xtype: 'app-header-wulogo'   }
+    ,{ xtype: 'app-header-unilogo'   }
+    ,{ xtype: 'app-header-siclogo'   }
 
   ]
 });

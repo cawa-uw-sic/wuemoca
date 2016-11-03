@@ -1,14 +1,10 @@
 var LayerParams = {
-  Irrigation  : 'wuemoca_v3:ca_irrigation_mask_smooth',
-  //Country     : 'wuemoca_v3:ca_country_geom_' + lang,
-  //v3
-  Country     : 'wuemoca_v3:ca_country_geom',
-  //Channel     : 'wuemoca_v3:channel_geom_'+lang,
-  //v3
-  Channel     : 'wuemoca_v3:channel_geom',
-  Aggreg      : 'wuemoca_v3:ca_{aggreg}',
-  Styles      : 'wuemoca_v3:ca_{type}_{crop}',
-  Grid        : 'wuemoca_v3:ca_{aggreg}_{type}_{crop}'
+  Irrigation  : __Global.geoserverWorkspace + ':ca_irrigation_mask_smooth',
+  Country     : __Global.geoserverWorkspace + ':ca_country_geom',
+  Channel     : __Global.geoserverWorkspace + ':channel_geom',
+  Aggreg      : __Global.geoserverWorkspace + ':ca_{aggreg}',
+  Styles      : __Global.geoserverWorkspace + ':ca_{type}_{crop}',
+  Grid        : __Global.geoserverWorkspace + ':ca_{aggreg}_{type}_{crop}'
 };
 
 var BackgroundLayers = {

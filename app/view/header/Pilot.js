@@ -34,7 +34,7 @@ Ext.define('App.view.header.Pilot', {
         click: {
           fn: 'onPilot',
            //country, oblast, rayon, buis, uis, wua
-          args: ['UZB', null, null, '9', '43', null]
+          args: ['UZB', null, null, '1', '43', null]
        }
       }
     }

@@ -15,22 +15,61 @@ Ext.define('App.view.switcher.Index', {
 
   xtype: 'app-switcher',
 
+  itemId: 'app-switcher',
+
   controller: 'switcher',
+
+  layout: {
+    type: 'vbox',
+    pack: 'start',
+    align: 'stretch'
+  },
 
   title: i18n.mapSelection.title,
 
-  bodyPadding: 10,
+  bodyPadding: '10 5 0 10',
 
   defaults: {
-    bodyPadding: 10,
-    margin: '0 0 10 0'
+     margin: '0 0 5 0'
   },
 
   items: [
-     { xtype: 'app-switcher-filter'         }
-    ,{ xtype: 'app-switcher-cb-indicator'   }
-    ,{ xtype: 'app-switcher-btns-crop'      }
-    ,{ xtype: 'app-switcher-cb-unit'        }
-    ,{ xtype: 'app-switcher-cb-aggregation' }
+    { 
+      //indicator container
+      xtype: 'container',
+      style:{backgroundColor:'#e0ebf3'},
+      layout: {
+        type: 'vbox',
+        align: 'stretch'
+      }, 
+      defaults:{
+        padding: '0',
+        margin: '0'
+      },  
+      padding: '5',    
+      items:[
+         { xtype: 'app-switcher-filter', style:{backgroundColor:'#e0ebf3'}}
+        ,{ xtype: 'app-switcher-cb-indicator'   }]
+    },{ 
+      //crop buttons
+      xtype: 'app-switcher-btns-crop', bodyPadding: '0'
+    },{ 
+      //aggregation container
+      xtype: 'container',
+      itemId: 'app-switcher-container-aggreg',
+      style:{backgroundColor:'#f0f0f0'},
+      layout: {
+        type: 'vbox',
+        align: 'stretch'
+      }, 
+      padding: '5',  
+      defaults: {
+        labelWidth: 70
+      },      
+      items:[
+          { xtype: 'app-switcher-cb-unit'        }
+         ,{ xtype: 'app-switcher-cb-aggregation' }
+      ]
+    }
   ]
 });

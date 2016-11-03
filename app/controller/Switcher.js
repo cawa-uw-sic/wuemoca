@@ -20,11 +20,13 @@ Ext.define('App.controller.Switcher', {
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Watcher.get('UserPolygon', false) && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
   },
 
   onCrop: function (button, el) {
     App.service.Watcher.set('Crop', button.getItemId());
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Watcher.get('UserPolygon', false) && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
   },
 
   onUnit: function (cb, val) {
@@ -35,22 +37,25 @@ Ext.define('App.controller.Switcher', {
   onAggregation: function (cb, val) {
     App.service.Watcher.set('Aggregation', val);
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Watcher.get('UserPolygon', false) && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
   },
 
   fillCrops: function (component) {
     var indicator = App.service.Watcher.getIndicator();
-    var data = __Crop;
+    var data = [];
+    var cropNames = [];
 
     component.removeAll();
 
     if (!indicator.crops) {
-      data = [];
+      //data = [];
       App.service.Watcher.set('Crop', '');
       return App.service.Helper.hideComponents(['switcher-btns-crop']);
     }
 
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
       data = indicator.crops;
+      cropNames = indicator[__Global.Lang + 'Legend'];
       if (indicator.crops.indexOf(App.service.Watcher.get('Crop')) < 0) {
         App.service.Watcher.set('Crop', indicator.crops[0]);
       }
@@ -62,7 +67,7 @@ Ext.define('App.controller.Switcher', {
         iconCls: data[i],
         itemId: data[i],
         scale: 'large',
-        tooltip: i18n.crop[data[i]],
+        tooltip: cropNames[i],
         toggleGroup: 'map-filters-crops',
         pressed: App.service.Watcher.get('Crop') == data[i],
         handler: this.onCrop
@@ -120,6 +125,7 @@ Ext.define('App.controller.Switcher', {
         valueField: 'id',
         itemId: 'switcher-filter-' + filter.id,
         value: __FilterSelection[filter.id],
+        emptyText: __EmptyFilter[__Global.Lang + 'Name'],
         listeners: { change: self.changeFilters }
       });
       fieldset.add(cb);
@@ -130,6 +136,17 @@ Ext.define('App.controller.Switcher', {
     var cFilter = cb.getItemId().replace('switcher-filter-', '');
     __LocalDB.set('FilterSelections.' + cFilter, val);
     __FilterSelection[cFilter] = val;
+    App.service.Watcher.activateFilters();
+  },
+
+  resetFilters: function (fieldset, eOpts){
+    //load entire list, but keep filters stored in LocalDB
+    var indicators = __Indicator;     
+    Ext.getStore('indicator').removeAll();
+    Ext.getStore('indicator').loadData(indicators);
+  },
+
+  loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
   }
 

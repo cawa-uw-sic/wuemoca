@@ -7,7 +7,7 @@ Ext.define('App.service.Tooltip', {
   tooltip: Ext.create('App.view.tooltip.Index'),
 
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated) return;
+    if (this.isBusy || App.service.Polygon.activated || !App.util.Layer.current.getVisible()) return;
     this.isBusy = true;
     this.doRequest(e);
   },
@@ -38,7 +38,7 @@ Ext.define('App.service.Tooltip', {
       var html = this.getFeatureHTML(features[0].properties);
       //this.tooltip.update(html.title + '<br>' + html.content);
       //this.tooltip.showAt([e.originalEvent.pageX + 10, e.originalEvent.pageY + 10]);
-      App.service.Status.set('<b>' + html.title + ': ' + html.content + '</b>');
+      App.service.Status.set('<b>' + html.title + ' - ' + html.content + '</b>');
     }
   },
 
@@ -47,16 +47,21 @@ Ext.define('App.service.Tooltip', {
     var indicator = App.service.Watcher.getIndicator();
     var aggregation = App.service.Watcher.getAggregation();
 
-    var title   = aggregation[ __Global.Lang + 'Name' ] + ' ' + (properties[ aggregation.id + '_' + __Global.Lang ] || '' );
+    var title = (properties[aggregation.id + '_' + __Global.Lang] || '') + ' ' + aggregation[__Global.Lang + 'NameShort'];
 
-    var content = indicator[ __Global.Lang + 'Name' ];
+    var content =  App.service.Map.getLegendTitle(false);
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
-      content = i18n.crop[ App.service.Watcher.get('Crop') ];
+      //content = i18n.crop[ App.service.Watcher.get('Crop') ];
     }
 
-    content += ': ' + parseFloat(properties[yField]).toFixed(2) + ' ' + ( indicator[ __Global.Lang + 'Unit' ] || '' );
+    if (indicator.id == 'majority'){
+      content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
+    }
+    else{
+      content += ': ' + parseFloat(properties[yField]).toFixed(2) + ' ' + ( indicator[ __Global.Lang + 'Unit' ] || '' );
+    }
 
     return {
       title   : title,

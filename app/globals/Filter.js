@@ -43,8 +43,8 @@ var __Filter = [
       enName: 'Labeled maps',
       ruName: 'Карты с надписью'
     }, {
-      id    : 'coloured',
-      enName: 'Coloured maps',
+      id    : 'colored',
+      enName: 'Colored maps',
       ruName: 'Карты в цветах'
     }]
   }, {

@@ -24,12 +24,9 @@ Ext.define('App.view.Main', {
     'App.view.polygon.Index',
 
     'App.view.yearslider.Index',
-    'App.view.yearslider.BtnPlay',
-    'App.view.yearslider.BtnPause',
 
     'App.view.legend.Button',
     'App.view.legend.Window'
-
   ],
 
   controller: 'main',
@@ -39,26 +36,28 @@ Ext.define('App.view.Main', {
   bodyBorder: false,
 
   defaults: {
-    split: true,
     bodyPadding: 0
   },
-
+  listener:{
+    afterrender: 'onMainAfterRender'
+  },
   items: [
     {
       region: 'north',
+      //Per WAI-ARIA, all regions should have a heading element that contains region's title.
+      title: 'blupp',
+      header: false,
       height: 55,
-      split: false,
       items: [{ xtype: 'app-header' }]
     },
     {
       title: i18n.filter.title,
-      region:'west',
-      margin: '5 0 0 0',
+      region: 'west',
+      margin: '0 5 0 0',
       width: 300,
       layout:{
         type: 'accordion',
         animate: true
-       // multi: true
       },
       defaults: {
         scrollable: 'vertical',
@@ -69,46 +68,58 @@ Ext.define('App.view.Main', {
         }
       },
       items: [
-         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-zoom') != 'app-zoom'     }
-        ,{ xtype: 'app-switcher' , collapsed : __LocalDB.get('Selections.Accordion', 'app-zoom') != 'app-switcher' }
-        ,{ xtype: 'app-overview' , collapsed : __LocalDB.get('Selections.Accordion', 'app-zoom') != 'app-overview' }
+         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-zoom'     }
+        ,{ xtype: 'app-switcher' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-switcher' }
+        ,{ xtype: 'app-overview' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-overview' }
       ]
     },
     {
       itemId: 'map-container',
-      title: '',
+      id: 'map-panel',
+      //Per WAI-ARIA, all regions should have a heading element that contains region's title.
+      title: 'blabla',
       region: 'center',
-      margin: '5 0 0 0',
+      margin: '0 0 0 0',
       layout: 'absolute',
       cls: 'map-container',
-      titlePosition: 100,
-      tools: [
-         { xtype: 'app-yearslider-btn-play'  }
-        ,{ xtype: 'app-yearslider-btn-pause' }
-      ],
+      header: {
+        height: 44,
+        items: [
+         { xtype: 'app-yearslider'}
+      ]},
       items: [
         { xtype: 'app-map', anchor: '100% 100%' },
         { xtype: 'app-legend-window'},
-        { xtype: 'app-legend-button'},
-        {
-          xtype: 'app-yearslider',
-          x: 50,
-          y: 10,
-          width: 400
-        }
+        { xtype: 'app-legend-button'}
       ],
 
-      rbar: [{ xtype: 'app-polygon' }],
-
       bbar: Ext.create('Ext.ux.StatusBar', {
-        defaultText: '',
+        defaultText: 'Move the mouse over the map',
         itemId: 'app-status',
         cls: 'app-status',
         statusAlign: 'left'
       }),
 
       listeners: {
-        afterrender: 'onAfterRender'
+        afterrender: 'onMapAfterRender'
+      }
+    },{
+      itemId: 'user-polygon',
+      //Per WAI-ARIA, all regions should have a heading element that contains region's title.
+      title: i18n.polygon.showPolygon,
+      region: 'east',
+      width: 150,
+      collapsible: true, 
+      collapsed: !__LocalDB.get('Selections.UserPolygon', false),  
+
+      margin: '0 0 0 5',
+      items: [
+        { xtype: 'app-polygon'}
+      ],
+      listeners: {
+        collapse: 'onHidePolygon',
+        expand: 'onShowPolygon'
+
       }
     }
   ]

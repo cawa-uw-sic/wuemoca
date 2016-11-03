@@ -4,11 +4,13 @@ Ext.define('App.controller.Header', {
   alias: 'controller.header',
 
   requires: [
-    'App.view.header.DetailWindow'
+    'App.view.header.DetailWindow',
+    'App.view.header.IntroWindow'
   ],
 
   init: function () {
     this.DetailWindow = Ext.create('App.view.header.DetailWindow');
+    this.IntroWindow = Ext.create('App.view.header.IntroWindow');
   },
 
   onLocale: function () {
@@ -30,6 +32,10 @@ Ext.define('App.controller.Header', {
 
   onDetail: function () {
     this.DetailWindow.show();
+  },
+
+  onIntroWindowBtn: function () {
+    this.IntroWindow.show();
   },
 
   onPilot: function (country, oblast, rayon, buis, uis, wua) {

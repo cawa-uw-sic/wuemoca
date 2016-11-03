@@ -18,30 +18,33 @@ var __Global = {
   },
 
   year: {
-    Max           : new Date().getFullYear(),
+    Max           : 2015,
     Min           : 2000
   },
 
   api: {
-    Polygon       : api + 'calculatePolygon_v3.jsp?'  + langParam,
+    Polygon       : api + 'calculatePolygon_v3.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
-    Wua           : api + 'searchWUAs.jsp?' + langParam
+    Wua           : api + 'searchWUAs.jsp?' + langParam,
+    PrintChart    : api + 'getChartValues.jsp?' + langParam
   },
 
   urls: {
     Server        : server,
     Mapserver     : server + 'geoserver/',
     Documents     : server + 'wuemoca/documents/',
-    Faq           : server + 'wuemoca/faq.html',
+    Faq           : server + 'wuemoca/documents/glossary_wuemoca_vers2.htm',
     Impressum     : server + 'wuemoca/documents/Impressum.pdf'
   },
 
+  geoserverWorkspace : 'wuemoca_v3',
+
   chart: {
-    Width: 515,
+    Width: 450,
     Height: 350,
     MaxBars: 10
   }

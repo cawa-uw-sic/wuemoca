@@ -9,12 +9,12 @@ Ext.define('App.view.zoom.CbCountry', {
 
   itemId: 'zoom-cb-country',
 
-  emptyText: i18n.area.empty,
+  emptyText: i18n.adminFilters.country_empty,
   fieldLabel: i18n.adminFilters.country,
 
   store: {
-    type: 'country',
-    autoLoad: true
+    type: 'country'
+    //autoLoad: true
   },
 
   displayField: 'name',

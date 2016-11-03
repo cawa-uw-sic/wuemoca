@@ -39,6 +39,12 @@ Ext.define('App.controller.Polygon', {
 
   onFormSubmit: function (el, form, val) {
     App.service.Polygon.save(el.up().up().getValues());
+    App.service.Polygon.windowEdit.close();
+    App.service.Helper.enableComponents(['polygon-btn-calculate']);
+  },
+
+  onShowChart: function(){
+    App.service.Polygon.showChartWindow();
   }
 
 });

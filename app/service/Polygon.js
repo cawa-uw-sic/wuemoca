@@ -117,7 +117,7 @@ Ext.define('App.service.Polygon', {
       uid: 'polygon-' + new Date().getTime(),
       info: { name: '', location: '' },
       data: [],
-      geometry: geometry.getCoordinates()[0]
+      geometry: Array.isArray(geometry) ? geometry : geometry.getCoordinates()[0]
     };
     this.all.push(polygon);
     this.saveAll();
@@ -193,6 +193,24 @@ Ext.define('App.service.Polygon', {
       result.push(g.join(' '));
     });
     return result.join(',');
+  },
+
+  uploadShapefile: function (event) {
+    loadshp({
+      url: event.target.files[0],
+      encoding: 'UTF-8',
+      EPSG: 4326
+    }, function(data) {
+      data.features.map(function (polygon) {
+        var geometry = App.service.Helper.transformPoints(
+          polygon.geometry.coordinates[0],
+          __Global.projection.Geographic,
+          __Global.projection.Mercator
+        )
+        App.service.Polygon.registerPolygon(geometry);
+      })
+      App.service.Polygon.rerenderFeatures();
+    });
   }
 
 });

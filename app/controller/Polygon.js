@@ -19,8 +19,9 @@ Ext.define('App.controller.Polygon', {
     App.service.Helper.showComponents(['polygon-btn-activate']);
   },
 
-  onUpload: function () {
-    console.log('clicked onUpload');
+  onUpload: function (field) {
+    var el = field.getEl().down('input[type=file]').dom;
+    el.addEventListener('change', App.service.Polygon.uploadShapefile, false);
   },
 
   onEdit: function () {

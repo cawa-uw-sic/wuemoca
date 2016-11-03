@@ -226,6 +226,21 @@
             "path": "${app.dir}/resources/js/ol.js"
         },
         {
+            "path": "${app.dir}/resources/js/proj4.js"
+        },
+        {
+            "path": "${app.dir}/resources/js/jszip.js"
+        },
+        {
+            "path": "${app.dir}/resources/js/jszip-utils.js"
+        },
+        {
+            "path": "${app.dir}/resources/js/preprocess.js"
+        },
+        {
+            "path": "${app.dir}/resources/js/preview.js"
+        },
+        {
             "path": "${app.dir}/app.constants.js"
         },
         {

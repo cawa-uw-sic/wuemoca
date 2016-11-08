@@ -698,7 +698,7 @@ i18n.mapSelection ={
     };
 
     i18n.polygon = {
-          showPolygon             : 'Show my Polygons',
+          showPolygon             : 'My Polygons',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',

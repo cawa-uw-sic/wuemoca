@@ -119,7 +119,6 @@ Ext.define('App.view.Main', {
       listeners: {
         collapse: 'onHidePolygon',
         expand: 'onShowPolygon'
-
       }
     }
   ]

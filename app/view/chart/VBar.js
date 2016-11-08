@@ -12,9 +12,9 @@ Ext.define('App.view.chart.VBar', {
 
   animate: true,
 
-  width: 300,
+  //width: ((__Global.year.Max - __Global.year.Min)+1)*40,
 
-  height: 240,
+  //height: 250,
   reference: 'chart'
 
 });

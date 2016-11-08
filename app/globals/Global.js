@@ -44,9 +44,10 @@ var __Global = {
   geoserverWorkspace : 'wuemoca_v3',
 
   chart: {
-    Width: 450,
+    Width: 600,
     Height: 350,
-    MaxBars: 10
+    //MaxBars: 10,
+    BarWidth: 36
   }
 
 };

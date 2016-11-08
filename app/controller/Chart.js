@@ -11,13 +11,13 @@ Ext.define('App.controller.Chart', {
     console.log('from controller');
   },
 
-  onPrev: function () {
+  /*onPrev: function () {
     App.service.Chart.prev();
   },
 
   onNext: function () {
     App.service.Chart.next();
-  },
+  },*/
 
   onExcel: function () {
     App.service.Helper.JSONToCSVConvertor();
@@ -27,17 +27,22 @@ Ext.define('App.controller.Chart', {
     //window.open();
     var chart = this.lookupReference('chart');
     //chart.store.setData(App.service.Chart.data);
+    //var oldwidth = chart.getWidth();
+    //chart.setWidth(((__Global.year.Max - __Global.year.Min)+1)*40);
     //chart.redraw();
-
-    if (Ext.os.is.Desktop) {
-        chart.download({
-            filename: 'chart.png'
-        });
-    } else {
-        chart.preview();
-    }
-    //App.service.Chart.loadData();
-    //chart.redraw();
+    //chart.axes[1].setVisibleRange([0,1]);
+    //setTimeout(function() {
+      if (Ext.os.is.Desktop) {
+          chart.download({
+            filename: chart.up().up().getTitle().replace(/ /g,"_"),
+            scale: 1.5
+          });
+      } else {
+          chart.preview();
+      }
+      //App.service.Chart.loadData();
+      //chart.setWidth(oldwidth);
+    //}, 600);
   }
 
 });

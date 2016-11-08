@@ -88,13 +88,13 @@
   line-height: 15px !important;
   padding: 5px 10px !important;
 }
-.x-legend{
-  padding: 0px 5px 0px 5px !important;
-}
+/*.x-legend .x-legend-panel .x-panel-body{
+  overflow: hidden !important;
+}*/
 .x-legend-container{
   border: 0 none;
-  width: 430px;
-  overflow: hidden;
+  /*width: 650px;
+  overflow: hidden !important;*/
 }
 .x-legend-item{
   border-left: 0 none !important;

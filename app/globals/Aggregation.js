@@ -2,7 +2,7 @@ var __Aggregation = [
 
   {
     id: 'admin',
-    enName: 'Administration',
+    enName: 'Administrative units',
     ruName: 'Админиcтративные объекты',
     isDefault: true,
     items: [
@@ -31,7 +31,7 @@ var __Aggregation = [
 
   {
     id: 'water',
-    enName: 'Water User Units',
+    enName: 'Hydrographic units',
     ruName: 'Объекты водопользователей',
     items: [
       {

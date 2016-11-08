@@ -14,12 +14,13 @@ Ext.define('App.view.chart.StackedVBar', {
   animate: true,
 
   legend: {
-    docked: 'bottom'
+    docked: 'bottom',
+    width: (((__Global.year.Max - __Global.year.Min)+1) * __Global.chart.BarWidth) - 5
   },
 
-  width: 300,
+  //width: ((__Global.year.Max - __Global.year.Min)+1)*40,
 
-  height: 240,
+  //height: 250,
   reference: 'chart'
 
 });

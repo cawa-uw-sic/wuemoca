@@ -260,7 +260,7 @@ Ext.define('App.service.Polygon', {
         var polygon = self.all[self.getSelectedIndex()];
         polygon.data = results;
         self.saveAll();
-        alert('Indicators of ' +  polygon.info.name + ' calculated successfully');
+        alert(polygon.info.name + ': indicators calculated successfully!');
         self.showChartWindow();
       }
     });

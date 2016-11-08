@@ -111,7 +111,15 @@ __Chart.VBar = {
       type: 'category',
       position: 'bottom',
       fields: [ x ],
-      title: ''
+      title: '',
+      label: {
+        font: {
+          fontSize: '9px'              
+        }
+      },
+      style: {
+          textPadding: -10
+      }
       //visibleRange: [0.5,1]
     }];
   },
@@ -158,8 +166,16 @@ __Chart.StackedVBar = {
       type: 'category',
       position: 'bottom',
       fields: [ x ],
-      title: ''
-      //visibleRange: [0.5,1]
+      title: '',
+      label: {
+        font: {
+          fontSize: '9px'               
+        }
+      },
+      style: {
+          textPadding: -10
+      }   
+      //visibleRange: [1 - (__Global.chart.MaxBars/((__Global.year.Max - __Global.year.Min)+1)),1]
     }];
   },
 

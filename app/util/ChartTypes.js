@@ -26,6 +26,7 @@ Ext.define('App.util.ChartTypes', {
       items: [
         {
            xtype  : 'app-chart-vbar',
+           //width: 446,
            store  : App.service.Chart.stores.defaults,
            axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum),
            series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color, indicator.decimals)

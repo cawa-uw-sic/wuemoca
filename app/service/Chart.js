@@ -18,7 +18,7 @@ Ext.define('App.service.Chart', {
 
   maxData: 0,
 
-  startFrom: (__Global.year.Max - __Global.year.Min) - (__Global.chart.MaxBars - 1),
+  //startFrom: (__Global.year.Max - __Global.year.Min) - (__Global.chart.MaxBars - 1),
 
   maxBars: __Global.chart.MaxBars,
 
@@ -120,19 +120,19 @@ Ext.define('App.service.Chart', {
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', crop);
     }    
-    var data_selection = [];
+    //var data_selection = [];
     self.data.map(function (rec, i) {
       if (parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       }      
-      if (i < self.startFrom || data_selection.length > self.maxBars - 1) return false;
-      return data_selection.push(rec);
+      //if (i < self.startFrom || data_selection.length > self.maxBars - 1) return false;
+      //return data_selection.push(rec);
     });
-    //self.stores.defaults.setData(self.data);
-    self.stores.defaults.setData(data_selection);
+    self.stores.defaults.setData(self.data);
+    //self.stores.defaults.setData(data_selection);
   },
 
-  prev: function () {
+  /*prev: function () {
     if (this.startFrom <= 0) return false;
     this.startFrom -= 1;
     this.loadData();
@@ -142,7 +142,7 @@ Ext.define('App.service.Chart', {
     if (this.startFrom > (this.data.length - 1 - this.maxBars)) return false;
     this.startFrom += 1;
     this.loadData();
-  },
+  },*/
 
   export2Excel: function(){
     var indicator = App.service.Watcher.getIndicator();

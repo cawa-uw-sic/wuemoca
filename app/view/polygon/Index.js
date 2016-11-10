@@ -24,8 +24,7 @@ Ext.define('App.view.polygon.Index', {
       text: i18n.polygon.activate,
       iconCls: 'x-fa fa-edit',
       handler: 'onActivate',
-      itemId: 'polygon-btn-activate',
-      disabled: !__LocalDB.get('Selections.UserPolygon', false)
+      itemId: 'polygon-btn-activate'
     },{
       text: i18n.polygon.deactivate,
       iconCls: 'x-fa fa-lock',
@@ -61,18 +60,6 @@ Ext.define('App.view.polygon.Index', {
       handler: 'onCalculate',
       itemId: 'polygon-btn-calculate',
       disabled: true
-    /*},{
-      text: 'Show Chart',
-      iconCls: 'x-fa fa-bar-chart',
-      handler: 'onShowChart',
-      itemId: 'polygon-btn-chart',
-      disabled: true
-    },{
-      text: i18n.polygon.exportExcel,
-      iconCls: 'x-fa  fa-file-excel-o',
-      handler: 'onExcel',
-      itemId: 'polygon-btn-excel',
-      disabled: true */
     },{
       text: i18n.polygon.remove,
       iconCls: 'x-fa  fa-remove',

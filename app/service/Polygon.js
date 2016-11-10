@@ -71,7 +71,6 @@ Ext.define('App.service.Polygon', {
     App.service.Watcher.set('UserPolygon', val);
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
-
     if (val == false){
       this.selectControl.getFeatures().clear();
       this.drawControl.setActive(false);
@@ -79,17 +78,18 @@ Ext.define('App.service.Polygon', {
       this.whenUnselect();
       this.windowChart.close();
       this.windowEdit.close();
+      App.service.Map.setMainTitle();
     }
     else{
       App.service.Chart.window.close();
-      //App.service.Highlight.clear();
-
       App.service.Status.set(' ');
       App.service.Helper.getComponentExt('app-switcher').expand();
     }
     App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
+    App.service.Map.setMainTitle();
+    App.service.Yearslider.didRender();
   },
 
   activate: function () {

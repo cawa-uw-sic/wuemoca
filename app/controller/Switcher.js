@@ -148,6 +148,19 @@ Ext.define('App.controller.Switcher', {
 
   loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
+  },
+
+  onShapefile: function(){
+    var aggregation = App.service.Watcher.get('Aggregation');
+    var requesturl = __Global.urls.Mapserver + 'wfs?' +
+      'request=getfeature&' +
+      'version=2.0.0&' +
+      'outputformat=shape-zip&' +
+      'service=wfs&' +
+      'format_options=CHARSET:UTF-8&' +
+      'typename=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
+       
+    window.open(requesturl, 'download_shp');
   }
 
 });

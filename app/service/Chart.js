@@ -20,7 +20,7 @@ Ext.define('App.service.Chart', {
 
   //startFrom: (__Global.year.Max - __Global.year.Min) - (__Global.chart.MaxBars - 1),
 
-  maxBars: __Global.chart.MaxBars,
+  //maxBars: __Global.chart.MaxBars,
 
   userPolygon: false,
 

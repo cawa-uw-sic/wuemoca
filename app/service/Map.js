@@ -37,6 +37,7 @@ Ext.define('App.service.Map', {
         self.loadAdminLayer();
         self.setMainTitle();
         self.setLegend();
+        self.setShapefileBtntext();
       }
     }
   },
@@ -123,16 +124,17 @@ Ext.define('App.service.Map', {
   },
 
   setMainTitle: function () {
+    var userPolygon = App.service.Watcher.get('UserPolygon');
     var panel = App.service.Helper.getComponentExt('map-container');
     if (panel.isVisible()) {
       var indicator = App.service.Watcher.getIndicator();
       var aggregation = App.service.Watcher.getAggregation();
-      var title = aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' ';
-      if (!!indicator.years) {
-        title += App.service.Watcher.get('Year');
+      var title = '';
+      if (!userPolygon){
+        title += aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map;
       }
-      else if (!!indicator.yearsPrefix) {
-        title += __Global.year.Min + '-' + __Global.year.Max;
+      else{
+        title += 'My Polygons';
       }
       if (indicator[__Global.Lang + 'NameShort']){
         title += ': ' + indicator[__Global.Lang + 'NameShort'];       
@@ -141,6 +143,14 @@ Ext.define('App.service.Map', {
         title += ': ' + indicator[__Global.Lang + 'Name'];
       }
       if (!!indicator.crops) title += ' ' + i18n.product._of + ' ' + App.service.Helper.getCropName();
+      if (!userPolygon){
+        if (!!indicator.years) {
+          title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
+        }
+        else if (!!indicator.yearsPrefix) {
+          title += ' ' + __Global.year.Min + '-' + __Global.year.Max;
+        }
+      }
 
       panel.setTitle(title);
     }
@@ -169,6 +179,13 @@ Ext.define('App.service.Map', {
       function(feature, layer) {
         return feature;
       }
+    );
+  },
+  
+  setShapefileBtntext: function(){
+    var aggregation = App.service.Watcher.getAggregation();
+    App.service.Helper.getComponentExt('app-switcher-btn-shapefile').setText(
+      'Download ' + aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' as Shapefile'
     );
   },
 

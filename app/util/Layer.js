@@ -1,5 +1,5 @@
 var LayerParams = {
-  Irrigation  : __Global.geoserverWorkspace + ':ca_irrigation_mask_smooth',
+  Irrigation  : __Global.geoserverWorkspace + ':ca_irr_area_geom',
   Country     : __Global.geoserverWorkspace + ':ca_country_geom',
   Channel     : __Global.geoserverWorkspace + ':channel_geom',
   Aggreg      : __Global.geoserverWorkspace + ':ca_{aggreg}',

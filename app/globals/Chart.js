@@ -90,7 +90,6 @@ __Chart.HBar = {
       }
     }];
   }
-
 };
 
 __Chart.VBar = {
@@ -145,7 +144,6 @@ __Chart.VBar = {
       }
     }];
   }
-
 };
 
 __Chart.StackedVBar = {

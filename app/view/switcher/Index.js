@@ -69,6 +69,7 @@ Ext.define('App.view.switcher.Index', {
       items:[
           { xtype: 'app-switcher-cb-unit'        }
          ,{ xtype: 'app-switcher-cb-aggregation' }
+         ,{ xtype: 'button', itemId: 'app-switcher-btn-shapefile', text: '', handler: 'onShapefile' }
       ]
     }
   ]

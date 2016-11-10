@@ -30,7 +30,8 @@ Ext.define('App.service.Yearslider', {
     var indicator = App.service.Watcher.getIndicator();
     var slider = App.service.Helper.getComponentExt('yearslider-slider');
     var minMax = this.getMinMax();
-    if (!indicator.years){
+    var userPolygon = App.service.Watcher.get('UserPolygon');
+    if (!indicator.years || userPolygon){
       return App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
     }
     slider.setMaxValue(minMax.max);

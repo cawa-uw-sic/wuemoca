@@ -29,8 +29,7 @@ var __Global = {
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
-    Wua           : api + 'searchWUAs.jsp?' + langParam,
-    PrintChart    : api + 'getChartValues.jsp?' + langParam
+    Wua           : api + 'searchWUAs.jsp?' + langParam
   },
 
   urls: {
@@ -44,7 +43,7 @@ var __Global = {
   geoserverWorkspace : 'wuemoca_v3',
 
   chart: {
-    Width: 600,
+    //Width: 600,
     Height: 350,
     //MaxBars: 10,
     BarWidth: 36

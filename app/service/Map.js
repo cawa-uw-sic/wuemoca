@@ -151,7 +151,6 @@ Ext.define('App.service.Map', {
           title += ' ' + __Global.year.Min + '-' + __Global.year.Max;
         }
       }
-
       panel.setTitle(title);
     }
   },
@@ -159,10 +158,10 @@ Ext.define('App.service.Map', {
   changeYear: function () {
     this.setMainTitle();
     return App.util.Layer.current
-              .getSource()
-              .updateParams({
-                'cql_filter': 'year=' + App.service.Watcher.get('Year')
-              });
+      .getSource()
+      .updateParams({
+        'cql_filter': 'year=' + App.service.Watcher.get('Year')
+      });
   },
 
   getUrl: function (e, allYears) {
@@ -181,7 +180,7 @@ Ext.define('App.service.Map', {
       }
     );
   },
-  
+
   setShapefileBtntext: function(){
     var aggregation = App.service.Watcher.getAggregation();
     App.service.Helper.getComponentExt('app-switcher-btn-shapefile').setText(
@@ -211,9 +210,6 @@ Ext.define('App.service.Map', {
     return image_src;
   },
 
- /* getLegendTitle: function () {
-    return App.service.Watcher.getIndicator()[ __Global.Lang + 'Name' ];
-  },*/
   getLegendTitle: function(withUnit){
     var legend_title = '';
     var indicator = App.service.Watcher.getIndicator();

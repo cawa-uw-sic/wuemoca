@@ -1,5 +1,7 @@
 var server = 'https://wuemoca.geographie.uni-wuerzburg.de/';
 var api = server + 'mvc-backend/';
+var documents = server + 'wuemoca/documents/';
+var glossaryName = 'glossary_wuemoca_vers2';
 var lang = locale;
 var langParam = 'lang=' + lang;
 
@@ -35,9 +37,12 @@ var __Global = {
   urls: {
     Server        : server,
     Mapserver     : server + 'geoserver/',
-    Documents     : server + 'wuemoca/documents/',
-    Faq           : server + 'wuemoca/documents/glossary_wuemoca_vers2.htm',
-    Impressum     : server + 'wuemoca/documents/Impressum.pdf'
+    Glossary      : documents + glossaryName + '.htm',
+    GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
+    Faq           : 'bme00040.htm',
+    Intro         : 'bme00001.htm',
+    Impressum     : documents + 'Impressum.pdf',
+    Manual        : documents + 'Manual.pdf'
   },
 
   geoserverWorkspace : 'wuemoca_v3',

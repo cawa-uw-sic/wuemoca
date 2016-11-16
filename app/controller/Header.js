@@ -18,12 +18,22 @@ Ext.define('App.controller.Header', {
     location.reload();
   },
 
-  onContact: function () {
+  onImpressum: function () {
     window.open(__Global.urls.Impressum, 'impressum');
   },
 
-  onFAQ: function () {
-    window.open(__Global.urls.Faq, 'faq');
+  onFaq: function () {
+    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
+    App.service.Helper.openGlossaryFrame(__Global.urls.Faq);
+  },
+
+  onGlossary: function () {
+    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
+   App.service.Helper.openGlossaryFrame(__Global.urls.Intro);
+  },
+
+  onManual: function () {
+    window.open(__Global.urls.Manual, 'manual');
   },
 
   onFeedback: function () {

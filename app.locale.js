@@ -28,11 +28,13 @@ var i18n = {
     questionnaire_url       : 'https://de.surveymonkey.com/r/RMVQ267',
     feedback                : 'Feedback',
     about                   : 'About',
+	help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
+    impressum               : 'Imprint',
+    manual                  : 'User Manual',
     faq                     : 'Frequently asked questions',
-    glossary: 'Glossary',
-    glossary_tooltip: 'Definitions and explanations',
+    glossary                : 'Glossary',
     univer                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg'
   },
 
@@ -398,8 +400,11 @@ switch (locale){
       contact               : 'Контакты',
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
-      glossary: 'Glossary',
-      glossary_tooltip: 'Definitions and explanations',
+	  help                    : 'Help and Info',
+	impressum               : 'Imprint',
+	manual                  : 'User Manual',
+	faq                     : 'Frequently asked questions',
+	glossary                : 'Glossary',
       univer                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга'
     };
 

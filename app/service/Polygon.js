@@ -170,8 +170,6 @@ Ext.define('App.service.Polygon', {
       App.service.Status.set('Selected polygon: ' + name);
       this.showChartWindow();
     }
-
-
   },
 
   registerPolygon: function (geometry) {
@@ -330,7 +328,6 @@ Ext.define('App.service.Polygon', {
     });
     return result.join(',');
   },
-
 
   uploadShapefile: function (event) {
     loadshp({

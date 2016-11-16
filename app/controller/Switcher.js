@@ -152,12 +152,19 @@ Ext.define('App.controller.Switcher', {
 
   onShapefile: function(){
     var aggregation = App.service.Watcher.get('Aggregation');
+    var propertyname = '';
+    var field_array = App.service.Helper.getExportFields(false);
+    field_array.map(function (field) {
+      propertyname += field + ',';
+    });
+
     var requesturl = __Global.urls.Mapserver + 'wfs?' +
       'request=getfeature&' +
       'version=2.0.0&' +
       'outputformat=shape-zip&' +
       'service=wfs&' +
       'format_options=CHARSET:UTF-8&' +
+      'propertyname=' + propertyname + 'geom&' +      
       'typename=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
        
     window.open(requesturl, 'download_shp');

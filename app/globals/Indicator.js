@@ -20,7 +20,8 @@ var __Indicator = [
     median         : 1575,
     maximum        : 2500,
     chart          : false,
-    decimals       : 0
+    decimals       : 0,
+    glossary: 'bme00057.htm'
     //color          : '#e6550d'
  /* }, {
     id             : 'firb',
@@ -78,7 +79,8 @@ var __Indicator = [
     median         : [1050, 300, 325, 125, 263, 125, 50, 38, 60, 15],
     maximum        : [5500, 2850, 2925, 2410, 2275, 2800, 300, 646, 715, 218],
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
-        decimals       : 0
+        decimals       : 0,
+    glossary: 'bme00057.htm'
  /* }, {
     id             : 'firf_state',
     field          : 'idx_sta',
@@ -157,7 +159,8 @@ var __Indicator = [
     maximum        : [220, 100, 100, 100, 100, 100, 100, 100, 100, 100],
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
     legendcolors   : [['#fee0d2','#fc9272','#de2d26'],['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']] , 
-        decimals       : 1
+        decimals       : 1,
+    glossary: 'bme00057.htm'
   /*}, {
     id             : 'uir_state',
     field          : 'idx_sta_irr',
@@ -195,7 +198,8 @@ var __Indicator = [
     ruLegend       : ['Хлопок', 'Пшеница'],    
     median         : [[129, 306, 560, 923, 1475, 2577, 11907], [173, 408, 783, 1373, 2271, 3758, 15555]],
     chart          : 'Defaults',
-        decimals       : 0
+        decimals       : 0,
+    glossary: 'bme00057.htm'
   }, {
     id             : 'yield',
     field          : 'yield_{crop}',
@@ -216,7 +220,8 @@ var __Indicator = [
     median         : [[1.46, 1.73, 2, 2.39, 2.94, 3.6, 25.5], [1.84, 2.27, 2.66, 3.09, 3.53, 4.06, 8.74]],
     chart          : 'Defaults',
     legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c'],
-        decimals       : 1
+        decimals       : 1,
+    glossary: 'bme00057.htm'
   /*}, {
     id             : 'intensity',
     field          : 'double_percent',
@@ -257,7 +262,8 @@ var __Indicator = [
     chart          : 'Defaults',
     color          : '#b29972',
     legendcolors   : ['#F1F6F2','#B29972','#3B5441'],
-        decimals       : 1
+    decimals       : 1,
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'majority',
     field          : 'majority',
@@ -275,9 +281,10 @@ var __Indicator = [
     enLegend       : ['Predominant crop type'],
     ruLegend       : ['Преобладающий тип урожая'],
     croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'other', 'orchard', 'garden'],
-    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Double season', 'Other crops', 'Orchard/Vineyard', 'Urban Garden'],
-    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'Double season', 'Другие культуры', 'фруктовый сад/Виноградник', 'Urban Garden'],
-    chart          : 'Multiannual'
+    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crops', 'Other crops', 'Orchard/Vineyard', 'Urban Garden'],
+    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'Wheat/Other crops', 'Другие культуры', 'фруктовый сад/Виноградник', 'Urban Garden'],
+    chart          : 'Multiannual',
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'rotation',
     field          : 'rotation',
@@ -297,7 +304,8 @@ var __Indicator = [
     median         : 3.4,
     maximum        : 6,
     chart          : 'Multiannual',
-    legendcolors   : ['#732A06','#e6550d', '#FCEEE6']
+    legendcolors   : ['#732A06','#e6550d', '#FCEEE6'],
+    glossary: 'bme00057.htm'
   }, {
     id             : 'frequency',
     field          : 'frequency',
@@ -317,7 +325,8 @@ var __Indicator = [
     median         : 6.7,
     maximum        : 16,
     chart          : 'Multiannual',
-    legendcolors   : ['#EAF5E9','#33a02c', '#195016']
+    legendcolors   : ['#EAF5E9','#33a02c', '#195016'],
+    glossary: 'bme00057.htm'
   }
 
 ];

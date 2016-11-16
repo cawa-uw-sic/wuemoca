@@ -26,7 +26,7 @@ Ext.define('App.view.legend.Window', {
   border: false,
   width: 300,
   height: 300,
-  x: Ext.getBody().getWidth() - 755,
+  x: Ext.getBody().getWidth() - 650,
   y: 10,
   initCenter: false,
   collapsed: false,

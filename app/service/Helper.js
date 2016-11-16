@@ -125,6 +125,27 @@ Ext.define('App.service.Helper', {
     return cropName;
   },
 
+  openGlossaryFrame: function(frame){
+    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
+    /*insert in head section of index.html of Glossary on Server (here: glossary_wuemoca_vers2.htm):
+      <script language="javascript">
+      var fname="content";     //MAIN CONTENT AREA FRAME **NAME**
+
+      window.onload=function(){
+      var d=document.location.search;
+      if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length);
+      }
+      </script>
+    */
+    var link = document.createElement("a");    
+    link.style = "visibility:hidden";
+    link.href = __Global.urls.GlossaryBase + frame;
+    link.target = 'glossary';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);    
+  },
+
   JSONToCSVConvertor: function () {
     //http://jsfiddle.net/JXrwM/5298/
     var userPolygon = App.service.Chart.userPolygon;
@@ -135,46 +156,24 @@ Ext.define('App.service.Helper', {
       
       var CSV = '';    
       var row = '';
-      
 
-      var indicator_fields = [];   
       if (!userPolygon){ 
         var aggregation = App.service.Watcher.get('Aggregation');
         var aggregation_id = aggregation + '_id';
-        /*if (aggregation == 'wua' || aggregation == 'command'){
-          aggregation_id = 'gid';
-        }*/
-        indicator_fields.push(aggregation_id);
-        indicator_fields.push(aggregation + '_' + __Global.Lang);
-        indicator_fields.push('area_ha');
         var object_id = arrData[0][aggregation_id];
       }  
       else{
         var polygon = App.service.Polygon.all[App.service.Polygon.getSelectedIndex()];
-      }     
-      indicator_fields.push('year');
-      __Indicator.map(function (indicator) {
-        if (indicator.chart != 'Multiannual'){
-          var field = indicator.field;
-          if (!!indicator.crops){
-            indicator.crops.map(function(crop){
-              var fieldcopy = field;
-              indicator_fields.push(fieldcopy.replace('{crop}', crop));
-            });
-          }
-          else{
-            indicator_fields.push(field);
-          }
-        }        
-      });  
+        row += 'area_ha;';
+      }  
+
+      var indicator_fields = this.getExportFields(userPolygon);   
+
       //change order of arrData with selection of fields
       //http://jsfiddle.net/drndW/    
       var sortedData = JSON.parse(JSON.stringify( arrData, indicator_fields , 4));
-
+ 
       //This loop will extract the label from 1st index of on array
-      if (userPolygon){      
-        row += 'area_ha;';
-      }
       for (var index in sortedData[0]) {
         //Now convert each value to string and semicolon-separated
         row += index + ';';
@@ -264,7 +263,34 @@ Ext.define('App.service.Helper', {
     else{
       alert('First press ' + i18n.polygon.calculate + '!');
     }
-  }
+  },
 
+  getExportFields: function (userPolygon) {
+    var indicator_fields = [];
+    if (!userPolygon){ 
+      var aggregation = App.service.Watcher.get('Aggregation');
+      var aggregation_id = aggregation + '_id';
+      indicator_fields.push(aggregation_id);
+      indicator_fields.push(aggregation + '_' + __Global.Lang);
+      indicator_fields.push('area_ha');
+    }  
+  
+    indicator_fields.push('year');
+    __Indicator.map(function (indicator) {
+      if (indicator.chart != 'Multiannual'){
+        var field = indicator.field;
+        if (!!indicator.crops){
+          indicator.crops.map(function(crop){
+            var fieldcopy = field;
+            indicator_fields.push(fieldcopy.replace('{crop}', crop));
+          });
+        }
+        else{
+          indicator_fields.push(field);
+        }
+      }        
+    });
+    return indicator_fields;
+  }
 
 });

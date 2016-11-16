@@ -142,3 +142,12 @@
 .x-form-item-label-top > .x-form-item-label-inner {
   padding-bottom: 0px !important;
 }
+.x-form-text-wrap {
+    position: relative;
+}
+
+.x-form-field-overlay {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+}

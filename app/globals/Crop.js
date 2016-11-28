@@ -11,5 +11,5 @@ var __CropColors = {
   maize		   : '#33a02c',
   veg        : '#6a3d9a',
   sun        : '#CCAA00',
-  sum        : '#33a02c'
+  sum        : '#DE2D26'
 };

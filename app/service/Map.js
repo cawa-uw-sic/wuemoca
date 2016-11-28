@@ -7,6 +7,7 @@ Ext.define('App.service.Map', {
   initialize: function () {
     if (!this.instance) {
       this.instance = new ol.Map({
+        //loadTilesWhileInteracting: true,
         view: App.util.Layer.olView,
         layers: App.util.Layer.background
       });
@@ -111,7 +112,7 @@ Ext.define('App.service.Map', {
 
   getLayerName: function () {
     var layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation');
-    if (App.service.Watcher.getIndicator().yearsPrefix) layerName += '_no_years';
+    if (App.service.Watcher.getIndicator().yearsPrefix) layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_no_years';
     return layerName;
   },
 

@@ -7,9 +7,9 @@ Ext.define('App.service.Highlight', {
     if (features.length > 0) {
       features[0].geometry.coordinates.map(function (polygon) {
         polygon[0] = polygon[0].map(function (point) {
-          if (!!App.service.Watcher.getIndicator().yearsPrefix){
+          //if (!!App.service.Watcher.getIndicator().yearsPrefix){
             point = ol.proj.transform(point, 'EPSG:4326', 'EPSG:3857');
-          }
+          //}
           return point;
         })
         var feature = new ol.Feature({

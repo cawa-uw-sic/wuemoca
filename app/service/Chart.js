@@ -55,9 +55,11 @@ Ext.define('App.service.Chart', {
       params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
       success: function (results) {
         self.isBusy = false;
-        self.dataResponse(results.features);
-        App.service.Highlight.display(results.features);
-        self.showWindow();
+        if (results.features.length > 0){
+          self.dataResponse(results.features);
+          App.service.Highlight.display(results.features);
+          self.showWindow();
+        }
         App.service.Polygon.windowChart.close();
       }
     });

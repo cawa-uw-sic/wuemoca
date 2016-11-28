@@ -18,8 +18,17 @@ Ext.define('App.util.ChartTypes', {
       color = __CropColors[App.service.Watcher.get('Crop')];
     }
     var maximum = NaN;
-    if (App.service.Chart.maxData < 10){
-      maximum = 10;
+    var threshold = 10;
+    var decimals = 0;
+    if (indicator.id == 'yield'){
+      threshold = 6;
+    }
+    if (indicator.id == 'diversity'){
+      maximum = 1;
+      decimals = 1;
+    }
+    else if (App.service.Chart.maxData < threshold){
+      maximum = threshold;
     }
 
     return Ext.create('App.view.chart.FPanel', {
@@ -28,7 +37,7 @@ Ext.define('App.util.ChartTypes', {
            xtype  : 'app-chart-vbar',
            //width: 446,
            store  : App.service.Chart.stores.defaults,
-           axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum),
+           axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum, decimals),
            series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color, indicator.decimals)
         }
       ]
@@ -133,7 +142,7 @@ Ext.define('App.util.ChartTypes', {
           html: majority[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].majority - 1],
           cls: 't-center t-bigger majority-landuse'
         },{
-          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '">',         
+          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '" style="height:50px;width:50px;">',         
           cls: 't-center majority-landuse-img'
         },{
           layout: {

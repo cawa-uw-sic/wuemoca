@@ -94,7 +94,7 @@ __Chart.HBar = {
 
 __Chart.VBar = {
 
-  getAxes: function (x, y, measure, maximum) {
+  getAxes: function (x, y, measure, maximum, decimals) {
     return [{
       type: 'numeric',
       position: 'left',
@@ -104,7 +104,7 @@ __Chart.VBar = {
       title: false,
       grid: true,
       renderer: function (axis, value) {
-        return parseFloat(value).toFixed(0) + ' ' + measure;
+        return parseFloat(value).toFixed(decimals) + ' ' + measure;
       }
     }, {
       type: 'category',

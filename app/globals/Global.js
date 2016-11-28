@@ -20,12 +20,12 @@ var __Global = {
   },
 
   year: {
-    Max           : 2015,
+    Max           : 2016,
     Min           : 2000
   },
 
   api: {
-    Polygon       : api + 'calculatePolygon_v3.jsp?',
+    Polygon       : api + 'calculatePolygon_v4.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,

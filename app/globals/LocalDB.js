@@ -15,7 +15,7 @@ var __LocalDB = {
     if (typeof val == 'object') val = JSON.stringify(val);
     if (attr.indexOf('.') >= 0) {
       attr = attr.split('.');
-      var result = this.get(attr[0], '{}');
+      var result = this.get(attr[0], {});
       result[attr[1]] = val;
       return localStorage.setItem(attr[0], JSON.stringify(result));
     }

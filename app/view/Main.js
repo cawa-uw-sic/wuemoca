@@ -90,7 +90,8 @@ Ext.define('App.view.Main', {
       items: [
         { xtype: 'app-map', anchor: '100% 100%' },
         { xtype: 'app-legend-window'},
-        { xtype: 'app-legend-button'}
+        { xtype: 'app-legend-button'},
+        { xtype: 'app-satellite-button' }
       ],
 
       bbar: Ext.create('Ext.ux.StatusBar', {

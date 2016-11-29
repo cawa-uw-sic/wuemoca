@@ -17,12 +17,16 @@ Ext.define('App.controller.Main', {
     App.service.Helper.getComponentExt('legend-window').show();
   },
 
-  onShowPolygon: function(){
+  onShowPolygon: function () {
     App.service.Polygon.switchView(true);
   },
 
-  onHidePolygon: function(){
+  onHidePolygon: function () {
     App.service.Polygon.switchView(false);
+  },
+
+  onSatelliteBtn: function () {
+    BackgroundLayers.satellite.setVisible(!BackgroundLayers.satellite.getVisible())
   }
 
 });

@@ -26,7 +26,7 @@ Ext.define('App.controller.Main', {
   },
 
   onSatelliteBtn: function () {
-    BackgroundLayers.satellite.setVisible(!BackgroundLayers.satellite.getVisible())
+    BackgroundLayers.satellite.setVisible(!BackgroundLayers.satellite.getVisible());
   }
 
 });

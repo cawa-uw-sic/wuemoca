@@ -117,11 +117,11 @@ Ext.define('App.util.Layer', {
   background: [
      BackgroundLayers.ocm
     ,BackgroundLayers.osm
+    ,BackgroundLayers.satellite
     ,BackgroundLayers.irrigation
     ,BackgroundLayers.country
     ,BackgroundLayers.channel
     ,BackgroundLayers.highlight
-    ,BackgroundLayers.satellite
   ],
 
   overview: [

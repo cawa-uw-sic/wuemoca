@@ -139,6 +139,11 @@
   bottom: auto !important;
 }
 
+#satellite-button {
+  left: 10px;
+  bottom: 10px;  
+}
+
 .x-form-item-label-top > .x-form-item-label-inner {
   padding-bottom: 0px !important;
 }

@@ -8,6 +8,16 @@ var LayerParams = {
 };
 
 var BackgroundLayers = {
+
+  satellite: new ol.layer.Tile({
+    preload: Infinity,
+    visible: false,
+    source: new ol.source.BingMaps({
+      key: 'AmlVh-kGlvEqlwjR_MtTKkdwxKSDwhkzsfzcbnmCedxGE_5oBZECnZ3MRXCKH-vb',
+      imagerySet: 'AerialWithLabels'
+    })
+  }),
+
   ocm: new ol.layer.Tile({
     visible: true,
     maxResolution: 200,
@@ -107,6 +117,7 @@ Ext.define('App.util.Layer', {
   background: [
      BackgroundLayers.ocm
     ,BackgroundLayers.osm
+    ,BackgroundLayers.satellite
     ,BackgroundLayers.irrigation
     ,BackgroundLayers.country
     ,BackgroundLayers.channel

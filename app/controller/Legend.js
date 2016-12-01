@@ -4,7 +4,7 @@ Ext.define('App.controller.Legend', {
   alias: 'controller.legend',
 
   onIrrigationExtent: function (el, val) {
-    App.util.Layer.background[2].setVisible(val);
+    BackgroundLayers.irrigation.setVisible(val);
     App.util.Layer.irrigVisible = val;
     App.service.Watcher.set('IrrigationExtent', val);
   },
@@ -19,7 +19,7 @@ Ext.define('App.controller.Legend', {
   },
 
   onOpacityIrrigation: function (el, val) {
-    App.util.Layer.background[2].setOpacity(val / 100);
+    BackgroundLayers.irrigation.setOpacity(val / 100);
   },
 
   onOpacityCurrent: function (el, val) {

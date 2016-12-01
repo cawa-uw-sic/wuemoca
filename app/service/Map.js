@@ -88,6 +88,8 @@ Ext.define('App.service.Map', {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
 
+    var year_filter = false;
+
     var params = {
       LAYERS: self.getLayerName(),
       TRANSPARENT: true,
@@ -95,7 +97,35 @@ Ext.define('App.service.Map', {
       STYLES: self.getLayerStyles()
     };
 
-    if (yearIncluded) params['cql_filter'] = 'year=' + App.service.Watcher.get('Year');
+
+
+    if (yearIncluded) {
+      year_filter = 'year=' + App.service.Watcher.get('Year');
+    } 
+
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter'); 
+    var CQLfilter = '';
+    if (!!aoi_filter){
+      CQLfilter = aoi_filter;
+    }
+    else{
+      App.service.Helper.clearZoomCombos();
+    }
+
+    if (CQLfilter != ''){
+      if (!!year_filter) {
+        CQLfilter += ' and ' + year_filter;
+      }
+    }
+    else{
+      if (!!year_filter) {
+        CQLfilter += year_filter;
+      }     
+    }
+    if (CQLfilter != ''){
+      console.log('2 getlayersource CQLfilter: ' + CQLfilter);
+      params['cql_filter'] = CQLfilter;
+    }
 
     var opts = {
       url: __Global.urls.Mapserver + 'wms?',
@@ -158,10 +188,20 @@ Ext.define('App.service.Map', {
 
   changeYear: function () {
     this.setMainTitle();
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    var CQLfilter = (!!aoi_filter) ? aoi_filter : '';
+    var year_filter = 'year=' + App.service.Watcher.get('Year');
+    if (CQLfilter != ''){
+      CQLfilter += ' and ' + year_filter;
+    }
+    else{
+      CQLfilter += year_filter;
+    }
+
     return App.util.Layer.current
       .getSource()
       .updateParams({
-        'cql_filter': 'year=' + App.service.Watcher.get('Year')
+        'cql_filter': CQLfilter
       });
   },
 
@@ -267,6 +307,74 @@ Ext.define('App.service.Map', {
 
   getLegendMedianStyle: function () {
     return (App.service.Watcher.getIndicator().id == 'majority') ? '135%' : '150%';
+  },
+
+  filterAreaOfInterest: function(aoi, id){
+    var aoi_filter = false;
+    if (id != '0'){
+      if (isNaN(id)){
+        aoi_filter = aoi + "_id='" + id + "'";
+      }
+      else{
+        aoi_filter = aoi + "_id=" + id;        
+      }
+    }
+    App.service.Watcher.set('Aoi_Filter', aoi_filter);
+    if (aoi_filter == false){
+      App.service.Helper.clearZoomCombos();
+    }
+    var CQLfilter = !!aoi_filter ? aoi_filter : '';
+
+    var year_filter = false;
+    if (!!App.service.Watcher.getIndicator().years) {
+      year_filter = 'year=' + App.service.Watcher.get('Year');
+    } 
+
+    if (CQLfilter != ''){
+      if (!!year_filter) {
+        CQLfilter += ' and ' + year_filter;
+      }
+    }
+    else{
+      if (!!year_filter) {
+        CQLfilter += year_filter;
+      }     
+    }
+    if (CQLfilter == ''){
+     App.util.Layer.current
+      .getSource()
+      .updateParams({
+        'cql_filter': null
+      });     
+    }
+    else {
+      console.log('3 filterAreaOfInterest CQLfilter: ' + CQLfilter);
+    App.util.Layer.current
+      .getSource()
+      .updateParams({
+        'cql_filter': CQLfilter
+      });
+    }
+    /*var map = this.instance;
+
+    map.removeLayer(App.util.Layer.areaOfInterest);
+    App.util.Layer.areaOfInterest = new ol.layer.Image({
+      opacity: 1,
+      visible: true,
+      source: new ol.source.ImageWMS({
+        url: __Global.urls.Mapserver + 'wms?',
+        params: {
+          //v3:
+          LAYERS: __Global.geoserverWorkspace + ':ca_' + aoi + '_geom',            
+          TRANSPARENT: true,
+          FORMAT: 'image/png',
+          CQL_FILTER: aoi + '_id = ' + id,
+          //v3:
+          STYLES: 'ca_area_of_interest'
+        }
+      })
+    });
+    map.addLayer(App.util.Layer.areaOfInterest);*/
   }
 
 });

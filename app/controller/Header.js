@@ -49,8 +49,13 @@ Ext.define('App.controller.Header', {
   },
 
   onPilot: function (country, oblast, rayon, buis, uis, wua) {
-    //clear zoom comboboxes
-    App.service.Watcher.set('Country', null);
+    //undefined error
+    if (Ext.getStore('oblast').count() > 0){
+      App.service.Watcher.set('Country', null);
+    }
+    else{
+      App.service.Watcher.set('Country', country);
+    }
     App.service.Watcher.set('Oblast', null);
     App.service.Watcher.set('Rayon', null);
     App.service.Watcher.set('Buis', null);

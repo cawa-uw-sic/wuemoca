@@ -46,7 +46,7 @@ var __Indicator = [
     maximum        : [8286, 4230, 4152, 2650, 3756, 3288, 996, 1560, 1548, 469],
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
     decimals       : 0,
-    glossary: 'bme00057.htm'
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'uiri',
     field          : 'uiri_{crop}',
@@ -66,12 +66,12 @@ var __Indicator = [
     mapType        : 'colored',
     enLegend       : ['All crops', 'Cotton', 'Wheat', 'Rice', 'Other Crop', 'Orchard/Vineyard', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],
     ruLegend       : ['All crops', 'хлопок', 'пшеница', 'рис', 'Other Crop', 'фруктовый сад/Виноградник', 'Urban Garden', 'Maize', 'Vegetable', 'Sunflower'],    
-    median         : [82, 17, 26, 4, 16, 3, 3, 4, 5, 1],
-    maximum        : [145, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+    median         : [90, 17, 26, 4, 16, 3, 3, 4, 5, 1],
+    maximum        : [200, 100, 100, 100, 100, 100, 100, 100, 100, 100],
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
     legendcolors   : [['#fee0d2','#fc9272','#de2d26'],['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']] , 
     decimals       : 1,
-    glossary: 'bme00057.htm'
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'pirf',
     field          : 'pirf_{crop}',
@@ -92,7 +92,7 @@ var __Indicator = [
     median         : [[87,270,591,1135,2044,3624,13182], [106,353,761,1421,2511,4371,16691]],
     chart          : 'Defaults',
     decimals       : 0,
-    glossary: 'bme00057.htm'
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'yield',
     field          : 'yield_{crop}',
@@ -114,7 +114,7 @@ var __Indicator = [
     chart          : 'Defaults',
     legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c'],
     decimals       : 1,
-    glossary: 'bme00057.htm'
+    glossary       : 'bme00057.htm'
   }, {
     id             : 'fallow',
     field          : 'fallow_percent',
@@ -161,7 +161,7 @@ var __Indicator = [
     legendcolors   : ['#d7191c','#ffffbf', '#2c7bb6'],
     color          :'#989800',
     decimals       : 2,
-    glossary: 'bme00057.htm'   
+    glossary       : 'bme00057.htm'   
   }, {
     id             : 'majority',
     field          : 'majority',

@@ -14,7 +14,9 @@ Ext.define('App.service.Watcher', {
 
   onChange: function (obj) {
     if (obj.attr == 'Year') return App.service.Map.changeYear();
-    App.service.Map.loadLayer();
+    if (obj.attr != 'Unit') {
+      App.service.Map.loadLayer();
+    }
   },
 
   getIndicator: function () {

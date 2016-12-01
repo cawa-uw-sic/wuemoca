@@ -13,13 +13,13 @@ Ext.define('App.view.zoom.Index', {
     'App.view.zoom.CbRayon',
     'App.view.zoom.CbBuis',
     'App.view.zoom.CbUis',
-    'App.view.zoom.CbWua',
+    'App.view.zoom.CbWua'
 
-    'App.view.zoom.BtnOblast',
+    /*'App.view.zoom.BtnOblast',
     'App.view.zoom.BtnRayon',
     'App.view.zoom.BtnBuis',   
     'App.view.zoom.BtnUis',
-    'App.view.zoom.BtnWua'
+    'App.view.zoom.BtnWua'*/
   ],
 
   xtype: 'app-zoom',
@@ -29,25 +29,27 @@ Ext.define('App.view.zoom.Index', {
   controller: 'zoom',
 
   layout: {
-    type: 'hbox'
+    type: 'vbox',
+    pack: 'start',
+    align: 'stretch'
   },
 
   title: i18n.adminFilters.title,
 
   bodyPadding: '10 5 0 10',
-  defaults: {
+  /*defaults: {
     layout: {
       type: 'vbox',
       align: 'stretch'
     }
-  },
+  },*/
 
   items: [
     //comboboxes within containers
-    {
-      flex: 3,
-      items: [
-        { xtype: 'app-zoom-cb-country', margin: '0 5 5 5', labelWidth: 60 },
+    //{
+      //flex: 3,
+      //items: [
+        { xtype: 'app-zoom-cb-country', margin: '0 5 5 5', labelWidth: 65 },
         {
           xtype: 'container',
           margin: '0 5 0 0',
@@ -58,7 +60,7 @@ Ext.define('App.view.zoom.Index', {
             align: 'stretch'
           },
           defaults:  {
-            labelWidth: 60
+            labelWidth: 65
           },
           items:[
              { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
@@ -74,16 +76,17 @@ Ext.define('App.view.zoom.Index', {
           align: 'stretch'
         },
           defaults:  {
-            labelWidth: 60
+            labelWidth: 65
           },
         items:[
            { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
            { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }]
       },
 
-      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' }]
-    },
-    //buttons
+      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' }
+      //]
+   // }
+   /* //buttons
     {
       flex: 1,
       items: [
@@ -93,6 +96,6 @@ Ext.define('App.view.zoom.Index', {
        { xtype: 'app-zoom-btn-uis', margin: '4 0 0 0' },
        { xtype: 'app-zoom-btn-wua', margin: '30 0 0 0' }
      ]
-   }
+   }*/
   ]
 });

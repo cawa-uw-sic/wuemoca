@@ -7,7 +7,7 @@ Ext.define('App.view.legend.Button', {
 
   id: 'legend-button',
 
-  text: 'Legend',
+  text: i18n.settings.legend,
   height: 50,
 
   handler: 'onLegendBtn'

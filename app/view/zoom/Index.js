@@ -13,7 +13,9 @@ Ext.define('App.view.zoom.Index', {
     'App.view.zoom.CbRayon',
     'App.view.zoom.CbBuis',
     'App.view.zoom.CbUis',
-    'App.view.zoom.CbWua'
+    'App.view.zoom.CbWua',
+
+    'App.view.zoom.BtnPilot'
 
     /*'App.view.zoom.BtnOblast',
     'App.view.zoom.BtnRayon',
@@ -43,7 +45,12 @@ Ext.define('App.view.zoom.Index', {
       align: 'stretch'
     }
   },*/
-
+    header: {
+      height: 44,
+      padding: '5 10 5 10',
+      items: [
+       { xtype: 'button', text: i18n.filter.reset, padding: 0, handler: 'resetFilter'}
+    ]},
   items: [
     //comboboxes within containers
     //{
@@ -83,7 +90,8 @@ Ext.define('App.view.zoom.Index', {
            { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }]
       },
 
-      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' }
+      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' },
+      { xtype: 'app-zoom-btn-pilot',  margin: '5 5 0 0' }
       //]
    // }
    /* //buttons

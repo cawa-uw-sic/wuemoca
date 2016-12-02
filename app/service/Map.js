@@ -355,26 +355,6 @@ Ext.define('App.service.Map', {
         'cql_filter': CQLfilter
       });
     }
-    /*var map = this.instance;
-
-    map.removeLayer(App.util.Layer.areaOfInterest);
-    App.util.Layer.areaOfInterest = new ol.layer.Image({
-      opacity: 1,
-      visible: true,
-      source: new ol.source.ImageWMS({
-        url: __Global.urls.Mapserver + 'wms?',
-        params: {
-          //v3:
-          LAYERS: __Global.geoserverWorkspace + ':ca_' + aoi + '_geom',            
-          TRANSPARENT: true,
-          FORMAT: 'image/png',
-          CQL_FILTER: aoi + '_id = ' + id,
-          //v3:
-          STYLES: 'ca_area_of_interest'
-        }
-      })
-    });
-    map.addLayer(App.util.Layer.areaOfInterest);*/
   }
 
 });

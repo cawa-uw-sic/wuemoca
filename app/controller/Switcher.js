@@ -32,8 +32,8 @@ Ext.define('App.controller.Switcher', {
   onUnit: function (cb, val) {
    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
-
-      if (aoi_filter.indexOf('country') < 0) { 
+      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
         console.log('1 onUnit: aoi_filter: false');
       }
@@ -45,15 +45,13 @@ Ext.define('App.controller.Switcher', {
   onAggregation: function (cb, val) {
    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
-
-      if (((val == 'wua' || val == 'rayon' || val == 'oblast') && aoi_filter.indexOf('oblast') >= 0)
-        || ((val == 'uis' || val == 'buis') && aoi_filter.indexOf('buis') >= 0)
-        || (aoi_filter.indexOf('country') >= 0)) { 
-          console.log('1 onAggregation val: ' + val + ' , aoi_filter: ' + aoi_filter);
-      }
-      else{
+      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
         console.log('1 onAggregation val: ' + val + ', aoi_filter: false');
+      }
+      else{
+        console.log('1 onAggregation val: ' + val + ' , aoi_filter: ' + aoi_filter);
       }
     }
 

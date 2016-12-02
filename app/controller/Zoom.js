@@ -179,6 +179,37 @@ Ext.define('App.controller.Zoom', {
         { id: 'switcher-cb-aggregation', selection: 'Aggregation' }
       ]);
     }
+  },
+  
+  resetFilter: function(button, e){
+    App.service.Map.filterAreaOfInterest('','0');
+    //do not collapse/expand accordion panel
+    e.stopPropagation();
+  },
+
+  onPilot: function (country, oblast, rayon, buis, uis, wua) {
+    //undefined error
+    if (Ext.getStore('oblast').count() > 0){
+      App.service.Watcher.set('Country', null);
+    }
+    else{
+      App.service.Watcher.set('Country', country);
+    }
+    App.service.Watcher.set('Oblast', null);
+    App.service.Watcher.set('Rayon', null);
+    App.service.Watcher.set('Buis', null);
+    App.service.Watcher.set('Uis', null);
+    App.service.Watcher.set('Wua', null);
+    App.service.Helper.setComponentsValue([{ id: 'zoom-cb-country', selection: 'Country' }]);
+    //set values
+    App.service.Watcher.set('Country', country);
+    App.service.Watcher.set('Oblast', oblast);
+    App.service.Watcher.set('Rayon', rayon);
+    App.service.Watcher.set('Buis', buis);
+    App.service.Watcher.set('Uis', uis);
+    App.service.Watcher.set('Wua', wua);
+
+    App.service.Helper.setComponentsValue([{ id: 'zoom-cb-country', selection: 'Country' }]);
   }
 
 });

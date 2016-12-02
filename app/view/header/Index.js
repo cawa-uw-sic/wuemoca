@@ -11,7 +11,7 @@ Ext.define('App.view.header.Index', {
     'App.view.header.UniLogo',
     'App.view.header.SicLogo',
     'App.view.header.Title',
-    'App.view.header.Pilot',
+    //'App.view.header.Pilot',
     'App.view.header.IntroWindowButton',
     //'App.view.header.Feedback',
     'App.view.header.Help',
@@ -39,7 +39,7 @@ Ext.define('App.view.header.Index', {
      { xtype: 'app-header-cawalogo' }
     ,{ xtype: 'app-header-ffologo' }
     ,{ xtype: 'app-header-title'    }
-    ,{ xtype: 'app-header-pilot'  }
+    //,{ xtype: 'app-header-pilot'  }
     //,{ xtype: 'app-introwindow-button'  }
 
     ,'->'

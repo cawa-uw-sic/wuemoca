@@ -34,6 +34,25 @@ Ext.define('App.service.Watcher', {
     return App.service.Helper.getById(items, this.get('Aggregation'));
   },
 
+  getFilterAggregation: function(aggregation){
+    var filter = '';
+    __Aggregation.map(function (unit) {
+      if (unit.items) {
+        unit.items.map(function (item) {
+          if (item.id == aggregation){
+            filter = item.filter;
+          }
+        });          
+      }
+      else{
+        if (unit.id == aggregation){
+          filter = unit.filter;
+        }
+      }
+    });  
+    return filter; 
+  },
+
   activateFilters: function () {
     var indicators = __Indicator;
     for (var filter in __FilterSelection) {

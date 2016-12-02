@@ -11,20 +11,23 @@ var __Aggregation = [
         enName         : 'Province (Oblast)',
         ruName         : 'Область (Province)',
         enNameShort    : 'Province',
-        ruNameShort    : 'Область',       
+        ruNameShort    : 'Область',
+        filter: 'oblast',        
         isDefault      : true
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
         ruName         : 'Район (District)',
         enNameShort    : 'District',
-        ruNameShort    : 'Район'  
+        ruNameShort    : 'Район',
+        filter: 'oblast'  
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
         ruName         : 'АВП (Water User Association)',
         enNameShort    : 'WUA',
-        ruNameShort    : 'АВП'   
+        ruNameShort    : 'АВП' ,
+        filter: 'oblast'    
       }
     ]
   },
@@ -39,20 +42,23 @@ var __Aggregation = [
         enName         : 'BISA (Basin Irrig. System Admin.)',
         ruName         : 'БУИС (Basin Irrig. System Admin.)',
         enNameShort    : 'BISA',
-        ruNameShort    : 'БУИС',        
+        ruNameShort    : 'БУИС',
+        filter: 'buis' ,        
         isDefault      : true
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
         ruName         : 'УИС (Irrigation System Admin.)',
         enNameShort    : 'ISA',
-        ruNameShort    : 'УИС' 
+        ruNameShort    : 'УИС' ,
+        filter: 'buis'  
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
         ruName         : 'Командная площадь',
         enNameShort    : 'Comm. Area',
-        ruNameShort    : 'Comm. Area' 
+        ruNameShort    : 'Comm. Area' ,
+        filter: 'oblast'  
       }
     ]
   },
@@ -81,7 +87,8 @@ var __Aggregation = [
     enName: 'regular Raster',
     ruName: 'Регулярный растр',
     enNameShort    : 'reg. Raster',
-    ruNameShort    : 'reg. Raster',    
+    ruNameShort    : 'reg. Raster', 
+        filter: 'oblast',     
     tiled: true,
     items: false
   }

@@ -1,7 +1,7 @@
 window.locales = ['en', 'ru'];
 window.localesText = {
-  en: 'English',
-  ru: 'Русский'
+  en: 'Switch to<br>English',
+  ru: 'Переключиться<br>на Русский'
 };
 window.locale = localStorage.getItem('locale') || 'en';
 window.nextLocale = function () {
@@ -15,15 +15,15 @@ var i18n = {
     title                   : 'Information',
     text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).',
     attention               : 'Attention: incomplete test data!'
-
   },
 
   header: {
     wuemoca_long            : 'Water Use Efficiency Monitor in Central Asia',
     cawa_homepage           : 'CAWa project homepage',
+    introwindow             : 'Intro<br>Window',
     cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
-    ffo_homepage           : 'Federal Foreign Office of Germany',
-    ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',   
+    ffo_homepage            : 'Federal Foreign Office of Germany',
+    ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',   
     wuemoca_about           : 'About WUEMoCA',
     details                 : 'Details',
     questionnaire           : 'User questionnaire',
@@ -41,8 +41,8 @@ var i18n = {
   },
 
   pilot: {
-    text                    : 'Pilot<br>Areas',
-    tooltip                 : 'Zoom to Pilot Areas'
+    text                    : 'Select Pilot Area',
+    tooltip                 : 'Select Pilot Area'
   },
   fergana: {
     text                    : 'Fergana Province',
@@ -63,11 +63,12 @@ var i18n = {
   },
 
   filter: {
-    title                   : 'Map Controls'
+    title                   : 'Map Controls',
+          reset:'reset<br>filter'
   },
 
   adminFilters: {
-    title                   : 'Zoom to area of interest',
+    title                   : 'Select area of interest',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
@@ -209,6 +210,7 @@ mapSelection:{
   },
 
   settings: {
+    legend: 'Legend',
     title                   : 'Map Legend',
     opacity                 : 'set opacity',
     layerInfo               : 'get layer info',
@@ -253,13 +255,14 @@ mapSelection:{
 
   map: {
     title                   : 'Overview Map',
-    gsatellite              : 'Show Google Satellite',
+    onSatellite              : 'Switch on<br>Aerial map',
+    offSatellite              : 'Switch off<br>Aerial map',
     omap                    : 'Show Open Street Map'
   },
 
   chart: {
     title                   : 'Chart',
-    png                     : 'Chart as .png',
+    png                     : 'Chart as PNG',
     backbtn                 : 'back (year)',
     forwardbtn              : 'forward (year)',
     allYear                 : 'all available years',
@@ -393,6 +396,7 @@ switch (locale){
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
       cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
+      introwindow: 'Страница<br>Приветствия',
     ffo_homepage           : 'Federal Foreign Office of Germany',
     ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',       
       wuemoca_about         : 'О WUEMoCA',
@@ -417,8 +421,8 @@ switch (locale){
       tooltip               : 'Масштабировать до Ферганской области'
     };
     i18n.pilot = {
-      text                  : 'Pilot<br>Areas',
-      tooltip               : 'Zoom to Pilot Areas'
+      text                  : 'Select Pilot Area',
+      tooltip               : 'Select Pilot Area'
     };
 
     i18n.khorezm = {
@@ -438,7 +442,7 @@ switch (locale){
     };
 
     i18n.fergana = {
-      text                  : 'Ферганская< область',
+      text                  : 'Ферганская область',
       tooltip               : 'Масштабировать до Ферганской области'
     };
 
@@ -448,13 +452,14 @@ switch (locale){
     };
 
     i18n.filter = {
-      title                 : 'Поиск по карте'
+      title                 : 'Поиск по карте',
+      reset:'сброс<br>фильтра'
     };
 
     i18n.adminFilters = {
-      title                 : 'Увеличить до админ.границ',
+      title                 : 'выберите площадь интереса',
       country               : 'Страна',
-      country_empty:'Aral Sea Basin',
+      country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
       oblast_empty:'all provinces of country',
       rayon                 : 'Район',
@@ -599,6 +604,7 @@ i18n.mapSelection ={
     };
 
     i18n.settings = {
+            legend: 'Легенда',
       title                 : 'Легенда карты',
       opacity               : 'настроить прозрачность',
       layerInfo             : 'получить информацию о слое',
@@ -644,13 +650,14 @@ i18n.mapSelection ={
 
     i18n.map = {
       title                 : 'Обзор карты',
-      gsatellite            : 'Показать Google Satellite',
+      onSatellite            : 'включить<br>вид сверху',
+      offSatellite          :'выключить<br>вид сверху',
       omap                  : 'Показать Open Street Map'
     };
 
     i18n.chart = {
       title                 : 'График',
-      png                   : 'График как .png',
+      png                   : 'График как PNG',
       backbtn               : 'назад (год)',
       forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
@@ -774,16 +781,6 @@ i18n.mapSelection ={
   };
   i18n.alert = {
     ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может быть увеличение)'
-  };
-
-  i18n.fieldname = {
-    field_irr_area_name     : "irr_area_name_ru"  ,
-    field_rayon_name        : "rayon_name_ru" ,
-    field_wua_name          : "wua_name_ru"
-  };
-  i18n.tablename = {
-    table_irr_areas_name    : "ca_irr_areas_ru" ,
-    table_rayons_name       : "ca_rayons_ru"
   };
 
   break;

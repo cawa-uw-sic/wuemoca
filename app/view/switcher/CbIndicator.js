@@ -56,13 +56,13 @@ Ext.define('App.view.switcher.CbIndicator', {
   // this is required to make the items selectable.
   tpl: Ext.create('Ext.XTemplate',
       '<ul class="x-list-plain"><tpl for=".">',
-          '<li role="option" class="x-boundlist-item">{' + __Global.Lang + 'Name}</li>',
+          '<li role="option" class="x-boundlist-item">{' + __Global.Lang + 'Name} {' + __Global.Lang + 'Unit}</li>',
       '</tpl></ul>'
   ),
   // template for the content inside text field
   displayTpl: Ext.create('Ext.XTemplate',
       '<div><tpl for=".">',
-          '{' + __Global.Lang + 'Name}<a href="' + __Global.urls.GlossaryBase + '{glossary}" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 10px;"></i></a>',
+          '<a href="' + __Global.urls.GlossaryBase + '{glossary}" title="{' + __Global.Lang + 'Tooltip}" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 10px;"></i></a>{' + __Global.Lang + 'Name} {' + __Global.Lang + 'Unit}',
       '</tpl></div>'
   ), 
   valueField: 'id',

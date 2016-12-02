@@ -37,7 +37,7 @@ Ext.define('App.view.switcher.Index', {
     { 
       //indicator container
       xtype: 'container',
-      style:{backgroundColor:'#e0ebf3'},
+      style: {backgroundColor:'#e0ebf3'},
       layout: {
         type: 'vbox',
         align: 'stretch'
@@ -48,7 +48,7 @@ Ext.define('App.view.switcher.Index', {
       },  
       padding: '5',    
       items:[
-        { xtype: 'app-switcher-filter', style:{backgroundColor:'#e0ebf3'}},
+        { xtype: 'app-switcher-filter', style: {backgroundColor:'#e0ebf3'}},
         { xtype: 'app-switcher-cb-indicator'   }]
     },{ 
       //crop buttons

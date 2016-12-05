@@ -14,7 +14,6 @@ Ext.define('App.view.zoom.CbCountry', {
 
   store: {
     type: 'country'
-    //autoLoad: true
   },
 
   displayField: 'name',

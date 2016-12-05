@@ -66,6 +66,10 @@ Ext.define('App.controller.Header', {
     App.service.Watcher.set('Wua', wua);
 
     App.service.Helper.setComponentsValue([{ id: 'zoom-cb-country', selection: 'Country' }]);
+  },
+
+  onReport: function () {
+    App.service.Report.window.show();
   }
 
 });

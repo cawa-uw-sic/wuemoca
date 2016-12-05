@@ -6,6 +6,7 @@ Ext.define('App.view.header.Index', {
 
     'App.controller.Header',
 
+    'App.view.report.Button',
     'App.view.header.CawaLogo',
     'App.view.header.FfoLogo',    
     'App.view.header.UniLogo',
@@ -40,6 +41,7 @@ Ext.define('App.view.header.Index', {
     ,{ xtype: 'app-header-ffologo' }
     ,{ xtype: 'app-header-title'    }
     ,{ xtype: 'app-header-pilot'  }
+    ,{ xtype: 'app-report-button'  }
     //,{ xtype: 'app-introwindow-button'  }
 
     ,'->'

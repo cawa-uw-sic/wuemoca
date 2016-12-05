@@ -66,6 +66,40 @@ var i18n = {
     title                   : 'Map Controls'
   },
 
+  report: {
+    generate                : 'Generate report',
+    btnSubmit               : 'Generate',
+    typePattern             : 'Irrigation crop patterns',
+    typeHarvest             : 'Gross harvest',
+    typeYield               : 'Irrigation crop yields',
+
+    titlePattern            : 'Irrigation crop patterns in {object} area, growing season {year}',
+    titleHarvest            : 'Gross harvest Irrigation fields in {object} {year}',
+    titleYield              : 'Irrigation crop yields in {object} {year}',
+
+      nameTH                : 'Site (ISA and district)',
+      firbTH                : 'Irrigation area, gross',
+      firnTH                : 'Irrigation area, net',
+      idustrialTH           : 'Industrial crops',
+      totalTH               : 'Total',
+      cottonTH              : 'Cotton',
+      grainTH               : 'Grain',
+      wheatTH               : 'Wheat',
+      vegTH                 : 'Vegetables and cucurbits',
+      fodderTH              : 'Fodder crops',
+      perennialTH           : 'Perennial crops',
+      orchardTH             : 'Orchards',
+      grapesTH              : 'Grapes',
+      homesteadTH           : 'Homestead plots',
+      otherTH               : 'Other',
+      riceTH                : 'Rice',
+      fallowTH              : 'Fallow land',
+      haTH                  : 'ha',
+      tnTH                  : 'tn',
+      thaTH                 : 't/ha'
+
+  },
+
   adminFilters: {
     title                   : 'Zoom to area of interest',
     country                 : 'Country',
@@ -450,6 +484,39 @@ switch (locale){
     i18n.filter = {
       title                 : 'Поиск по карте'
     };
+
+    i18n.report = {
+      generate              : 'Получить отчет',
+      btnSubmit             : 'Вывести',
+      typePattern           : 'Размещение с/х культур',
+      typeHarvest           : 'Валовый сбор',
+      typeYield             : 'Урожайность',
+      titlePattern          : 'Размещение с/х культур на орошаемых землях за вегетацию по {object} {year}',
+      titleHarvest          : 'Валовый сбор по с/х культур на орошаемых землях по {object} {year}',
+      titleYield            : 'Урожайность по с/х культур на орошаемых землях по {object} {year}',
+
+      nameTH                : 'Объекты (УИС и районы)',
+      firbTH                : 'Орошаемая площадь, брутто',
+      firnTH                : 'Орошаемая площадь, нетто',
+      idustrialTH           : 'Технические культуры',
+      totalTH               : 'Всего',
+      cottonTH              : 'в т.ч Хлопок',
+      grainTH               : 'Зерновые',
+      wheatTH               : 'в т.ч Пшеница',
+      vegTH                 : 'Овощи и бахча',
+      fodderTH              : 'Кормовые',
+      perennialTH           : 'Многолетные насаждения',
+      orchardTH             : 'Сады',
+      grapesTH              : 'Винограды',
+      homesteadTH           : 'Приусадебные',
+      otherTH               : 'Прочие',
+      riceTH                : 'Рис',
+      fallowTH              : 'Неиспол.земли',
+      haTH                  : 'га',
+      tnTH                  : 'тонна',
+      thaTH                 : 'т/га'
+    };
+
 
     i18n.adminFilters = {
       title                 : 'Увеличить до админ.границ',

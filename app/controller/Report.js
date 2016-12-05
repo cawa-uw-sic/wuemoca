@@ -6,7 +6,6 @@ Ext.define('App.controller.Report', {
   onFormSubmit: function (el, form, val) {
     var vals = el.up().up().getValues();
     if (!vals.oblast && !vals.buis) return alert('Select province or buis!');
-    console.log(vals);
     App.service.Report.doRequest(vals);
     App.service.Report.window.close();
   },

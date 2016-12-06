@@ -46,6 +46,10 @@ Ext.define('App.controller.Header', {
 
   onIntroWindowBtn: function () {
     this.IntroWindow.show();
+  },
+
+  onReport: function () {
+    App.service.Report.window.show();
   }
 
 });

@@ -123,7 +123,6 @@ Ext.define('App.service.Map', {
       }     
     }
     if (CQLfilter != ''){
-      console.log('2 getlayersource CQLfilter: ' + CQLfilter);
       params['cql_filter'] = CQLfilter;
     }
 
@@ -341,19 +340,18 @@ Ext.define('App.service.Map', {
       }     
     }
     if (CQLfilter == ''){
-     App.util.Layer.current
-      .getSource()
-      .updateParams({
-        'cql_filter': null
-      });     
+      App.util.Layer.current
+        .getSource()
+        .updateParams({
+          'cql_filter': null
+        });     
     }
     else {
-      console.log('3 filterAreaOfInterest CQLfilter: ' + CQLfilter);
-    App.util.Layer.current
-      .getSource()
-      .updateParams({
-        'cql_filter': CQLfilter
-      });
+      App.util.Layer.current
+        .getSource()
+        .updateParams({
+          'cql_filter': CQLfilter
+        });
     }
   }
 

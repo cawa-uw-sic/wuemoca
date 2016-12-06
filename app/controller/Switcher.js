@@ -35,7 +35,6 @@ Ext.define('App.controller.Switcher', {
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
         && (aoi_filter.indexOf('country') < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
-        console.log('1 onUnit: aoi_filter: false');
       }
     }
     App.service.Watcher.set('Unit', val);
@@ -48,10 +47,6 @@ Ext.define('App.controller.Switcher', {
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
         && (aoi_filter.indexOf('country') < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
-        console.log('1 onAggregation val: ' + val + ', aoi_filter: false');
-      }
-      else{
-        console.log('1 onAggregation val: ' + val + ' , aoi_filter: ' + aoi_filter);
       }
     }
 

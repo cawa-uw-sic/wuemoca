@@ -7,7 +7,7 @@ Ext.define('App.view.satellite.Button', {
 
   id: 'satellite-button',
 
-  text: 'Satellite',
+  text: i18n.map.onSatellite,
   height: 50,
 
   handler: 'onSatelliteBtn'

@@ -47,7 +47,7 @@ Ext.define('App.view.polygon.Index', {
 
     },{
       xtype: 'label',
-      html: 'Click on a polygon<br>to activate<br>the buttons below'
+      html: 'Select a single polygon or multiple polygons with SHIFT key'
     },{
       text: i18n.polygon.edit,
       iconCls: 'x-fa fa-map-marker',

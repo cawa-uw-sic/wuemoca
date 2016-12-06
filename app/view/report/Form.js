@@ -7,7 +7,10 @@ Ext.define('App.view.report.Form', {
     'App.view.report.Radio',
     'App.view.zoom.CbCountry',
     'App.view.zoom.CbOblast',
-    'App.view.zoom.CbBuis'
+    'App.view.zoom.CbBuis',
+    'App.store.ReportCountry',
+    'App.store.ReportOblast',
+    'App.store.ReportBuis'  
   ],
 
   xtype: 'app-report-form',

@@ -34,7 +34,7 @@ Ext.define('App.controller.Polygon', {
   },
 
   onRemove: function () {
-    App.service.Polygon.removeSelectedPolygon();
+    App.service.Polygon.removeSelectedPolygons();
   },
 
   onFormSubmit: function (el, form, val) {

@@ -25,8 +25,15 @@ Ext.define('App.controller.Main', {
     App.service.Polygon.switchView(false);
   },
 
-  onSatelliteBtn: function () {
-    BackgroundLayers.satellite.setVisible(!BackgroundLayers.satellite.getVisible());
+  onSatelliteBtn: function (button, e) {
+    if (BackgroundLayers.satellite.getVisible()){
+      button.setText(i18n.map.onSatellite);
+      BackgroundLayers.satellite.setVisible(false);
+    }
+    else{
+      button.setText(i18n.map.offSatellite);
+      BackgroundLayers.satellite.setVisible(true);
+    }
   }
 
 });

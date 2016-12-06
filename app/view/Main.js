@@ -26,7 +26,8 @@ Ext.define('App.view.Main', {
     'App.view.yearslider.Index',
 
     'App.view.legend.Button',
-    'App.view.legend.Window'
+    'App.view.legend.Window',
+    'App.view.satellite.Button'
   ],
 
   controller: 'main',
@@ -62,13 +63,13 @@ Ext.define('App.view.Main', {
       defaults: {
         scrollable: 'vertical',
         listeners:{
-            expand: function(p, eOpts){
-              App.service.Watcher.set('Accordion', p.getItemId());
-            }
+          expand: function(p, eOpts){
+            App.service.Watcher.set('Accordion', p.getItemId());
+          }
         }
       },
       items: [
-         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-zoom'     }
+         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-zoom' }
         ,{ xtype: 'app-switcher' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-switcher' }
         ,{ xtype: 'app-overview' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-overview' }
       ]

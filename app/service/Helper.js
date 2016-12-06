@@ -124,6 +124,16 @@ Ext.define('App.service.Helper', {
     }
     return cropName;
   },
+  clearZoomCombos: function(){
+    //clear zoom comboboxes
+    /*App.service.Watcher.set('Country', null);
+    App.service.Watcher.set('Oblast', null);
+    App.service.Watcher.set('Rayon', null);
+    App.service.Watcher.set('Buis', null);
+    App.service.Watcher.set('Uis', null);
+    App.service.Watcher.set('Wua', null);*/
+    this.setComponentsValue([{ id: 'zoom-cb-country', value: null }]);
+  },
 
   openGlossaryFrame: function(frame){
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html

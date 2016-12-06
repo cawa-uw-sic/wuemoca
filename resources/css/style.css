@@ -156,3 +156,9 @@
     position: absolute;
     top: 0;
 }
+.x-tip{
+  background-color: #f0f0f0;
+}
+.x-tip-body{
+  color: #525252;
+}

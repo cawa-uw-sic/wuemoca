@@ -30,12 +30,28 @@ Ext.define('App.controller.Switcher', {
   },
 
   onUnit: function (cb, val) {
+   var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    if (!!aoi_filter){
+      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
+        App.service.Watcher.set('Aoi_Filter', false);
+      }
+    }
     App.service.Watcher.set('Unit', val);
     this.fillAggregations(cb.getSelection().get('items'), val);
   },
 
   onAggregation: function (cb, val) {
+   var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    if (!!aoi_filter){
+      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
+        App.service.Watcher.set('Aoi_Filter', false);
+      }
+    }
+
     App.service.Watcher.set('Aggregation', val);
+
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
     if (App.service.Watcher.get('UserPolygon', false) && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
   },
@@ -94,7 +110,6 @@ Ext.define('App.controller.Switcher', {
   },
 
   fillAggregations: function (aggregationData, unit) {
-
     var aggregationStore = Ext.getStore('aggregation');
 
     aggregationStore.removeAll();

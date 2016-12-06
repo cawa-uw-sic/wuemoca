@@ -186,7 +186,7 @@ Ext.define('App.service.Chart', {
       "&propertyname=" + propertyname + ",year" +
       "&filename=" + object_id + '_' + aggregation + "_" + filename + ".xls"; 
 
-      window.open(requesturl, 'download_excel');
+       window.open(requesturl, 'download_excel');
     }    
   }
 

@@ -457,7 +457,7 @@ switch (locale){
     };
 
     i18n.adminFilters = {
-      title                 : 'выберите площадь интереса',
+      title                 : 'Выберите площадь интереса',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',

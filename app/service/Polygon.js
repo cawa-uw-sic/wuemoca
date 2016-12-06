@@ -19,6 +19,8 @@ Ext.define('App.service.Polygon', {
   selected: false,
   isBusy: false,
 
+  progressBar: false,
+
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
   windowChart: Ext.create('App.util.Window'),
@@ -34,8 +36,6 @@ Ext.define('App.service.Polygon', {
     });
 
     self.layer.setMap(App.service.Map.instance);
-
-    //self.layer.setVisible(__LocalDB.get('Selections.UserPolygon', false));
 
     self.drawControl = new ol.interaction.Draw({ type: ('Polygon') });
 
@@ -53,7 +53,6 @@ Ext.define('App.service.Polygon', {
       if (e.selected.length < 1) return false;
       self.whenSelect(e);
     });
-
 
     self.drawControl.on('drawend', function (e) {
       self.registerPolygon(e.feature.getGeometry());
@@ -109,13 +108,21 @@ Ext.define('App.service.Polygon', {
   },
 
   getDefaultColor: function (feature) {
+    var fillColor = '';
+    var fillColorEmpty = 'rgba(127,205,187, 0.6)';
+    var fillColorCalculated = 'rgba(29,145,192, 0.6)';
+    if (feature.getProperties().data.length == 0){
+      fillColor = fillColorEmpty;
+    }
+    else{
+      fillColor = fillColorCalculated;      
+    }
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        //color: '#41b6c4'
-        color: 'rgba(65, 182, 196, 0.7)'
+        color: fillColor
       }),
       stroke: new ol.style.Stroke({
-        color: '#2b8cbe'
+        color: '#016c59'
       }),
       text: new ol.style.Text({
         text: feature.getProperties().name
@@ -124,10 +131,18 @@ Ext.define('App.service.Polygon', {
   },
 
   getSelectColor: function (feature) {
+    var fillColor = '';
+    var fillColorEmpty = 'rgba(255, 255, 255, 0.6)';
+    var fillColorCalculated = 'rgba(255,255,217, 0.6)';  
+    if (feature.getProperties().data.length == 0){
+      fillColor = fillColorEmpty;
+    }
+    else{
+      fillColor = fillColorCalculated;      
+    }      
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.7)'
-        //color: '#fff'
+        color: fillColor
       }),
       stroke: new ol.style.Stroke({
         color: '#4d004b'
@@ -139,37 +154,77 @@ Ext.define('App.service.Polygon', {
   },
 
   updateWindowEdit: function () {
-    var polygon = this.all[this.getSelectedIndex()];
-    App.service.Helper.setComponentsValue([
-       { id: 'exportui-name',       value: polygon.info.name     || '' }
-      ,{ id: 'exportui-location',   value: polygon.info.location || '' }
-      ,{ id: 'exportui-area',   value: polygon.totalArea + ' ha' || '' }
-    ]);
+    var polygons = this.getSelectedPolygons();
+    if (polygons.length == 1){
+      App.service.Helper.setComponentsValue([
+         { id: 'exportui-name',       value: polygons[0].info.name     || '' }
+        ,{ id: 'exportui-location',   value: polygons[0].info.location || '' }
+        ,{ id: 'exportui-area',   value: polygons[0].totalArea + ' ha' || '' }
+      ]);
+    }
   },
 
   whenUnselect: function (e) {
     App.service.Helper.disableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
     this.windowChart.close();
     this.windowEdit.close();
-    //if (!this.windowEdit.isHidden()) this.windowEdit.close();
   },
 
   whenSelect: function (e) {
     App.service.Chart.window.close();
-    this.selected = e.selected[0];
-    if (!this.windowEdit.isHidden()) this.updateWindowEdit();
-    var name = this.all[this.getSelectedIndex()].info.name;
-    if (name == ''){
+    if (e.deselected.length > 0 || !this.selected || this.selectControl.getFeatures().getLength() == 1){
+      this.selected = [];
+    }
+    this.selected.push(e.selected[0]);
+
+    var polygons = this.getSelectedPolygons();
+    var nameEmpty = false;
+    for (i = 0; i < polygons.length; ++i){
+      if (polygons[i].info.name == ''){
+        nameEmpty = true;
+        break;
+      }      
+    }
+    //no name
+    if (nameEmpty){
       this.windowChart.close();
-      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-remove']);
-      this.updateWindowEdit();
-      this.windowEdit.show();
+      //single polygon
+      if (polygons.length == 1){
+        App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-remove']);
+        this.updateWindowEdit();
+        this.windowEdit.show();        
+      }
+      //multiple polygons
+      else{
+        App.service.Helper.enableComponents(['polygon-btn-remove']);
+      }
     }
-    else{
-      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
-      App.service.Status.set('Selected polygon: ' + name);
-      this.showChartWindow();
+    //with name
+    else{ 
+      //single polygon
+      if (polygons.length == 1){
+        if (!this.windowEdit.isHidden()) this.updateWindowEdit();
+        var name = polygons[0].info.name;
+        App.service.Status.set('Selected polygon: ' + name);
+        //no data
+        if (polygons[0].data.length == 0){
+          alert('First press ' + i18n.polygon.calculate + '!');
+          App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
+        }
+        //calculated data
+        else{
+          App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-remove']);
+          this.showChartWindow();     
+        }
+      }
+      //multiple polygons
+      else{
+        this.windowChart.close(); 
+        this.windowEdit.close();
+        App.service.Helper.enableComponents(['polygon-btn-calculate', 'polygon-btn-remove']);             
+      }      
     }
+
   },
 
   registerPolygon: function (geometry) {
@@ -194,10 +249,18 @@ Ext.define('App.service.Polygon', {
     return feature;
   },
 
-  removeSelectedPolygon: function () {
-    this.all.splice(this.getSelectedIndex(), 1);
-    this.saveAll();
-    this.source.removeFeature(this.selected);
+  removeSelectedPolygons: function () {
+    var indices = this.getSelectedIndices();
+    for (i = 0; i < indices.length; ++i){
+      this.all.splice(indices[i], 1); 
+      if (indices[i+1]){
+        indices[i+1] -= i+1; 
+      }
+    }
+    this.saveAll(); 
+    for (i = 0; i < this.selected.length; ++i){
+      this.source.removeFeature(this.selected[i]);
+    }
     this.selectControl.getFeatures().clear();
     this.whenUnselect();
     this.selected = false;
@@ -206,7 +269,7 @@ Ext.define('App.service.Polygon', {
   },
 
   save: function (info) {
-    this.all[this.getSelectedIndex()].info = info;
+    this.getSelectedPolygons()[0].info = info;
     this.rerenderFeatures();
     this.saveAll();
   },
@@ -224,74 +287,154 @@ Ext.define('App.service.Polygon', {
     });
   },
 
-  getSelectedIndex: function () {
+  /*getSelectedIndex: function () {
     return this.all.map(function (d) {
       return d.uid;
     }).indexOf(this.selected.get('uid'));
+  },*/
+
+  getSelectedIndices: function () {
+    var indices = [];
+    for (a = 0; a < this.all.length; ++a) {
+      for (i = 0; i < this.selected.length; ++i) {
+        if (this.all[a].uid == this.selected[i].get('uid')){
+          indices.push(a);
+        }
+      }
+    }
+    return indices;
   },
+
+  getSelectedPolygons: function () {
+    var polygons = [];
+    for (a = 0; a < this.all.length; ++a) {
+      for (i = 0; i < this.selected.length; ++i) {
+        if (this.all[a].uid == this.selected[i].get('uid')){
+          polygons.push(this.all[a]);
+        }
+      }
+    }
+    return polygons;
+  },  
 
   calculate: function () {
-    var polygon = this.all[this.getSelectedIndex()];
-    if (polygon.data.length == 0){
-      var transformedGeometry = this.prepareRequestGeometry(polygon.geometry);
-      this.doRequest(transformedGeometry);
+    var self = this;
+    var polygons = self.getSelectedPolygons();
+    var sendRequest = false;
+    for (i = 0; i < polygons.length; ++i){
+      if (polygons[i].data.length == 0){
+        sendRequest = true;
+        break;
+      }      
+    }
+    if (sendRequest){
+      var index = 0;
+      if (polygons.length > 1){
+        self.progressBar = Ext.Msg.show({
+          title: 'Calculate Indicators',
+          msg: 'Calculating...',
+          progressText: 'Initializing...',
+          width: 300,
+          progress: true,
+          closable: false,
+          modal: false
+        });
+        self.progressBar.updateProgress(index, '0 %');
+      }
+
+      self.doRequest(index, polygons);
     }
     else{
-      alert('Indicators already calculated!');
+      alert('Indicators already calculated!');      
     }
   },
 
-  doRequest: function (geometry) {
+  doRequest: function (index, selectedPolygons) {
     var self = this;
-    self.isBusy = true;
-    Ext.getBody().setStyle('cursor','progress');
-    App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','progress');
-
-    Ext.data.JsonP.request({
-      url : __Global.api.Polygon + 'geometry=' + geometry,
-      callbackName: 'PolygonResponse',
-      params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
-      success: function (results) {
-        self.isBusy = false;
-        Ext.getBody().setStyle('cursor','auto');
-        App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','auto');
-        var polygon = self.all[self.getSelectedIndex()];
-        polygon.data = results;
-        self.saveAll();
-        alert(polygon.info.name + ': indicators calculated successfully!');
-        self.showChartWindow();
-      }
-    });
+    polygon = selectedPolygons[index];
+    if (polygon.data.length == 0){
+      self.isBusy = true;
+      Ext.getBody().setStyle('cursor','progress');
+      App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','progress');
+      var geometry = self.prepareRequestGeometry(polygon.geometry);
+      Ext.data.JsonP.request({
+        url : __Global.api.Polygon + 'geometry=' + geometry,
+        callbackName: 'PolygonResponse',
+        params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
+        success: function (results) {
+          polygon.data = results;
+          if (selectedPolygons.length == 1){
+            alert(polygon.info.name + ': indicators calculated successfully!');              
+            self.showChartWindow();
+          }
+        },
+        callback: function(results){
+          self.isBusy = false;
+          index++;
+          if (index < selectedPolygons.length){
+            if (self.progressBar){
+              self.progressBar.updateProgress(index/selectedPolygons.length, Math.round(100 * index/selectedPolygons.length) + ' %');
+            }
+            self.doRequest(index, selectedPolygons);
+          }
+          else{
+            Ext.getBody().setStyle('cursor','auto');
+            App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','pointer');
+            self.rerenderFeatures();
+            self.saveAll();
+            if (self.progressBar){
+              self.progressBar.close();
+            }
+          }
+        },
+        failure: function(results){
+          if (selectedPolygons.length == 1){
+            alert(polygon.info.name + ': indicator calculation failed! Try it again!');      
+          }
+        }
+      });
+    }
+    else{
+      index++;
+      if (index < selectedPolygons.length){
+        if (self.progressBar){
+          self.progressBar.updateProgress(index/selectedPolygons.length, Math.round(100 * index/selectedPolygons.length) + ' %');
+        }
+        self.doRequest(index, selectedPolygons);
+      }      
+    }
   },
 
   showChartWindow: function (){
     var self = this;
-    var polygon = self.all[self.getSelectedIndex()];
-    var indicator = App.service.Watcher.getIndicator();
-    var crop = App.service.Watcher.get('Crop');
-    if (polygon.data.length > 0) {
-      if (!!indicator.chart && indicator.chart != 'Multiannual'){
-        var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
-        self.windowChart.setTitle(title);
-        self.windowChart.removeAll();
-        App.service.Chart.dataResponse(polygon.data);
+    if (self.getSelectedPolygons().length == 1){
+      var polygon = self.getSelectedPolygons()[0];
+      var indicator = App.service.Watcher.getIndicator();
+      var crop = App.service.Watcher.get('Crop');
+      if (polygon.data.length > 0) {
+        if (!!indicator.chart && indicator.chart != 'Multiannual'){
+          var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
+          self.windowChart.setTitle(title);
+          self.windowChart.removeAll();
+          App.service.Chart.dataResponse(polygon.data);
 
-        if (typeof indicator.chart != 'object'){
-          self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+          if (typeof indicator.chart != 'object'){
+            self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+          }
+          else{
+            var idx = indicator.crops.indexOf(crop);
+            self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+          }
+          App.service.Chart.userPolygon = true;
+          return self.windowChart.show();
         }
-        else{
-          var idx = indicator.crops.indexOf(crop);
-          self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
-        }
-        App.service.Chart.userPolygon = true;
-        return self.windowChart.show();
+        self.windowChart.close();
+        alert('No chart available for selected indicator.');
       }
-      self.windowChart.close();
-      alert('No chart available for selected indicator.');
-    }
-    else{
-      self.windowChart.close();
-      alert('First press ' + i18n.polygon.calculate + '!');
+      else{
+        self.windowChart.close();
+        alert('First press ' + i18n.polygon.calculate + '!');
+      }
     }
   },
 

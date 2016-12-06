@@ -261,7 +261,7 @@ Ext.define('App.service.Map', {
     else{
       legend_title = indicator[__Global.Lang + 'Legend'][0];
     }
-    if (withUnit && indicator[__Global.Lang + 'Unit'] != '') {
+    if (withUnit && (indicator['chart'] != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '')) {
       legend_title += i18n.chart._in + indicator[__Global.Lang + 'Unit'];
     }
     return legend_title;

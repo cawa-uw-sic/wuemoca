@@ -88,7 +88,7 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
     App.service.Map.setMainTitle();
-    App.service.Yearslider.didRender();
+    //App.service.Yearslider.didRender();
   },
 
   activate: function () {
@@ -205,10 +205,10 @@ Ext.define('App.service.Polygon', {
       if (polygons.length == 1){
         if (!this.windowEdit.isHidden()) this.updateWindowEdit();
         var name = polygons[0].info.name;
-        App.service.Status.set('Selected polygon: ' + name);
+        App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
         //no data
         if (polygons[0].data.length == 0){
-          alert('First press ' + i18n.polygon.calculate + '!');
+          alert(i18n.polygon.pressCalculate);
           App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
         }
         //calculated data
@@ -331,9 +331,9 @@ Ext.define('App.service.Polygon', {
       var index = 0;
       if (polygons.length > 1){
         self.progressBar = Ext.Msg.show({
-          title: 'Calculate Indicators',
-          msg: 'Calculating...',
-          progressText: 'Initializing...',
+          title: i18n.polygon.progressTitle,
+          msg: i18n.polygon.progressMsg,
+          progressText: '',
           width: 300,
           progress: true,
           closable: false,
@@ -345,7 +345,7 @@ Ext.define('App.service.Polygon', {
       self.doRequest(index, polygons);
     }
     else{
-      alert('Indicators already calculated!');      
+      alert(i18n.polygon.alreadyCalculated);      
     }
   },
 
@@ -364,7 +364,7 @@ Ext.define('App.service.Polygon', {
         success: function (results) {
           polygon.data = results;
           if (selectedPolygons.length == 1){
-            alert(polygon.info.name + ': indicators calculated successfully!');              
+            alert(polygon.info.name + ': ' + i18n.polygon.success);  
             self.showChartWindow();
           }
         },
@@ -389,7 +389,7 @@ Ext.define('App.service.Polygon', {
         },
         failure: function(results){
           if (selectedPolygons.length == 1){
-            alert(polygon.info.name + ': indicator calculation failed! Try it again!');      
+            alert(polygon.info.name + ': ' + i18n.polygon.failure);      
           }
         }
       });
@@ -429,11 +429,11 @@ Ext.define('App.service.Polygon', {
           return self.windowChart.show();
         }
         self.windowChart.close();
-        alert('No chart available for selected indicator.');
+        //alert('No chart available for selected indicator.');
       }
       else{
         self.windowChart.close();
-        alert('First press ' + i18n.polygon.calculate + '!');
+        alert(i18n.polygon.pressCalculate);
       }
     }
   },

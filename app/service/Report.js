@@ -57,7 +57,7 @@ Ext.define('App.service.Report', {
     result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.idustrialTH + '</th>';
+    result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fodderTH + '</th>';
@@ -130,7 +130,7 @@ Ext.define('App.service.Report', {
     result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.idustrialTH + '</th>';
+    result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fodderTH + '</th>';
@@ -197,7 +197,7 @@ Ext.define('App.service.Report', {
     result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.idustrialTH + '</th>';
+    result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fodderTH + '</th>';

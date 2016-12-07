@@ -119,7 +119,6 @@ __Chart.VBar = {
       style: {
           textPadding: -10
       }
-      //visibleRange: [0.5,1]
     }];
   },
 
@@ -154,7 +153,6 @@ __Chart.StackedVBar = {
       position: 'left',
       fields: yFields,
       minimum: 0,
-      //maximum: maximum,
       title: false,
       grid: true,
       renderer: function (axis, value) {
@@ -173,7 +171,6 @@ __Chart.StackedVBar = {
       style: {
           textPadding: -10
       }   
-      //visibleRange: [1 - (__Global.chart.MaxBars/((__Global.year.Max - __Global.year.Min)+1)),1]
     }];
   },
 
@@ -190,22 +187,10 @@ __Chart.StackedVBar = {
         renderer: function (tooltip, record, item) {
             var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
                 crop = item.series.getTitle()[fieldIndex];
-
             tooltip.setHtml(crop + ': ' +
                 parseFloat(record.get(item.field)).toFixed(decimals) + ' ' + measure);
         }
-
-        /*function(storeItem, item) {
-          return this.getTooltip().update(
-            parseFloat(item.get(y)).toFixed(1) + ' ' + measure
-          );
-        }*/
       }
-     /* renderer: function(sprite, attr, record, index, store) {
-        return Ext.apply(attr, {
-          fill: color
-        });
-      }*/
     }];
   }
 

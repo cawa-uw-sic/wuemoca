@@ -152,8 +152,6 @@ Ext.define('App.controller.Zoom', {
     
   },
   setAggregationLevel: function (aggreg) {
-  //onBtnZoom: function (button, e) {
-    //var aggreg = button.getItemId().replace('zoom-btn-', '');
     var changeAggreg = true;
     var availableAggregations = App.service.Watcher.getIndicator().aggregation;
     if (typeof availableAggregations == 'object') {

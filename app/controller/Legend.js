@@ -13,7 +13,12 @@ Ext.define('App.controller.Legend', {
     App.util.Layer.current.setVisible(val);
     App.util.Layer.admin.setVisible(val);
     App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(val);
-    if (val == false){
+    var indicator = App.service.Watcher.getIndicator();
+    if (val && indicator.years){
+      App.service.Helper.showComponents(['app-yearslider', 'yearslider-btn-play']);
+    }
+    else{
+      App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
       App.service.Chart.window.close();
     }
   },

@@ -4,6 +4,8 @@ ext/
 packages/
 build/
 sass/
+sass/example/bootstrap.jsonp
+sass/example/bootstrap.json
 bootstrap.json
 bootstrap.jsonp
 build.xml

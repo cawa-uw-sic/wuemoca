@@ -7,7 +7,6 @@ Ext.define('App.service.Map', {
   initialize: function () {
     if (!this.instance) {
       this.instance = new ol.Map({
-        //loadTilesWhileInteracting: true,
         view: App.util.Layer.olView,
         layers: App.util.Layer.background
       });
@@ -32,8 +31,9 @@ Ext.define('App.service.Map', {
   loadLayer: function () {
     var self = this;
     var map = this.instance;
+
     if (App.service.Watcher.get('Indicator') && App.service.Watcher.get('Aggregation')) {
-      if (!App.util.Layer.current || !self.compareLayers()) {
+      if (!App.util.Layer.current || !self.compareLayers()){ 
         self.loadCurrentLayer();
         self.loadAdminLayer();
       }
@@ -70,12 +70,9 @@ Ext.define('App.service.Map', {
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           params: {
-            //LAYERS: 'wuemoca:ca_' + App.service.Watcher.get('Aggregation') + '_geom_' + __Global.Lang,
-            //v3:
             LAYERS: __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_geom',            
             TRANSPARENT: true,
             FORMAT: 'image/png',
-            //v3:
             STYLES: 'ca_' + App.service.Watcher.get('Aggregation') + '_' + __Global.Lang
           }
         })
@@ -260,7 +257,7 @@ Ext.define('App.service.Map', {
     else{
       legend_title = indicator[__Global.Lang + 'Legend'][0];
     }
-    if (withUnit && (indicator['chart'] != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '')) {
+    if (withUnit && (indicator['chart'] != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '-')) {
       legend_title += i18n.chart._in + indicator[__Global.Lang + 'Unit'];
     }
     return legend_title;

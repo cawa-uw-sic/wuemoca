@@ -13,8 +13,8 @@ var i18n = {
 
   info : {
     title                   : 'Information',
-    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).',
-    attention               : 'Attention: incomplete test data!'
+    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).'
+
   },
 
   header: {
@@ -68,7 +68,7 @@ var i18n = {
   },
 
   report: {
-    generate                : 'Generate report',
+    generate                : 'Generate<br>Report',
     btnSubmit               : 'Generate',
     typePattern             : 'Irrigation crop patterns',
     typeHarvest             : 'Gross harvest',
@@ -77,11 +77,12 @@ var i18n = {
     titlePattern            : 'Irrigation crop patterns in {object} area, growing season {year}',
     titleHarvest            : 'Gross harvest Irrigation fields in {object} {year}',
     titleYield              : 'Irrigation crop yields in {object} {year}',
+    alert: 'Select province or BISA!',
 
       nameTH                : 'Site (ISA and district)',
       firbTH                : 'Irrigation area, gross',
       firnTH                : 'Irrigation area, net',
-      idustrialTH           : 'Industrial crops',
+      industrialTH           : 'Industrial crops',
       totalTH               : 'Total',
       cottonTH              : 'Cotton',
       grainTH               : 'Grain',
@@ -321,7 +322,7 @@ mapSelection:{
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
     tableExcel              : 'Export all indicators to Excel',    
-    reportPdf               : 'Report as .pdf',
+    reportPdf               : 'Report as PDF',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
     selectOblasts           : 'Select Province (oblast)',
@@ -366,8 +367,15 @@ mapSelection:{
     upload                  : 'Upload Polygon',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
+          progressTitle : 'Calculate Indicators',
+          progressMsg: 'Aggregate to polygons...',
+          success : 'Indicators calculated successfully!',
+          failure: 'Indicator calculation failed! Try it again!',    
+          alreadyCalculated: 'Indicators already calculated!',      
     exportExcel: 'Export to EXCEL',
-    remove                  : 'Delete Polygon'
+    remove                  : 'Delete Polygon',
+    tooltip: 'Selected polygon',
+    pressCalculate: 'First press Calculate Indicators!'
   },
 
   exportUI: {
@@ -470,8 +478,7 @@ switch (locale){
 
     i18n.info = {
       title                 : 'Информация',
-      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).',
-      attention             : 'Внимание: не все данные протестированы!'
+      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).'
 
     };
 
@@ -491,7 +498,7 @@ switch (locale){
     };
 
     i18n.report = {
-      generate              : 'Получить отчет',
+      generate              : 'Получить<br>отчет',
       btnSubmit             : 'Вывести',
       typePattern           : 'Размещение с/х культур',
       typeHarvest           : 'Валовый сбор',
@@ -499,11 +506,11 @@ switch (locale){
       titlePattern          : 'Размещение с/х культур на орошаемых землях за вегетацию по {object} {year}',
       titleHarvest          : 'Валовый сбор по с/х культур на орошаемых землях по {object} {year}',
       titleYield            : 'Урожайность по с/х культур на орошаемых землях по {object} {year}',
-
+      alert: 'Select oblast or BUIS!',
       nameTH                : 'Объекты (УИС и районы)',
       firbTH                : 'Орошаемая площадь, брутто',
       firnTH                : 'Орошаемая площадь, нетто',
-      idustrialTH           : 'Технические культуры',
+      industrialTH           : 'Технические культуры',
       totalTH               : 'Всего',
       cottonTH              : 'в т.ч Хлопок',
       grainTH               : 'Зерновые',
@@ -794,8 +801,15 @@ i18n.mapSelection ={
       upload                : 'Загрузить полигон',
       edit                  : 'Редактировать',
       calculate             : 'Расчитать<br>значения',
+      progressTitle : 'Расчитать значения',
+                progressMsg: 'Aggregate to polygons...',
+                failure: 'Indicator calculation failed! Try it again!',
+                success : 'Indicators calculated successfully!', 
+                alreadyCalculated: 'Indicators already calculated!',              
           exportExcel: 'Export to EXCEL',
-      remove                : 'Удалить'
+      remove                : 'Удалить',
+    tooltip: 'Selected polygon',
+    pressCalculate: 'First press Расчитать значения!'
     };
 
     i18n.exportUI = {

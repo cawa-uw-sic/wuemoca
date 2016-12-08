@@ -21,6 +21,11 @@ Ext.define('App.service.Tooltip', {
       success: function (results) {
         self.showTooltip(e, results.features);
         self.createTimer();
+      },
+      failure: function (results) {
+        App.service.Status.set('');
+        self.createTimer();
+        console.log('parseHoverResponse failed');
       }
     });
   },
@@ -36,8 +41,6 @@ Ext.define('App.service.Tooltip', {
     this.tooltip.hide();
     if (features.length > 0) {
       var html = this.getFeatureHTML(features[0].properties);
-      //this.tooltip.update(html.title + '<br>' + html.content);
-      //this.tooltip.showAt([e.originalEvent.pageX + 10, e.originalEvent.pageY + 10]);
       App.service.Status.set('<b>' + html.title + ' - ' + html.content + '</b>');
     }
   },
@@ -53,7 +56,6 @@ Ext.define('App.service.Tooltip', {
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
-      //content = i18n.crop[ App.service.Watcher.get('Crop') ];
     }
 
     if (indicator.id == 'majority'){
@@ -61,7 +63,7 @@ Ext.define('App.service.Tooltip', {
     }
     else{
       content += ': ' + parseFloat(properties[yField]).toFixed(2);
-      if (indicator['chart'] != 'Multiannual'){
+      if (indicator['chart'] != 'Multiannual' && indicator[ __Global.Lang + 'Unit' ] != '-'){
         content += ' ' + indicator[ __Global.Lang + 'Unit' ];
       }
     }

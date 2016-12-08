@@ -25,10 +25,14 @@ Ext.define('App.controller.Main', {
     if (BackgroundLayers.satellite.getVisible()){
       button.setText(i18n.map.onSatellite);
       BackgroundLayers.satellite.setVisible(false);
+      BackgroundLayers.osm.setVisible(true);
+      BackgroundLayers.ocm.setVisible(true);
     }
     else{
       button.setText(i18n.map.offSatellite);
       BackgroundLayers.satellite.setVisible(true);
+      BackgroundLayers.osm.setVisible(false);
+      BackgroundLayers.ocm.setVisible(false);      
     }
   }
 

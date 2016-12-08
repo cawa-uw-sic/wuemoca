@@ -37,8 +37,8 @@ Ext.define('App.util.ChartTypes', {
            xtype  : 'app-chart-vbar',
            //width: 446,
            store  : App.service.Chart.stores.defaults,
-           axes   : __Chart.VBar.getAxes   ('year', yField, indicator[ __Global.Lang + 'Unit' ], maximum, decimals),
-           series : __Chart.VBar.getSeries ('year', yField, indicator[ __Global.Lang + 'Unit' ], color, indicator.decimals)
+           axes   : __Chart.VBar.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
+           series : __Chart.VBar.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
         }
       ]
     });
@@ -61,8 +61,8 @@ Ext.define('App.util.ChartTypes', {
         {
            xtype  : 'app-chart-stackedvbar',
            store  : App.service.Chart.stores.defaults, 
-           axes   : __Chart.StackedVBar.getAxes   ('year', yFields, indicator[ __Global.Lang + 'Unit' ]),
-           series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, indicator[ __Global.Lang + 'Unit' ], indicator.decimals)
+           axes   : __Chart.StackedVBar.getAxes   ('year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : '')),
+           series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), indicator.decimals)
         }
       ]
     });
@@ -142,8 +142,8 @@ Ext.define('App.util.ChartTypes', {
           html: majority[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].majority - 1],
           cls: 't-center t-bigger majority-landuse'
         },{
-          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '" style="height:50px;width:50px;">',         
-          cls: 't-center majority-landuse-img'
+          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '">',         
+          cls: 't-center majority-crop-img'
         },{
           layout: {
             type: 'hbox',

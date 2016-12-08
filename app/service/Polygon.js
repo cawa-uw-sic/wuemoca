@@ -328,6 +328,8 @@ Ext.define('App.service.Polygon', {
       }      
     }
     if (sendRequest){
+      //error if removing polygons directly after calculation
+      App.service.Helper.disableComponents(['polygon-btn-remove']);      
       var index = 0;
       if (polygons.length > 1){
         self.progressBar = Ext.Msg.show({

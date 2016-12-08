@@ -68,7 +68,8 @@ var i18n = {
   },
 
   report: {
-    generate                : 'Generate<br>Report',
+      generate_button              : 'Generate<br>Report',
+            generate_window              : 'Generate Report',  
     btnSubmit               : 'Generate',
     typePattern             : 'Irrigation crop patterns',
     typeHarvest             : 'Gross harvest',
@@ -498,7 +499,8 @@ switch (locale){
     };
 
     i18n.report = {
-      generate              : 'Получить<br>отчет',
+      generate_button              : 'Получить<br>отчет',
+            generate_window              : 'Получить отчет',
       btnSubmit             : 'Вывести',
       typePattern           : 'Размещение с/х культур',
       typeHarvest           : 'Валовый сбор',

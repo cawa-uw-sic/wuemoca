@@ -5,7 +5,7 @@ Ext.define('App.view.report.Button', {
 
   itemId: 'report-button',
 
-  text: i18n.report.generate,
+  text: i18n.report.generate_button,
 
   height: 50,
 

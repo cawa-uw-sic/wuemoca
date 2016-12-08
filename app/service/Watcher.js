@@ -2,6 +2,8 @@ Ext.define('App.service.Watcher', {
 
   singleton: true,
 
+  isBusy: false,
+
   set: function (attr, val) {
     __Selection[attr] = val;
     this.onChange({attr: attr, val: val});
@@ -77,6 +79,42 @@ Ext.define('App.service.Watcher', {
     if (!App.service.Helper.inArrayId(indicators, selected_indicator)){
       App.service.Helper.resetComboboxes(['switcher-cb-indicator']); 
     }
+  },
+
+  syncDB: function () {
+    var self = this;
+    if (self.isBusy) return false;
+
+    Ext.data.JsonP.request({
+      url :  __Global.api.Indicator,
+      callbackName: 'SyncDBResponse',
+      params: {format_options: 'callback:Ext.data.JsonP.SyncDBResponse'},
+      success: function (results) {
+        self.isBusy = false;
+        self.mergeIndicators(results);
+        App.service.Map.loadLayer();
+      }
+    });
+  },
+
+  mergeIndicators: function (nIndicators) {
+    var convertionExceptions = ['id'];
+    __Indicator = __Indicator.map(function (indicator) {
+      nIndicator = App.service.Helper.getById(nIndicators, indicator.id);
+      for (var key in nIndicator) {
+        if (nIndicator.hasOwnProperty(key)) {
+          
+          nIndicator[key] = App.service.Helper.splitCommaToArray(nIndicator[key]);
+          nIndicator[key] = App.service.Helper.splitCommaToFloat(nIndicator[key]);
+
+          if (nIndicator[key] && typeof nIndicator[key] != 'object' && convertionExceptions.indexOf(key) < 0) {
+            nIndicator[key] = parseFloat(nIndicator[key]);
+          }
+          indicator[key] = nIndicator[key];
+        }
+      }
+      return indicator;
+    });
   }
 
 });

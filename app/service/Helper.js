@@ -115,6 +115,26 @@ Ext.define('App.service.Helper', {
     });
   },
 
+  splitCommaToArray: function (n) {
+    if (n && n.indexOf('|') >= 0) {
+      n = n.split('|');
+      if (n.length > 0) n = n.map(function (x) {
+        return App.service.Helper.splitCommaToFloat(x);
+      });
+    }
+    return n;
+  },
+
+  splitCommaToFloat: function (n) {
+    if (n && n.indexOf(',') >= 0) {
+      n = n.split(',');
+      n = n.map(function (x) {
+        return parseFloat(x);
+      });
+    }
+    return n;    
+  },
+
   getCropName: function(){
     var indicator = App.service.Watcher.getIndicator();
     var cropName = '';

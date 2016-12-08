@@ -36,10 +36,10 @@ Ext.define('App.service.Map', {
       if (!App.util.Layer.current || !self.compareLayers()) {
         self.loadCurrentLayer();
         self.loadAdminLayer();
-        self.setMainTitle();
-        self.setLegend();
-        self.setShapefileBtntext();
       }
+      self.setMainTitle();
+      self.setLegend();
+      self.setShapefileBtntext();
     }
   },
 

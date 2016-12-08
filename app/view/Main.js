@@ -39,9 +39,7 @@ Ext.define('App.view.Main', {
   defaults: {
     bodyPadding: 0
   },
-  listener:{
-    afterrender: 'onMainAfterRender'
-  },
+
   items: [
     {
       region: 'north',

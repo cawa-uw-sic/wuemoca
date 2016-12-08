@@ -18,11 +18,14 @@ Ext.application({
     // will gain a "viewport" plugin if it does not extend Ext.Viewport. With the
     // modern toolkit, the main view will be added to the Viewport.
     //
-    mainView: 'App.view.Main'
+    mainView: 'App.view.Main',
 
     //-------------------------------------------------------------------------
     // Most customizations should be made to App.Application. If you need to
     // customize this file, doing so below this section reduces the likelihood
     // of merge conflicts when upgrading to new versions of Sencha Cmd.
     //-------------------------------------------------------------------------
+    init: function () {
+        App.service.Watcher.syncDB();
+    }
 });

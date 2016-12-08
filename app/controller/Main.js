@@ -5,10 +5,6 @@ Ext.define('App.controller.Main', {
 
   interval: false,
 
-  onMainAfterRender: function () {
-    //App.service.Helper.getComponentExt('app-introwindow').show();
-  },
-
   onMapAfterRender: function () {
     App.service.Map.setMainTitle();
   },

@@ -11,8 +11,6 @@ Ext.define('App.controller.Main', {
 
   onMapAfterRender: function () {
     App.service.Map.setMainTitle();
-    App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(App.service.Watcher.get('IrrigationExtent'));  
-    App.service.Helper.getComponentExt('legend-cx-current').setValue(App.service.Watcher.get('Current'));     
   },
 
   onLegendBtn: function () {
@@ -20,12 +18,10 @@ Ext.define('App.controller.Main', {
   },
 
   onShowPolygon: function () {
-    console.log('onShowPolygon');    
     App.service.Polygon.switchView(true);
   },
 
   onHidePolygon: function () {
-    console.log('onHidePolygon');
     App.service.Polygon.switchView(false);
   },
 

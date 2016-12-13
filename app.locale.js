@@ -41,7 +41,7 @@ var i18n = {
   },
 
   pilot: {
-    text                    : 'Select Pilot Area',
+      text                  : 'Select Pilot Area (UZB)',
     tooltip                 : 'Select Pilot Area'
   },
   fergana: {
@@ -469,7 +469,7 @@ switch (locale){
       tooltip               : 'Масштабировать до Ферганской области'
     };
     i18n.pilot = {
-      text                  : 'Select Pilot Area',
+      text                  : 'Select Pilot Area (UZB)',
       tooltip               : 'Select Pilot Area'
     };
 

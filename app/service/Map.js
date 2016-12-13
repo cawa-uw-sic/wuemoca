@@ -50,7 +50,7 @@ Ext.define('App.service.Map', {
 
     var opts = {
       opacity: App.util.Layer.currentOpaque / 100,
-      visible: App.service.Helper.getComponentExt('legend-cx-current').getValue(),
+      visible: App.service.Watcher.get('Current'),
       source: self.getLayerSource(!!App.service.Watcher.getIndicator().years)
     };
 
@@ -66,7 +66,7 @@ Ext.define('App.service.Map', {
     if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
       App.util.Layer.admin = new ol.layer.Image({
         opacity: 1,
-        visible: App.service.Helper.getComponentExt('legend-cx-current').getValue(),
+        visible: App.service.Watcher.get('Current'),
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           params: {

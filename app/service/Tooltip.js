@@ -25,7 +25,6 @@ Ext.define('App.service.Tooltip', {
       failure: function (results) {
         App.service.Status.set('');
         self.createTimer();
-        console.log('parseHoverResponse failed');
       }
     });
   },

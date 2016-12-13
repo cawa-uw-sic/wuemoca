@@ -21,8 +21,10 @@ Ext.define('App.store.Uis', {
         App.service.Helper.setComponentsValue([
           { id: 'zoom-cb-uis', selection: 'Uis' }
         ]);
-        var allUisBuis = store.getAt(0).get('name');
-        App.service.Helper.getComponentExt('zoom-cb-uis').setEmptyText(allUisBuis);
+        if (store.count() > 0){
+          var allUisBuis = store.getAt(0).get('name');
+          App.service.Helper.getComponentExt('zoom-cb-uis').setEmptyText(allUisBuis);
+        }
       }
     }
   }

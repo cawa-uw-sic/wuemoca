@@ -56,7 +56,6 @@ Ext.define('App.service.Chart', {
         App.service.Polygon.windowChart.close();
       },
       failure: function (results) {
-        console.log('ChartResponse failed');
         self.isBusy = false;
         App.service.Highlight.clear();
         self.window.close();

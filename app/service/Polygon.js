@@ -82,7 +82,6 @@ Ext.define('App.service.Polygon', {
       App.service.Status.set(' ');
       App.service.Helper.getComponentExt('app-switcher').expand();
     }
-    console.log('IrrigationExtent: ' + val.toString());
     App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);

@@ -11,9 +11,6 @@ Ext.define('App.service.Watcher', {
   },
 
   get: function (attr) {
-    if (attr == 'IrrigationExtent'){
-      console.log(attr + ': ' + __Selection[attr]);
-    }
     return __Selection[attr];
   },
 

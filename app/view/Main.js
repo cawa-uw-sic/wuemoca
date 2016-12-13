@@ -72,14 +72,17 @@ Ext.define('App.view.Main', {
         }
       },
       items: [{ 
-        xtype: 'app-zoom', 
-        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-zoom'
+        xtype: 'app-zoom',
+        //collapsed : App.service.Watcher.set('Accordion') != 'app-zoom'        
+        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-zoom'
       } ,{ 
         xtype: 'app-switcher' , 
-        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-switcher' 
+        //collapsed : App.service.Watcher.set('Accordion') != 'app-switcher'         
+        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-switcher' 
       } ,{ 
         xtype: 'app-overview' , 
-        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-overview' 
+        //collapsed : App.service.Watcher.set('Accordion') != 'app-overview' 
+        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-overview' 
       }]
     },
     {

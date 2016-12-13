@@ -14,7 +14,11 @@ var __Selection = {
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
 
-  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', true),
-  Current          : __LocalDB.get('Selections.Current', false)
+  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', false),
+  Current          : __LocalDB.get('Selections.Current', true),
+
+  Accordion        : __LocalDB.get('Accordion', 'app-zoom'),
+  UserPolygon      : __LocalDB.get('Selections.UserPolygon', false)
+
 
 };

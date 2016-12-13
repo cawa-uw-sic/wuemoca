@@ -8,7 +8,7 @@ Ext.define('App.service.Report', {
     'App.util.Window'
   ],
 
-  window    : Ext.create('App.util.Window', { title: i18n.report.generate, items: [{ xtype: 'app-report-form' }] }),
+  window    : Ext.create('App.util.Window', { title: i18n.report.generate, items: [{ xtype: 'app-report-form' }], listeners: { show: 'onReportWindow' } }),
 
   uri       : 'data:application/vnd.ms-excel;base64,',
   template  : '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
@@ -16,10 +16,13 @@ Ext.define('App.service.Report', {
   format    : function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
 
 
-  test: function () {
-    var self = this;
-    var ctx = { worksheet: 'Test', table: '<tr><td>пропоо</td><td>test2</td></tr><tr><td>test1</td><td>test2</td></tr>' };
-    window.location.href = self.uri + self.base64(self.format(self.template, ctx));
+  getYearData: function () {
+    var data = [];
+    var minMax = App.service.Yearslider.getMinMax();
+    for (var i = minMax.min; i <= minMax.max; i++) {
+      data.push({id: i, name: i});
+    }    
+    return data;
   },
 
   doRequest: function (params) {
@@ -28,7 +31,7 @@ Ext.define('App.service.Report', {
 
     var table = params.oblast ? 'rayon' : 'uis';
     var parent = params.oblast || params.buis;
-    var year = App.service.Watcher.get('Year');
+    var year = params.year;
     var title = App.service.Helper.getComponentExt( params.oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
         title +=  params.oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
 

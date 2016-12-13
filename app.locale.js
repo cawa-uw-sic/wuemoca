@@ -68,6 +68,7 @@ var i18n = {
   },
 
   report: {
+    year                    : 'Select year',
     generate                : 'Generate<br>Report',
     btnSubmit               : 'Generate',
     typePattern             : 'Irrigation crop patterns',
@@ -502,6 +503,7 @@ switch (locale){
     };
 
     i18n.report = {
+      year                  : 'Выберите год',
       generate              : 'Получить<br>отчет',
       btnSubmit             : 'Вывести',
       typePattern           : 'Размещение с/х культур',
@@ -533,7 +535,7 @@ switch (locale){
       thaTH                 : 'т/га',
       footer1               : '*Хлопок, масленистые, табак',
       footer2               : '**Пшеница, кукуруза на зерно'
-      
+
     };
 
 

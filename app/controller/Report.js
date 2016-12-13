@@ -5,7 +5,7 @@ Ext.define('App.controller.Report', {
 
   onFormSubmit: function (el, form, val) {
     var vals = el.up().up().getValues();
-    if (!vals.oblast && !vals.buis) return alert(i18n.report.alert);
+    if (!vals.oblast && !vals.buis && !vals.year) return alert(i18n.report.alert);
     App.service.Report.doRequest(vals);
     App.service.Report.window.close();
   },

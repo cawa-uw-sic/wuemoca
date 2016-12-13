@@ -100,7 +100,11 @@ var i18n = {
       fallowTH              : 'Fallow land',
       haTH                  : 'ha',
       tnTH                  : 'tn',
-      thaTH                 : 't/ha'
+      thaTH                 : 't/ha',
+
+      footer1               : '*Cotton, oil crops, tobacco',
+      footer2               : '**Wheat, corn'
+
 
   },
 
@@ -530,7 +534,10 @@ switch (locale){
       fallowTH              : 'Неиспол.земли',
       haTH                  : 'га',
       tnTH                  : 'тонна',
-      thaTH                 : 'т/га'
+      thaTH                 : 'т/га',
+      footer1               : '*Хлопок, масленистые, табак',
+      footer2               : '**Пшеница, кукуруза на зерно'
+      
     };
 
 

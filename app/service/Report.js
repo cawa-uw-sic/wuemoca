@@ -131,6 +131,8 @@ Ext.define('App.service.Report', {
       result.body += '</tr>';
     });
 
+    result.body += this.getFooter();
+
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
 
@@ -198,6 +200,8 @@ Ext.define('App.service.Report', {
       result.body += '<td></td>';
       result.body += '</tr>';
     });
+
+    result.body += this.getFooter();
 
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
@@ -268,7 +272,47 @@ Ext.define('App.service.Report', {
       result.body += '</tr>';
     });
 
+    result.body += this.getFooter();
+
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+  },
+
+  getFooter: function () {
+    result = '';
+
+    result += '<tr>';
+    result += '<td style="font-weight:bold;">' + i18n.report.footer1 + '</td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '</tr>';
+
+    result += '<tr>';
+    result += '<td style="font-weight:bold;">' + i18n.report.footer2 + '</td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '<td></td>';
+    result += '</tr>';
+
+    return result;
   }
 
 });

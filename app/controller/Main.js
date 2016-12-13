@@ -38,6 +38,10 @@ Ext.define('App.controller.Main', {
       BackgroundLayers.osm.setVisible(false);
       BackgroundLayers.ocm.setVisible(false);      
     }
+  },
+
+  onReportWindow: function () {
+    App.service.Helper.getComponentExt('report-cb-year').getStore().setData(App.service.Report.getYearData());
   }
 
 });

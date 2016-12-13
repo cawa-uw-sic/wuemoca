@@ -29,8 +29,9 @@ Ext.define('App.service.Report', {
     var table = params.oblast ? 'rayon' : 'uis';
     var parent = params.oblast || params.buis;
     var year = App.service.Watcher.get('Year');
-    var title = App.service.Helper.getComponentExt( params.oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
-        title +=  params.oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
+    var oblast = params.oblast;
+    var title = App.service.Helper.getComponentExt( oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
+        title +=  oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
 
     Ext.data.JsonP.request({
       url :  __Global.api.Report + 'table=' + table + '&parent=' + parent + '&year=' + year,
@@ -38,23 +39,37 @@ Ext.define('App.service.Report', {
       params: {format_options: 'callback:Ext.data.JsonP.ReportResponse'},
       success: function (results) {
         self.isBusy = false;
-        var ctx = { worksheet: 'WUEMoCA Report', table: self[params.type](results, title, year) };
+        var ctx = { worksheet: title + ' ' + params.type + ' ' + year, table: self[params.type](results, title, year, oblast) };
 
-        window.location.href = self.uri + self.base64(self.format(self.template, ctx));
+        //this trick will generate a temp <a /> tag
+        var link = document.createElement("a");    
+        link.href = self.uri + self.base64(self.format(self.template, ctx));
+        
+        //set the visibility hidden so it will not effect on your web-layout
+        link.style = "visibility:hidden";
+        link.download = "WUEMoCA Report.xls";
+        
+        //this part will append the anchor tag and remove it after automatic click
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+       // window.location.href = self.uri + self.base64(self.format(self.template, ctx));
 
       }
     });   
   },
 
-  typePattern: function (data, title, year) {
+  typePattern: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titlePattern.replace('{object}', title);
         topTitle = topTitle.replace('{year}', year);
+    var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
     
     result.head = '<tr><th colspan="15">' + topTitle + '</th></tr>';
     result.head += '<tr>';
-    result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
+    result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
@@ -100,34 +115,35 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firf_cotton + '</td>';
-      result.body += '<td>' + totalGrain + '</td>';
-      result.body += '<td>' + rec.firf_wheat + '</td>';
-      result.body += '<td>' + rec.firf_veg + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_wheat + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_veg + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firf_orchard + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_orchard + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firf_garden + '</td>';
-      result.body += '<td>' + rec.firf_other + '</td>';
-      result.body += '<td>' + rec.firf_rice + '</td>';
-      result.body += '<td>' + rec.fallow_ha + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_garden + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_other + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_rice + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fallow_ha + '</td>';
       result.body += '</tr>';
     });
 
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
 
-  typeHarvest: function (data, title, year) {
+  typeHarvest: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titleHarvest.replace('{object}', title);
         topTitle = topTitle.replace('{year}', year);
-    
+    var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
+
     result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
     result.head += '<tr>';
-    result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
+    result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
@@ -169,11 +185,11 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.pirf_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.pirf_cotton + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.pirf_wheat + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.pirf_wheat + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
@@ -186,15 +202,17 @@ Ext.define('App.service.Report', {
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
 
-  typeYield: function (data, title, year) {
+  typeYield: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titleYield.replace('{object}', title);
         topTitle = topTitle.replace('{year}', year);
+
+    var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
     
     result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
     result.head += '<tr>';
-    result.head += '<th rowspan="3" style="width:200px">' + i18n.report.nameTH + '</th>';
+    result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
@@ -236,11 +254,11 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.yield_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.yield_cotton + '</td>';
       result.body += '<td></td>';
-      result.body += '<td>' + rec.yield_wheat + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.yield_wheat + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';

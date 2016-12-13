@@ -137,6 +137,7 @@ Ext.define('App.service.Chart', {
       var indicator_field = '';
       var filename = '';
       var crop = App.service.Watcher.get('Crop');
+      var outputname = indicator[__Global.Lang + 'Name'].replace(/ /g,"_");
       if (!!indicator.crops) {
         if (crop == 'sum'){
           indicator.crops.map(function(c) {
@@ -146,11 +147,11 @@ Ext.define('App.service.Chart', {
         else{
           indicator_field = ',' + indicator.id + '_' + crop;
         }
-        filename = indicator.outputname + '_' + crop;
+        filename = outputname + '_' + crop;
       }
       else{
         indicator_field = ',' + indicator.field;
-        filename = indicator.outputname;
+        filename = outputname;
       }
       var aggregation_id = aggregation + '_id';
       var object_id = App.service.Chart.data[0][aggregation_id];

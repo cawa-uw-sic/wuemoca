@@ -14,6 +14,7 @@ var __Selection = {
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
 
-  IrrigationExtent : false
+  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', true),
+  Current          : __LocalDB.get('Selections.Current', false)
 
 };

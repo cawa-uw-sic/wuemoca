@@ -61,9 +61,6 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
       App.service.Helper.showComponents(['polygon-btn-activate']);
     });
-
-    self.rerenderFeatures();
-    self.switchView(__LocalDB.get('Selections.UserPolygon', false));
   },
 
   switchView: function(val){
@@ -80,15 +77,16 @@ Ext.define('App.service.Polygon', {
       App.service.Map.setMainTitle();
     }
     else{
+      this.rerenderFeatures();
       App.service.Chart.window.close();
       App.service.Status.set(' ');
       App.service.Helper.getComponentExt('app-switcher').expand();
     }
+    console.log('IrrigationExtent: ' + val.toString());
     App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
     App.service.Map.setMainTitle();
-    //App.service.Yearslider.didRender();
   },
 
   activate: function () {

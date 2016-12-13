@@ -10,7 +10,7 @@ Ext.define('App.controller.Switcher', {
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
     this.createFilters();
-    App.service.Watcher.activateFilters();
+   // App.service.Watcher.activateFilters();
   },
 
   onIndicator: function (cb, val) {

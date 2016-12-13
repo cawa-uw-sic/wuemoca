@@ -39,9 +39,11 @@ Ext.define('App.view.Main', {
   defaults: {
     bodyPadding: 0
   },
+
   listener:{
     afterrender: 'onMainAfterRender'
   },
+  
   items: [
     {
       region: 'north',
@@ -64,15 +66,21 @@ Ext.define('App.view.Main', {
         scrollable: 'vertical',
         listeners:{
           expand: function(p, eOpts){
-            App.service.Watcher.set('Accordion', p.getItemId());
+            __LocalDB.set('Accordion', p.getItemId());
+            //App.service.Watcher.set('Accordion', p.getItemId());
           }
         }
       },
-      items: [
-         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-zoom' }
-        ,{ xtype: 'app-switcher' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-switcher' }
-        ,{ xtype: 'app-overview' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-overview' }
-      ]
+      items: [{ 
+        xtype: 'app-zoom', 
+        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-zoom'
+      } ,{ 
+        xtype: 'app-switcher' , 
+        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-switcher' 
+      } ,{ 
+        xtype: 'app-overview' , 
+        collapsed : __LocalDB.get('Accordion', 'app-switcher') != 'app-overview' 
+      }]
     },
     {
       itemId: 'map-container',

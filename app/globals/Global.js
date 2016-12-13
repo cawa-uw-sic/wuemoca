@@ -26,6 +26,7 @@ var __Global = {
 
   api: {
     Report        : api + 'report.jsp?',
+    Indicator     : api + 'indicator.jsp?',
     Polygon       : api + 'calculatePolygon_v4.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,

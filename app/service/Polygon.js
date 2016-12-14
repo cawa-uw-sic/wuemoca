@@ -64,7 +64,7 @@ Ext.define('App.service.Polygon', {
   },
 
   switchView: function(val){
-    App.service.Watcher.set('UserPolygon', val);
+    App.service.Watcher.set('UserPolygon', val ? 'show' : 'noshow');
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
     if (val == false){

@@ -50,7 +50,7 @@ Ext.define('App.service.Map', {
 
     var opts = {
       opacity: App.util.Layer.currentOpaque / 100,
-      visible: App.service.Watcher.get('Current'),
+      visible: App.service.Watcher.get('Current') == 'show' ? true : false,
       source: self.getLayerSource(!!App.service.Watcher.getIndicator().years)
     };
 
@@ -66,7 +66,7 @@ Ext.define('App.service.Map', {
     if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
       App.util.Layer.admin = new ol.layer.Image({
         opacity: 1,
-        visible: App.service.Watcher.get('Current'),
+        visible: App.service.Watcher.get('Current') == 'show' ? true : false,
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           params: {
@@ -157,7 +157,7 @@ Ext.define('App.service.Map', {
       var indicator = App.service.Watcher.getIndicator();
       var aggregation = App.service.Watcher.getAggregation();
       var title = '';
-      if (!userPolygon){
+      if (userPolygon == 'noshow'){
         title += aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map;
       }
       else{
@@ -170,7 +170,7 @@ Ext.define('App.service.Map', {
         title += ': ' + indicator[__Global.Lang + 'Name'];
       }
       if (!!indicator.crops) title += ' ' + i18n.product._of + ' ' + App.service.Helper.getCropName();
-      if (!userPolygon){
+      if (userPolygon == 'noshow'){
         if (!!indicator.years) {
           title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
         }

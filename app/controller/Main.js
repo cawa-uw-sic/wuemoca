@@ -42,6 +42,7 @@ Ext.define('App.controller.Main', {
 
   onReportWindow: function () {
     App.service.Helper.getComponentExt('report-cb-year').getStore().setData(App.service.Report.getYearData());
+    App.service.Helper.getComponentExt('report-cb-year').setValue(__Global.year.Max);
   }
 
 });

@@ -19,30 +19,58 @@ Ext.define('App.view.report.Form', {
   controller: 'report',
 
   border: false,
-  bodyPadding: 10,
+  //bodyPadding: 10,
   fieldDefaults: {
     labelAlign: 'top'
   },
-  defaults: {
-    layout: 'fit',
-    flex: 1,
-    border: false,
-    margin: '0 0 10 0'
+  layout: {
+    type: 'vbox',
+    pack: 'start',
+    align: 'stretch'
   },
-  items: [{
-    xtype: 'fieldset',
-    items: [
-       { xtype: 'app-report-radio'   }
-      ,{ xtype: 'app-report-cb-year',  name: 'year' }
-      ,{ xtype: 'app-zoom-cb-country', name: 'country', itemId: 'report-cb-country', emptyText: '', store: { type: 'reportcountry' } }
-      ,{ xtype: 'app-zoom-cb-oblast',  name: 'oblast',  itemId: 'report-cb-oblast',  emptyText: '', store: { type: 'reportoblast'  } }
-      ,{ xtype: 'app-zoom-cb-buis',    name: 'buis',    itemId: 'report-cb-buis',    emptyText: '', store: { type: 'reportbuis'    } }
 
-    ]
+  defaults: {
+    border: false,
+    margin: 5
+  },
+  items: [
+
+    { xtype: 'app-report-radio'},
+    { xtype: 'fieldset',
+      layout: {
+        type: 'hbox',
+        align: 'stretch'
+      },
+      defaults:{
+        flex:1,
+        border: false,
+        margin: 5
+      },
+      items: [
+        ,{ xtype: 'app-report-cb-year',  name: 'year', emptyText: i18n.report.selectYear}
+        ,{ xtype: 'app-zoom-cb-country', name: 'country', itemId: 'report-cb-country', emptyText: i18n.report.selectCountry, store: { type: 'reportcountry' } }
+    ]},
+    { xtype: 'fieldset',
+      layout: {
+        type: 'hbox',
+        align: 'stretch'
+      },
+      defaults:{
+        flex:1,
+        border: false,
+        margin: 5
+      },      
+      items: [       
+        ,{ xtype: 'app-zoom-cb-oblast',  name: 'oblast',  itemId: 'report-cb-oblast',  emptyText: i18n.report.selectOblast, store: { type: 'reportoblast'  } }
+        ,{ xtype: 'app-zoom-cb-buis',    name: 'buis',    itemId: 'report-cb-buis',    emptyText: i18n.report.selectBUIS, store: { type: 'reportbuis'    } }
+
+      ]
   }],
 
   buttons: [{
+    itemId: 'report-btn-submit',
     text: i18n.report.btnSubmit,
+    disabled: true,
     handler: 'onFormSubmit'
   }]
 

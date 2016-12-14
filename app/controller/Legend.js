@@ -6,12 +6,14 @@ Ext.define('App.controller.Legend', {
   onIrrigationExtent: function (el, val) {
     BackgroundLayers.irrigation.setVisible(val);
     //App.util.Layer.irrigVisible = val;
-    App.service.Watcher.set('IrrigationExtent', val);
+    App.service.Watcher.set('IrrigationExtent', val ? 'show' : 'noshow');
   },
 
   onCurrentLayer: function (el, val) {
     App.util.Layer.current.setVisible(val);
-    App.util.Layer.admin.setVisible(val);
+    if (!!App.util.Layer.admin){
+      App.util.Layer.admin.setVisible(val);
+    }
     App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(val);
     var indicator = App.service.Watcher.getIndicator();
     if (val && indicator.years){
@@ -22,7 +24,7 @@ Ext.define('App.controller.Legend', {
       App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
       App.service.Chart.window.close();
     }
-    App.service.Watcher.set('Current', val);
+    App.service.Watcher.set('Current', val ? 'show' : 'noshow');
   },
 
   onOpacityIrrigation: function (el, val) {

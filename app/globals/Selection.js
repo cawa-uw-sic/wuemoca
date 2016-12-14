@@ -1,4 +1,5 @@
 var __Selection = {
+  //don't use true/false, because false will be interpreted as missing value
 
   Country          : __LocalDB.get('Selections.Country'),
   Oblast           : __LocalDB.get('Selections.Oblast'),
@@ -14,11 +15,9 @@ var __Selection = {
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
 
-  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', false),
-  Current          : __LocalDB.get('Selections.Current', true),
+  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', 'noshow'),
+  Current          : __LocalDB.get('Selections.Current', 'show'),
+  UserPolygon      : __LocalDB.get('Selections.UserPolygon', 'noshow'),
 
-  Accordion        : __LocalDB.get('Accordion', 'app-zoom'),
-  UserPolygon      : __LocalDB.get('Selections.UserPolygon', false)
-
-
+  Accordion        : __LocalDB.get('Accordion', 'app-zoom')
 };

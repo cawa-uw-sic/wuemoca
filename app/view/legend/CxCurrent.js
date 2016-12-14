@@ -7,7 +7,7 @@ Ext.define('App.view.legend.CxCurrent', {
 
   boxLabel: '',
 
-  checked: App.service.Watcher.get('Current'),
+  checked: App.service.Watcher.get('Current') == 'show' ? true : false,
 
   handler: 'onCurrentLayer'
 

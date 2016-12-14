@@ -5,7 +5,7 @@ Ext.define('App.controller.Report', {
 
   onFormSubmit: function (el, form, val) {
     var vals = el.up().up().getValues();
-    if (!vals.oblast && !vals.buis && !vals.year) return alert(i18n.report.alert);
+    if ((!vals.oblast && !vals.buis) || !vals.year) return alert(i18n.report.alert);
     App.service.Report.doRequest(vals);
     App.service.Report.window.close();
   },
@@ -23,17 +23,37 @@ Ext.define('App.controller.Report', {
         Ext.getStore('reportbuis').load({params: {country: val}});
       }
     }
+    App.service.Helper.getComponentExt('report-btn-submit').setDisabled(true);
+    App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.btnSubmit);   
   },
 
   onOblast: function (cb, val) {
     if (val && val != '0') {
       App.service.Helper.resetComboboxes(['report-cb-buis']);
+      var vals = cb.up().up().getValues();
+      if ((!!vals.oblast || !!vals.buis) && !!vals.year) {
+        App.service.Helper.getComponentExt('report-btn-submit').setDisabled(false);
+        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.oblast);  
+      }
+      else{
+        App.service.Helper.getComponentExt('report-btn-submit').setDisabled(true);      
+        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.btnSubmit);     
+      }     
     }
   },
 
   onBuis: function (cb, val) {
     if (val && val != '0') {
       App.service.Helper.resetComboboxes(['report-cb-oblast']);
+      var vals = cb.up().up().getValues();
+      if ((!!vals.oblast || !!vals.buis) && !!vals.year) {
+        App.service.Helper.getComponentExt('report-btn-submit').setDisabled(false);
+        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.buis);  
+      }  
+      else{
+        App.service.Helper.getComponentExt('report-btn-submit').setDisabled(true);   
+        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.btnSubmit);       
+      }                     
     }
   }
 

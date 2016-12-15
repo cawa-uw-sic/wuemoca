@@ -20,14 +20,14 @@ Ext.define('App.controller.Chart', {
   },*/
 
   onExcel: function () {
-    App.service.Helper.JSONToCSVConvertor();
+    App.service.Helper.JSONToHTMLConvertor();
   },
 
   onPreview: function() {
     var chart = this.lookupReference('chart');
     if (Ext.os.is.Desktop) {
         chart.download({
-          filename: chart.up().up().getTitle().replace(/ /g,"_"),
+          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ /g,"_")),
           scale: 1.5
         });
     } else {

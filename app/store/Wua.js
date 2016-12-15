@@ -22,10 +22,10 @@ Ext.define('App.store.Wua', {
           { id: 'zoom-cb-wua', selection: 'Wua' }
         ]);
         if (store.totalCount == 0){
-          App.service.Helper.hideComponents(['zoom-cb-wua', 'zoom-btn-wua']);
+          App.service.Helper.hideComponents(['zoom-cb-wua']);
         }
         else{
-          App.service.Helper.showComponents(['zoom-cb-wua', 'zoom-btn-wua']);
+          App.service.Helper.showComponents(['zoom-cb-wua']);
         }
       }
     }

@@ -37,7 +37,8 @@ var i18n = {
     manual                  : 'User Manual',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
-    univer                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg'
+    uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
+    sic: 'SIC ICWC'
   },
 
   pilot: {
@@ -212,7 +213,7 @@ mapSelection:{
     maize                   : 'Maize',
     garden                  : 'Urban Garden',
     sun                     : 'Sunflower',
-    sum                     : 'Sum of crops'
+    sum                     : 'All crops'
   },
   yield_classes: {
     verylow                 : 'very low',
@@ -451,7 +452,7 @@ switch (locale){
       cawa_homepage         : 'Домашняя страница проекта CAWa',
       cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
       introwindow: 'Страница<br>Приветствия',
-    ffo_homepage           : 'Federal Foreign Office of Germany',
+    ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
     ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',       
       wuemoca_about         : 'О WUEMoCA',
       details               : 'Детали',
@@ -462,12 +463,13 @@ switch (locale){
       contact               : 'Контакты',
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
-	  help                    : 'Help and Info',
-	impressum               : 'Imprint',
-	manual                  : 'User Manual',
-	faq                     : 'Frequently asked questions',
-	glossary                : 'Glossary',
-      univer                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга'
+	  help                    : 'Помощь и информация',
+	impressum               : 'выходные данные',
+	manual                  : 'Руководство пользователя',
+	faq                     : 'Часто задаваемые вопросы',
+	glossary                : 'Глоссарий',
+      uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
+    sic: 'НИЦ МКВК'
     };
 
     i18n.fergana = {
@@ -475,28 +477,23 @@ switch (locale){
       tooltip               : 'Масштабировать до Ферганской области'
     };
     i18n.pilot = {
-      text                  : 'Select Pilot Area (UZB)',
-      tooltip               : 'Select Pilot Area'
+      text                  : 'Выбор пилотной зоны (UZB)',
+      tooltip               : 'Выбор пилотной зоны'
     };
 
     i18n.khorezm = {
-      text                  : 'Khorezm область',
-      tooltip               : 'Масштабировать до Khorezm области'
+      text                  : 'Хорезмская область',
+      tooltip               : 'Масштабировать до Хорезмская области'
     };
     i18n.dargom = {
-      text                  : 'Dargom UIS',
-      tooltip               : 'Zoom to Pilot Area Dargom UIS'
+      text                  : 'Даргом УИС',
+      tooltip               : 'Масштабировать до Даргом УИС'
     };
 
     i18n.info = {
       title                 : 'Информация',
       text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).'
 
-    };
-
-    i18n.fergana = {
-      text                  : 'Ферганская область',
-      tooltip               : 'Масштабировать до Ферганской области'
     };
 
     i18n.area = {
@@ -564,7 +561,7 @@ switch (locale){
       uis                   : 'УИС',
       uis_empty:'all ISAs of BISA',
       wua                     : 'АВП',
-      wua_empty:'type WUA name',
+      wua_empty:'введите имя АВП',
       oblastBtnText         : 'Показатьy<br>обл.карту',
       rayonBtnText          : 'Показать<br>р-н карту',
       uisBtnText            : 'Показать<br>УИС карту',
@@ -599,24 +596,24 @@ i18n.mapSelection ={
     i18n.aggreg = {
       label                 : 'Выберите уровень агрегации',
       grid                  : 'Регулярный растр',
-      gridShort             : 'reg. Raster',
+      gridShort             : 'Рег. растр',
       segment               : 'Высота зоны',
       segmentShort          : 'Выс. зоны',
-      rayon                 : 'Район (District)',
+      rayon                 : 'Район',
       rayonShort            : 'Район',
       rayon4name            : ' ',
-      oblast                : 'Область (Province)',
+      oblast                : 'Область',
       oblastShort           : 'Область',
       subbasin              : 'Река подбассейна',
       subbasinShort         : 'Подбассейны',
-      wua                   : 'АВП (Water User Association)',
+      wua                   : 'АВП (Ассоциация водопользователей)',
       wuaShort              : 'АВП',
-      buis                  : 'БУИС (Basin Irrig. System Admin.)',
+      buis                  : 'БУИС (бассейн Управление ирригационной системы)',
       buisShort             : 'БУИС',
-      uis                   : 'УИС (Irrigation System Admin.)',
+      uis                   : 'УИС (Управление ирригационной системы)',
       uisShort              : 'УИС',
       command               : 'Командная площадь',
-      commandShort          : 'Comm. area',
+      commandShort          : 'Ком. площ.',
       map                   : 'карту'
     };
     i18n.product = {
@@ -625,19 +622,17 @@ i18n.mapSelection ={
       firb                  : 'Площади орошаемых земель (брутто)',
       kir                   : 'Коэффициент использования земли',
       firf                  : 'Посевные площади на орошаемых землях',
-      firf_state            : 'State order acreage',
       uirn                  : 'использования орошаемых земель (нетто)',
       uirb                  : 'использования орошаемых земель (брутто)',
       uiri                  : 'использования орошаемых земель на культуру',
-      uir_state             : 'State order land use',
       pirf                  : 'Валовая продукция фактический',
       yield                 : 'Урожайность',
       intensity             : 'Интенсивность использования земли',
       fallow                : 'Неиспользованный орошаемые земли',
       majority              : 'Основные землепользования',
       diversity             : 'разнообразие сельскохозяйственных культур',
-      frequency             : 'Fallow land frequency',
-      filter                : 'Activate filter for indicator list',
+      frequency             : 'Частота неисп.земель',
+      filter                : 'Активировать фильтр для списка индикаторов',
           _of: 'of'
     };
 
@@ -649,12 +644,12 @@ i18n.mapSelection ={
       fallow                : 'Неиспользуемые земли',
       'double'              : 'Double Season',
       other                 : 'Другие культуры',
-      veg                   : 'Vegetable',
-      orchard               : 'Orchard/Vineyard',
-      maize                 : 'Maize',
-      garden                : 'Urban Garden',
-      sun                   : 'Sunflower',
-      sum                   : 'Sum of crops'
+      veg                   : 'овощной',
+      orchard               : 'фруктовый сад/виноградник',
+      maize                 : 'кукуруза',
+      garden                : 'Городской сад',
+      sun                   : 'подсолнух',
+      sum                   : 'Все зерновые культуры'
     };
     i18n.yield_classes = {
       verylow               : 'очень низкая',

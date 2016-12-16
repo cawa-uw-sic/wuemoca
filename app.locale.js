@@ -334,7 +334,11 @@ mapSelection:{
     title                   : 'Export',
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
-    tableExcel              : 'Export all indicators to Excel',    
+    tableExcel              : 'Export all indicators to Excel', 
+    indicatorAcronym: 'Indicator acronym',  
+    indicatorName: 'Indicator name',  
+    cropAcronym: 'Crop acronym',  
+    cropName: 'Crop name',        
     reportPdf               : 'Report as PDF',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
@@ -771,6 +775,10 @@ i18n.mapSelection ={
       opts                  : 'Выбор опций экспорта',
       tableCsv              : 'Таблица как CSV',
       tableExcel              : 'Таблица как EXCEL',      
+    indicatorAcronym: 'индикатор акроним',  
+    indicatorName: 'Индикатор',  
+    cropAcronym: 'культурой акроним',  
+    cropName: 'культура',        
       reportPdf             : 'Отчет как .pdf',
       selectWUAs            : 'Выберите АВП',
       selectRayons          : 'Select rayon',
@@ -804,7 +812,7 @@ i18n.mapSelection ={
     };
 
     i18n.polygon = {
-          showPolygon             : 'My Polygons',
+          showPolygon             : 'Мои Полигоны',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -816,16 +824,16 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить полигон',
       edit                  : 'Редактировать',
-      calculate             : 'Расчитать<br>значения',
-      progressTitle : 'Расчитать значения',
-                progressMsg: 'Aggregate to polygons...',
-                failure: 'Indicator calculation failed! Try it again!',
-                success : 'Indicators calculated successfully!', 
-                alreadyCalculated: 'Indicators already calculated!',              
-          exportExcel: 'Export to EXCEL',
+      calculate             : 'расчет<br>индикатора',
+      progressTitle : 'расчет индикатора',
+                progressMsg: 'Агрегат для полигонов...',
+                failure: 'Расчет индикатора не удалось! Попробуйте снова!',
+                success : 'Индикаторы рассчитываются успешно!', 
+                alreadyCalculated: 'Индикаторы уже подсчитали!',              
+          exportExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
     tooltip: 'Selected polygon',
-    pressCalculate: 'First press Расчитать значения!'
+    pressCalculate: 'сначала нажмите расчет индикатора!'
     };
 
     i18n.exportUI = {

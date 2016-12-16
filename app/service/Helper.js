@@ -186,7 +186,7 @@ Ext.define('App.service.Helper', {
         var object_id = arrData[0][aggregation_id];
       }  
       else{
-        var polygon = App.service.Polygon.all[App.service.Polygon.getSelectedIndex()];
+        var polygon = App.service.Polygon.getSelectedPolygons()[0];
         row += 'area_ha;';
       }  
 
@@ -309,7 +309,7 @@ Ext.define('App.service.Helper', {
         var object_id = arrData[0][aggregation_id];
       }  
       else{
-        var polygon = App.service.Polygon.all[App.service.Polygon.getSelectedIndex()];
+        var polygon = App.service.Polygon.getSelectedPolygons()[0];
       }  
 
       var indicator_fields = self.getExportFields(userPolygon);   
@@ -375,15 +375,28 @@ Ext.define('App.service.Helper', {
     for (var i = 0; i < data.length; i++) {
       result.body += '<tr>';
       if (userPolygon){
-        result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalArea + '</td>';        
+        result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';      
       }
-      //2nd loop will extract each column and convert it in string semicolon-separated
+      //2nd loop will extract each column
       for (var index in data[i]) {
-        if (isNaN(data[i][index])){
+        if (isNaN(data[i][index]) || index == 'year'){
           result.body += '<td>' + data[i][index] + '</td>';
         }
         else{
-          result.body +=  '<td style=\'mso-number-format:"#,##0.0"\'>' + data[i][index] + '</td>';          
+          var format = '';
+          __Indicator.map(function (indicator) {
+            if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
+              format = '#,##0';
+              if( indicator.decimals > 0){
+                format += '.';
+                for (var count = 1; count <= indicator.decimals; count++){
+                  format += '0';
+                }
+              } 
+            }
+          });       
+          //workaround for problem with three decimals and German or Russian delimiter     
+          result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + (data[i][index]).toFixed(4) + '</td>';          
         }
       }
       result.body += '</tr>';
@@ -393,9 +406,9 @@ Ext.define('App.service.Helper', {
       var cropNames = [];  
       result.body += '<tr></tr>'; 
       result.body += '<tr>';     
-      result.body += '<th>Indicator acronym</th>'; 
+      result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
       result.body += '<th></th>';       
-      result.body += '<th>Indicator name</th>';  
+      result.body += '<th>' + i18n.exp.indicatorName + '</th>';  
       for (var i = 4; i <= fieldCount; i++){
         result.body += '<th></th>';        
       }
@@ -420,9 +433,9 @@ Ext.define('App.service.Helper', {
 
       result.body += '<tr></tr>'; 
       result.body += '<tr>';     
-      result.body += '<th>Crop acronym</th>'; 
+      result.body += '<th>' + i18n.exp.cropAcronym + '</th>'; 
       result.body += '<th></th>';       
-      result.body += '<th>Crop name</th>';   
+      result.body += '<th>' + i18n.exp.cropName + '</th>';   
       result.body += '</tr>';   
 
       crops.map(function (crop, idx) {

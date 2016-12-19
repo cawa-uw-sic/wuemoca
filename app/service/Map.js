@@ -31,8 +31,9 @@ Ext.define('App.service.Map', {
   loadLayer: function () {
     var self = this;
     var map = this.instance;
-
+    console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
     if (App.service.Watcher.get('Indicator') && App.service.Watcher.get('Aggregation')) {
+
       if (!App.util.Layer.current || !self.compareLayers()){ 
         self.loadCurrentLayer();
         self.loadAdminLayer();
@@ -40,6 +41,9 @@ Ext.define('App.service.Map', {
         self.setLegend();
         self.setShapefileBtntext();
       }
+    }
+    else{
+      self.removeCurrentLayer();
     }
   },
 
@@ -57,6 +61,7 @@ Ext.define('App.service.Map', {
     map.removeLayer(App.util.Layer.current);
     App.util.Layer.current = aggregation.tiled ? new ol.layer.Tile(opts) : new ol.layer.Image(opts);
     map.addLayer(App.util.Layer.current);
+    self.hideShowElements(App.util.Layer.current.getVisible());
   },
 
   loadAdminLayer: function () {
@@ -81,6 +86,27 @@ Ext.define('App.service.Map', {
     }
   },
 
+  removeCurrentLayer: function(){
+    var map = this.instance;
+    if (!!App.util.Layer.current && !!App.util.Layer.admin){
+      map.removeLayer(App.util.Layer.current);
+      map.removeLayer(App.util.Layer.admin);
+    }
+    App.util.Layer.current = null;
+    App.util.Layer.admin = null;    
+    App.service.Helper.getComponentExt('map-container').setTitle(''); 
+    App.service.Status.set('');
+    App.service.Chart.window.close();
+    App.service.Helper.getComponentExt('legend-current').setVisible(false);  
+    App.service.Helper.getComponentExt('legend-panel').setVisible(false); 
+    this.hideShowElements(false);
+  },
+
+  hideShowElements: function(currentLayer){
+    App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(currentLayer);
+    App.service.Yearslider.didRender();
+  },
+
   getLayerSource: function (yearIncluded) {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
@@ -93,8 +119,6 @@ Ext.define('App.service.Map', {
       FORMAT: 'image/png',
       STYLES: self.getLayerStyles()
     };
-
-
 
     if (yearIncluded) {
       year_filter = 'year=' + App.service.Watcher.get('Year');
@@ -169,7 +193,7 @@ Ext.define('App.service.Map', {
       else{
         title += ': ' + indicator[__Global.Lang + 'Name'];
       }
-      if (!!indicator.crops) title += ' ' + i18n.product._of + ' ' + App.service.Helper.getCropName();
+      if (!!indicator.crops) title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
       if (userPolygon == 'noshow'){
         if (!!indicator.years) {
           title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
@@ -228,6 +252,8 @@ Ext.define('App.service.Map', {
   setLegend: function () {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
+    App.service.Helper.getComponentExt('legend-current').setVisible(true);  
+    App.service.Helper.getComponentExt('legend-panel').setVisible(true); 
     App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(
       aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
       self.getLegendTitle(true)
@@ -336,19 +362,21 @@ Ext.define('App.service.Map', {
         CQLfilter += year_filter;
       }     
     }
-    if (CQLfilter == ''){
-      App.util.Layer.current
-        .getSource()
-        .updateParams({
-          'cql_filter': null
-        });     
-    }
-    else {
-      App.util.Layer.current
-        .getSource()
-        .updateParams({
-          'cql_filter': CQLfilter
-        });
+    if (App.util.Layer.current){
+      if (CQLfilter == ''){
+        App.util.Layer.current
+          .getSource()
+          .updateParams({
+            'cql_filter': null
+          });     
+      }
+      else {
+        App.util.Layer.current
+          .getSource()
+          .updateParams({
+            'cql_filter': CQLfilter
+          });
+      }
     }
   }
 

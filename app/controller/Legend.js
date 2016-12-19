@@ -10,20 +10,13 @@ Ext.define('App.controller.Legend', {
   },
 
   onCurrentLayer: function (el, val) {
-    App.util.Layer.current.setVisible(val);
+    if (!!App.util.Layer.current){
+      App.util.Layer.current.setVisible(val);
+    }
     if (!!App.util.Layer.admin){
       App.util.Layer.admin.setVisible(val);
     }
-    App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(val);
-    var indicator = App.service.Watcher.getIndicator();
-    if (val && indicator.years){
-      App.service.Helper.showComponents(['app-yearslider', 'yearslider-btn-play']);
-      App.service.Yearslider.didRender();
-    }
-    else{
-      App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
-      App.service.Chart.window.close();
-    }
+    App.service.Map.hideShowElements(val);
     App.service.Watcher.set('Current', val ? 'show' : 'noshow');
   },
 

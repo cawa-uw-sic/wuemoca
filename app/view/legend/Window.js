@@ -37,12 +37,14 @@ Ext.define('App.view.legend.Window', {
   bodyPadding: 10,
   //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
+    itemId: 'legend-irrigation',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
        { xtype: 'app-legend-cx-irrigation',          flex: 3 }
       ,{ xtype: 'app-legend-sl-opacity-irrigation',  flex: 1 }
     ]
   }, {
+        itemId: 'legend-current',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
        { xtype: 'app-legend-cx-current',          flex: 3 }

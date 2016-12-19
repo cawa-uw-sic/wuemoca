@@ -178,7 +178,7 @@ mapSelection:{
     commandShort            : 'Comm. Area',
     map                     : 'Map'
   },
-  product: {
+  indicator: {
     label                   : 'Select indicator',
     firn                    : 'Irrigated land area (net)',
     firb                    : 'Irrigated land area (gross)',
@@ -197,6 +197,7 @@ mapSelection:{
     diversity               : 'Crop rotation',
     frequency               : 'Fallow land frequency',
     filter                  : 'Activate filter for indicator list',
+    leftPanel: 'Select indicator on the left side.',
     _of: 'of'
   },
 
@@ -327,7 +328,8 @@ mapSelection:{
     cropRotation            : 'Crop rotation',
     numCrops                : 'Number of crop types',
     frequency               : 'Fallow land frequency',
-    yearsFallow             : 'Years of fallow'
+    yearsFallow             : 'Years of fallow',
+          noChart    : 'No diagram available for'
   },
 
   exp: {
@@ -344,7 +346,7 @@ mapSelection:{
     selectRayons            : 'Select District (rayon)',
     selectOblasts           : 'Select Province (oblast)',
     selectCrop              : 'Select crop',
-    selectProduct           : 'Select indicator',
+    selectIndicator           : 'Select indicator',
     singleWUA               : 'single WUA',
     allWUAsRayon            : 'all WUAs of District (rayon)',
     allWUAsOblast           : 'all WUAs of Province (oblast)',
@@ -403,7 +405,7 @@ mapSelection:{
     inputCrop               : 'Select crop',
     inputPeriod             : 'Select period',
     inputYear               : 'Select year',
-    inputProduct            : 'Select map type',
+    inputIndicator            : 'Select map type',
     inputOutput             : 'Select output',
     btnCancel               : 'Cancel',
     btnSubmit               : 'Save'
@@ -620,7 +622,7 @@ i18n.mapSelection ={
       commandShort          : 'Ком. площ.',
       map                   : 'карту'
     };
-    i18n.product = {
+    i18n.indicator = {
       label                 : 'Выберите тип карты',
       firn                  : 'Площади орошаемых земель (нетто)',
       firb                  : 'Площади орошаемых земель (брутто)',
@@ -637,7 +639,8 @@ i18n.mapSelection ={
       diversity             : 'разнообразие сельскохозяйственных культур',
       frequency             : 'Частота неисп.земель',
       filter                : 'Активировать фильтр для списка индикаторов',
-          _of: 'of'
+          _of: 'of',
+              leftPanel: 'Выберите индикатор на левой стороне.'
     };
 
     i18n.crop = {
@@ -767,7 +770,8 @@ i18n.mapSelection ={
       cropRotation          : 'Севооборот',
       numCrops              : 'Кол-во типов культур',
       frequency             : 'Частота неисп.земель',
-      yearsFallow           : 'Годы неисп.земель'
+      yearsFallow           : 'Годы неисп.земель',
+      noChart    : 'Нет диаграмма для'
     };
 
     i18n.exp = {
@@ -783,7 +787,7 @@ i18n.mapSelection ={
       selectWUAs            : 'Выберите АВП',
       selectRayons          : 'Select rayon',
       selectCrop            : 'Выберите культуру',
-      selectProduct         : 'Выберите тип карты',
+      selectIndicator         : 'Выберите тип карты',
       singleWUA             : 'один АВП',
       allWUAsRayon          : 'все АВП района',
       allWUAsOblast         : 'все АВП области',
@@ -844,7 +848,7 @@ i18n.mapSelection ={
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',
       inputYear             : 'Выберите года',
-      inputProduct          : 'Выберите тип карты',
+      inputIndicator          : 'Выберите тип карты',
       inputOutput           : 'Выберите вывод отчета',
       btnCancel             : 'Отмена',
       btnSubmit             : 'Сохранить'

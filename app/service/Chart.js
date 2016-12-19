@@ -34,7 +34,7 @@ Ext.define('App.service.Chart', {
   },
 
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated || App.service.Map.itsPolygon(e) || !App.util.Layer.current.getVisible()) return false;
+    if (this.isBusy || App.service.Polygon.activated || App.service.Map.itsPolygon(e) || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return false;
     this.e = e;
     this.doRequest();
   },
@@ -69,6 +69,7 @@ Ext.define('App.service.Chart', {
     var self = this;
     var indicator = App.service.Watcher.getIndicator();
     var crop = App.service.Watcher.get('Crop');
+    self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
       var first = self.data[0];
       var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang] || '') + ' '
@@ -78,7 +79,6 @@ Ext.define('App.service.Chart', {
         title += ' - ' + App.service.Map.getLegendTitle(true);
       }
       self.window.setTitle(title);
-      self.window.removeAll();
 
       if (typeof indicator.chart != 'object'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
@@ -88,9 +88,12 @@ Ext.define('App.service.Chart', {
         self.window.add(App.util.ChartTypes[indicator.chart[idx]](self.data));
       }
       self.userPolygon = false;
-      return self.window.show();
+     // return self.window.show();
     }
-    self.window.close();
+    else{
+      self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
+    }
+    self.window.show();
   },
 
   dataResponse: function (data) {

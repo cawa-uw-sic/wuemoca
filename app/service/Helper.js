@@ -387,7 +387,7 @@ Ext.define('App.service.Helper', {
           __Indicator.map(function (indicator) {
             if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
               format = '#,##0';
-              if( indicator.decimals > 0){
+              if (indicator.decimals > 0){
                 format += '.';
                 for (var count = 1; count <= indicator.decimals; count++){
                   format += '0';

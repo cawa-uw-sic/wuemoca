@@ -14,6 +14,11 @@ Ext.define('App.controller.Switcher', {
   },
 
   onIndicator: function (cb, val) {
+
+    console.log('onIndicator: ' + val);
+    if (!val){
+      val == '';
+    }
     App.service.Watcher.set('Indicator', val);
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
     this.fillUnits();

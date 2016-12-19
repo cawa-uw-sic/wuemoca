@@ -7,7 +7,7 @@ Ext.define('App.service.Tooltip', {
   tooltip: Ext.create('App.view.tooltip.Index'),
 
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated || !App.util.Layer.current.getVisible()) return;
+    if (this.isBusy || App.service.Polygon.activated || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return;
     this.isBusy = true;
     this.doRequest(e);
   },

@@ -8,14 +8,15 @@ var __Selection = {
   Uis              : __LocalDB.get('Selections.Uis'),
   Wua              : __LocalDB.get('Selections.Wua'),
 
-  Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
+  //Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
+  Indicator        : __LocalDB.get('Selections.Indicator'),  
   Crop             : __LocalDB.get('Selections.Crop', 'sum'),
   Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
 
-  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', 'noshow'),
+  IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', 'show'),
   Current          : __LocalDB.get('Selections.Current', 'show'),
   UserPolygon      : __LocalDB.get('Selections.UserPolygon', 'noshow'),
 

@@ -46,7 +46,8 @@ Ext.define('App.service.Polygon', {
 
     App.service.Map.instance.addInteraction(self.drawControl);
     App.service.Map.instance.addInteraction(self.selectControl);
-    this.deactivate();
+    self.deactivate();
+    self.switchView(App.service.Watcher.get('UserPolygon') == 'show');
 
     self.selectControl.on('select', function (e) {
       self.whenUnselect(e);
@@ -81,8 +82,9 @@ Ext.define('App.service.Polygon', {
       App.service.Chart.window.close();
       App.service.Status.set(' ');
       App.service.Helper.getComponentExt('app-switcher').expand();
+      App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
     }
-    App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
+
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
     App.service.Map.setMainTitle();
@@ -410,30 +412,41 @@ Ext.define('App.service.Polygon', {
       var polygon = self.getSelectedPolygons()[0];
       var indicator = App.service.Watcher.getIndicator();
       var crop = App.service.Watcher.get('Crop');
-      if (polygon.data.length > 0) {
-        if (!!indicator.chart && indicator.chart != 'Multiannual'){
-          var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
-          self.windowChart.setTitle(title);
-          self.windowChart.removeAll();
-          App.service.Chart.dataResponse(polygon.data);
 
-          if (typeof indicator.chart != 'object'){
-            self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+      if (polygon.data.length > 0) {
+        self.windowChart.removeAll();
+        if (!!indicator.id){
+          if (!!indicator.chart && indicator.chart != 'Multiannual'){
+            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
+            self.windowChart.setTitle(title);
+
+            App.service.Chart.dataResponse(polygon.data);
+
+            if (typeof indicator.chart != 'object'){
+              self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+            }
+            else{
+              var idx = indicator.crops.indexOf(crop);
+              self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+            }
+            App.service.Chart.userPolygon = true;
+            //return self.windowChart.show();
           }
           else{
-            var idx = indicator.crops.indexOf(crop);
-            self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
           }
-          App.service.Chart.userPolygon = true;
-          return self.windowChart.show();
         }
-        self.windowChart.close();
-        //alert('No chart available for selected indicator.');
+        else{
+          self.windowChart.setTitle(i18n.indicator.leftPanel);
+        }
+        self.windowChart.show();
       }
+      //no calculated data
       else{
         self.windowChart.close();
         alert(i18n.polygon.pressCalculate);
       }
+
     }
   },
 

@@ -3,7 +3,7 @@ Ext.define('App.view.switcher.Filter', {
 
   xtype: 'app-switcher-filter',
 
-  title: i18n.product.filter,
+  title: i18n.indicator.filter,
 
   itemId: 'switcher-filter',
 

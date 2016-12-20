@@ -56,7 +56,7 @@ Ext.define('App.view.switcher.Index', {
     },{ 
       //aggregation container
       xtype: 'container',
-      itemId: 'app-switcher-container-aggreg',
+      itemId: 'switcher-container-aggreg',
       style:{backgroundColor:'#f0f0f0'},
       layout: {
         type: 'vbox',

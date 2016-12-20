@@ -355,7 +355,10 @@ mapSelection:{
     singleOblast            : 'single Province (oblast)',
     allRayonsOblast         : 'all Districts of Province (oblast)',
     allOblastsCountry       : 'all Provinces of Country',
-          allOblastsCA : 'all Provinces of CA'
+          allOblastsCA : 'all Provinces of CA',
+          download: 'Download',
+          asSHP: 'as SHP',
+          filtered: 'filtered'
   },
 
   timeSlider: {
@@ -394,7 +397,9 @@ mapSelection:{
     exportExcel: 'Export to EXCEL',
     remove                  : 'Delete Polygon',
     tooltip: 'Selected polygon',
-    pressCalculate: 'First press Calculate Indicators!'
+    pressCalculate: 'First press Calculate Indicators!',
+    shift: 'Select a single polygon or multiple polygons with SHIFT key',
+    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)'
   },
 
   exportUI: {
@@ -798,7 +803,10 @@ i18n.mapSelection ={
       selectOblasts         : 'Select Province (oblast)',
       singleOblast          : 'single Province (oblast)',
       allOblastsCountry     : 'all Provinces of Country',
-      allOblastsCA : 'all Provinces of CA'
+      allOblastsCA : 'all Provinces of CA',
+                download: 'Скачать',
+          asSHP: 'как SHP',
+          filtered: 'фильтруют'
     };
 
     i18n.timeSlider = {
@@ -836,8 +844,10 @@ i18n.mapSelection ={
                 alreadyCalculated: 'Индикаторы уже подсчитали!',              
           exportExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
-    tooltip: 'Selected polygon',
-    pressCalculate: 'сначала нажмите расчет индикатора!'
+    tooltip: 'Выбранный полигон',
+    pressCalculate: 'сначала нажмите расчет индикатора!',
+    shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
+    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84 (EPSG:4326)'
     };
 
     i18n.exportUI = {

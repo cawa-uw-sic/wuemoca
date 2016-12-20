@@ -16,9 +16,12 @@ Ext.define('App.controller.Zoom', {
       if (oblast == null && buis == null ){
       //if ((oblast == null || oblast == '0') && (buis == null || buis == '0')){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('country', val, 'extent'));
-        //if (val != '0'){
+        if (val != 'all'){
           App.service.Map.filterAreaOfInterest('country', val);
-        //}
+        }
+        else{
+          App.service.Map.filterAreaOfInterest('','0');
+        }        
       }
       if (val != 'all'){
         App.service.Helper.showComponents(['zoom-cb-oblast']);
@@ -100,6 +103,7 @@ Ext.define('App.controller.Zoom', {
         Ext.getStore('uis').load({params: {buis: val}});
         //Ext.getStore('wua').load({params: {oblast: '', buis: val}});
       }
+
       //avoid zoom to buis if other parameters are stored
       var uis = App.service.Watcher.get('Uis');
       //var wua = App.service.Watcher.get('Wua');

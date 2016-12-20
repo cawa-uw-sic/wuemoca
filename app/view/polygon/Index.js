@@ -41,13 +41,13 @@ Ext.define('App.view.polygon.Index', {
         iconCls: 'x-fa fa-upload',
        // tooltip: 'only zipped Shapefile, coordinate system WGS 84 (EPSG:4326)',
         ui: 'default-toolbar',
-        handler: function(){ alert('Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)');},
+        handler: function(){ alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
 
     },{
       xtype: 'label',
-      html: 'Select a single polygon or multiple polygons with SHIFT key'
+      html: i18n.polygon.shift
     },{
       text: i18n.polygon.edit,
       iconCls: 'x-fa fa-map-marker',

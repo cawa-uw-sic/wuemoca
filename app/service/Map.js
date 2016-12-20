@@ -30,7 +30,7 @@ Ext.define('App.service.Map', {
 
   loadLayer: function () {
     var self = this;
-    var map = this.instance;
+    var map = self.instance;
     console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
     if (App.service.Watcher.get('Indicator') && App.service.Watcher.get('Aggregation')) {
 
@@ -103,7 +103,7 @@ Ext.define('App.service.Map', {
   },
 
   hideShowElements: function(currentLayer){
-    App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(currentLayer);
+    App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
     App.service.Yearslider.didRender();
   },
 
@@ -244,8 +244,9 @@ Ext.define('App.service.Map', {
 
   setShapefileBtntext: function(){
     var aggregation = App.service.Watcher.getAggregation();
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     App.service.Helper.getComponentExt('app-switcher-btn-shapefile').setText(
-      'Download ' + aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' as Shapefile'
+      i18n.exp.download + ' ' + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' ' + i18n.exp.asSHP
     );
   },
 
@@ -260,6 +261,7 @@ Ext.define('App.service.Map', {
     ); 
     App.service.Helper.getComponentExt('legend-image').setSrc(self.getLegendImage());
     App.service.Helper.getComponentExt('legend-text').setStyle({ lineHeight: self.getLegendMedianStyle() });
+   // debugger;
     App.service.Helper.getComponentExt('legend-text').update(self.getLegendMedian());
   },
 
@@ -376,6 +378,7 @@ Ext.define('App.service.Map', {
           .updateParams({
             'cql_filter': CQLfilter
           });
+        this.setShapefileBtntext();  
       }
     }
   }

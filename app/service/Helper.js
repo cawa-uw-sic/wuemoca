@@ -379,11 +379,11 @@ Ext.define('App.service.Helper', {
       }
       //2nd loop will extract each column
       for (var index in data[i]) {
-        if (isNaN(data[i][index]) || index == 'year'){
+        if (isNaN(data[i][index]) || typeof data[i][index] == 'string'){
           result.body += '<td>' + data[i][index] + '</td>';
         }
         else{
-          var format = '';
+          var format = '0';
           __Indicator.map(function (indicator) {
             if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
               format = '#,##0';
@@ -395,8 +395,8 @@ Ext.define('App.service.Helper', {
               } 
             }
           });       
-          //workaround for problem with three decimals and German or Russian delimiter     
-          result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + (data[i][index]).toFixed(4) + '</td>';          
+          //workaround for problem with three decimals and German or Russian delimiter  
+          result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';          
         }
       }
       result.body += '</tr>';
@@ -451,8 +451,9 @@ Ext.define('App.service.Helper', {
 
   getExportFields: function (userPolygon) {
     var indicator_fields = [];
+    var aggregation = 'grid';
     if (!userPolygon){ 
-      var aggregation = App.service.Watcher.get('Aggregation');
+      aggregation = App.service.Watcher.get('Aggregation');
       var aggregation_id = aggregation + '_id';
       indicator_fields.push(aggregation_id);
       indicator_fields.push(aggregation + '_' + __Global.Lang);
@@ -461,7 +462,7 @@ Ext.define('App.service.Helper', {
   
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
-      if (indicator.chart != 'Multiannual'){
+      if (indicator.chart != 'Multiannual' && (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){
         var field = indicator.field;
         if (!!indicator.crops){
           indicator.crops.map(function(crop){

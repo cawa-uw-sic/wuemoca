@@ -80,7 +80,7 @@ Ext.define('App.service.Polygon', {
     else{
       this.rerenderFeatures();
       App.service.Chart.window.close();
-      App.service.Status.set(' ');
+      App.service.Status.set('');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
     }
@@ -389,6 +389,7 @@ Ext.define('App.service.Polygon', {
           }
         },
         failure: function(results){
+          debugger;
           if (selectedPolygons.length == 1){
             alert(polygon.info.name + ': ' + i18n.polygon.failure);      
           }

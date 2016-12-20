@@ -16,7 +16,9 @@ Ext.define('App.service.Watcher', {
 
   onChange: function (obj) {
     if (obj.attr == 'Year') return App.service.Map.changeYear();
-    App.service.Map.loadLayer();
+    if (!this.isBusy){
+      App.service.Map.loadLayer();
+    }
   },
 
   getIndicator: function () {
@@ -82,6 +84,7 @@ Ext.define('App.service.Watcher', {
   syncDB: function () {
     var self = this;
     if (self.isBusy) return false;
+    self.isBusy = true;
 
     Ext.data.JsonP.request({
       url :  __Global.api.Indicator,

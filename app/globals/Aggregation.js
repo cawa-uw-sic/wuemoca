@@ -9,7 +9,7 @@ var __Aggregation = [
       {
         id             : 'oblast',
         enName         : 'Province (Oblast)',
-        ruName         : 'Область (Province)',
+        ruName         : 'Область',
         enNameShort    : 'Province',
         ruNameShort    : 'Область',
         filter: 'oblast',        
@@ -17,14 +17,14 @@ var __Aggregation = [
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
-        ruName         : 'Район (District)',
+        ruName         : 'Район',
         enNameShort    : 'District',
         ruNameShort    : 'Район',
         filter: 'oblast'  
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
-        ruName         : 'АВП (Water User Association)',
+        ruName         : 'АВП (Ассоциация водопользователей)',
         enNameShort    : 'WUA',
         ruNameShort    : 'АВП' ,
         filter: 'oblast'    
@@ -40,7 +40,7 @@ var __Aggregation = [
       {
         id             : 'buis',
         enName         : 'BISA (Basin Irrig. System Admin.)',
-        ruName         : 'БУИС (Basin Irrig. System Admin.)',
+        ruName         : 'БУИС (бассейн Управление ирригационной системы)',
         enNameShort    : 'BISA',
         ruNameShort    : 'БУИС',
         filter: 'buis' ,        
@@ -48,7 +48,7 @@ var __Aggregation = [
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
-        ruName         : 'УИС (Irrigation System Admin.)',
+        ruName         : 'УИС (Управление ирригационной системы)',
         enNameShort    : 'ISA',
         ruNameShort    : 'УИС' ,
         filter: 'buis'  

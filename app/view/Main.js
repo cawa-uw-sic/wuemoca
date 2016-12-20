@@ -74,15 +74,15 @@ Ext.define('App.view.Main', {
       items: [{ 
         xtype: 'app-zoom',
         //collapsed : App.service.Watcher.set('Accordion') != 'app-zoom'        
-        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-zoom'
+        collapsed : __Selection['Accordion'] != 'app-zoom'
       } ,{ 
         xtype: 'app-switcher' , 
         //collapsed : App.service.Watcher.set('Accordion') != 'app-switcher'         
-        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-switcher' 
+        collapsed : __Selection['Accordion'] != 'app-switcher' 
       } ,{ 
         xtype: 'app-overview' , 
         //collapsed : App.service.Watcher.set('Accordion') != 'app-overview' 
-        collapsed : __LocalDB.get('Accordion', 'app-zoom') != 'app-overview' 
+        collapsed : __Selection['Accordion'] != 'app-overview' 
       }]
     },
     {
@@ -123,7 +123,7 @@ Ext.define('App.view.Main', {
       region: 'east',
       width: 150,
       collapsible: true, 
-      collapsed: !__LocalDB.get('Selections.UserPolygon', false),  
+      collapsed: __Selection['UserPolygon'] == 'noshow',  
 
       margin: '0 0 0 5',
       items: [

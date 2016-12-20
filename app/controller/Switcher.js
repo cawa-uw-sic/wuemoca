@@ -180,13 +180,17 @@ Ext.define('App.controller.Switcher', {
 
     var requesturl = __Global.urls.Mapserver + 'wfs?' +
       'request=getfeature&' +
-      'version=2.0.0&' +
+      'version=1.0.0&' +
       'outputformat=shape-zip&' +
       'service=wfs&' +
       'format_options=CHARSET:UTF-8&' +
       'propertyname=' + propertyname + 'geom&' +      
       'typename=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
-       
+
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    if (!!aoi_filter){
+      requesturl += '&cql_filter=' + aoi_filter;
+    }       
     window.open(requesturl, 'download_shp');
   }
 

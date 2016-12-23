@@ -162,3 +162,10 @@
 .x-tip-body{
   color: #525252;
 }
+ 
+ 
+.x-label-icon {
+    padding-left: 18px !important;
+  background-repeat: no-repeat;
+       background-position:0 -1px;
+}

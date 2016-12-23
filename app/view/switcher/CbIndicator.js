@@ -9,14 +9,16 @@ Ext.define('App.view.switcher.CbIndicator', {
 
   itemId: 'switcher-cb-indicator',
 
-  fieldLabel: i18n.indicator.label,
+  //componentCLs: 'x-fa  fa fa-info',
+
+  fieldLabel: '<a href="" title="" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label,
 
   labelAlign: 'top',
 
   store: {
     type: 'indicator'
   },
-  //http://stackoverflow.com/questions/34946014/combobox-showing-html-as-text
+  /*//http://stackoverflow.com/questions/34946014/combobox-showing-html-as-text
   fieldSubTpl: [ // note: {id} here is really {inputId}, but {cmpId} is available
       '<input id="{id}" data-ref="inputEl" type="{type}" {inputAttrTpl}',
           ' size="1"', // allows inputs to fully respect CSS widths across all browsers
@@ -35,10 +37,10 @@ Ext.define('App.view.switcher.CbIndicator', {
       {
           disableFormats: true
       }
-  ],
+  ],*/
   forceSelection: true,
 
-  childEls: [
+  /*childEls: [
       'overlayEl'
   ],
 
@@ -50,7 +52,7 @@ Ext.define('App.view.switcher.CbIndicator', {
           me.overlayEl.update(value);
       }
       return me.callParent([value]);
-  },
+  },*/
   // Template for the dropdown menu.
   // Note the use of the "x-list-plain" and "x-boundlist-item" class,
   // this is required to make the items selectable.
@@ -61,9 +63,10 @@ Ext.define('App.view.switcher.CbIndicator', {
   ),
   // template for the content inside text field
   displayTpl: Ext.create('Ext.XTemplate',
-      '<div><tpl for=".">',
-          '<a href="' + __Global.urls.GlossaryBase + '{glossary}" title="{' + __Global.Lang + 'Tooltip}" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 0;"></i></a>{' + __Global.Lang + 'Name} ({' + __Global.Lang + 'Unit})',
-      '</tpl></div>'
+      '<tpl for=".">',
+         '{' + __Global.Lang + 'Name} ({' + __Global.Lang + 'Unit})',    
+          //'<a href="' + __Global.urls.GlossaryBase + '{glossary}" title="{' + __Global.Lang + 'Tooltip}" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 0;"></i></a>{' + __Global.Lang + 'Name} ({' + __Global.Lang + 'Unit})',
+      '</tpl>'
   ), 
   valueField: 'id',
   queryMode: 'local',

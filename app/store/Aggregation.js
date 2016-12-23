@@ -7,7 +7,7 @@ Ext.define('App.store.Aggregation', {
 
   fields: [ 'id', 'enName', 'ruName' ],
 
-  data: [],
+  data: __Aggregation,
 
   proxy: {
     type: 'memory',

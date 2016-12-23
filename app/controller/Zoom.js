@@ -7,8 +7,8 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Country', val);
     App.service.Helper.resetStores(['oblast', 'buis']);
     App.service.Helper.resetComboboxes(['zoom-cb-oblast', 'zoom-cb-buis']);
-    App.service.Helper.hideComponents(['zoom-cb-oblast', 'zoom-cb-buis']);
-
+    App.service.Helper.hideComponents(['zoom-cb-oblast', 'zoom-container-buis', 'zoom-cb-buis']);
+    
     if (val) {
       //avoid zoom to country if other parameters are stored
       var oblast = App.service.Watcher.get('Oblast');
@@ -27,7 +27,7 @@ Ext.define('App.controller.Zoom', {
         App.service.Helper.showComponents(['zoom-cb-oblast']);
         Ext.getStore('oblast').load({params: {country: val}});
         if (val == 'UZB') {
-          App.service.Helper.showComponents(['zoom-cb-buis']);
+          App.service.Helper.showComponents(['zoom-container-buis','zoom-cb-buis']);
           Ext.getStore('buis').load({params: {country: val}});
         }
       }
@@ -52,7 +52,6 @@ Ext.define('App.controller.Zoom', {
       }
 
       //avoid zoom to oblast if other parameters are stored
-            //debugger;
       var rayon = App.service.Watcher.get('Rayon');
       var wua = App.service.Watcher.get('Wua');
 
@@ -168,19 +167,19 @@ Ext.define('App.controller.Zoom', {
       }
 
       if (changeAggreg){
-        var unit = '';
+        /*var unit = '';
         for (var u = 0; u < __Aggregation.length; u++){
           if (App.service.Helper.inArrayId(__Aggregation[u].items, aggreg)){
             unit = __Aggregation[u].id;
             break;
           }
-        }
+        }*/
 
-        App.service.Watcher.set('Unit', unit);
+        //App.service.Watcher.set('Unit', unit);
 
         App.service.Watcher.set('Aggregation', aggreg);
         App.service.Helper.setComponentsValue([
-          { id: 'switcher-cb-unit', selection: 'Unit' },
+          //{ id: 'switcher-cb-unit', selection: 'Unit' },
           { id: 'switcher-cb-aggregation', selection: 'Aggregation' }
         ]);
       }

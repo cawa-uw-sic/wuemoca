@@ -42,7 +42,7 @@ var i18n = {
   },
 
   pilot: {
-      text                  : 'Select Pilot Area (UZB)',
+      text                  : 'Pilot Area filter (UZB)',
     tooltip                 : 'Select Pilot Area'
   },
   fergana: {
@@ -116,7 +116,7 @@ var i18n = {
   },
 
   adminFilters: {
-    title                   : 'Select area of interest',
+    title                   : 'Area filter (optional)',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
@@ -138,7 +138,8 @@ var i18n = {
     rayonBtnTooltip         : 'Aggregations to District',
     uisBtnTooltip           : 'Aggregations to ISA',
     buisBtnTooltip          : 'Aggregations to BISA',
-    wuaBtnTooltip           : 'Aggregations to WUA'
+    wuaBtnTooltip           : 'Aggregations to WUA',
+    _or: 'OR'
   },
 mapSelection:{
    title       :'Map Selection Options'
@@ -483,15 +484,15 @@ switch (locale){
     sic: 'НИЦ МКВК'
     };
 
+    i18n.pilot = {
+      text                  : 'Фильтр пилотной зоны (UZB)',
+      tooltip               : 'Выбор пилотной зоны'
+    };
+
     i18n.fergana = {
       text                  : 'Ферганская область',
       tooltip               : 'Масштабировать до Ферганской области'
     };
-    i18n.pilot = {
-      text                  : 'Выбор пилотной зоны (UZB)',
-      tooltip               : 'Выбор пилотной зоны'
-    };
-
     i18n.khorezm = {
       text                  : 'Хорезмская область',
       tooltip               : 'Масштабировать до Хорезмская области'
@@ -560,7 +561,7 @@ switch (locale){
 
 
     i18n.adminFilters = {
-      title                 : 'Выберите площадь интереса',
+      title                 : 'Площадь фильтра (опционально)',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
@@ -582,7 +583,8 @@ switch (locale){
       rayonBtnTooltip       : 'Агрегировать до района',
       uisBtnTooltip         : 'Агрегировать до УИСа',
       buisBtnTooltip        : 'Агрегировать до БУИСа',
-      wuaBtnTooltip         : 'Агрегировать до АВП'
+      wuaBtnTooltip         : 'Агрегировать до АВП',
+    _or: 'ИЛИ'
 
 
     };

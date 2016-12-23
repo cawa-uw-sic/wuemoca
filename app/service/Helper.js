@@ -146,8 +146,8 @@ Ext.define('App.service.Helper', {
   },
   clearZoomCombos: function(){
     this.setComponentsValue([{ id: 'zoom-cb-country', value: null }]);
-  },
 
+  },
   openGlossaryFrame: function(frame){
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
     /*insert in head section of index.html of Glossary on Server (here: glossary_wuemoca_vers2.htm):
@@ -456,7 +456,9 @@ Ext.define('App.service.Helper', {
       aggregation = App.service.Watcher.get('Aggregation');
       var aggregation_id = aggregation + '_id';
       indicator_fields.push(aggregation_id);
-      indicator_fields.push(aggregation + '_' + __Global.Lang);
+      if (aggregation != 'grid'){
+        indicator_fields.push(aggregation + '_' + __Global.Lang);
+      }
       indicator_fields.push('area_ha');
     }  
   

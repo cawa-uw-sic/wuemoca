@@ -8,7 +8,7 @@ Ext.define('App.view.zoom.CbOblast', {
   xtype: 'app-zoom-cb-oblast',
 
   itemId: 'zoom-cb-oblast',
-  emptyText: i18n.adminFilters.oblast_empty,
+  //emptyText: i18n.adminFilters.oblast_empty,
   fieldLabel: i18n.adminFilters.oblast,
 
   hidden: true,

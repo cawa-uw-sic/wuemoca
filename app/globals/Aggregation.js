@@ -1,11 +1,11 @@
 var __Aggregation = [
 
-  {
+  /*{
     id: 'admin',
     enName: 'Administrative units',
     ruName: 'Админиcтративные объекты',
     isDefault: true,
-    items: [
+    items: [*/
       {
         id             : 'oblast',
         enName         : 'Province (Oblast)',
@@ -13,30 +13,33 @@ var __Aggregation = [
         enNameShort    : 'Province',
         ruNameShort    : 'Область',
         filter: 'oblast',        
-        isDefault      : true
+        isDefault      : true,
+    items: false
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
         ruName         : 'Район',
         enNameShort    : 'District',
         ruNameShort    : 'Район',
-        filter: 'oblast'  
+        filter: 'oblast'  ,
+    items: false
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
         ruName         : 'АВП (Ассоциация водопользователей)',
         enNameShort    : 'WUA',
         ruNameShort    : 'АВП' ,
-        filter: 'oblast'    
-      }
-    ]
+        filter: 'oblast'    ,
+    items: false
+      },
+    /*]
   },
 
   {
     id: 'water',
     enName: 'Hydrographic units',
     ruName: 'Объекты водопользователей',
-    items: [
+    items: [*/
       {
         id             : 'buis',
         enName         : 'BISA (Basin Irrig. System Admin.)',
@@ -44,26 +47,29 @@ var __Aggregation = [
         enNameShort    : 'BISA',
         ruNameShort    : 'БУИС',
         filter: 'buis' ,        
-        isDefault      : true
+        //isDefault      : true,
+    items: false
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
         ruName         : 'УИС (Управление ирригационной системы)',
         enNameShort    : 'ISA',
         ruNameShort    : 'УИС' ,
-        filter: 'buis'  
+        filter: 'buis'  ,
+    items: false
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
         ruName         : 'Командная площадь',
         enNameShort    : 'Comm. Area',
         ruNameShort    : 'Comm. Area' ,
-        filter: 'oblast'  
-      }
-    ]
+        filter: 'oblast' ,
+    items: false 
+      },
+     /* ]
   },
 
-  /*{
+{
     id: 'natural',
     enName: 'Natural units',
     ruName: 'Еcтеcтвенные объекты',

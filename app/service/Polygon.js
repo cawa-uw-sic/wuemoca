@@ -389,7 +389,7 @@ Ext.define('App.service.Polygon', {
           }
         },
         failure: function(results){
-          debugger;
+          //debugger;
           if (selectedPolygons.length == 1){
             alert(polygon.info.name + ': ' + i18n.polygon.failure);      
           }

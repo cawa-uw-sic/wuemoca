@@ -8,10 +8,14 @@ Ext.define('App.service.Map', {
     if (!this.instance) {
       this.instance = new ol.Map({
         view: App.util.Layer.olView,
-        layers: App.util.Layer.background
+        layers: App.util.Layer.background,
+        controls: ol.control.defaults({
+          attributionOptions: ({
+            collapsible: false
+          })
+        })       
       });
     }
-
     return this.instance;
   },
 
@@ -347,6 +351,7 @@ Ext.define('App.service.Map', {
     if (aoi_filter == false){
       App.service.Helper.clearZoomCombos();
     }
+    App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
     var CQLfilter = !!aoi_filter ? aoi_filter : '';
 
     var year_filter = false;

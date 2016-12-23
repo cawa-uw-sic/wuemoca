@@ -11,7 +11,7 @@ var __Selection = {
   //Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
   Indicator        : __LocalDB.get('Selections.Indicator'),  
   Crop             : __LocalDB.get('Selections.Crop', 'sum'),
-  Unit             : __LocalDB.get('Selections.Unit', 'admin'),
+  //Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
 
   Year             : __LocalDB.get('Selections.Year', __Global.year.Max),

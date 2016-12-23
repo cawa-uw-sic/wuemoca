@@ -6,7 +6,7 @@ Ext.define('App.controller.Switcher', {
   afterRender: function () {
     App.service.Helper.setComponentsValue([
        { id: 'switcher-cb-indicator',   selection: 'Indicator'   }
-      ,{ id: 'switcher-cb-unit',        selection: 'Unit'        }
+     // ,{ id: 'switcher-cb-unit',        selection: 'Unit'        }
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
     this.createFilters();
@@ -19,9 +19,14 @@ Ext.define('App.controller.Switcher', {
     if (!val){
       val == '';
     }
+    else{
+      
+    }
     App.service.Watcher.set('Indicator', val);
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
-    this.fillUnits();
+    //this.fillUnits();
+    this.fillAggregations_new();
+
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
@@ -47,14 +52,16 @@ Ext.define('App.controller.Switcher', {
   },
 
   onAggregation: function (cb, val) {
-   var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
         && (aoi_filter.indexOf('country') < 0)){
-        App.service.Watcher.set('Aoi_Filter', false);
+        aoi_filter = false;
+        App.service.Watcher.set('Aoi_Filter', aoi_filter);
+
       }
     }
-
+    App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
     App.service.Watcher.set('Aggregation', val);
 
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
@@ -112,6 +119,23 @@ Ext.define('App.controller.Switcher', {
     }
     unitStore.removeAll();
     unitStore.loadData(unitData);
+  },
+
+  fillAggregations_new: function () {
+    availableAggregations = App.service.Watcher.getIndicator().aggregation;
+    var aggregationStore = Ext.getStore('aggregation');
+    var aggregationData = __Aggregation;
+    if (typeof availableAggregations == 'object') {
+      aggregationData = [];
+      __Aggregation.map(function (aggregation) { if (availableAggregations.indexOf(aggregation.id) >= 0) aggregationData.push(aggregation); });
+      if (availableAggregations.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
+        App.service.Watcher.set('Aggregation', availableAggregations[0]);
+        App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
+      }
+    }
+    aggregationStore.removeAll();
+    aggregationStore.loadData(aggregationData);
+
   },
 
   fillAggregations: function (aggregationData, unit) {

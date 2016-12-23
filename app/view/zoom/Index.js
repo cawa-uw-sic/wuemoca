@@ -14,7 +14,7 @@ Ext.define('App.view.zoom.Index', {
     'App.view.zoom.CbBuis',
     'App.view.zoom.CbUis',
     'App.view.zoom.CbWua',
-
+    //'App.view.zoom.CbPilot'
     'App.view.zoom.BtnPilot'
 
     /*'App.view.zoom.BtnOblast',
@@ -49,7 +49,7 @@ Ext.define('App.view.zoom.Index', {
       height: 44,
       padding: '5 10 5 10',
       items: [
-       { xtype: 'button', text: i18n.filter.reset, padding: 0, handler: 'resetFilter'}
+       { xtype: 'button', itemId: 'zoom-btn-reset', text: i18n.filter.reset, padding: 0, handler: 'resetFilter'}
     ]},
   items: [
     //comboboxes within containers
@@ -71,10 +71,14 @@ Ext.define('App.view.zoom.Index', {
           },
           items:[
              { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
-             { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'}]
+             { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'},
+             { xtype: 'app-zoom-cb-wua',  margin: '0 5 5 5' }
+            ]
       },
       {
         xtype: 'container',
+        itemId: 'zoom-container-buis',
+        hidden: true,
         margin: '5 5 0 0',
         padding: 0,
         style: { backgroundColor:'#e0ebf3' },
@@ -86,12 +90,30 @@ Ext.define('App.view.zoom.Index', {
             labelWidth: 65
           },
         items:[
+                  { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,
            { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
-           { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }]
+           { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }
+          ]
       },
-
-      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' },
-      { xtype: 'app-zoom-btn-pilot',  margin: '5 5 0 0' }
+      {
+        xtype: 'container',
+        margin: '5 5 0 0',
+        padding: 0,
+        style: { backgroundColor:'#FFEFBB' },
+        layout: {
+          type: 'vbox',
+          align: 'stretch'
+        },
+          defaults:  {
+            //labelWidth: 65
+          },
+        items:[
+          { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,   
+          { xtype: 'app-zoom-btn-pilot', ui: 'default-toolbar', margin: '0 5 5 5' }
+        ]
+      }
+      //{ xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' },
+      //{ xtype: 'app-zoom-btn-pilot',  margin: '5 5 0 0' }
       //]
    // }
    /* //buttons

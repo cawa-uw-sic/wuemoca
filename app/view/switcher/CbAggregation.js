@@ -9,6 +9,8 @@ Ext.define('App.view.switcher.CbAggregation', {
 
   itemId: 'switcher-cb-aggregation',
 
+   labelAlign: 'top',
+
   fieldLabel: i18n.aggreg.label,
 
   store: {

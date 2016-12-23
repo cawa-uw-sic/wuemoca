@@ -23,6 +23,7 @@ Ext.define('App.store.Country', {
         App.service.Helper.setComponentsValue([
           { id: 'zoom-cb-country', selection: 'Country' }
         ]);
+        //App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!val);
       }
     }
   }

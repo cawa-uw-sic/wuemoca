@@ -49,6 +49,7 @@ Ext.define('App.view.switcher.Index', {
       padding: '5',    
       items:[
         { xtype: 'app-switcher-filter', style: {backgroundColor:'#e0ebf3'}},
+        //{xtype: 'app-switcher-iconlabel', text:i18n.indicator.label, iconCls: 'x-fa  fa fa-info'},
         { xtype: 'app-switcher-cb-indicator'   }]
     },{ 
       //crop buttons

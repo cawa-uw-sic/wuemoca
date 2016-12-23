@@ -8,6 +8,7 @@ Ext.define('App.view.switcher.Filter', {
   itemId: 'switcher-filter',
 
  //padding: 5,
+ hidden:true,
 
   checkboxToggle: true,
   collapsible: true,
@@ -24,7 +25,7 @@ Ext.define('App.view.switcher.Filter', {
   },
   defaults: {
   	labelWidth: 60,
-  	margin: '5 0 0 0'
+  	margin: '0 0 0 0'
 
   },
 

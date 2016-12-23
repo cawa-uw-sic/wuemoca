@@ -8,10 +8,10 @@ Ext.define('App.view.zoom.CbWua', {
   xtype: 'app-zoom-cb-wua',
 
   itemId: 'zoom-cb-wua',
-  emptyText: i18n.adminFilters.wua_empty,
+  //emptyText: i18n.adminFilters.wua_empty,
   fieldLabel: i18n.adminFilters.wua,
 
-  labelAlign: 'top',
+  //labelAlign: 'top',
 
   hidden: true,
   store: {

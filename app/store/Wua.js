@@ -26,6 +26,9 @@ Ext.define('App.store.Wua', {
         }
         else{
           App.service.Helper.showComponents(['zoom-cb-wua']);
+          var allWUAProvince = store.getAt(0).get('name');
+          App.service.Helper.getComponentExt('zoom-cb-wua').setEmptyText(allWUAProvince);
+
         }
       }
     }

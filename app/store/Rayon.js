@@ -21,10 +21,10 @@ Ext.define('App.store.Rayon', {
         App.service.Helper.setComponentsValue([
           { id: 'zoom-cb-rayon', selection: 'Rayon' }
         ]);
-        if (store.count() > 0){
+        /*if (store.count() > 0){
           var allRayonsOblast = store.getAt(0).get('name');
           App.service.Helper.getComponentExt('zoom-cb-rayon').setEmptyText(allRayonsOblast);
-        }
+        }*/
       }
     }
   }

@@ -22,10 +22,10 @@ Ext.define('App.store.Buis', {
           { id: 'zoom-cb-buis', selection: 'Buis' }
         ]);
         //undefined error
-        if (store.count() > 0){           
+        /*if (store.count() > 0){           
           var allBuisCountry = store.getAt(0).get('name');
           App.service.Helper.getComponentExt('zoom-cb-buis').setEmptyText(allBuisCountry);
-        }
+        }*/
       }
     }
   }

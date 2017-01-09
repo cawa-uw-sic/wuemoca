@@ -8,7 +8,7 @@ Ext.define('App.view.zoom.CbUis', {
   xtype: 'app-zoom-cb-uis',
 
   itemId: 'zoom-cb-uis',
-  //emptyText: i18n.adminFilters.uis_empty,
+  emptyText: i18n.adminFilters.uis_empty,
   fieldLabel: i18n.adminFilters.uis,
 
   hidden: true,

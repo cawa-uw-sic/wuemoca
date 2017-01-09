@@ -14,7 +14,8 @@ var __Aggregation = [
         ruNameShort    : 'Область',
         filter: 'oblast',        
         isDefault      : true,
-    items: false
+        items: false,
+        glossary       : 'bme00057.htm'
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
@@ -22,15 +23,20 @@ var __Aggregation = [
         enNameShort    : 'District',
         ruNameShort    : 'Район',
         filter: 'oblast'  ,
-    items: false
+        items: false,
+        glossary       : 'bme00057.htm'
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
         ruName         : 'АВП (Ассоциация водопользователей)',
         enNameShort    : 'WUA',
         ruNameShort    : 'АВП' ,
+        enTooltip      : 'Available for Fergana and Khorezm provinces only',
+        ruTooltip      : 'Доступно только для Ферганской и Хорезмской областей',        
         filter: 'oblast'    ,
-    items: false
+        tiled: true,
+        items: false,
+        glossary       : 'bme00057.htm'
       },
     /*]
   },
@@ -46,25 +52,35 @@ var __Aggregation = [
         ruName         : 'БУИС (бассейн Управление ирригационной системы)',
         enNameShort    : 'BISA',
         ruNameShort    : 'БУИС',
+        enTooltip      : 'Available for Uzbekistan only',
+        ruTooltip      : 'Доступно для Узбекистана только',        
         filter: 'buis' ,        
         //isDefault      : true,
-    items: false
+        items: false,
+        glossary       : 'bme00057.htm'
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
         ruName         : 'УИС (Управление ирригационной системы)',
         enNameShort    : 'ISA',
         ruNameShort    : 'УИС' ,
+        enTooltip      : 'Available for Uzbekistan only',
+        ruTooltip      : 'Доступно для Узбекистана только',         
         filter: 'buis'  ,
-    items: false
+        items: false,
+        glossary       : 'bme00057.htm'
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
         ruName         : 'Командная площадь',
         enNameShort    : 'Comm. Area',
         ruNameShort    : 'Comm. Area' ,
+        enTooltip      : 'Available for Fergana valley only',
+        ruTooltip      : 'Доступно только для Ферганской долины',        
         filter: 'oblast' ,
-    items: false 
+        tiled: true,
+        items: false ,
+        glossary       : 'bme00057.htm'
       },
      /* ]
   },
@@ -94,9 +110,10 @@ var __Aggregation = [
     ruName: 'Регулярный растр',
     enNameShort    : 'reg. Raster',
     ruNameShort    : 'reg. Raster', 
-        filter: 'oblast',     
+    filter: 'oblast',     
     tiled: true,
-    items: false
+    items: false,
+    glossary       : 'bme00057.htm'
   }
 
 ];

@@ -11,7 +11,7 @@ Ext.define('App.view.switcher.CbAggregation', {
 
    labelAlign: 'top',
 
-  fieldLabel: i18n.aggreg.label,
+  //fieldLabel: i18n.aggreg.label,
 
   store: {
     type: 'aggregation'

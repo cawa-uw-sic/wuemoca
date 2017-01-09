@@ -120,14 +120,14 @@ var i18n = {
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
-    oblast_empty            : 'all provinces of country',
+    oblast_empty            : 'Select province',
     rayon                   : 'District',
-    rayon_empty             : 'all districts of province',
+    rayon_empty             : 'Select district',
     buis                    : 'BISA',
-    buis_empty              : 'all BISAs of country',
+    buis_empty              : 'Select BISA',
     uis                     : 'ISA',
-    uis_empty               : 'all ISAs of BISA',
-    wua                     : 'WUA',
+    uis_empty               : 'Select ISA',
+    wua                     : 'or WUA',
     wua_empty               : 'type WUA name',  
     oblastBtnText           : 'Province<br>map',
     rayonBtnText            : 'District<br>map',
@@ -142,7 +142,7 @@ var i18n = {
     _or: 'OR'
   },
 mapSelection:{
-   title       :'Map Selection Options'
+   title       :'Maps'
 },
   rayon: {
     label                   : 'District Filter (multiple choice)',
@@ -565,14 +565,14 @@ switch (locale){
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
-      oblast_empty:'all provinces of country',
+      oblast_empty:'Выберите область',
       rayon                 : 'Район',
-      rayon_empty:'all districts of province',
+      rayon_empty:'Выберите район',
       buis                  : 'БУИС',
-      buis_empty:'all BISAs of country',
+      buis_empty:'Выберите БУИС',
       uis                   : 'УИС',
-      uis_empty:'all ISAs of BISA',
-      wua                     : 'АВП',
+      uis_empty:'Выберите УИС',
+      wua                     : 'или АВП',
       wua_empty:'введите имя АВП',
       oblastBtnText         : 'Показатьy<br>обл.карту',
       rayonBtnText          : 'Показать<br>р-н карту',
@@ -589,7 +589,7 @@ switch (locale){
 
     };
 i18n.mapSelection ={
-   title       :'Выбрать карту'
+   title       :'карты'
 };
 
     i18n.rayon = {

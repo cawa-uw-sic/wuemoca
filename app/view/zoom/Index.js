@@ -56,12 +56,16 @@ Ext.define('App.view.zoom.Index', {
     //{
       //flex: 3,
       //items: [
-        { xtype: 'app-zoom-cb-country', margin: '0 5 5 5', labelWidth: 65 },
         {
           xtype: 'container',
-          margin: '0 5 0 0',
+          //margin: '0 5 0 0',
           padding: 0,
-          style:{ backgroundColor:'#f0f0f0' },
+          border: 1,
+          style:{ 
+            //backgroundColor:'#f0f0f0'
+            borderColor: '#878787',
+            borderStyle: 'solid'           
+          },
           layout: {
             type: 'vbox',
             align: 'stretch'
@@ -70,36 +74,57 @@ Ext.define('App.view.zoom.Index', {
             labelWidth: 65
           },
           items:[
-             { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
-             { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'},
-             { xtype: 'app-zoom-cb-wua',  margin: '0 5 5 5' }
-            ]
-      },
-      {
-        xtype: 'container',
-        itemId: 'zoom-container-buis',
-        hidden: true,
-        margin: '5 5 0 0',
-        padding: 0,
-        style: { backgroundColor:'#e0ebf3' },
-        layout: {
-          type: 'vbox',
-          align: 'stretch'
-        },
-          defaults:  {
-            labelWidth: 65
+            { xtype: 'app-zoom-cb-country', margin: '0 0 5 5', labelWidth: 65 },
+            {
+              xtype: 'container',
+              //margin: '0 5 0 0',
+              padding: 0,
+              style:{ backgroundColor:'#f0f0f0' },
+              layout: {
+                type: 'vbox',
+                align: 'stretch'
+              },
+              defaults:  {
+                labelWidth: 65
+              },
+              items:[
+                 { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
+                 { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'},
+                 { xtype: 'app-zoom-cb-wua',  margin: '0 5 5 5' }
+                ]
           },
-        items:[
-                  { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,
-           { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
-           { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }
+          {
+            xtype: 'container',
+            itemId: 'zoom-container-buis',
+            hidden: true,
+            margin: '5 0 0 0',
+            padding: 0,
+            style: { backgroundColor:'#e0ebf3' },
+            layout: {
+              type: 'vbox',
+              align: 'stretch'
+            },
+              defaults:  {
+                labelWidth: 65
+              },
+            items:[
+               { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,
+               { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
+               { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }
+              ]
+          },            
           ]
-      },
+      },      
       {
         xtype: 'container',
-        margin: '5 5 0 0',
+        margin: '5 0 0 0',
         padding: 0,
-        style: { backgroundColor:'#FFEFBB' },
+                  border: 1,
+          style:{ 
+            backgroundColor:'#FFEFBB',
+            borderColor: '#878787',
+            borderStyle: 'solid'           
+          },
         layout: {
           type: 'vbox',
           align: 'stretch'

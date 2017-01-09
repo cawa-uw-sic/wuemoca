@@ -19,10 +19,15 @@ Ext.define('App.controller.Switcher', {
     if (!val){
       val == '';
     }
-    else{
-      
-    }
+
     App.service.Watcher.set('Indicator', val);
+
+    var indicator = App.service.Watcher.getIndicator();
+    var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
+      '" title="' + indicator[__Global.Lang + 'NameShort'] + ': ' + indicator[__Global.Lang + 'Tooltip'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
+    cb.setFieldLabel(label);
+
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
     //this.fillUnits();
     this.fillAggregations_new();
@@ -30,13 +35,17 @@ Ext.define('App.controller.Switcher', {
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
-    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
+    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
+      App.service.Polygon.showChartWindow();
+    }
   },
 
   onCrop: function (button, el) {
     App.service.Watcher.set('Crop', button.getItemId());
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
-    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
+    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
+      App.service.Polygon.showChartWindow();
+    }
   },
 
   onUnit: function (cb, val) {
@@ -64,8 +73,16 @@ Ext.define('App.controller.Switcher', {
     App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
     App.service.Watcher.set('Aggregation', val);
 
+    var aggregation = App.service.Watcher.getAggregation();
+    var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+      '" title="' + aggregation[__Global.Lang + 'NameShort'] + ': ' + aggregation[__Global.Lang + 'Tooltip'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
+    cb.setFieldLabel(label);
+
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
-    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) App.service.Polygon.showChartWindow();
+    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
+      App.service.Polygon.showChartWindow();
+    }
   },
 
   fillCrops: function (component) {

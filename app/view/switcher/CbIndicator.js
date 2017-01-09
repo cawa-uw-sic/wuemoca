@@ -11,7 +11,7 @@ Ext.define('App.view.switcher.CbIndicator', {
 
   //componentCLs: 'x-fa  fa fa-info',
 
-  fieldLabel: '<a href="" title="" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label,
+  //fieldLabel: '<a href="" title="" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label,
 
   labelAlign: 'top',
 

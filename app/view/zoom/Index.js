@@ -49,13 +49,14 @@ Ext.define('App.view.zoom.Index', {
       height: 44,
       padding: '5 10 5 10',
       items: [
-       { xtype: 'button', itemId: 'zoom-btn-reset', text: i18n.filter.reset, padding: 0, handler: 'resetFilter'}
+       { xtype: 'button', itemId: 'zoom-btn-reset', text: i18n.adminFilters.reset, padding: 0, handler: 'resetFilter'}
     ]},
   items: [
     //comboboxes within containers
     //{
       //flex: 3,
       //items: [
+      //area filter container
         {
           xtype: 'container',
           //margin: '0 5 0 0',
@@ -74,10 +75,13 @@ Ext.define('App.view.zoom.Index', {
             labelWidth: 65
           },
           items:[
-            { xtype: 'app-zoom-cb-country', margin: '0 0 5 5', labelWidth: 65 },
+            { xtype: 'app-zoom-cb-country', margin: '0 0 0 5', labelWidth: 65 },
+            //oblast-rayon-wua container
             {
               xtype: 'container',
-              //margin: '0 5 0 0',
+              itemId: 'zoom-container-oblast',
+              hidden: true,             
+              margin: '5 0 0 0',
               padding: 0,
               style:{ backgroundColor:'#f0f0f0' },
               layout: {
@@ -93,6 +97,7 @@ Ext.define('App.view.zoom.Index', {
                  { xtype: 'app-zoom-cb-wua',  margin: '0 5 5 5' }
                 ]
           },
+          //buis-uis container
           {
             xtype: 'container',
             itemId: 'zoom-container-buis',
@@ -112,7 +117,7 @@ Ext.define('App.view.zoom.Index', {
                { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
                { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }
               ]
-          },            
+          }            
           ]
       },      
       {

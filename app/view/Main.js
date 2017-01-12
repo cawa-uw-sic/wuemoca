@@ -60,29 +60,29 @@ Ext.define('App.view.Main', {
       width: 300,
       layout:{
         type: 'accordion',
-        animate: true
+        animate: true,
+        multi: true
       },
       defaults: {
-        scrollable: 'vertical',
-        listeners:{
-          expand: function(p, eOpts){
-            __LocalDB.set('Accordion', p.getItemId());
-            //App.service.Watcher.set('Accordion', p.getItemId());
-          }
-        }
+        scrollable: 'vertical'
       },
       items: [{ 
         xtype: 'app-zoom',
-        //collapsed : App.service.Watcher.set('Accordion') != 'app-zoom'        
-        collapsed : __Selection['Accordion'] != 'app-zoom'
+        collapsed : __Selection['AreaFilter'] == 'noshow',
+        listeners:{
+          expand: function(p, eOpts){
+            __LocalDB.set('AreaFilter', 'show');
+          },
+          collapse: function(p, eOpts){
+            __LocalDB.set('AreaFilter', 'noshow');
+          }          
+        }
       } ,{ 
         xtype: 'app-switcher' , 
-        //collapsed : App.service.Watcher.set('Accordion') != 'app-switcher'         
-        collapsed : __Selection['Accordion'] != 'app-switcher' 
+        collapsed : false
       } ,{ 
         xtype: 'app-overview' , 
-        //collapsed : App.service.Watcher.set('Accordion') != 'app-overview' 
-        collapsed : __Selection['Accordion'] != 'app-overview' 
+        collapsed : true 
       }]
     },
     {

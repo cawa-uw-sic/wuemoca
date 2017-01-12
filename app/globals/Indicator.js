@@ -1,12 +1,15 @@
 var __Indicator = [
 
   {
-    id             : 'firn',
-    field          : 'firn',
+    id             : 'fir_n',
+    field          : 'fir_n',
+    new_id:'fir_n',
     enName         : 'Net irrigated area',
     ruName         : 'Нетто Поливная площадь',
     enNameShort         : 'Net irrigated area',
-    ruNameShort         : 'Нетто Поливная площадь',    
+    ruNameShort         : 'Нетто Поливная площадь',  
+enTooltip      : 'Area equipped with irrigation infrastructure',
+ruTooltip      : 'Площадь оснащен ирригационной инфраструктуры',       
     enUnit         : 'ha',
     ruUnit         : 'га',
     crops          : false,
@@ -24,15 +27,18 @@ var __Indicator = [
     maximum        : 0,   
     chart          : false,
     decimals       : 0,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
     //color          : '#e6550d'
   }, {
     id             : 'firf',
     field          : 'firf_{crop}',
+    new_id:'firf',    
     enName         : 'Irrigated acreage per crop',
     ruName         : 'Орошаемые посевные площади с/х культур',
     enNameShort    : 'Irrigated acreage',
     ruNameShort    : 'Орошаемые посевные площади',
+enTooltip      : 'Area of active irrigated cropland',
+ruTooltip      : 'Площадь активного орошаемых пахотных земель',    
     enUnit         : 'ha',
     ruUnit         : 'га',
     crops          : ['sum', 'cotton', 'wheat', 'rice', 'other', 'orchard', 'garden', 'maize', 'veg', 'sun'],
@@ -50,10 +56,11 @@ var __Indicator = [
     maximum        : 0,     
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
     decimals       : 0,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
-    id             : 'uiri',
-    field          : 'uiri_{crop}',
+    id             : 'uir',
+    field          : 'uir_{crop}',
+        new_id:'uir',
     enName         : 'Irrigated land use per crop',
     ruName         : 'Орошаемое использование земель по с/х культуре',
     enNameShort    : 'Irrigated land use',
@@ -78,14 +85,17 @@ var __Indicator = [
     chart          : ['Stacked', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults', 'Defaults'],
     legendcolors   : [['#fee0d2','#fc9272','#de2d26'],['#F1F6F2','#76A882','#3B5441'],['#F1F6F2','#FF7F00','#3B5441'],['#F1F6F2','#1F78B4','#3B5441'],['#F1F6F2','#DD3497','#3B5441'],['#F1F6F2','#00858E','#3B5441'],['#F1F6F2','#E31A1C','#3B5441'],['#F1F6F2','#33a02c','#3B5441'],['#F1F6F2','#6a3d9a','#3B5441'],['#F1F6F2','#FFD500','#3B5441']] , 
     decimals       : 1,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
     id             : 'pirf',
     field          : 'pirf_{crop}',
+        new_id:'pirf',
     enName         : 'Farm gross output actual',
     ruName         : 'Ферма валовой продукции фактическая',
     enNameShort         : 'Gross output',
-    ruNameShort         : 'валовой продукции',    
+    ruNameShort         : 'валовой продукции',   
+enTooltip      : 'Harvest quantity of irrigated land',
+ruTooltip      : 'Урожай количество орошаемых земель',      
     enUnit         : 'tons',
     ruUnit         : 'тонны',
     crops          : ['cotton', 'wheat'],
@@ -102,14 +112,17 @@ var __Indicator = [
     maximum        : 0,     
     chart          : 'Defaults',
     decimals       : 0,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
-    id             : 'yield',
-    field          : 'yield_{crop}',
+    id             : 'y',
+    field          : 'y_{crop}',
+        new_id:'y',
     enName         : 'Yield',
     ruName         : 'Урожайность',
     enNameShort         : 'Yield',
-    ruNameShort         : 'Урожайность',    
+    ruNameShort         : 'Урожайность',  
+enTooltip      : 'Crop productivity of irrigated land',
+ruTooltip      : 'Урожайность орошаемых земель',       
     enUnit         : 't/ha',
     ruUnit         : 'т/га',
     crops          : ['cotton', 'wheat'],
@@ -127,14 +140,17 @@ var __Indicator = [
     chart          : 'Defaults',
     legendcolors   : ['#ffff80','#f8db5a','#f0b92f','#e69900','#a38f21','#56823b','#00734c'],
     decimals       : 1,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
-    id             : 'fallow',
-    field          : 'fallow_percent',
+    id             : 'fp',
+    field          : 'fp',
+        new_id:'fp',
     enName         : 'Temporary unused irrigable land',
     ruName         : 'Неиспользованный орошаемые земли',
     enNameShort         : 'Fallow land',
     ruNameShort         : 'Площадь неисп. земель',    
+enTooltip      : 'Non-use intensity in relation to net irrigated area',
+ruTooltip      : 'Неиспользование интенсивность по отношению к чистой орошаемой площади',     
     enUnit         : '%',
     ruUnit         : '%',
     crops          : false,
@@ -154,14 +170,17 @@ var __Indicator = [
     color          : '#b29972',
     legendcolors   : ['#F1F6F2','#B29972','#3B5441'],
     decimals       : 1,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
 }, {
-    id             : 'diversity',
-    field          : 'diversity',
+    id             : 'cd',
+    field          : 'cd',
+        new_id:'cd',
     enName         : 'Crop diversity',
     ruName         : 'Разнообразие сельскохозяйственных культур',
     enNameShort         : 'Crop diversity',
-    ruNameShort         : 'Разнообразие сельскохозяйственных культур',    
+    ruNameShort         : 'Разнообразие сельскохозяйственных культур',  
+enTooltip      : 'Index of diverse crop types of adjacent areas',
+ruTooltip      : 'Индекс различных типов культур соседних областей',       
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -181,14 +200,17 @@ var __Indicator = [
     legendcolors   : ['#d7191c','#ffffbf', '#2c7bb6'],
     color          :'#989800',
     decimals       : 2,
-    glossary       : 'bme00057.htm'   
+    glossary       : 'bme00073.htm'   
   }, {
-    id             : 'majority',
-    field          : 'majority',
+    id             : 'mlu',
+    field          : 'mlu',
+        new_id:'mlu',
     enName         : 'Major land use',
     ruName         : 'Основное землепользование',
     enNameShort         : 'Major land use',
     ruNameShort         : 'Основное землепользование',    
+enTooltip      : 'Predominant crop type within the whole investigation period',
+ruTooltip      : 'Преобладающий тип культур в течение всего периода исследования',     
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -204,14 +226,17 @@ var __Indicator = [
     enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Other crop', 'Orchard/Vineyard', 'Urban Garden'],
     ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'другая культура', 'фруктовый сад/Виноградник', 'Городской сад'],
     chart          : 'Multiannual',
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
-    id             : 'rotation',
-    field          : 'rotation',
+    id             : 'cr',
+    field          : 'cr',
+        new_id:'cr',
     enName         : 'Crop rotation',
     ruName         : 'Разнообразие с/х культур',
     enNameShort         : 'Crop rotation',
-    ruNameShort         : 'Разнообразие с/х культур',    
+    ruNameShort         : 'Разнообразие с/х культур',  
+enTooltip      : 'Average number of changing crop types within the whole investigation period',
+ruTooltip      : 'Среднее количество изменения типов культур в течение всего периода исследования',       
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -229,14 +254,17 @@ var __Indicator = [
     maximum        : 0,     
     chart          : 'Multiannual',
     legendcolors   : ['#732A06','#e6550d', '#FCEEE6'],
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }, {
-    id             : 'frequency',
-    field          : 'frequency',
+    id             : 'flf',
+    field          : 'flf',
+        new_id:'flf',
     enName         : 'Fallow land frequency',
     ruName         : 'Частота неисп.земель',
      enNameShort         : 'Fallow land frequency',
     ruNameShort         : 'Частота неисп.земель',   
+enTooltip      : 'Average number of unused years within the whole investigation period',
+ruTooltip      : 'Среднее количество неиспользованных лет в течение всего периода исследования',     
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -254,7 +282,7 @@ var __Indicator = [
     maximum        : 0,     
     chart          : 'Multiannual',
     legendcolors   : ['#EAF5E9','#33a02c', '#195016'],
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00073.htm'
   }
 
 ];

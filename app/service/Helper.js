@@ -144,21 +144,20 @@ Ext.define('App.service.Helper', {
     }
     return cropName;
   },
+  
   clearZoomCombos: function(){
     this.setComponentsValue([{ id: 'zoom-cb-country', value: null }]);
 
   },
   openGlossaryFrame: function(frame){
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-    /*insert in head section of index.html of Glossary on Server (here: glossary_wuemoca_vers2.htm):
-      <script language="javascript">
-      var fname="content";     //MAIN CONTENT AREA FRAME **NAME**
-
-      window.onload=function(){
+    /*insert in head section of index.html of Glossary on Server (here: glossary_wuemoca_vers2_test.htm):
+    var fname="content";     //MAIN CONTENT AREA FRAME **NAME**
+    window.onload=function(){
       var d=document.location.search;
-      if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length);
-      }
-      </script>
+      var h=document.location.hash; //anchor
+      if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length) + h;
+    }
     */
     var link = document.createElement("a");    
     link.style = "visibility:hidden";
@@ -239,7 +238,7 @@ Ext.define('App.service.Helper', {
       var cropNames = [];  
       CSV += '\nIndicator acronym;;Indicator name\r\n';
       __Indicator.map(function (indicator) {
-        if (indicator.id == 'uiri'){
+        if (indicator.id == 'uir'){
           crops = indicator.crops;
           cropNames = indicator[__Global.Lang + 'Legend'];
         }        
@@ -415,7 +414,7 @@ Ext.define('App.service.Helper', {
       result.body += '</tr>';                  
 
       __Indicator.map(function (indicator) {
-        if (indicator.id == 'uiri'){
+        if (indicator.id == 'uir'){
           crops = indicator.crops;
           cropNames = indicator[__Global.Lang + 'Legend'];
         }        

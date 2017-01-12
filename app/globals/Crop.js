@@ -1,5 +1,5 @@
 var __Crop         = ['sum', 'cotton', 'wheat', 'rice', 'other', 'orchard', 'garden', 'maize', 'veg', 'sun'];
-var __CropMajority = ['cotton', 'wheat', 'rice', 'fallow', 'double', 'other', 'orchard', 'garden'];
+var __Cropmlu = ['cotton', 'wheat', 'rice', 'fallow', 'double', 'other', 'orchard', 'garden'];
 
 var __CropColors = {
   cotton     : '#76a882',

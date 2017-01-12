@@ -9,9 +9,7 @@ Ext.define('App.view.switcher.CbIndicator', {
 
   itemId: 'switcher-cb-indicator',
 
-  //componentCLs: 'x-fa  fa fa-info',
-
-  //fieldLabel: '<a href="" title="" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label,
+  fieldLabel: i18n.indicator.label,
 
   labelAlign: 'top',
 
@@ -58,7 +56,7 @@ Ext.define('App.view.switcher.CbIndicator', {
   // this is required to make the items selectable.
   tpl: Ext.create('Ext.XTemplate',
       '<ul class="x-list-plain"><tpl for=".">',
-          '<li role="option" class="x-boundlist-item">{' + __Global.Lang + 'Name} ({' + __Global.Lang + 'Unit})</li>',
+          '<li role="option" class="x-boundlist-item" data-qtip="{' + __Global.Lang + 'Tooltip}">{' + __Global.Lang + 'Name} ({' + __Global.Lang + 'Unit})</li>',
       '</tpl></ul>'
   ),
   // template for the content inside text field

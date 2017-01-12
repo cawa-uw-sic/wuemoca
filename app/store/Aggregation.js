@@ -5,7 +5,7 @@ Ext.define('App.store.Aggregation', {
 
   storeId: 'aggregation',
 
-  fields: [ 'id', 'enName', 'ruName' ],
+  fields: [ 'id', 'enName', 'ruName', 'enTooltip', 'ruTooltip' ],
 
   data: __Aggregation,
 

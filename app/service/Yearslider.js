@@ -37,6 +37,7 @@ Ext.define('App.service.Yearslider', {
     }
     else{
       App.service.Helper.showComponents(['app-yearslider', 'yearslider-btn-play']);
+      slider.setValue(App.service.Watcher.get('Year'));
     }
   },
 

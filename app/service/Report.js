@@ -75,7 +75,7 @@ Ext.define('App.service.Report', {
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
@@ -119,7 +119,7 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_cotton + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain + '</td>';
@@ -151,7 +151,7 @@ Ext.define('App.service.Report', {
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
@@ -191,7 +191,7 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.pirf_cotton + '</td>';
       result.body += '<td></td>';
@@ -222,7 +222,7 @@ Ext.define('App.service.Report', {
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
@@ -262,11 +262,11 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firn + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.yield_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.y_cotton + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.yield_wheat + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.y_wheat + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';

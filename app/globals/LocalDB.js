@@ -12,14 +12,16 @@ var __LocalDB = {
   },
 
   set: function (attr, val) {
-    if (typeof val == 'object') val = JSON.stringify(val);
-    if (attr.indexOf('.') >= 0) {
-      attr = attr.split('.');
-      var result = this.get(attr[0], {});
-      result[attr[1]] = val;
-      return localStorage.setItem(attr[0], JSON.stringify(result));
+    if (attr.indexOf('undefined') < 0){
+      if (typeof val == 'object') val = JSON.stringify(val);
+      if (attr.indexOf('.') >= 0) {
+        attr = attr.split('.');
+        var result = this.get(attr[0], {});
+        result[attr[1]] = val;
+        return localStorage.setItem(attr[0], JSON.stringify(result));
+      }
+      return localStorage.setItem(attr, val);
     }
-    return localStorage.setItem(attr, val);
   },
 
   parseValues: function (obj) {

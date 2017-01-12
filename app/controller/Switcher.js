@@ -10,6 +10,7 @@ Ext.define('App.controller.Switcher', {
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
     this.createFilters();
+    Ext.getStore('indicator').sort(__Global.Lang + 'Name', 'ASC');
    // App.service.Watcher.activateFilters();
   },
 
@@ -18,19 +19,26 @@ Ext.define('App.controller.Switcher', {
     console.log('onIndicator: ' + val);
     if (!val){
       val == '';
+      //App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
+    }
+    else{
+      //App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
     }
 
     App.service.Watcher.set('Indicator', val);
 
     var indicator = App.service.Watcher.getIndicator();
-    var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      '" title="' + indicator[__Global.Lang + 'NameShort'] + ': ' + indicator[__Global.Lang + 'Tooltip'] + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
+    //var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
+      //'" title="' + indicator[__Global.Lang + 'NameShort'] + ': ' + indicator[__Global.Lang + 'Tooltip'] + 
+      //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
+    var label = '<a data-qtip="' + i18n.header.readmore + ' ' + indicator[__Global.Lang + 'NameShort'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;      
     cb.setFieldLabel(label);
 
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
     //this.fillUnits();
-    this.fillAggregations_new();
+    console.log('onIndicator fillAggregations_new');
+    App.service.Map.fillAggregations_new();
 
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
@@ -46,6 +54,9 @@ Ext.define('App.controller.Switcher', {
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
       App.service.Polygon.showChartWindow();
     }
+    var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + button.tooltip + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.crop.label + '</span>';    
+    App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
   onUnit: function (cb, val) {
@@ -67,16 +78,19 @@ Ext.define('App.controller.Switcher', {
         && (aoi_filter.indexOf('country') < 0)){
         aoi_filter = false;
         App.service.Watcher.set('Aoi_Filter', aoi_filter);
-
+    console.log('onAggregation fillAggregations_new');        
+        App.service.Map.fillAggregations_new();
       }
     }
     App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
     App.service.Watcher.set('Aggregation', val);
 
     var aggregation = App.service.Watcher.getAggregation();
-    var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-      '" title="' + aggregation[__Global.Lang + 'NameShort'] + ': ' + aggregation[__Global.Lang + 'Tooltip'] + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
+    //var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+      //'" title="' + aggregation[__Global.Lang + 'NameShort'] + ': ' + aggregation[__Global.Lang + 'Tooltip'] + 
+      //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
+    var label = '<a data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.Lang + 'NameShort'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;      
     cb.setFieldLabel(label);
 
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
@@ -120,6 +134,11 @@ Ext.define('App.controller.Switcher', {
     }
 
     App.service.Helper.showComponents(['switcher-btns-crop']);
+
+    var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + 
+      App.service.Helper.getCropName() + '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
+      i18n.crop.label + '</span>';
+    App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
   fillUnits: function () {
@@ -140,15 +159,29 @@ Ext.define('App.controller.Switcher', {
 
   fillAggregations_new: function () {
     availableAggregations = App.service.Watcher.getIndicator().aggregation;
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     var aggregationStore = Ext.getStore('aggregation');
     var aggregationData = __Aggregation;
     if (typeof availableAggregations == 'object') {
       aggregationData = [];
-      __Aggregation.map(function (aggregation) { if (availableAggregations.indexOf(aggregation.id) >= 0) aggregationData.push(aggregation); });
+      __Aggregation.map(function (aggregation) {
+        if (availableAggregations.indexOf(aggregation.id) >= 0) {
+             aggregationData.push(aggregation); 
+        }
+      });
       if (availableAggregations.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
         App.service.Watcher.set('Aggregation', availableAggregations[0]);
         App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
       }
+    }
+    if (aoi_filter){
+      var filteredData = [];
+      aggregationData.map(function (aggregation) {
+        if (!aggregation.aoi_filter || aggregation.aoi_filter.indexOf(aoi_filter) >= 0) {
+          filteredData.push(aggregation); 
+        }
+      });
+      aggregationData = filteredData;
     }
     aggregationStore.removeAll();
     aggregationStore.loadData(aggregationData);
@@ -210,6 +243,15 @@ Ext.define('App.controller.Switcher', {
   loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
   },
+
+  resetSelection: function(button, e){
+    //App.service.Helper.resetComboboxes(['switcher-cb-indicator']);
+    App.service.Watcher.set('Indicator', undefined);
+    App.service.Watcher.set('Aggregation', 'rayon');
+    this.afterRender();
+    //do not collapse/expand accordion panel
+    e.stopPropagation();
+  },  
 
   onShapefile: function(){
     var aggregation = App.service.Watcher.get('Aggregation');

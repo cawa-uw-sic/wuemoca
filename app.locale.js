@@ -37,6 +37,7 @@ var i18n = {
     manual                  : 'User Manual',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
+    readmore: 'Read more about',
     uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
     sic: 'SIC ICWC'
   },
@@ -64,8 +65,7 @@ var i18n = {
   },
 
   filter: {
-    title                   : 'Map Controls',
-          reset:'reset<br>filter'
+    title                   : 'Map Controls'
   },
 
   report: {
@@ -139,10 +139,12 @@ var i18n = {
     uisBtnTooltip           : 'Aggregations to ISA',
     buisBtnTooltip          : 'Aggregations to BISA',
     wuaBtnTooltip           : 'Aggregations to WUA',
-    _or: 'OR'
+    _or: 'OR',
+          reset:'reset<br>filter'
   },
 mapSelection:{
-   title       :'Maps'
+   title       :'Maps',
+          reset:'reset<br>selections'
 },
   rayon: {
     label                   : 'District Filter (multiple choice)',
@@ -359,7 +361,9 @@ mapSelection:{
           allOblastsCA : 'all Provinces of CA',
           download: 'Download',
           asSHP: 'as SHP',
-          filtered: 'filtered'
+          filtered: 'filtered',
+          tooltipSHP1: 'A ',
+          tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created'
   },
 
   timeSlider: {
@@ -480,6 +484,7 @@ switch (locale){
 	manual                  : 'Руководство пользователя',
 	faq                     : 'Часто задаваемые вопросы',
 	glossary                : 'Глоссарий',
+      readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
     sic: 'НИЦ МКВК'
     };
@@ -514,8 +519,7 @@ switch (locale){
     };
 
     i18n.filter = {
-      title                 : 'Поиск по карте',
-      reset:'сброс<br>фильтра'
+      title                 : 'Поиск по карте'
     };
 
     i18n.report = {
@@ -584,12 +588,14 @@ switch (locale){
       uisBtnTooltip         : 'Агрегировать до УИСа',
       buisBtnTooltip        : 'Агрегировать до БУИСа',
       wuaBtnTooltip         : 'Агрегировать до АВП',
-    _or: 'ИЛИ'
+    _or: 'ИЛИ',
+      reset:'сброс<br>фильтра'
 
 
     };
 i18n.mapSelection ={
-   title       :'карты'
+   title       :'карты',
+      reset:'сброс<br>выбранных'
 };
 
     i18n.rayon = {
@@ -808,7 +814,10 @@ i18n.mapSelection ={
       allOblastsCA : 'all Provinces of CA',
                 download: 'Скачать',
           asSHP: 'как SHP',
-          filtered: 'фильтруют'
+          filtered: 'фильтруют',
+          tooltipSHP1: '',
+          
+          tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет'
     };
 
     i18n.timeSlider = {

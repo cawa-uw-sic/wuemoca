@@ -57,7 +57,7 @@ Ext.define('App.service.Tooltip', {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
     }
 
-    if (indicator.id == 'majority'){
+    if (indicator.id == 'mlu'){
       content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
     }
     else{

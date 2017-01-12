@@ -20,10 +20,10 @@ Ext.define('App.util.ChartTypes', {
     var maximum = NaN;
     var threshold = 10;
     var decimals = 0;
-    if (indicator.id == 'yield'){
+    if (indicator.id == 'y'){
       threshold = 6;
     }
-    if (indicator.id == 'diversity'){
+    if (indicator.id == 'cd'){
       maximum = 1;
       decimals = 1;
     }
@@ -69,13 +69,13 @@ Ext.define('App.util.ChartTypes', {
   },
  /* KirFir: function (data) {
     var self = this;
-    var firn = App.service.Helper.getById(__Indicator, 'firn');
+    var fir_n = App.service.Helper.getById(__Indicator, 'fir_n');
     var firb = App.service.Helper.getById(__Indicator, 'firb');
     var kir  = App.service.Helper.getById(__Indicator, 'kir' );
 
     App.service.Chart.stores.fir.setData([
        { name: firb[ __Global.Lang + 'Name' ], data: data[0].area_ha  }
-      ,{ name: firn[ __Global.Lang + 'Name' ], data: data[0].area_irr }
+      ,{ name: fir_n[ __Global.Lang + 'Name' ], data: data[0].area_irr }
     ]);
 
     App.service.Chart.stores.kir.setData([ { data: data[0].idx_kir * 100 } ]);
@@ -90,7 +90,7 @@ Ext.define('App.util.ChartTypes', {
            xtype  : 'app-chart-hbar',
            store  : App.service.Chart.stores.fir,
            axes   : __Chart.HBar.getAxes   ('name', 'data'),
-           series : __Chart.HBar.getSeries ('name', 'data', firn[ __Global.Lang + 'Unit' ], [ firb.color, firn.color ] )
+           series : __Chart.HBar.getSeries ('name', 'data', fir_n[ __Global.Lang + 'Unit' ], [ firb.color, fir_n.color ] )
         },
         {
           layout: {
@@ -117,14 +117,14 @@ Ext.define('App.util.ChartTypes', {
   Multiannual: function (data) { 
     var self = this;
 
-    var rotation = App.service.Helper.getById( __Indicator, 'rotation' );
-    var frequency = App.service.Helper.getById( __Indicator, 'frequency' );
-    var majority = App.service.Helper.getById( __Indicator, 'majority' );
-    var cropNameList = majority[__Global.Lang + 'CropNames'];
-    var cropList = majority['croplist'];
+    var cr = App.service.Helper.getById( __Indicator, 'cr' );
+    var flf = App.service.Helper.getById( __Indicator, 'flf' );
+    var mlu = App.service.Helper.getById( __Indicator, 'mlu' );
+    var cropNameList = mlu[__Global.Lang + 'CropNames'];
+    var cropList = mlu['croplist'];
     //workaround for numeric axis label bug (multiply by 10)
-    App.service.Chart.stores.rotation.setData([ { data: data[0].rotation * 10 } ]);
-    App.service.Chart.stores.frequency.setData([ { data: data[0].frequency * 10} ]);
+    App.service.Chart.stores.cr.setData([ { data: data[0].cr * 10 } ]);
+    App.service.Chart.stores.flf.setData([ { data: data[0].flf * 10} ]);
 
     var deltaYears = __Global.year.Max - __Global.year.Min;
     deltaYears++;
@@ -137,13 +137,13 @@ Ext.define('App.util.ChartTypes', {
       items: [
         {
           html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' + i18n.chart.multiannualHeader2,
-          cls: 't-center t-bold t-bigger majority-header'
+          cls: 't-center t-bold t-bigger mlu-header'
         },{
-          html: majority[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].majority - 1],
-          cls: 't-center t-bigger majority-landuse'
+          html: mlu[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].mlu - 1],
+          cls: 't-center t-bigger mlu-landuse'
         },{
-          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].majority - 1] + '_icon.png', null, '') + '">',         
-          cls: 't-center majority-crop-img'
+          html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') + '">',         
+          cls: 't-center mlu-crop-img'
         },{
           layout: {
             type: 'hbox',
@@ -153,19 +153,19 @@ Ext.define('App.util.ChartTypes', {
             xtype: 'app-chart-gauge',
             width: '50%',
             height: 120,
-            store: App.service.Chart.stores.rotation,
-            gradients:__Chart.Gauge.getGradient(rotation.legendcolors[0],rotation.legendcolors[1],rotation.legendcolors[2], 'rotation'), 
-            colors: ['url(#gradient-rotation)'],           
-            axes: __Chart.Gauge.getAxes(rotation.maximum, rotation.maximum),
+            store: App.service.Chart.stores.cr,
+            gradients:__Chart.Gauge.getGradient(cr.legendcolors[0],cr.legendcolors[1],cr.legendcolors[2], 'cr'), 
+            colors: ['url(#gradient-cr)'],           
+            axes: __Chart.Gauge.getAxes(cr.maximum, cr.maximum),
             series: __Chart.Gauge.getSeries('data'),
             margin: '0 10 0 0'
           },{
             xtype: 'app-chart-gauge',
             width: '50%',
             height: 120,
-            store: App.service.Chart.stores.frequency,
-            gradients: __Chart.Gauge.getGradient(frequency.legendcolors[0],frequency.legendcolors[1],frequency.legendcolors[2], 'frequency'),
-            colors: ['url(#gradient-frequency)'],             
+            store: App.service.Chart.stores.flf,
+            gradients: __Chart.Gauge.getGradient(flf.legendcolors[0],flf.legendcolors[1],flf.legendcolors[2], 'flf'),
+            colors: ['url(#gradient-flf)'],             
             axes: __Chart.Gauge.getAxes(deltaYears, deltaYears/2),
             series: __Chart.Gauge.getSeries('data')
           }]
@@ -175,11 +175,11 @@ Ext.define('App.util.ChartTypes', {
             pack: 'center'
           },
           items: [{
-            html: rotation[__Global.Lang + 'Name'] + '<br/>' + rotation[__Global.Lang + 'Legend']  + ': <b>' + data[0].rotation.toFixed(1) + '</b>',
+            html: cr[__Global.Lang + 'Name'] + '<br/>' + cr[__Global.Lang + 'Legend']  + ': <b>' + data[0].cr.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           },{
-            html: frequency[__Global.Lang + 'Name'] + '<br/>' + frequency[__Global.Lang + 'Legend'] + ': <b>' + data[0].frequency.toFixed(1) + '</b>',
+            html: flf[__Global.Lang + 'Name'] + '<br/>' + flf[__Global.Lang + 'Legend'] + ': <b>' + data[0].flf.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           }]

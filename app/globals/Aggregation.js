@@ -12,19 +12,23 @@ var __Aggregation = [
         ruName         : 'Область',
         enNameShort    : 'Province',
         ruNameShort    : 'Область',
-        filter: 'oblast',        
+        enTooltip      : 'Available for Aral Sea Basin',
+        ruTooltip      : 'Доступно для бассейна Аральского моря',        
+        filter: 'oblast' ,        
         isDefault      : true,
         items: false,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       }, {
         id             : 'rayon',
         enName         : 'District (Rayon)',
         ruName         : 'Район',
         enNameShort    : 'District',
         ruNameShort    : 'Район',
-        filter: 'oblast'  ,
+        enTooltip      : 'Available for Aral Sea Basin',
+        ruTooltip      : 'Доступно для бассейна Аральского моря',         
+        filter: 'oblast' ,
         items: false,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       }, {
         id             : 'wua',
         enName         : 'WUA (Water User Association)',
@@ -33,10 +37,15 @@ var __Aggregation = [
         ruNameShort    : 'АВП' ,
         enTooltip      : 'Available for Fergana and Khorezm provinces only',
         ruTooltip      : 'Доступно только для Ферганской и Хорезмской областей',        
-        filter: 'oblast'    ,
+        filter: 'oblast' ,
+        aoi_filter: [
+            "oblast_id=1730", 
+            "oblast_id=1733", 
+            "country_id='UZB'"
+        ],
         tiled: true,
         items: false,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       },
     /*]
   },
@@ -54,10 +63,28 @@ var __Aggregation = [
         ruNameShort    : 'БУИС',
         enTooltip      : 'Available for Uzbekistan only',
         ruTooltip      : 'Доступно для Узбекистана только',        
-        filter: 'buis' ,        
+        filter: 'buis', 
+        aoi_filter: [
+            "country_id='UZB'", 
+            "oblast_id=1703", 
+            "oblast_id=1706", 
+            "oblast_id=1708",
+            "oblast_id=1710", 
+            "oblast_id=1712",
+            "oblast_id=1714", 
+            "oblast_id=1718", 
+            "oblast_id=1722", 
+            "oblast_id=1724",
+            "oblast_id=1727", 
+            "oblast_id=1730",
+            "oblast_id=1733",
+            "oblast_id=1735",
+            "buis_id",           
+            "uis_id"                          
+        ],             
         //isDefault      : true,
         items: false,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       }, {
         id             : 'uis',
         enName         : 'ISA (Irrigation System Admin.)',
@@ -66,9 +93,28 @@ var __Aggregation = [
         ruNameShort    : 'УИС' ,
         enTooltip      : 'Available for Uzbekistan only',
         ruTooltip      : 'Доступно для Узбекистана только',         
-        filter: 'buis'  ,
+        filter: 'buis' ,
+        aoi_filter: [
+            "country_id='UZB'", 
+            "oblast_id=1703", 
+            "oblast_id=1706", 
+            "oblast_id=1708",
+            "oblast_id=1710", 
+            "oblast_id=1712",
+            "oblast_id=1714", 
+            "oblast_id=1718", 
+            "oblast_id=1722", 
+            "oblast_id=1724",
+            "oblast_id=1727", 
+            "oblast_id=1730",
+            "oblast_id=1733",
+            "oblast_id=1735",
+            "buis_id",
+            "uis_id"
+
+        ],        
         items: false,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       }, {
         id             : 'command',
         enName         : 'Channel Command Area',
@@ -78,9 +124,20 @@ var __Aggregation = [
         enTooltip      : 'Available for Fergana valley only',
         ruTooltip      : 'Доступно только для Ферганской долины',        
         filter: 'oblast' ,
+        aoi_filter: [
+            "country_id='UZB'", 
+            "country_id='KGZ'", 
+            "country_id='TJK'", 
+            "oblast_id=1703", 
+            "oblast_id=1714", 
+            "oblast_id=1730",
+            "oblast_id=3303", 
+            "oblast_id=3306",
+            "oblast_id=3503"                                   
+        ],  
         tiled: true,
         items: false ,
-        glossary       : 'bme00057.htm'
+        glossary       : 'bme00017.htm'
       },
      /* ]
   },
@@ -110,10 +167,12 @@ var __Aggregation = [
     ruName: 'Регулярный растр',
     enNameShort    : 'reg. Raster',
     ruNameShort    : 'reg. Raster', 
+         enTooltip      : 'Available for Aral Sea Basin',
+        ruTooltip      : 'Доступно для бассейна Аральского моря',   
     filter: 'oblast',     
     tiled: true,
     items: false,
-    glossary       : 'bme00057.htm'
+    glossary       : 'bme00017.htm'
   }
 
 ];

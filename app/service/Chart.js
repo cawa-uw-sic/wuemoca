@@ -22,8 +22,8 @@ Ext.define('App.service.Chart', {
 
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
-    rotation  : Ext.create('Ext.data.JsonStore'),
-    frequency : Ext.create('Ext.data.JsonStore')
+    cr  : Ext.create('Ext.data.JsonStore'),
+    flf : Ext.create('Ext.data.JsonStore')
   },
 
   initialize: function () {

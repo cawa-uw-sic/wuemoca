@@ -8,7 +8,7 @@ var __Selection = {
   Uis              : __LocalDB.get('Selections.Uis'),
   Wua              : __LocalDB.get('Selections.Wua'),
 
-  //Indicator        : __LocalDB.get('Selections.Indicator', 'uiri'),
+  //Indicator        : __LocalDB.get('Selections.Indicator', 'uir'),
   Indicator        : __LocalDB.get('Selections.Indicator'),  
   Crop             : __LocalDB.get('Selections.Crop', 'sum'),
   //Unit             : __LocalDB.get('Selections.Unit', 'admin'),
@@ -20,5 +20,5 @@ var __Selection = {
   Current          : __LocalDB.get('Selections.Current', 'show'),
   UserPolygon      : __LocalDB.get('Selections.UserPolygon', 'noshow'),
 
-  Accordion        : __LocalDB.get('Accordion', 'app-zoom')
+  AreaFilter        : __LocalDB.get('AreaFilter', 'noshow')
 };

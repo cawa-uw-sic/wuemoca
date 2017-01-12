@@ -37,7 +37,7 @@ Ext.define('App.service.Map', {
     var map = self.instance;
     console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
     if (App.service.Watcher.get('Indicator') && App.service.Watcher.get('Aggregation')) {
-
+      App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
       if (!App.util.Layer.current || !self.compareLayers()){ 
         self.loadCurrentLayer();
         self.loadAdminLayer();
@@ -47,7 +47,8 @@ Ext.define('App.service.Map', {
       }
     }
     else{
-      self.removeCurrentLayer();
+      self.removeCurrentLayer(); 
+      App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
     }
   },
 
@@ -249,8 +250,14 @@ Ext.define('App.service.Map', {
   setShapefileBtntext: function(){
     var aggregation = App.service.Watcher.getAggregation();
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    App.service.Helper.getComponentExt('app-switcher-btn-shapefile').setText(
-      i18n.exp.download + ' ' + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' ' + i18n.exp.asSHP
+    var button = App.service.Helper.getComponentExt('switcher-btn-shapefile');
+    button.setText(
+      i18n.exp.download + ' ' + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + 
+      aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ' ' + i18n.exp.asSHP
+    );
+    button.setTooltip(
+      i18n.exp.tooltipSHP1 + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.Lang + 'NameShort'] + 
+      ' ' +  i18n.exp.tooltipSHP2
     );
   },
 
@@ -325,7 +332,7 @@ Ext.define('App.service.Map', {
 
 
     }
-    if (indicator.id == 'majority') {
+    if (indicator.id == 'mlu') {
       indicator[__Global.Lang + 'CropNames'].map(function (c) { 
         text += c + '<br />' 
       });
@@ -334,7 +341,7 @@ Ext.define('App.service.Map', {
   },
 
   getLegendMedianStyle: function () {
-    return (App.service.Watcher.getIndicator().id == 'majority') ? '135%' : '150%';
+    return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '150%';
   },
 
   filterAreaOfInterest: function(aoi, id){
@@ -348,9 +355,12 @@ Ext.define('App.service.Map', {
       }
     }
     App.service.Watcher.set('Aoi_Filter', aoi_filter);
+        console.log('filterAreaOfInterest fillAggregations_new'); 
+    this.fillAggregations_new();
     if (aoi_filter == false){
       App.service.Helper.clearZoomCombos();
     }
+
     App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
     var CQLfilter = !!aoi_filter ? aoi_filter : '';
 
@@ -386,6 +396,50 @@ Ext.define('App.service.Map', {
         this.setShapefileBtntext();  
       }
     }
+  },
+
+  fillAggregations_new: function () {
+    availableAggregations = App.service.Watcher.getIndicator().aggregation;
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    var aggregationStore = Ext.getStore('aggregation');
+    var aggregationData = __Aggregation;
+    if (typeof availableAggregations == 'object') {
+      aggregationData = [];
+      __Aggregation.map(function (aggregation) {
+        if (availableAggregations.indexOf(aggregation.id) >= 0) {
+          aggregationData.push(aggregation); 
+        }
+      });
+     /* if (availableAggregations.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
+        App.service.Watcher.set('Aggregation', availableAggregations[0]);
+        App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
+      }*/
+    }
+    if (aoi_filter){
+      var filteredData = [];
+      aggregationData.map(function (aggregation) {
+        if (!aggregation.aoi_filter 
+          || aggregation.aoi_filter.indexOf(aoi_filter) >= 0 
+          || aggregation.aoi_filter.indexOf(aoi_filter.split('=')[0]) >= 0) {
+          filteredData.push(aggregation); 
+        }
+      });
+      aggregationData = filteredData;
+
+    } 
+    aggregationStore.removeAll();
+    aggregationStore.loadData(aggregationData);
+
+    var aggreg_ids = [];
+    aggregationData.map(function (aggregation) {
+      aggreg_ids.push(aggregation.id);
+    });          
+    if (aggreg_ids.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
+      App.service.Watcher.set('Aggregation', aggreg_ids[0]);
+      App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
+    }
+
+
   }
 
 });

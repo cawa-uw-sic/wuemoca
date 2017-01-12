@@ -7,7 +7,7 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Country', val);
     App.service.Helper.resetStores(['oblast', 'buis']);
     App.service.Helper.resetComboboxes(['zoom-cb-oblast', 'zoom-cb-buis']);
-    App.service.Helper.hideComponents(['zoom-cb-oblast', 'zoom-container-buis', 'zoom-cb-buis']);
+    App.service.Helper.hideComponents(['zoom-container-oblast','zoom-cb-oblast', 'zoom-container-buis', 'zoom-cb-buis']);
     
     if (val) {
       //avoid zoom to country if other parameters are stored
@@ -24,7 +24,7 @@ Ext.define('App.controller.Zoom', {
         }        
       }
       if (val != 'all'){
-        App.service.Helper.showComponents(['zoom-cb-oblast']);
+        App.service.Helper.showComponents(['zoom-container-oblast','zoom-cb-oblast']);
         Ext.getStore('oblast').load({params: {country: val}});
         if (val == 'UZB') {
           App.service.Helper.showComponents(['zoom-container-buis','zoom-cb-buis']);
@@ -57,14 +57,14 @@ Ext.define('App.controller.Zoom', {
 
       if (rayon == null && wua == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('oblast', val, 'extent')); 
-        this.setAggregationLevel('oblast');
+
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('oblast', val);
         }
         else{
           App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
         }        
-
+        this.setAggregationLevel('oblast');
       }
     }
   },
@@ -75,13 +75,14 @@ Ext.define('App.controller.Zoom', {
     if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-wua']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'));
-      this.setAggregationLevel('rayon');
+
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('rayon', val);
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
       }
+      this.setAggregationLevel('rayon');
     }
   },
 
@@ -108,13 +109,14 @@ Ext.define('App.controller.Zoom', {
       //var wua = App.service.Watcher.get('Wua');
       if (uis == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'));
-        this.setAggregationLevel('buis');        
+      
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('buis', val);
         }
         else{
           App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
-        }          
+        }
+        this.setAggregationLevel('buis');            
       }
     }
   },
@@ -123,13 +125,14 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Uis', val);
     if (val) {
       App.service.Map.setMapExtent(App.service.Helper.getScalar('uis', val, 'extent'));
-      this.setAggregationLevel('uis');
+
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('uis', val);
       }
       else{
         App.service.Map.filterAreaOfInterest('buis', App.service.Watcher.get('Buis'));
-      }      
+      }
+      this.setAggregationLevel('uis');     
     }
 
   },
@@ -145,13 +148,14 @@ Ext.define('App.controller.Zoom', {
     else if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-uis']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'));
-      this.setAggregationLevel('wua');
+
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('wua', val);
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
-      }      
+      } 
+      this.setAggregationLevel('wua');     
       
     }
     

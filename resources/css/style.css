@@ -148,24 +148,24 @@
   padding-bottom: 0px !important;
 }
 .x-form-text-wrap {
-    position: relative;
+  position: relative;
 }
 
 .x-form-field-overlay {
-    background-color: #ffffff;
-    position: absolute;
-    top: 0;
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
 }
+
 .x-tip{
-  background-color: #f0f0f0;
+  background-color: #FCFDFD;
 }
 .x-tip-body{
-  color: #525252;
+  color: #191919;
 }
  
- 
 .x-label-icon {
-    padding-left: 18px !important;
+  padding-left: 18px !important;
   background-repeat: no-repeat;
-       background-position:0 -1px;
+  background-position:0 -1px;
 }

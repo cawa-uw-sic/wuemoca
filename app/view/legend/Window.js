@@ -35,6 +35,7 @@ Ext.define('App.view.legend.Window', {
   shadow: true,
   bodyBorder: false,
   bodyPadding: 10,
+  //renderTo:'map-panel',
   //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
     itemId: 'legend-irrigation',
@@ -52,6 +53,12 @@ Ext.define('App.view.legend.Window', {
     ]
   }, {
     xtype: 'app-legend-panel'
-  }]
+  }],
+  listeners:{
+    hide: function () {App.service.Watcher.set('Legend', 'noshow');},
+    show: function (win) {
+      App.service.Watcher.set('Legend', 'show');
+    }
+  }
 
 });

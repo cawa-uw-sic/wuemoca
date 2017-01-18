@@ -41,9 +41,10 @@ var __Global = {
     Mapserver     : server + 'geoserver/',
     Glossary      : documents + glossaryName + '.htm',
     GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
-    Faq           : 'bme00057.htm#bookme_anchor3',
-    Intro         : 'bme00002.htm',
-    Impressum     : documents + 'Impressum.pdf',
+    //Faq           : 'bme00057.htm#bookme_anchor3',
+    Faq           : 'bme00057.htm',    
+    Intro         : 'bme00004.htm',
+    Impressum     : documents + 'Imprint.pdf',
     Manual        : documents + 'Manual.pdf'
   },
 

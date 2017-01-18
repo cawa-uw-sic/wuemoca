@@ -115,7 +115,37 @@ var __Aggregation = [
         ],        
         items: false,
         glossary       : 'bme00017.htm'
-      }, {
+      }, {        
+        /* id             : 'uis_rayon',
+        enName         : 'District fractions of ISA',
+        ruName         : 'Район фракции УИС',
+        enNameShort    : 'Districts of ISA',
+        ruNameShort    : 'Районы УИС' ,
+        enTooltip      : 'Available for Uzbekistan only',
+        ruTooltip      : 'Доступно для Узбекистана только',         
+        filter: 'buis' ,
+        aoi_filter: [
+            "country_id='UZB'", 
+            "oblast_id=1703", 
+            "oblast_id=1706", 
+            "oblast_id=1708",
+            "oblast_id=1710", 
+            "oblast_id=1712",
+            "oblast_id=1714", 
+            "oblast_id=1718", 
+            "oblast_id=1722", 
+            "oblast_id=1724",
+            "oblast_id=1727", 
+            "oblast_id=1730",
+            "oblast_id=1733",
+            "oblast_id=1735",
+            "buis_id",
+            "uis_id"
+
+        ],        
+        items: false,
+        glossary       : 'bme00017.htm'
+      }, {*/
         id             : 'command',
         enName         : 'Channel Command Area',
         ruName         : 'Командная площадь',

@@ -7,10 +7,14 @@ Ext.define('App.controller.Main', {
 
   onMainAfterRender: function () {
   //App.service.Helper.getComponentExt('app-introwindow').show();
+
   },
 
   onMapAfterRender: function () {
     App.service.Map.setMainTitle();
+    if(App.service.Watcher.get('Legend') == 'show'){
+      App.service.Helper.getComponentExt('legend-window').show();
+    }
   },
 
   onLegendBtn: function () {
@@ -42,7 +46,9 @@ Ext.define('App.controller.Main', {
 
   onReportWindow: function () {
     App.service.Helper.getComponentExt('report-cb-year').getStore().setData(App.service.Report.getYearData());
-    App.service.Helper.getComponentExt('report-cb-year').setValue(__Global.year.Max);
+    if (App.service.Helper.getComponentExt('report-cb-year').getValue() == null){
+      App.service.Helper.getComponentExt('report-cb-year').setValue(__Global.year.Max);
+    }
   }
 
 });

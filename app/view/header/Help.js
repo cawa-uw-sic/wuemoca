@@ -19,7 +19,7 @@ Ext.define('App.view.header.Help', {
       //tooltip: i18n.header.faq_tooltip,
       iconCls: 'x-fa fa-lightbulb-o',
       listeners: {
-        click: 'onManual'
+        //click: 'onManual'
       }     
     },{
       text: i18n.header.faq,

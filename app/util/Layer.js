@@ -38,10 +38,12 @@ var BackgroundLayers = {
     //visible: false,
     source: new ol.source.TileWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',
       params: {
         LAYERS: LayerParams.Irrigation,
         TRANSPARENT: true,
-        FORMAT: 'image/png'
+        FORMAT: 'image/png',
+        TILED: true
       }
     })
   }),
@@ -51,6 +53,7 @@ var BackgroundLayers = {
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',     
       params: {
         LAYERS: LayerParams.Irrigation,
         TRANSPARENT: true,
@@ -64,6 +67,7 @@ var BackgroundLayers = {
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',      
       params: {
         LAYERS: LayerParams.Country,
         TRANSPARENT: true,
@@ -78,6 +82,7 @@ var BackgroundLayers = {
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',       
       params: {
         LAYERS: LayerParams.Channel,
         TRANSPARENT: true,

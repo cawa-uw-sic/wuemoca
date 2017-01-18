@@ -16,15 +16,18 @@ Ext.define('App.service.Map', {
         })       
       });
     }
+    __LocalDB.updateLocalDB();
     return this.instance;
   },
 
-  setMapExtent: function (extent) {
+  setMapExtent: function (extent, transformation) {
     if (typeof extent == 'string') extent = extent.split(',');
 
     extent = extent.map(function (r) { return parseFloat(r); });
-
-    extent = ol.proj.transformExtent(extent, __Global.projection.Geographic, __Global.projection.Mercator);
+    
+    if (transformation){
+      extent = ol.proj.transformExtent(extent, __Global.projection.Geographic, __Global.projection.Mercator);
+    }
 
     this.instance.getView().fit(
       extent,
@@ -79,6 +82,7 @@ Ext.define('App.service.Map', {
         visible: App.service.Watcher.get('Current') == 'show' ? true : false,
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
+          serverType: 'geoserver',          
           params: {
             LAYERS: __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_geom',            
             TRANSPARENT: true,
@@ -122,7 +126,8 @@ Ext.define('App.service.Map', {
       LAYERS: self.getLayerName(),
       TRANSPARENT: true,
       FORMAT: 'image/png',
-      STYLES: self.getLayerStyles()
+      STYLES: self.getLayerStyles(),
+      TILED: aggregation.tiled
     };
 
     if (yearIncluded) {
@@ -154,6 +159,7 @@ Ext.define('App.service.Map', {
 
     var opts = {
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',       
       params: params
     };
 

@@ -11,7 +11,8 @@ Ext.define('App.service.Watcher', {
   },
 
   get: function (attr) {
-    return __Selection[attr];
+    var result = __Selection[attr];
+    return result;
   },
 
   onChange: function (obj) {

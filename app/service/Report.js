@@ -74,7 +74,7 @@ Ext.define('App.service.Report', {
     result.head = '<tr><th colspan="15">' + topTitle + '</th></tr>';
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
@@ -150,7 +150,7 @@ Ext.define('App.service.Report', {
     result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
@@ -221,7 +221,7 @@ Ext.define('App.service.Report', {
     result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firbTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_nTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
     result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';

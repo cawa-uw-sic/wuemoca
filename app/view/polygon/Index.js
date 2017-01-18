@@ -2,7 +2,8 @@ Ext.define('App.view.polygon.Index', {
   extend: 'Ext.toolbar.Toolbar',
 
   requires: [
-    'App.controller.Polygon'
+    'App.controller.Polygon',
+    'App.view.polygon.Grid'
   ],
 
   xtype: 'app-polygon',
@@ -66,6 +67,8 @@ Ext.define('App.view.polygon.Index', {
       handler: 'onRemove',
       itemId: 'polygon-btn-remove',
       disabled: true
+    },{
+      xtype: 'app-polygon-grid'
     }
   ]
 });

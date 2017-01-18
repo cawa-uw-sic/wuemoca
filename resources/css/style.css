@@ -107,14 +107,14 @@
   top: 6px;
 }
 
-.majority-header {
+.mlu-header {
   margin-top: 10px;
   margin-bottom: 10px;  
 }
-.majority-crop-img {
+.mlu-crop-img {
   margin-top: 10px;
 }
-.majority-crop-img img {
+.mlu-crop-img img {
   width: 50px;
   height: 50px;
 }
@@ -168,4 +168,11 @@
   padding-left: 18px !important;
   background-repeat: no-repeat;
   background-position:0 -1px;
+}
+.x-grid-cell-inner {
+    padding: 3px 3px 3px 6px;
+}
+
+.x-form-item-default.x-item-disabled {
+    opacity: 1;
 }

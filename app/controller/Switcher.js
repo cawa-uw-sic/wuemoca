@@ -75,8 +75,10 @@ Ext.define('App.controller.Switcher', {
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
-        && (aoi_filter.indexOf('country') < 0)){
+        && (aoi_filter.indexOf('country') < 0)
+        && (aoi_filter.indexOf(val) < 0)){
         aoi_filter = false;
+
         App.service.Watcher.set('Aoi_Filter', aoi_filter);
     console.log('onAggregation fillAggregations_new');        
         App.service.Map.fillAggregations_new();

@@ -19,6 +19,7 @@ var __Selection = {
   IrrigationExtent : __LocalDB.get('Selections.IrrigationExtent', 'show'),
   Current          : __LocalDB.get('Selections.Current', 'show'),
   UserPolygon      : __LocalDB.get('Selections.UserPolygon', 'noshow'),
+  Legend            : __LocalDB.get('Selections.Legend', 'show'),
 
   AreaFilter        : __LocalDB.get('AreaFilter', 'noshow')
 };

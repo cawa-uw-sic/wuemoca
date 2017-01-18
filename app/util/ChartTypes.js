@@ -67,52 +67,6 @@ Ext.define('App.util.ChartTypes', {
       ]
     });
   },
- /* KirFir: function (data) {
-    var self = this;
-    var fir_n = App.service.Helper.getById(__Indicator, 'fir_n');
-    var firb = App.service.Helper.getById(__Indicator, 'firb');
-    var kir  = App.service.Helper.getById(__Indicator, 'kir' );
-
-    App.service.Chart.stores.fir.setData([
-       { name: firb[ __Global.Lang + 'Name' ], data: data[0].area_ha  }
-      ,{ name: fir_n[ __Global.Lang + 'Name' ], data: data[0].area_irr }
-    ]);
-
-    App.service.Chart.stores.kir.setData([ { data: data[0].idx_kir * 100 } ]);
-
-    return Ext.create('App.view.chart.VPanel', {
-      items: [
-        {
-          html: i18n.chart.kirFirHeader,
-          cls: 't-center t-bold t-bigger'
-        },
-        {
-           xtype  : 'app-chart-hbar',
-           store  : App.service.Chart.stores.fir,
-           axes   : __Chart.HBar.getAxes   ('name', 'data'),
-           series : __Chart.HBar.getSeries ('name', 'data', fir_n[ __Global.Lang + 'Unit' ], [ firb.color, fir_n.color ] )
-        },
-        {
-          layout: {
-            type: 'hbox',
-            pack: 'center'
-          },
-          items: [{
-            html: i18n.chart.kirFirCoef + ': <br/><b>' + data[0].idx_kir.toFixed(2) + '</b>',
-            cls: 't-center kir-fir-coef t-bigger',
-            width: 200
-          },
-          {
-            xtype: 'app-chart-gauge',
-            store: App.service.Chart.stores.kir,
-            axes: __Chart.Gauge.getAxes(100, 10),
-            series: __Chart.Gauge.getSeries('data', kir.color),
-            height: 120
-          }]
-        }
-      ]
-    });
-  },*/
 
   Multiannual: function (data) { 
     var self = this;

@@ -38,13 +38,22 @@ Ext.define('App.controller.Polygon', {
   },
 
   onFormSubmit: function (el, form, val) {
-    App.service.Polygon.save(el.up().up().getValues());
+    App.service.Polygon.save(el.up().up().getValues(false, true, false, false));
     App.service.Polygon.windowEdit.close();
-    App.service.Helper.enableComponents(['polygon-btn-calculate']);
+    //App.service.Helper.enableComponents(['polygon-btn-calculate']);
   },
 
   onShowChart: function(){
     App.service.Polygon.showChartWindow();
+  },
+
+  onSelect: function(rowmodel, record, index){
+    App.service.Polygon.selectFeatureFromGrid(record.data.uid);
+  },
+  onDblClick: function( table , record , tr , rowIndex , e){
+    if (record.data.extent){
+      App.service.Polygon.zoomToPolygon(record.data.extent);
+    }
   }
 
 });

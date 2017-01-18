@@ -15,7 +15,7 @@ Ext.define('App.controller.Zoom', {
       var buis = App.service.Watcher.get('Buis');
       if (oblast == null && buis == null ){
       //if ((oblast == null || oblast == '0') && (buis == null || buis == '0')){
-        App.service.Map.setMapExtent(App.service.Helper.getScalar('country', val, 'extent'));
+        App.service.Map.setMapExtent(App.service.Helper.getScalar('country', val, 'extent'), true);
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('country', val);
         }
@@ -56,7 +56,7 @@ Ext.define('App.controller.Zoom', {
       var wua = App.service.Watcher.get('Wua');
 
       if (rayon == null && wua == null){
-        App.service.Map.setMapExtent(App.service.Helper.getScalar('oblast', val, 'extent')); 
+        App.service.Map.setMapExtent(App.service.Helper.getScalar('oblast', val, 'extent'), true); 
 
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('oblast', val);
@@ -74,7 +74,7 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Rayon', val);
     if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-wua']);
-      App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'));
+      App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'), true);
 
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('rayon', val);
@@ -108,7 +108,7 @@ Ext.define('App.controller.Zoom', {
       var uis = App.service.Watcher.get('Uis');
       //var wua = App.service.Watcher.get('Wua');
       if (uis == null){
-        App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'));
+        App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'), true);
       
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('buis', val);
@@ -124,7 +124,7 @@ Ext.define('App.controller.Zoom', {
   onUis: function (cb, val) {
     App.service.Watcher.set('Uis', val);
     if (val) {
-      App.service.Map.setMapExtent(App.service.Helper.getScalar('uis', val, 'extent'));
+      App.service.Map.setMapExtent(App.service.Helper.getScalar('uis', val, 'extent'), true);
 
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('uis', val);
@@ -147,7 +147,7 @@ Ext.define('App.controller.Zoom', {
     }
     else if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-uis']);
-      App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'));
+      App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'), true);
 
       if (val != 'all'){
         App.service.Map.filterAreaOfInterest('wua', val);

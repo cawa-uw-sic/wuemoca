@@ -385,11 +385,16 @@ mapSelection:{
           failure: 'Indicator calculation failed!',    
           alreadyCalculated: 'Indicators already calculated!',      
     exportExcel: 'Export to EXCEL',
-    remove                  : 'Delete Polygon',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
     shift: 'Select a single polygon or multiple polygons with SHIFT key',
-    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)'
+    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)',
+    list: 'Polygon list',
+    doubleclick:'Doubleclick for zoom',
+    name:'Name',
+    tools:'Tools',
+    showChart: 'Show diagram',
+    remove:'Remove'
   },
 
   exportUI: {
@@ -830,7 +835,12 @@ i18n.mapSelection ={
     tooltip: 'Выбранный полигон',
     pressCalculate: 'сначала нажмите расчет индикатора!',
     shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
-    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84 (EPSG:4326)'
+    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84 (EPSG:4326)',
+    list: 'Список Полигон',
+    doubleclick:'Двойной щелчок для увеличения',
+    name:'Название',
+    tools:'Инструменты',
+    showChart: 'Показать диаграмма'
     };
 
     i18n.exportUI = {

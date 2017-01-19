@@ -15,9 +15,12 @@ Ext.define('App.view.polygon.Index', {
   listeners: {
     afterrender: 'onAfterRender'
   },
-  layout: 'fit',
+  layout: {
+    type: 'vbox',
+    pack: 'start',
+    align: 'stretch'
+  },
   defaults:{
-    //width: 138,
     border: '1px'
   },
   items: [
@@ -39,14 +42,14 @@ Ext.define('App.view.polygon.Index', {
       itemId: 'polygon-btn-upload',
       buttonConfig: {
         text: i18n.polygon.upload,
+        width: '100%',
         iconCls: 'x-fa fa-upload',
-       // tooltip: 'only zipped Shapefile, coordinate system WGS 84 (EPSG:4326)',
         ui: 'default-toolbar',
         handler: function(){ alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
 
-    },{
+   /* },{
       xtype: 'label',
       html: i18n.polygon.shift
     },{
@@ -66,7 +69,10 @@ Ext.define('App.view.polygon.Index', {
       iconCls: 'x-fa  fa-remove',
       handler: 'onRemove',
       itemId: 'polygon-btn-remove',
-      disabled: true
+      disabled: true*/
+    },{      
+      xtype: 'label',
+      html: '<b>' + i18n.polygon.list + '</b><br>(' + i18n.polygon.doubleclick + ')'
     },{
       xtype: 'app-polygon-grid'
     }

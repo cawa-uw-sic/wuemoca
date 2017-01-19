@@ -121,10 +121,10 @@ Ext.define('App.view.Main', {
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: i18n.polygon.showPolygon,
       region: 'east',
-      width: 150,
+      width: 170,
       collapsible: true, 
       collapsed: __Selection['UserPolygon'] == 'noshow',  
-
+      layout: 'fit',
       margin: '0 0 0 5',
       items: [
         { xtype: 'app-polygon'}

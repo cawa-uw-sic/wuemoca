@@ -12,11 +12,8 @@ Ext.define('App.view.polygon.Grid', {
 
   controller: 'polygon',
 
-  //height: 400,
-
   flex: 1,
   scrollable: true,
-
 
   store: {
     type: 'polygongrid'
@@ -27,7 +24,8 @@ Ext.define('App.view.polygon.Grid', {
   columns:[
     {
       text: i18n.polygon.name,
-      dataIndex: 'name'
+      dataIndex: 'name',
+      width: 80
     },
     {
         xtype:'actioncolumn',

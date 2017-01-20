@@ -227,7 +227,7 @@ Ext.define('App.service.Helper', {
       }
 
       if (CSV == '') {        
-        alert("Invalid data");
+        Ext.Msg.alert('', "Invalid data");
         return;
       }  
       //replace decimal points with commas (for German and Russian Excel programs) 
@@ -285,7 +285,7 @@ Ext.define('App.service.Helper', {
       document.body.removeChild(link);
     }
     else{
-      alert('First press ' + i18n.polygon.calculate + '!');
+      //alert('First press ' + i18n.polygon.calculate + '!');
     }
   },
 
@@ -350,7 +350,7 @@ Ext.define('App.service.Helper', {
 
     }
     else{
-      alert('First press ' + i18n.polygon.calculate + '!');
+      //alert('First press ' + i18n.polygon.calculate + '!');
     }
   },
 

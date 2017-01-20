@@ -42,10 +42,10 @@ Ext.define('App.view.polygon.Index', {
       itemId: 'polygon-btn-upload',
       buttonConfig: {
         text: i18n.polygon.upload,
-        width: '100%',
+        width: 152,
         iconCls: 'x-fa fa-upload',
         ui: 'default-toolbar',
-        handler: function(){ alert(i18n.polygon.uploadAlert);},
+        handler: function(){alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
 

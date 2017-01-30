@@ -380,7 +380,9 @@ mapSelection:{
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
           progressTitle : 'Calculate Indicators',
-          progressMsg: 'Aggregate to polygons...',
+          progressMsg1: 'Aggregate values to',
+          progressMsg2single: 'polygon...',     
+          progressMsg2multi: 'polygons...',               
           success : 'Indicators calculated successfully!',
           failure: 'Indicator calculation failed!',    
           alreadyCalculated: 'Indicators already calculated!',      
@@ -394,7 +396,10 @@ mapSelection:{
     name:'Name',
     tools:'Tools',
     showChart: 'Show diagram',
-    remove:'Remove'
+    remove:'Remove',
+    sortAscText: 'Sort Ascending',
+    sortDescText: 'Sort Descending',
+    sortClearText: 'Clear Sort'
   },
 
   exportUI: {
@@ -826,6 +831,9 @@ i18n.mapSelection ={
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',
+          progressMsg1: 'Суммарные значения до',
+          progressMsg2single: 'полигона...',     
+          progressMsg2multi: 'полигонов...',      
                 progressMsg: 'Агрегат для полигонов...',
                 failure: 'Расчет индикатора не удалось!',
                 success : 'Индикаторы рассчитываются успешно!', 
@@ -840,7 +848,10 @@ i18n.mapSelection ={
     doubleclick:'Двойной щелчок для увеличения',
     name:'Название',
     tools:'Инструменты',
-    showChart: 'Показать диаграмма'
+    showChart: 'Показать диаграмма',
+    sortAscText: 'Сортировать по возрастанию',
+    sortDescText: 'Сортировка по убыванию',
+    sortClearText: 'Очистить Сортировать'
     };
 
     i18n.exportUI = {

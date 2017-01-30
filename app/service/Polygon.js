@@ -226,7 +226,8 @@ Ext.define('App.service.Polygon', {
         }
         //calculated data
         else{
-          if (!this.windowChart.isHidden()) this.showChartWindow(polygons[0]);
+          //if (!this.windowChart.isHidden()) this.showChartWindow(polygons[0]);
+          this.showChartWindow(polygons[0]);
         }
       }
       //multiple polygons
@@ -239,7 +240,7 @@ Ext.define('App.service.Polygon', {
   },
 
   registerPolygon: function (geometry) {
-    var uniqueId = 'p-' + Date.now().toString().split("").reverse().join("");
+    var uniqueId = 'p-' + Date.now().toString().split('').reverse().join('');
     var polygon = {
       uid: uniqueId,
       info: { name: uniqueId, location: '' },
@@ -337,7 +338,7 @@ Ext.define('App.service.Polygon', {
 
   zoomToPolygon: function(extent){
     var transformation = false;
-    App.service.Map.setMapExtent(extent, transformation);
+    App.service.Map.setMapExtent(extent, transformation); 
   },
 
   save: function (info) {
@@ -414,12 +415,15 @@ Ext.define('App.service.Polygon', {
         //break;
       }      
     }
-    if (emptyPolygons.length > 0){
+    var count = emptyPolygons.length;
+    var msg = i18n.polygon.progressMsg1 + ' ' + (count).toString() + ' ';
+    msg += count > 1 ? i18n.polygon.progressMsg2multi : i18n.polygon.progressMsg2single;
+    if (count > 0){
       var index = 0;
       //if (emptyPolygons.length > 1){
         self.progressBar = Ext.Msg.show({
           title: i18n.polygon.progressTitle,
-          msg: i18n.polygon.progressMsg,
+          msg: msg,
           progressText: '',
           width: 300,
           progress: true,

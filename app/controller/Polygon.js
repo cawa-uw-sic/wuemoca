@@ -53,12 +53,12 @@ Ext.define('App.controller.Polygon', {
     //App.service.Helper.enableComponents(['polygon-btn-calculate']);
   },
 
-  onShowChart: function (grid, rowIndex, colIndex) {
+  /*onShowChart: function (grid, rowIndex, colIndex) {
     var rec = grid.getStore().getAt(rowIndex);
     var uid = rec.get('uid');
     var polygon = App.service.Polygon.getPolygonFromUID(uid);    
     App.service.Polygon.showChartWindow(polygon);
-  },
+  },*/
 
   onSelect: function(rowmodel, record, index){
     App.service.Polygon.selectFeatureFromGrid(record.data.uid);

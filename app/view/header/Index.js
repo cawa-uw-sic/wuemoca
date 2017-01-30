@@ -32,8 +32,6 @@ Ext.define('App.view.header.Index', {
     align: 'stretch'
   },
 
-  //bodyPadding: 5,
-
   items: [
 
      { xtype: 'app-header-cawalogo' }

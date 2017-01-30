@@ -31,7 +31,8 @@ Ext.define('App.service.Map', {
 
     this.instance.getView().fit(
       extent,
-      this.instance.getSize()
+      this.instance.getSize(),
+      {maxZoom: 12}
     );
   },
 
@@ -196,7 +197,7 @@ Ext.define('App.service.Map', {
         title += aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map;
       }
       else{
-        title += 'My Polygons';
+        title += i18n.polygon.showPolygon;
       }
       if (indicator[__Global.Lang + 'NameShort']){
         title += ': ' + indicator[__Global.Lang + 'NameShort'];       
@@ -361,8 +362,11 @@ Ext.define('App.service.Map', {
       }
     }
     App.service.Watcher.set('Aoi_Filter', aoi_filter);
-        console.log('filterAreaOfInterest fillAggregations_new'); 
+
+        if (App.service.Watcher.get('Aggregation') != aoi){
+                console.log('filterAreaOfInterest fillAggregations_new'); 
     this.fillAggregations_new();
+  }
     if (aoi_filter == false){
       App.service.Helper.clearZoomCombos();
     }

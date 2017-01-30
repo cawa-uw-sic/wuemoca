@@ -319,9 +319,11 @@ Ext.define('App.service.Helper', {
  
       //Generate a file name
       var fileName = 'WUEMoCA_indicators_';
+      var polygonName = '';
       var totalArea = 0;
       if (userPolygon){
-        fileName += polygon.info.name + '_' + polygon.info.location;
+        polygonName = polygon.info.name + '_' + polygon.info.location;
+        fileName += polygonName;
         totalArea = polygon.totalArea;        
       }
       else{
@@ -333,7 +335,7 @@ Ext.define('App.service.Helper', {
       var uri  = 'data:application/vnd.ms-excel;base64,';
       var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
  
-      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, totalArea) };
+      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, totalArea, polygonName) };
 
       //this trick will generate a temp <a /> tag
       var link = document.createElement("a");    
@@ -354,14 +356,17 @@ Ext.define('App.service.Helper', {
     }
   },
 
-  indicator_table: function (data, userPolygon, totalArea) {
+  indicator_table: function (data, userPolygon, totalArea, polygonName) {
     var fieldCount = 0;
     var result = { head: '', body: '' };
    
     result.head += '<tr>';
     if (userPolygon){
       fieldCount++;
-      result.head += '<th>area_ha</th>';      
+      result.head += '<th>polygon_name</th>';
+      fieldCount++;
+      result.head += '<th>area_ha</th>';    
+
     }
     //This loop will extract the label from 1st index of on array
     for (var index in data[0]) {
@@ -374,11 +379,12 @@ Ext.define('App.service.Helper', {
     for (var i = 0; i < data.length; i++) {
       result.body += '<tr>';
       if (userPolygon){
-        result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';      
+        result.body += '<td>' + polygonName + '</td>';   
+        result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';     
       }
       //2nd loop will extract each column
       for (var index in data[i]) {
-        if (isNaN(data[i][index]) || typeof data[i][index] == 'string'){
+        if (isNaN(data[i][index]) || typeof data[i][index] == 'string' || index == 'year'){
           result.body += '<td>' + data[i][index] + '</td>';
         }
         else{

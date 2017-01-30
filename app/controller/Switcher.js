@@ -159,37 +159,6 @@ Ext.define('App.controller.Switcher', {
     unitStore.loadData(unitData);
   },
 
-  fillAggregations_new: function () {
-    availableAggregations = App.service.Watcher.getIndicator().aggregation;
-    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    var aggregationStore = Ext.getStore('aggregation');
-    var aggregationData = __Aggregation;
-    if (typeof availableAggregations == 'object') {
-      aggregationData = [];
-      __Aggregation.map(function (aggregation) {
-        if (availableAggregations.indexOf(aggregation.id) >= 0) {
-             aggregationData.push(aggregation); 
-        }
-      });
-      if (availableAggregations.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
-        App.service.Watcher.set('Aggregation', availableAggregations[0]);
-        App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
-      }
-    }
-    if (aoi_filter){
-      var filteredData = [];
-      aggregationData.map(function (aggregation) {
-        if (!aggregation.aoi_filter || aggregation.aoi_filter.indexOf(aoi_filter) >= 0) {
-          filteredData.push(aggregation); 
-        }
-      });
-      aggregationData = filteredData;
-    }
-    aggregationStore.removeAll();
-    aggregationStore.loadData(aggregationData);
-
-  },
-
   fillAggregations: function (aggregationData, unit) {
     var aggregationStore = Ext.getStore('aggregation');
 

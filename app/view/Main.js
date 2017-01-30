@@ -6,9 +6,9 @@ Ext.define('App.view.Main', {
     'Ext.layout.container.Border',
     'Ext.layout.container.Absolute',
     'Ext.layout.container.Accordion',
-
-    'Ext.plugin.Viewport',
     'Ext.layout.container.Fit',
+    'Ext.plugin.Viewport',
+
     'Ext.data.proxy.JsonP',
     'Ext.data.proxy.Ajax',
 

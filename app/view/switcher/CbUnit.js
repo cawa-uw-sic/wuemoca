@@ -22,7 +22,7 @@ hidden:true,
   editable: false,
 
   listeners: {
-    change: 'onUnit'
+    //change: 'onUnit'
   }
 
 });

@@ -351,7 +351,7 @@ Ext.define('App.service.Map', {
     return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '150%';
   },
 
-  filterAreaOfInterest: function(aoi, id){
+  filterAreaOfInterest: function(aoi, id, super_aoi, super_id){
     var aoi_filter = false;
     if (id != '0'){
       if (isNaN(id)){
@@ -360,13 +360,21 @@ Ext.define('App.service.Map', {
       else{
         aoi_filter = aoi + "_id=" + id;        
       }
+      if (!!super_aoi){
+        if (isNaN(super_id)){
+          aoi_filter += ' and ' + super_aoi + "_id='" + super_id + "'";
+        }
+        else{
+          aoi_filter += ' and ' + super_aoi + "_id=" + super_id;        
+        }        
+      }
     }
     App.service.Watcher.set('Aoi_Filter', aoi_filter);
 
-        if (App.service.Watcher.get('Aggregation') != aoi){
+        //if (App.service.Watcher.get('Aggregation') != aoi){
                 console.log('filterAreaOfInterest fillAggregations_new'); 
     this.fillAggregations_new();
-  }
+  //}
     if (aoi_filter == false){
       App.service.Helper.clearZoomCombos();
     }
@@ -426,11 +434,18 @@ Ext.define('App.service.Map', {
       }*/
     }
     if (aoi_filter){
+      if (aoi_filter.indexOf('and') >= 0){
+        var super_aoi_filter = aoi_filter.split(' and ')[1];
+        aoi_filter = super_aoi_filter;
+      }
       var filteredData = [];
       aggregationData.map(function (aggregation) {
         if (!aggregation.aoi_filter 
           || aggregation.aoi_filter.indexOf(aoi_filter) >= 0 
-          || aggregation.aoi_filter.indexOf(aoi_filter.split('=')[0]) >= 0) {
+          || aggregation.aoi_filter.indexOf(aoi_filter.split('=')[0]) >= 0
+           /*|| aggregation.aoi_filter.join().indexOf(aoi_filter.split('=')[1].slice(0, 4)) >= 0
+          || aoi_filter.indexOf(aggregation.id) >= 0*/
+          ) {
           filteredData.push(aggregation); 
         }
       });

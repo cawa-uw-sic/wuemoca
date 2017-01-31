@@ -33,7 +33,7 @@ var BackgroundLayers = {
   }),
 
   irrigation: new ol.layer.Tile({
-    opacity: 0.8,
+    opacity: 1,
     visible: App.service.Watcher.get('IrrigationExtent') == 'show' ? true : false,
     //visible: false,
     source: new ol.source.TileWMS({
@@ -49,7 +49,7 @@ var BackgroundLayers = {
   }),
 
   irrigation_overview: new ol.layer.Image({
-    opacity: 0.5,
+    opacity: 1,
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',

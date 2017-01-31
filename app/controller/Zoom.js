@@ -77,7 +77,7 @@ Ext.define('App.controller.Zoom', {
       App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'), true);
 
       if (val != 'all'){
-        App.service.Map.filterAreaOfInterest('rayon', val);
+        App.service.Map.filterAreaOfInterest('rayon', val, 'oblast', App.service.Watcher.get('Oblast'));
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
@@ -109,7 +109,6 @@ Ext.define('App.controller.Zoom', {
       //var wua = App.service.Watcher.get('Wua');
       if (uis == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'), true);
-      
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('buis', val);
         }
@@ -127,7 +126,7 @@ Ext.define('App.controller.Zoom', {
       App.service.Map.setMapExtent(App.service.Helper.getScalar('uis', val, 'extent'), true);
 
       if (val != 'all'){
-        App.service.Map.filterAreaOfInterest('uis', val);
+        App.service.Map.filterAreaOfInterest('uis', val, 'buis', App.service.Watcher.get('Buis'));
       }
       else{
         App.service.Map.filterAreaOfInterest('buis', App.service.Watcher.get('Buis'));
@@ -150,7 +149,7 @@ Ext.define('App.controller.Zoom', {
       App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'), true);
 
       if (val != 'all'){
-        App.service.Map.filterAreaOfInterest('wua', val);
+        App.service.Map.filterAreaOfInterest('wua', val, 'oblast', App.service.Watcher.get('Oblast'));
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));

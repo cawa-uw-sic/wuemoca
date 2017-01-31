@@ -40,8 +40,8 @@ var __Aggregation = [
         filter: 'oblast' ,
         aoi_filter: [
             "oblast_id=1730", 
-            "oblast_id=1733", 
-            "country_id='UZB'"
+            "oblast_id=1733"/*, 
+            "country_id='UZB'"*/
         ],
         tiled: true,
         items: false,
@@ -82,7 +82,6 @@ var __Aggregation = [
             "buis_id",           
             "uis_id"                          
         ],             
-        //isDefault      : true,
         items: false,
         glossary       : 'bme00017.htm'
       }, {
@@ -155,9 +154,9 @@ var __Aggregation = [
         ruTooltip      : 'Доступно только для Ферганской долины',        
         filter: 'oblast' ,
         aoi_filter: [
-            "country_id='UZB'", 
+           /* "country_id='UZB'", 
             "country_id='KGZ'", 
-            "country_id='TJK'", 
+            "country_id='TJK'",*/ 
             "oblast_id=1703", 
             "oblast_id=1714", 
             "oblast_id=1730",

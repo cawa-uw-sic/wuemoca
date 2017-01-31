@@ -88,6 +88,8 @@ Ext.define('App.service.Polygon', {
       App.service.Chart.window.close();
       App.service.Status.set('');
       App.service.Helper.getComponentExt('app-switcher').expand();
+      App.service.Helper.getComponentExt('app-zoom').collapse();
+      App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       App.service.Helper.getComponentExt('legend-window').hide();
 

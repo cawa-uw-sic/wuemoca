@@ -59,7 +59,7 @@ Ext.define('App.controller.Switcher', {
     App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
-  onUnit: function (cb, val) {
+ /* onUnit: function (cb, val) {
    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
@@ -69,19 +69,31 @@ Ext.define('App.controller.Switcher', {
     }
     App.service.Watcher.set('Unit', val);
     this.fillAggregations(cb.getSelection().get('items'), val);
-  },
+  },*/
 
   onAggregation: function (cb, val) {
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
+      if (val == 'command'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
+      }
+      //reset filter
       if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
         && (aoi_filter.indexOf('country') < 0)
         && (aoi_filter.indexOf(val) < 0)){
-        aoi_filter = false;
-
-        App.service.Watcher.set('Aoi_Filter', aoi_filter);
-    console.log('onAggregation fillAggregations_new');        
+        App.service.Watcher.set('Aoi_Filter', false);
+        console.log('onAggregation fillAggregations_new');        
         App.service.Map.fillAggregations_new();
+      }
+      else{
+        //set super filter
+        if (aoi_filter.indexOf('and') >= 0){
+          var sub_aoi_filter = aoi_filter.split(' and ')[0];         
+          var super_aoi_filter = aoi_filter.split(' and ')[1];
+          if (sub_aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0){
+            App.service.Watcher.set('Aoi_Filter', super_aoi_filter);
+          }
+        }
       }
     }
     App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);

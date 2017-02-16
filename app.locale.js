@@ -23,7 +23,7 @@ var i18n = {
     introwindow             : 'Intro<br>Window',
     cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
     ffo_homepage            : 'Federal Foreign Office of Germany',
-    ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',   
+    ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
     wuemoca_about           : 'About WUEMoCA',
     details                 : 'Details',
     questionnaire           : 'User questionnaire',
@@ -71,11 +71,11 @@ var i18n = {
   report: {
 
       generate_button              : 'Generate<br>Report',
-            generate_window              : 'Generate Report',  
+            generate_window              : 'Generate Report',
     year                    : 'Select year',
       selectCountry: 'Select country',
       selectOblast: 'Select province',
-      selectBUIS: 'Select BISA',    
+      selectBUIS: 'Select BISA',
 
     btnSubmit               : 'Generate',
     typePattern             : 'Irrigation crop patterns',
@@ -88,7 +88,7 @@ var i18n = {
     alert: 'Select province or BISA!',
 
       nameUisTH                : 'Site (ISA and district)',
-      nameRayonTH                : 'Site (district)',     
+      nameRayonTH                : 'Site (district)',
       fir_bTH                : 'Irrigation area, gross',
       fir_nTH                : 'Irrigation area, net',
       industrialTH           : 'Industrial crops',
@@ -128,7 +128,7 @@ var i18n = {
     uis                     : 'ISA',
     uis_empty               : 'Select ISA',
     wua                     : 'or WUA',
-    wua_empty               : 'type WUA name',  
+    wua_empty               : 'type WUA name',
     oblastBtnText           : 'Province<br>map',
     rayonBtnText            : 'District<br>map',
     uisBtnText              : 'ISA<br>map',
@@ -324,11 +324,11 @@ mapSelection:{
     title                   : 'Export',
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
-    tableExcel              : 'Export all indicators to Excel', 
-    indicatorAcronym: 'Indicator acronym',  
-    indicatorName: 'Indicator name',  
-    cropAcronym: 'Crop acronym',  
-    cropName: 'Crop name',        
+    tableExcel              : 'Export all indicators to Excel',
+    indicatorAcronym: 'Indicator acronym',
+    indicatorName: 'Indicator name',
+    cropAcronym: 'Crop acronym',
+    cropName: 'Crop name',
     reportPdf               : 'Report as PDF',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
@@ -348,7 +348,8 @@ mapSelection:{
           asSHP: 'as SHP',
           filtered: 'filtered',
           tooltipSHP1: 'A ',
-          tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created'
+          tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created',
+          map: 'map'
   },
 
   timeSlider: {
@@ -381,11 +382,11 @@ mapSelection:{
     calculate               : 'Calculate<br>Indicators',
           progressTitle : 'Calculate Indicators',
           progressMsg1: 'Aggregate values to',
-          progressMsg2single: 'polygon...',     
-          progressMsg2multi: 'polygons...',               
+          progressMsg2single: 'polygon...',
+          progressMsg2multi: 'polygons...',
           success : 'Indicators calculated successfully!',
-          failure: 'Indicator calculation failed!',    
-          alreadyCalculated: 'Indicators already calculated!',      
+          failure: 'Indicator calculation failed!',
+          alreadyCalculated: 'Indicators already calculated!',
     exportExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
@@ -464,7 +465,7 @@ switch (locale){
       cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
       introwindow: 'Страница<br>Приветствия',
     ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
-    ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',       
+    ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
       wuemoca_about         : 'О WUEMoCA',
       details               : 'Детали',
       questionnaire         : 'Анкета для пользователя',
@@ -485,8 +486,8 @@ switch (locale){
     };
 
     i18n.pilot = {
-      text                  : 'Фильтр пилотной зоны (UZB)',
-      tooltip               : 'Выбор пилотной зоны'
+      text                  : 'Фильтр пилотных объектов (УЗБ)',
+      tooltip               : 'Выбор пилотного объекта'
     };
 
     i18n.fergana = {
@@ -514,16 +515,16 @@ switch (locale){
     };
 
     i18n.filter = {
-      title                 : 'Поиск по карте'
+      title                 : 'Навигация по карте'
     };
 
     i18n.report = {
       generate_button              : 'Получить<br>отчет',
             generate_window              : 'Получить отчет',
-      year                  : 'Выберите год',
-      selectCountry: 'Выберите Страна',
-      selectOblast: 'Выберите область',
-      selectBUIS: 'Выберите БУИС',
+      year                  : 'Выберать год',
+      selectCountry: 'Выбрать страну',
+      selectOblast: 'Выбрать область',
+      selectBUIS: 'Выбрать БУИС',
       btnSubmit             : 'Вывести',
       typePattern           : 'Размещение с/х культур',
       typeHarvest           : 'Валовый сбор',
@@ -560,7 +561,7 @@ switch (locale){
 
 
     i18n.adminFilters = {
-      title                 : 'Площадь фильтра (опционально)',
+      title                 : 'Выбрать территорию (не обязательно)',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
@@ -589,8 +590,8 @@ switch (locale){
 
     };
 i18n.mapSelection ={
-   title       :'карты',
-      reset:'сброс<br>выбранных'
+   title       :'Опции выбора карты',
+      reset:'сброс<br>настроек'
 };
 
     i18n.rayon = {
@@ -608,7 +609,7 @@ i18n.mapSelection ={
     };
 
     i18n.aggreg = {
-      label                 : 'Выберите уровень агрегации',
+      label                 : 'Выбрать уровень аггрегирования',
       grid                  : 'Регулярный растр',
       gridShort             : 'Рег. растр',
       segment               : 'Высота зоны',
@@ -622,16 +623,16 @@ i18n.mapSelection ={
       subbasinShort         : 'Подбассейны',
       wua                   : 'АВП (Ассоциация водопользователей)',
       wuaShort              : 'АВП',
-      buis                  : 'БУИС (бассейн Управление ирригационной системы)',
+      buis                  : 'БУИС (Бассейновое Управление Ирригационных Систем)',
       buisShort             : 'БУИС',
-      uis                   : 'УИС (Управление ирригационной системы)',
+      uis                   : 'УИС (Управление Ирригационных Систем)',
       uisShort              : 'УИС',
-      command               : 'Командная площадь',
-      commandShort          : 'Ком. площ.',
-      map                   : 'карту'
+      command               : 'Подкомандная зона канала',
+      commandShort          : 'Подкомандная зона канала',
+      map                   : ''
     };
     i18n.indicator = {
-      label                 : 'Выберите тип карты',
+      label                 : 'Выбрать показатель',
       fir_n                  : 'Площади орошаемых земель (нетто)',
       firf                  : 'Посевные площади на орошаемых землях',
       uir                  : 'использования орошаемых земель на культуру',
@@ -642,7 +643,7 @@ i18n.mapSelection ={
       cd             : 'разнообразие сельскохозяйственных культур',
       flf             : 'Частота неисп.земель',
       filter                : 'Активировать фильтр для списка индикаторов',
-          _of: 'of',
+          _of: ',',
               leftPanel: 'Выберите индикатор на левой стороне.'
     };
 
@@ -704,12 +705,12 @@ i18n.mapSelection ={
     };
 
     i18n.settings = {
-            legend: 'Легенда',
-      title                 : 'Легенда карты',
+            legend: 'Условные обозначения',
+      title                 : 'Условные обозначения карты',
       opacity               : 'настроить прозрачность',
       layerInfo             : 'получить информацию о слое',
       layerPng              : 'этот слой как .png',
-      extent                : 'Макс. степень орошения',
+      extent                : 'Максимальная площадь орошения',
   fir_n_nocrops        : 'Irrigation area in га',
   firf_cotton       : 'хлопок в га',
   firf_wheat        : 'пшеница в га',
@@ -719,7 +720,7 @@ i18n.mapSelection ={
   firf_garden     : 'Urban garden в га',
     firf_maize              : 'Maize in ha',
     firf_veg                : 'Vegetable in ha',
-    firf_sun                : 'Sunflower in ha',  
+    firf_sun                : 'Sunflower in ha',
   firf_sum        : 'Sum of crops в га',
   uir_sum        : 'нетто б земля в %',
     uir_wheat               : 'пшеница в %',
@@ -743,9 +744,9 @@ i18n.mapSelection ={
     };
 
     i18n.map = {
-      title                 : 'Обзор карты',
-      onSatellite            : 'включить<br>вид сверху',
-      offSatellite          :'выключить<br>вид сверху',
+      title                 : 'Обзорная карта',
+      onSatellite            : 'Переключиться<br>на спутниковую карту',
+      offSatellite          :'Переключиться<br>на обычную карту',
       omap                  : 'Показать Open Street Map'
     };
 
@@ -760,7 +761,7 @@ i18n.mapSelection ={
       shareCrops            : 'Доля культур (%)',
       y                 : 'урожай (т/га)',
       multiannualHeader1          : 'Многолетний анализ',
-      multiannualHeader2          : '(одна ячейка = 7,5км x 7,5км)',     
+      multiannualHeader2          : '(одна ячейка = 7,5км x 7,5км)',
       majorLandUse          : 'Основная культура',
       cropRotation          : 'Севооборот',
       numCrops              : 'Кол-во типов культур',
@@ -773,16 +774,16 @@ i18n.mapSelection ={
       title                 : 'Экспорт',
       opts                  : 'Выбор опций экспорта',
       tableCsv              : 'Таблица как CSV',
-      tableExcel              : 'Таблица как EXCEL',      
-    indicatorAcronym: 'индикатор акроним',  
-    indicatorName: 'Индикатор',  
-    cropAcronym: 'культурой акроним',  
-    cropName: 'культура',        
+      tableExcel              : 'Таблица как EXCEL',
+    indicatorAcronym: 'индикатор акроним',
+    indicatorName: 'Индикатор',
+    cropAcronym: 'культурой акроним',
+    cropName: 'культура',
       reportPdf             : 'Отчет как .pdf',
       selectWUAs            : 'Выберите АВП',
       selectRayons          : 'Select rayon',
       selectCrop            : 'Выберите культуру',
-      selectIndicator         : 'Выберите тип карты',
+      selectIndicator         : 'Выбрать показатель',
       singleWUA             : 'один АВП',
       allWUAsRayon          : 'все АВП района',
       allWUAsOblast         : 'все АВП области',
@@ -798,8 +799,9 @@ i18n.mapSelection ={
           asSHP: 'как SHP',
           filtered: 'фильтруют',
           tooltipSHP1: '',
-          
-          tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет'
+
+          tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет',
+          map: 'карту'
     };
 
     i18n.timeSlider = {
@@ -817,7 +819,7 @@ i18n.mapSelection ={
     };
 
     i18n.polygon = {
-          showPolygon             : 'Мои Полигоны',
+          showPolygon             : 'Мои полигоны',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -832,12 +834,12 @@ i18n.mapSelection ={
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',
           progressMsg1: 'Суммарные значения до',
-          progressMsg2single: 'полигона...',     
-          progressMsg2multi: 'полигонов...',      
+          progressMsg2single: 'полигона...',
+          progressMsg2multi: 'полигонов...',
                 progressMsg: 'Агрегат для полигонов...',
                 failure: 'Расчет индикатора не удалось!',
-                success : 'Индикаторы рассчитываются успешно!', 
-                alreadyCalculated: 'Индикаторы уже подсчитали!',              
+                success : 'Индикаторы рассчитываются успешно!',
+                alreadyCalculated: 'Индикаторы уже подсчитали!',
           exportExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
     tooltip: 'Выбранный полигон',
@@ -858,11 +860,11 @@ i18n.mapSelection ={
       title                 : 'Редактирование полигона',
       inputName             : 'Наименование',
       inputLocation         : 'Расположение',
-      totalArea: 'Total area',      
+      totalArea: 'Total area',
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',
       inputYear             : 'Выберите года',
-      inputIndicator          : 'Выберите тип карты',
+      inputIndicator          : 'Выбрать показатель',
       inputOutput           : 'Выберите вывод отчета',
       btnCancel             : 'Отмена',
       btnSubmit             : 'Сохранить'

@@ -25,7 +25,8 @@ function loadshp(config, returnData) {
     encoding = typeof config.encoding != 'utf-8' ? config.encoding : 'utf-8';
     EPSG = typeof config.EPSG != 'undefined' ? config.EPSG : 4326;
 
-    loadEPSG('http://epsg.io/'+EPSG+'.js', function() {
+    loadEPSG(Ext.getResourcePath('js/4326.js', null, ''), function() {
+    //loadEPSG('https://epsg.io/'+EPSG+'.js', function() {
         if(EPSG == 3821)
             proj4.defs([
                 ['EPSG:3821', '+proj=tmerc +ellps=GRS67 +towgs84=-752,-358,-179,-.0000011698,.0000018398,.0000009822,.00002329 +lat_0=0 +lon_0=121 +x_0=250000 +y_0=0 +k=0.9999 +units=m +no_defs']
@@ -39,7 +40,7 @@ function loadshp(config, returnData) {
                 var URL = window.URL || window.webkitURL || window.mozURL || window.msURL,
                 zip = new JSZip(e.target.result),
                 shpString =  zip.file(/.shp$/i)[0].name,
-                dbfString = zip.file(/.dbf$/i)[0].name,
+                //dbfString = zip.file(/.dbf$/i)[0].name,
                 prjString = zip.file(/.prj$/i)[0];
                 if(prjString) {
                     proj4.defs('EPSGUSER', zip.file(prjString.name).asText());
@@ -51,7 +52,7 @@ function loadshp(config, returnData) {
                 }
 
                 SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, returnData);
-                DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, returnData);
+                //DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, returnData);
             }
 
             reader.readAsArrayBuffer(url);
@@ -62,7 +63,7 @@ function loadshp(config, returnData) {
                 var URL = window.URL || window.webkitURL,
                 zip = new JSZip(data),
                 shpString =  zip.file(/.shp$/i)[0].name,
-                dbfString = zip.file(/.dbf$/i)[0].name,
+                //dbfString = zip.file(/.dbf$/i)[0].name,
                 prjString = zip.file(/.prj$/i)[0];
                 if(prjString) {
                     proj4.defs('EPSGUSER', zip.file(prjString.name).asText());
@@ -74,7 +75,7 @@ function loadshp(config, returnData) {
                 }
 
                 SHPParser.load(URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])), shpLoader, returnData);
-                DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, returnData);
+                //DBFParser.load(URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()])), encoding, dbfLoader, returnData);
 
             });
         }
@@ -97,15 +98,16 @@ function TransCoord(x, y) {
 
 function shpLoader(data, returnData) {
     inputData['shp'] = data;
-    if(inputData['shp'] && inputData['dbf'])
+    //if(inputData['shp'] && inputData['dbf'])    
+    if(inputData['shp'])
         if(returnData) returnData(  toGeojson(inputData)  );
 }
 
-function dbfLoader(data, returnData) {
+/*function dbfLoader(data, returnData) {
     inputData['dbf'] = data;
     if(inputData['shp'] && inputData['dbf'])
         if(returnData) returnData(  toGeojson(inputData)  );
-}
+}*/
 
 function toGeojson(geojsonData) {
     var geojson = {},
@@ -113,7 +115,7 @@ function toGeojson(geojsonData) {
     feature, geometry, points;
 
     var shpRecords = geojsonData.shp.records;
-    var dbfRecords = geojsonData.dbf.records;
+    //var dbfRecords = geojsonData.dbf.records;
 
     geojson.type = "FeatureCollection";
     min = TransCoord(geojsonData.shp.minX, geojsonData.shp.minY);
@@ -131,7 +133,7 @@ function toGeojson(geojsonData) {
         feature = {};
         feature.type = 'Feature';
         geometry = feature.geometry = {};
-        properties = feature.properties = dbfRecords[i];
+        //properties = feature.properties = dbfRecords[i];
 
         // point : 1 , polyline : 3 , polygon : 5, multipoint : 8
         switch(shpRecords[i].shape.type) {

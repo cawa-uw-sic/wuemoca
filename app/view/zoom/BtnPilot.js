@@ -1,9 +1,9 @@
-Ext.define('App.view.header.Pilot', {
+Ext.define('App.view.zoom.BtnPilot', {
   extend: 'Ext.button.Button',
 
-  xtype: 'app-header-pilot',
+  xtype: 'app-zoom-btn-pilot',
 
-  tooltip: i18n.pilot.tooltip,
+  //tooltip: i18n.pilot.tooltip,
   text: i18n.pilot.text,
   menu: new Ext.menu.Menu({
     plain: true,
@@ -38,7 +38,12 @@ Ext.define('App.view.header.Pilot', {
        }
       }
     }
-   ]
+   ],
+    listeners: {
+      beforerender: function () {
+        this.setWidth(this.up('button').getWidth());
+      }
+    }
   })
 
 });

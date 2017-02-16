@@ -90,12 +90,11 @@ __Chart.HBar = {
       }
     }];
   }
-
 };
 
 __Chart.VBar = {
 
-  getAxes: function (x, y, measure, maximum) {
+  getAxes: function (x, y, measure, maximum, decimals) {
     return [{
       type: 'numeric',
       position: 'left',
@@ -105,14 +104,21 @@ __Chart.VBar = {
       title: false,
       grid: true,
       renderer: function (axis, value) {
-        return parseFloat(value).toFixed(0) + ' ' + measure;
+        return parseFloat(value).toFixed(decimals) + ' ' + measure;
       }
     }, {
       type: 'category',
       position: 'bottom',
       fields: [ x ],
-      title: ''
-      //visibleRange: [0.5,1]
+      title: '',
+      label: {
+        font: {
+          fontSize: '9px'              
+        }
+      },
+      style: {
+          textPadding: -10
+      }
     }];
   },
 
@@ -137,7 +143,6 @@ __Chart.VBar = {
       }
     }];
   }
-
 };
 
 __Chart.StackedVBar = {
@@ -148,7 +153,6 @@ __Chart.StackedVBar = {
       position: 'left',
       fields: yFields,
       minimum: 0,
-      //maximum: maximum,
       title: false,
       grid: true,
       renderer: function (axis, value) {
@@ -158,8 +162,15 @@ __Chart.StackedVBar = {
       type: 'category',
       position: 'bottom',
       fields: [ x ],
-      title: ''
-      //visibleRange: [0.5,1]
+      title: '',
+      label: {
+        font: {
+          fontSize: '9px'               
+        }
+      },
+      style: {
+          textPadding: -10
+      }   
     }];
   },
 
@@ -176,22 +187,10 @@ __Chart.StackedVBar = {
         renderer: function (tooltip, record, item) {
             var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
                 crop = item.series.getTitle()[fieldIndex];
-
             tooltip.setHtml(crop + ': ' +
                 parseFloat(record.get(item.field)).toFixed(decimals) + ' ' + measure);
         }
-
-        /*function(storeItem, item) {
-          return this.getTooltip().update(
-            parseFloat(item.get(y)).toFixed(1) + ' ' + measure
-          );
-        }*/
       }
-     /* renderer: function(sprite, attr, record, index, store) {
-        return Ext.apply(attr, {
-          fill: color
-        });
-      }*/
     }];
   }
 

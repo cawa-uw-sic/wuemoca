@@ -1,5 +1,7 @@
 var server = 'https://wuemoca.geographie.uni-wuerzburg.de/';
 var api = server + 'mvc-backend/';
+var documents = server + 'wuemoca/documents/';
+var glossaryName = 'glossary_wuemoca_vers2_test';
 var lang = locale;
 var langParam = 'lang=' + lang;
 
@@ -18,35 +20,41 @@ var __Global = {
   },
 
   year: {
-    Max           : 2015,
+    Max           : 2016,
     Min           : 2000
   },
 
   api: {
-    Polygon       : api + 'calculatePolygon_v3.jsp?',
+    Report        : api + 'report.jsp?',
+    Indicator     : api + 'indicator.jsp?',
+    Polygon       : api + 'calculatePolygon_v4.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
-    Wua           : api + 'searchWUAs.jsp?' + langParam,
-    PrintChart    : api + 'getChartValues.jsp?' + langParam
+    Wua           : api + 'searchWUAs.jsp?' + langParam
   },
 
   urls: {
     Server        : server,
     Mapserver     : server + 'geoserver/',
-    Documents     : server + 'wuemoca/documents/',
-    Faq           : server + 'wuemoca/documents/glossary_wuemoca_vers2.htm',
-    Impressum     : server + 'wuemoca/documents/Impressum.pdf'
+    Glossary      : documents + glossaryName + '.htm',
+    GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
+    //Faq           : 'bme00057.htm#bookme_anchor3',
+    Faq           : 'bme00057.htm',    
+    Intro         : 'bme00004.htm',
+    Impressum     : documents + 'Imprint.pdf',
+    Manual        : documents + 'Manual.pdf'
   },
 
   geoserverWorkspace : 'wuemoca_v3',
 
   chart: {
-    Width: 450,
+    //Width: 600,
     Height: 350,
-    MaxBars: 10
+    //MaxBars: 10,
+    BarWidth: 36
   }
 
 };

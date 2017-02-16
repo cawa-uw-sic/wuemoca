@@ -4,22 +4,24 @@ Ext.define('App.controller.Legend', {
   alias: 'controller.legend',
 
   onIrrigationExtent: function (el, val) {
-    App.util.Layer.background[2].setVisible(val);
-    App.util.Layer.irrigVisible = val;
-    App.service.Watcher.set('IrrigationExtent', val);
+    BackgroundLayers.irrigation.setVisible(val);
+    //App.util.Layer.irrigVisible = val;
+    App.service.Watcher.set('IrrigationExtent', val ? 'show' : 'noshow');
   },
 
   onCurrentLayer: function (el, val) {
-    App.util.Layer.current.setVisible(val);
-    App.util.Layer.admin.setVisible(val);
-    App.service.Helper.getComponentExt('app-switcher-container-aggreg').setVisible(val);
-    if (val == false){
-      App.service.Chart.window.close();
+    if (!!App.util.Layer.current){
+      App.util.Layer.current.setVisible(val);
     }
+    if (!!App.util.Layer.admin){
+      App.util.Layer.admin.setVisible(val);
+    }
+    App.service.Map.hideShowElements(val);
+    App.service.Watcher.set('Current', val ? 'show' : 'noshow');
   },
 
   onOpacityIrrigation: function (el, val) {
-    App.util.Layer.background[2].setOpacity(val / 100);
+    BackgroundLayers.irrigation.setOpacity(val / 100);
   },
 
   onOpacityCurrent: function (el, val) {

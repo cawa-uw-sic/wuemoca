@@ -1,7 +1,7 @@
 window.locales = ['en', 'ru'];
 window.localesText = {
-  en: 'English',
-  ru: 'Русский'
+  en: 'Switch to<br>English',
+  ru: 'Переключиться<br>на Русский'
 };
 window.locale = localStorage.getItem('locale') || 'en';
 window.nextLocale = function () {
@@ -13,32 +13,38 @@ var i18n = {
 
   info : {
     title                   : 'Information',
-    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).',
-    attention               : 'Attention: incomplete test data!'
+    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).'
 
   },
 
   header: {
     wuemoca_long            : 'Water Use Efficiency Monitor in Central Asia',
     cawa_homepage           : 'CAWa project homepage',
+    introwindow             : 'Intro<br>Window',
     cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
+    ffo_homepage            : 'Federal Foreign Office of Germany',
+    ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',   
     wuemoca_about           : 'About WUEMoCA',
     details                 : 'Details',
     questionnaire           : 'User questionnaire',
     questionnaire_url       : 'https://de.surveymonkey.com/r/RMVQ267',
     feedback                : 'Feedback',
     about                   : 'About',
+	help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
+    impressum               : 'Imprint',
+    manual                  : 'User Manual',
     faq                     : 'Frequently asked questions',
-    glossary: 'Glossary',
-    glossary_tooltip: 'Definitions and explanations',
-    univer                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg'
+    glossary                : 'Glossary',
+    readmore: 'Read more about',
+    uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
+    sic: 'SIC ICWC'
   },
 
   pilot: {
-    text                    : 'Pilot<br>Areas',
-    tooltip                 : 'Zoom to Pilot Areas'
+      text                  : 'Pilot Area filter (UZB)',
+    tooltip                 : 'Select Pilot Area'
   },
   fergana: {
     text                    : 'Fergana Province',
@@ -62,19 +68,66 @@ var i18n = {
     title                   : 'Map Controls'
   },
 
+  report: {
+
+      generate_button              : 'Generate<br>Report',
+            generate_window              : 'Generate Report',  
+    year                    : 'Select year',
+      selectCountry: 'Select country',
+      selectOblast: 'Select province',
+      selectBUIS: 'Select BISA',    
+
+    btnSubmit               : 'Generate',
+    typePattern             : 'Irrigation crop patterns',
+    typeHarvest             : 'Gross harvest',
+    typeYield               : 'Irrigation crop yields',
+
+    titlePattern            : 'Irrigation crop patterns in {object}, growing season {year}',
+    titleHarvest            : 'Gross harvest Irrigation fields in {object} {year}',
+    titleYield              : 'Irrigation crop yields in {object} {year}',
+    alert: 'Select province or BISA!',
+
+      nameUisTH                : 'Site (ISA and district)',
+      nameRayonTH                : 'Site (district)',     
+      fir_bTH                : 'Irrigation area, gross',
+      fir_nTH                : 'Irrigation area, net',
+      industrialTH           : 'Industrial crops',
+      totalTH               : 'Total',
+      cottonTH              : 'Cotton',
+      grainTH               : 'Grain',
+      wheatTH               : 'Wheat',
+      vegTH                 : 'Vegetables and cucurbits',
+      fodderTH              : 'Fodder crops',
+      perennialTH           : 'Perennial crops',
+      orchardTH             : 'Orchards',
+      grapesTH              : 'Grapes',
+      homesteadTH           : 'Homestead plots',
+      otherTH               : 'Other',
+      riceTH                : 'Rice',
+      fallowTH              : 'Fallow land',
+      haTH                  : 'ha',
+      tnTH                  : 'tn',
+      thaTH                 : 't/ha',
+
+      footer1               : '*Cotton, oil crops, tobacco',
+      footer2               : '**Wheat, corn'
+
+
+  },
+
   adminFilters: {
-    title                   : 'Zoom to area of interest',
+    title                   : 'Area filter (optional)',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
-    oblast_empty            : 'all provinces of country',
+    oblast_empty            : 'Select province',
     rayon                   : 'District',
-    rayon_empty             : 'all districts of province',
+    rayon_empty             : 'Select district',
     buis                    : 'BISA',
-    buis_empty              : 'all BISAs of country',
+    buis_empty              : 'Select BISA',
     uis                     : 'ISA',
-    uis_empty               : 'all ISAs of BISA',
-    wua                     : 'WUA',
+    uis_empty               : 'Select ISA',
+    wua                     : 'or WUA',
     wua_empty               : 'type WUA name',  
     oblastBtnText           : 'Province<br>map',
     rayonBtnText            : 'District<br>map',
@@ -85,10 +138,13 @@ var i18n = {
     rayonBtnTooltip         : 'Aggregations to District',
     uisBtnTooltip           : 'Aggregations to ISA',
     buisBtnTooltip          : 'Aggregations to BISA',
-    wuaBtnTooltip           : 'Aggregations to WUA'
+    wuaBtnTooltip           : 'Aggregations to WUA',
+    _or: 'OR',
+          reset:'reset<br>filter'
   },
 mapSelection:{
-   title       :'Map Selection Options'
+   title       :'Maps',
+          reset:'reset<br>selections'
 },
   rayon: {
     label                   : 'District Filter (multiple choice)',
@@ -125,25 +181,19 @@ mapSelection:{
     commandShort            : 'Comm. Area',
     map                     : 'Map'
   },
-  product: {
+  indicator: {
     label                   : 'Select indicator',
-    firn                    : 'Irrigated land area (net)',
-    firb                    : 'Irrigated land area (gross)',
-    kir                     : 'Land use coefficient',
+    fir_n                    : 'Irrigated land area (net)',
     firf                    : 'Irrigated crop acreage',
-    firf_state              : 'State order acreage',
-    uirn                    : 'Irrigated land use (net)',
-    uirb                    : 'Irrigated land use (gross)',
-    uiri                    : 'Irrigated land use (per crop)',
-    uir_state               : 'State order land use',
+    uir                    : 'Irrigated land use (per crop)',
     pirf                    : 'Farm gross output actual',
-    yield                   : 'Yield',
-    intensity               : 'Land use intensity',
-    fallow                  : 'Unused irrigated land',
-    majority                : 'Major land use',
-    diversity               : 'Crop rotation',
-    frequency               : 'Fallow land frequency',
+    y                   : 'Yield',
+    fp                  : 'Unused irrigated land',
+    mlu                : 'Major land use',
+    cd               : 'Crop rotation',
+    flf               : 'Fallow land frequency',
     filter                  : 'Activate filter for indicator list',
+    leftPanel: 'Select indicator on the left side.',
     _of: 'of'
   },
 
@@ -160,7 +210,7 @@ mapSelection:{
     maize                   : 'Maize',
     garden                  : 'Urban Garden',
     sun                     : 'Sunflower',
-    sum                     : 'Sum of crops'
+    sum                     : 'All crops'
   },
   yield_classes: {
     verylow                 : 'very low',
@@ -205,14 +255,13 @@ mapSelection:{
   },
 
   settings: {
+    legend: 'Legend',
     title                   : 'Map Legend',
     opacity                 : 'set opacity',
     layerInfo               : 'get layer info',
     layerPng                : 'this layer as .png',
     extent                  : 'Maximum irrigation extent',
-    firn_nocrops            : 'Irrigation area in ha',
-    firb_nocrops            : 'Total area in ha',
-    kir_nocrops             : 'Land use coefficient',
+    fir_n_nocrops            : 'Irrigation area in ha',
     firf_cotton             : 'Cotton in ha',
     firf_wheat              : 'Wheat in ha',
     firf_rice               : 'Rice in ha',
@@ -223,39 +272,36 @@ mapSelection:{
     firf_veg                : 'Vegetable in ha',
     firf_sun                : 'Sunflower in ha',
     firf_sum                : 'Sum of crops in ha',
-    firf_state_nocrops      : 'Cotton and Wheat in ha',
-    uiri_sum                : 'Net used land in %',
-    uirb_nocrops            : 'Gross used land in %',
-    uiri_wheat              : 'Wheat in %',
-    uiri_rice               : 'Rice in %',
-    uiri_cotton             : 'Cotton in %',
-    uiri_other              : 'Other Crop in %',
-    uiri_orchard            : 'Orchard/Vineyard in %',
-    uiri_garden             : 'Urban Garden in %',
-    uiri_maize              : 'Maize in %',
-    uiri_veg                : 'Vegetable in %',
-    uiri_sun                : 'Sunflower in %',
-    uir_state_nocrops       : 'Cotton and Wheat in %',
+    uir_sum                : 'Net used land in %',
+    uir_wheat              : 'Wheat in %',
+    uir_rice               : 'Rice in %',
+    uir_cotton             : 'Cotton in %',
+    uir_other              : 'Other Crop in %',
+    uir_orchard            : 'Orchard/Vineyard in %',
+    uir_garden             : 'Urban Garden in %',
+    uir_maize              : 'Maize in %',
+    uir_veg                : 'Vegetable in %',
+    uir_sun                : 'Sunflower in %',
     pirf_wheat              : 'Wheat in t',
     pirf_cotton             : 'Cotton in t',
-    yield_wheat             : 'Wheat in t/ha',
-    yield_cotton            : 'Cotton in t/ha',
-    intensity_nocrops       : 'Double Season in %',
-    fallow_nocrops          : 'Fallow in %',
-    frequency_nocrops       : 'Years of fallow',
-    majority_nocrops        : 'Predominant crop type',
-    diversity_nocrops       : 'Number of crop types'
+    y_wheat             : 'Wheat in t/ha',
+    y_cotton            : 'Cotton in t/ha',
+    fp_nocrops          : 'Fallow in %',
+    flf_nocrops       : 'Years of fallow',
+    mlu_nocrops        : 'Predominant crop type',
+    cd_nocrops       : 'Number of crop types'
   },
 
   map: {
     title                   : 'Overview Map',
-    gsatellite              : 'Show Google Satellite',
+    onSatellite              : 'Switch on<br>Aerial map',
+    offSatellite              : 'Switch off<br>Aerial map',
     omap                    : 'Show Open Street Map'
   },
 
   chart: {
     title                   : 'Chart',
-    png                     : 'Chart as .png',
+    png                     : 'Chart as PNG',
     backbtn                 : 'back (year)',
     forwardbtn              : 'forward (year)',
     allYear                 : 'all available years',
@@ -263,29 +309,32 @@ mapSelection:{
     _in                     : ' in ',
     raster                  : 'Raster cell',
     shareCrops              : 'share (%)',
-    yield                   : 'yield (t/ha)',
-    kirFirHeader            : 'Coefficient of irrigated land use',
-    kirFirCoef              : 'Land use coefficient',
+    y                   : 'yield (t/ha)',
     multiannualHeader1          : 'Multiannual analysis',
-    multiannualHeader2          : '(aggregated at 5km x 5km grid cells)',
+    multiannualHeader2          : '(aggregated at 7.5km x 7.5km grid cells)',
     majorLandUse            : 'Major land use',
     cropRotation            : 'Crop rotation',
     numCrops                : 'Number of crop types',
-    frequency               : 'Fallow land frequency',
-    yearsFallow             : 'Years of fallow'
+    flf               : 'Fallow land frequency',
+    yearsFallow             : 'Years of fallow',
+          noChart    : 'No diagram available for'
   },
 
   exp: {
     title                   : 'Export',
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
-    tableExcel              : 'Export all indicators to Excel',    
-    reportPdf               : 'Report as .pdf',
+    tableExcel              : 'Export all indicators to Excel', 
+    indicatorAcronym: 'Indicator acronym',  
+    indicatorName: 'Indicator name',  
+    cropAcronym: 'Crop acronym',  
+    cropName: 'Crop name',        
+    reportPdf               : 'Report as PDF',
     selectWUAs              : 'Select WUA',
     selectRayons            : 'Select District (rayon)',
     selectOblasts           : 'Select Province (oblast)',
     selectCrop              : 'Select crop',
-    selectProduct           : 'Select indicator',
+    selectIndicator           : 'Select indicator',
     singleWUA               : 'single WUA',
     allWUAsRayon            : 'all WUAs of District (rayon)',
     allWUAsOblast           : 'all WUAs of Province (oblast)',
@@ -294,7 +343,12 @@ mapSelection:{
     singleOblast            : 'single Province (oblast)',
     allRayonsOblast         : 'all Districts of Province (oblast)',
     allOblastsCountry       : 'all Provinces of Country',
-          allOblastsCA : 'all Provinces of CA'
+          allOblastsCA : 'all Provinces of CA',
+          download: 'Download',
+          asSHP: 'as SHP',
+          filtered: 'filtered',
+          tooltipSHP1: 'A ',
+          tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created'
   },
 
   timeSlider: {
@@ -325,8 +379,27 @@ mapSelection:{
     upload                  : 'Upload Polygon',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
+          progressTitle : 'Calculate Indicators',
+          progressMsg1: 'Aggregate values to',
+          progressMsg2single: 'polygon...',     
+          progressMsg2multi: 'polygons...',               
+          success : 'Indicators calculated successfully!',
+          failure: 'Indicator calculation failed!',    
+          alreadyCalculated: 'Indicators already calculated!',      
     exportExcel: 'Export to EXCEL',
-    remove                  : 'Delete Polygon'
+    tooltip: 'Selected polygon',
+    pressCalculate: 'First press Calculate Indicators!',
+    shift: 'Select a single polygon or multiple polygons with SHIFT key',
+    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)',
+    list: 'Polygon list',
+    doubleclick:'Doubleclick for zoom',
+    name:'Name',
+    tools:'Tools',
+    showChart: 'Show diagram',
+    remove:'Remove',
+    sortAscText: 'Sort Ascending',
+    sortDescText: 'Sort Descending',
+    sortClearText: 'Clear Sort'
   },
 
   exportUI: {
@@ -337,7 +410,7 @@ mapSelection:{
     inputCrop               : 'Select crop',
     inputPeriod             : 'Select period',
     inputYear               : 'Select year',
-    inputProduct            : 'Select map type',
+    inputIndicator            : 'Select map type',
     inputOutput             : 'Select output',
     btnCancel               : 'Cancel',
     btnSubmit               : 'Save'
@@ -389,6 +462,9 @@ switch (locale){
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
       cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
+      introwindow: 'Страница<br>Приветствия',
+    ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
+    ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',       
       wuemoca_about         : 'О WUEMoCA',
       details               : 'Детали',
       questionnaire         : 'Анкета для пользователя',
@@ -398,39 +474,38 @@ switch (locale){
       contact               : 'Контакты',
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
-      glossary: 'Glossary',
-      glossary_tooltip: 'Definitions and explanations',
-      univer                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга'
+	  help                    : 'Помощь и информация',
+	impressum               : 'выходные данные',
+	manual                  : 'Руководство пользователя',
+	faq                     : 'Часто задаваемые вопросы',
+	glossary                : 'Глоссарий',
+      readmore: 'Подробнее о',
+      uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
+    sic: 'НИЦ МКВК'
+    };
+
+    i18n.pilot = {
+      text                  : 'Фильтр пилотной зоны (UZB)',
+      tooltip               : 'Выбор пилотной зоны'
     };
 
     i18n.fergana = {
       text                  : 'Ферганская область',
       tooltip               : 'Масштабировать до Ферганской области'
     };
-    i18n.pilot = {
-      text                  : 'Pilot<br>Areas',
-      tooltip               : 'Zoom to Pilot Areas'
-    };
-
     i18n.khorezm = {
-      text                  : 'Khorezm область',
-      tooltip               : 'Масштабировать до Khorezm области'
+      text                  : 'Хорезмская область',
+      tooltip               : 'Масштабировать до Хорезмская области'
     };
     i18n.dargom = {
-      text                  : 'Dargom UIS',
-      tooltip               : 'Zoom to Pilot Area Dargom UIS'
+      text                  : 'Даргом УИС',
+      tooltip               : 'Масштабировать до Даргом УИС'
     };
 
     i18n.info = {
       title                 : 'Информация',
-      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).',
-      attention             : 'Внимание: не все данные протестированы!'
+      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).'
 
-    };
-
-    i18n.fergana = {
-      text                  : 'Ферганская< область',
-      tooltip               : 'Масштабировать до Ферганской области'
     };
 
     i18n.area = {
@@ -442,20 +517,62 @@ switch (locale){
       title                 : 'Поиск по карте'
     };
 
+    i18n.report = {
+      generate_button              : 'Получить<br>отчет',
+            generate_window              : 'Получить отчет',
+      year                  : 'Выберите год',
+      selectCountry: 'Выберите Страна',
+      selectOblast: 'Выберите область',
+      selectBUIS: 'Выберите БУИС',
+      btnSubmit             : 'Вывести',
+      typePattern           : 'Размещение с/х культур',
+      typeHarvest           : 'Валовый сбор',
+      typeYield             : 'Урожайность',
+      titlePattern          : 'Размещение с/х культур на орошаемых землях за вегетацию по {object} {year}',
+      titleHarvest          : 'Валовый сбор по с/х культур на орошаемых землях по {object} {year}',
+      titleYield            : 'Урожайность по с/х культур на орошаемых землях по {object} {year}',
+      alert: 'Select oblast or BUIS!',
+      nameUisTH                : 'Объекты (УИС и районы)',
+      nameRayonTH                : 'Объекты (районы)',
+      fir_bTH                : 'Орошаемая площадь, брутто',
+      fir_nTH                : 'Орошаемая площадь, нетто',
+      industrialTH           : 'Технические культуры',
+      totalTH               : 'Всего',
+      cottonTH              : 'в т.ч Хлопок',
+      grainTH               : 'Зерновые',
+      wheatTH               : 'в т.ч Пшеница',
+      vegTH                 : 'Овощи и бахча',
+      fodderTH              : 'Кормовые',
+      perennialTH           : 'Многолетные насаждения',
+      orchardTH             : 'Сады',
+      grapesTH              : 'Винограды',
+      homesteadTH           : 'Приусадебные',
+      otherTH               : 'Прочие',
+      riceTH                : 'Рис',
+      fallowTH              : 'Неиспол.земли',
+      haTH                  : 'га',
+      tnTH                  : 'тонна',
+      thaTH                 : 'т/га',
+      footer1               : '*Хлопок, масленистые, табак',
+      footer2               : '**Пшеница, кукуруза на зерно'
+
+    };
+
+
     i18n.adminFilters = {
-      title                 : 'Увеличить до админ.границ',
+      title                 : 'Площадь фильтра (опционально)',
       country               : 'Страна',
-      country_empty:'Aral Sea Basin',
+      country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
-      oblast_empty:'all provinces of country',
+      oblast_empty:'Выберите область',
       rayon                 : 'Район',
-      rayon_empty:'all districts of province',
+      rayon_empty:'Выберите район',
       buis                  : 'БУИС',
-      buis_empty:'all BISAs of country',
+      buis_empty:'Выберите БУИС',
       uis                   : 'УИС',
-      uis_empty:'all ISAs of BISA',
-      wua                     : 'АВП',
-      wua_empty:'type WUA name',
+      uis_empty:'Выберите УИС',
+      wua                     : 'или АВП',
+      wua_empty:'введите имя АВП',
       oblastBtnText         : 'Показатьy<br>обл.карту',
       rayonBtnText          : 'Показать<br>р-н карту',
       uisBtnText            : 'Показать<br>УИС карту',
@@ -465,12 +582,15 @@ switch (locale){
       rayonBtnTooltip       : 'Агрегировать до района',
       uisBtnTooltip         : 'Агрегировать до УИСа',
       buisBtnTooltip        : 'Агрегировать до БУИСа',
-      wuaBtnTooltip         : 'Агрегировать до АВП'
+      wuaBtnTooltip         : 'Агрегировать до АВП',
+    _or: 'ИЛИ',
+      reset:'сброс<br>фильтра'
 
 
     };
 i18n.mapSelection ={
-   title       :'Выбрать карту'
+   title       :'карты',
+      reset:'сброс<br>выбранных'
 };
 
     i18n.rayon = {
@@ -490,46 +610,40 @@ i18n.mapSelection ={
     i18n.aggreg = {
       label                 : 'Выберите уровень агрегации',
       grid                  : 'Регулярный растр',
-      gridShort             : 'reg. Raster',
+      gridShort             : 'Рег. растр',
       segment               : 'Высота зоны',
       segmentShort          : 'Выс. зоны',
-      rayon                 : 'Район (District)',
+      rayon                 : 'Район',
       rayonShort            : 'Район',
       rayon4name            : ' ',
-      oblast                : 'Область (Province)',
+      oblast                : 'Область',
       oblastShort           : 'Область',
       subbasin              : 'Река подбассейна',
       subbasinShort         : 'Подбассейны',
-      wua                   : 'АВП (Water User Association)',
+      wua                   : 'АВП (Ассоциация водопользователей)',
       wuaShort              : 'АВП',
-      buis                  : 'БУИС (Basin Irrig. System Admin.)',
+      buis                  : 'БУИС (бассейн Управление ирригационной системы)',
       buisShort             : 'БУИС',
-      uis                   : 'УИС (Irrigation System Admin.)',
+      uis                   : 'УИС (Управление ирригационной системы)',
       uisShort              : 'УИС',
       command               : 'Командная площадь',
-      commandShort          : 'Comm. area',
+      commandShort          : 'Ком. площ.',
       map                   : 'карту'
     };
-    i18n.product = {
+    i18n.indicator = {
       label                 : 'Выберите тип карты',
-      firn                  : 'Площади орошаемых земель (нетто)',
-      firb                  : 'Площади орошаемых земель (брутто)',
-      kir                   : 'Коэффициент использования земли',
+      fir_n                  : 'Площади орошаемых земель (нетто)',
       firf                  : 'Посевные площади на орошаемых землях',
-      firf_state            : 'State order acreage',
-      uirn                  : 'использования орошаемых земель (нетто)',
-      uirb                  : 'использования орошаемых земель (брутто)',
-      uiri                  : 'использования орошаемых земель на культуру',
-      uir_state             : 'State order land use',
+      uir                  : 'использования орошаемых земель на культуру',
       pirf                  : 'Валовая продукция фактический',
-      yield                 : 'Урожайность',
-      intensity             : 'Интенсивность использования земли',
-      fallow                : 'Неиспользованный орошаемые земли',
-      majority              : 'Основные землепользования',
-      diversity             : 'разнообразие сельскохозяйственных культур',
-      frequency             : 'Fallow land frequency',
-      filter                : 'Activate filter for indicator list',
-          _of: 'of'
+      y                 : 'Урожайность',
+      fp                : 'Неиспользованный орошаемые земли',
+      mlu              : 'Основные землепользования',
+      cd             : 'разнообразие сельскохозяйственных культур',
+      flf             : 'Частота неисп.земель',
+      filter                : 'Активировать фильтр для списка индикаторов',
+          _of: 'of',
+              leftPanel: 'Выберите индикатор на левой стороне.'
     };
 
     i18n.crop = {
@@ -540,12 +654,12 @@ i18n.mapSelection ={
       fallow                : 'Неиспользуемые земли',
       'double'              : 'Double Season',
       other                 : 'Другие культуры',
-      veg                   : 'Vegetable',
-      orchard               : 'Orchard/Vineyard',
-      maize                 : 'Maize',
-      garden                : 'Urban Garden',
-      sun                   : 'Sunflower',
-      sum                   : 'Sum of crops'
+      veg                   : 'овощной',
+      orchard               : 'фруктовый сад/виноградник',
+      maize                 : 'кукуруза',
+      garden                : 'Городской сад',
+      sun                   : 'подсолнух',
+      sum                   : 'Все зерновые культуры'
     };
     i18n.yield_classes = {
       verylow               : 'очень низкая',
@@ -590,14 +704,13 @@ i18n.mapSelection ={
     };
 
     i18n.settings = {
+            legend: 'Легенда',
       title                 : 'Легенда карты',
       opacity               : 'настроить прозрачность',
       layerInfo             : 'получить информацию о слое',
       layerPng              : 'этот слой как .png',
       extent                : 'Макс. степень орошения',
-  firn_nocrops        : 'Irrigation area in га',
-  firb_nocrops        : 'Total area in га',
-  kir_nocrops       : 'Land use coefficient',
+  fir_n_nocrops        : 'Irrigation area in га',
   firf_cotton       : 'хлопок в га',
   firf_wheat        : 'пшеница в га',
   firf_rice       : 'рис в га',
@@ -608,56 +721,52 @@ i18n.mapSelection ={
     firf_veg                : 'Vegetable in ha',
     firf_sun                : 'Sunflower in ha',  
   firf_sum        : 'Sum of crops в га',
-  firf_state_nocrops        : 'хлопок и пшеница в га',
-  uiri_sum        : 'нетто б земля в %',
-  uirb_nocrops        : 'брутто б земля в %',
-    uiri_wheat               : 'пшеница в %',
-    uiri_rice                : 'рис в %',
-    uiri_cotton              : 'хлопок в %',
-  uiri_other            : 'Other Crop в %',
-  uiri_orchard              : 'фруктовый сад/Виноградник в %',
-  uiri_garden               : 'Urban Garden в %',
-      uiri_maize              : 'Maize in %',
-    uiri_veg                : 'Vegetable in %',
-    uiri_sun                : 'Sunflower in %',
-  uiri_sum        : 'Sum of crops in %',
-  uir_state_nocrops   : 'хлопок и пшеница в %',
+  uir_sum        : 'нетто б земля в %',
+    uir_wheat               : 'пшеница в %',
+    uir_rice                : 'рис в %',
+    uir_cotton              : 'хлопок в %',
+  uir_other            : 'Other Crop в %',
+  uir_orchard              : 'фруктовый сад/Виноградник в %',
+  uir_garden               : 'Urban Garden в %',
+      uir_maize              : 'Maize in %',
+    uir_veg                : 'Vegetable in %',
+    uir_sun                : 'Sunflower in %',
+  uir_sum        : 'Sum of crops in %',
     pirf_wheat                 : 'пшеница в т',
   pirf_cotton                  : 'хлопок в т',
-    yield_wheat                 : 'Урожайность пшеницы в т/га',
-  yield_cotton                  : 'хлопок в т/га',
-  intensity_nocrops               : 'Double Season в %',
-    fallow_nocrops           : 'Площадь неисп. земель в %',
-    frequency_nocrops              : 'Years of fallow',
-  majority_nocrops               : 'Преобладающий тип урожая',
-  diversity_nocrops               : 'Количество типов культур'
+    y_wheat                 : 'Урожайность пшеницы в т/га',
+  y_cotton                  : 'хлопок в т/га',
+    fp_nocrops           : 'Площадь неисп. земель в %',
+    flf_nocrops              : 'Years of fallow',
+  mlu_nocrops               : 'Преобладающий тип урожая',
+  cd_nocrops               : 'Количество типов культур'
     };
 
     i18n.map = {
       title                 : 'Обзор карты',
-      gsatellite            : 'Показать Google Satellite',
+      onSatellite            : 'включить<br>вид сверху',
+      offSatellite          :'выключить<br>вид сверху',
       omap                  : 'Показать Open Street Map'
     };
 
     i18n.chart = {
       title                 : 'График',
-      png                   : 'График как .png',
+      png                   : 'График как PNG',
       backbtn               : 'назад (год)',
       forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
       _in                   : ' в ',
       raster                : 'Растровые',
       shareCrops            : 'Доля культур (%)',
-      yield                 : 'урожай (т/га)',
-      kirFirHeader          : 'Коэффициент использования орошаемых земель',
-      kirFirCoef            : 'Коэффициент землепользования',
+      y                 : 'урожай (т/га)',
       multiannualHeader1          : 'Многолетний анализ',
-      multiannualHeader2          : '(одна ячейка = 5км x 5км)',     
+      multiannualHeader2          : '(одна ячейка = 7,5км x 7,5км)',     
       majorLandUse          : 'Основная культура',
       cropRotation          : 'Севооборот',
       numCrops              : 'Кол-во типов культур',
-      frequency             : 'Частота неисп.земель',
-      yearsFallow           : 'Годы неисп.земель'
+      flf             : 'Частота неисп.земель',
+      yearsFallow           : 'Годы неисп.земель',
+      noChart    : 'Нет диаграмма для'
     };
 
     i18n.exp = {
@@ -665,11 +774,15 @@ i18n.mapSelection ={
       opts                  : 'Выбор опций экспорта',
       tableCsv              : 'Таблица как CSV',
       tableExcel              : 'Таблица как EXCEL',      
+    indicatorAcronym: 'индикатор акроним',  
+    indicatorName: 'Индикатор',  
+    cropAcronym: 'культурой акроним',  
+    cropName: 'культура',        
       reportPdf             : 'Отчет как .pdf',
       selectWUAs            : 'Выберите АВП',
       selectRayons          : 'Select rayon',
       selectCrop            : 'Выберите культуру',
-      selectProduct         : 'Выберите тип карты',
+      selectIndicator         : 'Выберите тип карты',
       singleWUA             : 'один АВП',
       allWUAsRayon          : 'все АВП района',
       allWUAsOblast         : 'все АВП области',
@@ -680,7 +793,13 @@ i18n.mapSelection ={
       selectOblasts         : 'Select Province (oblast)',
       singleOblast          : 'single Province (oblast)',
       allOblastsCountry     : 'all Provinces of Country',
-      allOblastsCA : 'all Provinces of CA'
+      allOblastsCA : 'all Provinces of CA',
+                download: 'Скачать',
+          asSHP: 'как SHP',
+          filtered: 'фильтруют',
+          tooltipSHP1: '',
+          
+          tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет'
     };
 
     i18n.timeSlider = {
@@ -698,7 +817,7 @@ i18n.mapSelection ={
     };
 
     i18n.polygon = {
-          showPolygon             : 'Show my Polygons',
+          showPolygon             : 'Мои Полигоны',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -710,9 +829,29 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить полигон',
       edit                  : 'Редактировать',
-      calculate             : 'Расчитать<br>значения',
-          exportExcel: 'Export to EXCEL',
-      remove                : 'Удалить'
+      calculate             : 'расчет<br>индикатора',
+      progressTitle : 'расчет индикатора',
+          progressMsg1: 'Суммарные значения до',
+          progressMsg2single: 'полигона...',     
+          progressMsg2multi: 'полигонов...',      
+                progressMsg: 'Агрегат для полигонов...',
+                failure: 'Расчет индикатора не удалось!',
+                success : 'Индикаторы рассчитываются успешно!', 
+                alreadyCalculated: 'Индикаторы уже подсчитали!',              
+          exportExcel: 'Экспорт в Excel',
+      remove                : 'Удалить',
+    tooltip: 'Выбранный полигон',
+    pressCalculate: 'сначала нажмите расчет индикатора!',
+    shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
+    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84 (EPSG:4326)',
+    list: 'Список Полигон',
+    doubleclick:'Двойной щелчок для увеличения',
+    name:'Название',
+    tools:'Инструменты',
+    showChart: 'Показать диаграмма',
+    sortAscText: 'Сортировать по возрастанию',
+    sortDescText: 'Сортировка по убыванию',
+    sortClearText: 'Очистить Сортировать'
     };
 
     i18n.exportUI = {
@@ -723,7 +862,7 @@ i18n.mapSelection ={
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',
       inputYear             : 'Выберите года',
-      inputProduct          : 'Выберите тип карты',
+      inputIndicator          : 'Выберите тип карты',
       inputOutput           : 'Выберите вывод отчета',
       btnCancel             : 'Отмена',
       btnSubmit             : 'Сохранить'
@@ -765,16 +904,6 @@ i18n.mapSelection ={
   };
   i18n.alert = {
     ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может быть увеличение)'
-  };
-
-  i18n.fieldname = {
-    field_irr_area_name     : "irr_area_name_ru"  ,
-    field_rayon_name        : "rayon_name_ru" ,
-    field_wua_name          : "wua_name_ru"
-  };
-  i18n.tablename = {
-    table_irr_areas_name    : "ca_irr_areas_ru" ,
-    table_rayons_name       : "ca_rayons_ru"
   };
 
   break;

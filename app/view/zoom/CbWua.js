@@ -11,7 +11,7 @@ Ext.define('App.view.zoom.CbWua', {
   emptyText: i18n.adminFilters.wua_empty,
   fieldLabel: i18n.adminFilters.wua,
 
-  labelAlign: 'top',
+  //labelAlign: 'top',
 
   hidden: true,
   store: {

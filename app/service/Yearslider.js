@@ -29,13 +29,16 @@ Ext.define('App.service.Yearslider', {
   didRender: function () {
     var indicator = App.service.Watcher.getIndicator();
     var slider = App.service.Helper.getComponentExt('yearslider-slider');
-    var minMax = this.getMinMax();
-    if (!indicator.years){
-      return App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
-    }
+    var minMax = this.getMinMax(); 
     slider.setMaxValue(minMax.max);
     slider.setMinValue(minMax.min);
-    App.service.Helper.showComponents(['app-yearslider', 'yearslider-btn-play']);
+    if (!indicator.years || !App.util.Layer.current || !App.util.Layer.current.getVisible()){
+      App.service.Helper.hideComponents(['app-yearslider', 'yearslider-btn-pause', 'yearslider-btn-play']);
+    }
+    else{
+      App.service.Helper.showComponents(['app-yearslider', 'yearslider-btn-play']);
+      slider.setValue(App.service.Watcher.get('Year'));
+    }
   },
 
   getMinMax: function () {

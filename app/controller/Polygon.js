@@ -24,8 +24,15 @@ Ext.define('App.controller.Polygon', {
     el.addEventListener('change', App.service.Polygon.uploadShapefile, false);
   },
 
-  onEdit: function () {
+  /*onEdit: function () {
     App.service.Polygon.updateWindowEdit();
+    App.service.Polygon.windowEdit.show();
+  },*/
+  onEdit: function (grid, rowIndex, colIndex) {
+    var rec = grid.getStore().getAt(rowIndex);
+    var uid = rec.get('uid');
+    var polygon = App.service.Polygon.getPolygonFromUID(uid);
+    App.service.Polygon.updateWindowEdit(polygon);
     App.service.Polygon.windowEdit.show();
   },
 
@@ -33,18 +40,33 @@ Ext.define('App.controller.Polygon', {
     App.service.Polygon.calculate();
   },
 
-  onRemove: function () {
-    App.service.Polygon.removeSelectedPolygon();
+  onRemove: function (grid, rowIndex, colIndex) {
+    var rec = grid.getStore().getAt(rowIndex);
+    var uid = rec.get('uid');
+    var polygon = App.service.Polygon.getPolygonFromUID(uid);     
+    App.service.Polygon.removeSelectedPolygons(polygon);
   },
 
   onFormSubmit: function (el, form, val) {
-    App.service.Polygon.save(el.up().up().getValues());
+    App.service.Polygon.save(el.up().up().getValues(false, true, false, false));
     App.service.Polygon.windowEdit.close();
-    App.service.Helper.enableComponents(['polygon-btn-calculate']);
+    //App.service.Helper.enableComponents(['polygon-btn-calculate']);
   },
 
-  onShowChart: function(){
-    App.service.Polygon.showChartWindow();
+  /*onShowChart: function (grid, rowIndex, colIndex) {
+    var rec = grid.getStore().getAt(rowIndex);
+    var uid = rec.get('uid');
+    var polygon = App.service.Polygon.getPolygonFromUID(uid);    
+    App.service.Polygon.showChartWindow(polygon);
+  },*/
+
+  onSelect: function(rowmodel, record, index){
+    App.service.Polygon.selectFeatureFromGrid(record.data.uid);
+  },
+  onDblClick: function( table , record , tr , rowIndex , e){
+    if (record.data.extent){
+      App.service.Polygon.zoomToPolygon(record.data.extent);
+    }
   }
 
 });

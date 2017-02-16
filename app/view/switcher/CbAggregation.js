@@ -9,12 +9,21 @@ Ext.define('App.view.switcher.CbAggregation', {
 
   itemId: 'switcher-cb-aggregation',
 
-  fieldLabel: i18n.aggreg.label,
+   labelAlign: 'top',
+
+  //fieldLabel: i18n.aggreg.label,
 
   store: {
     type: 'aggregation'
   },
-
+  // Template for the dropdown menu.
+  // Note the use of the "x-list-plain" and "x-boundlist-item" class,
+  // this is required to make the items selectable.
+  tpl: Ext.create('Ext.XTemplate',
+      '<ul class="x-list-plain"><tpl for=".">',
+          '<li role="option" class="x-boundlist-item" data-qtip="{' + __Global.Lang + 'Tooltip}">{' + __Global.Lang + 'Name}</li>',
+      '</tpl></ul>'
+  ),
   displayField: __Global.Lang + 'Name',
   queryMode: 'local',
   valueField: 'id',

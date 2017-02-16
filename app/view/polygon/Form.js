@@ -42,9 +42,8 @@ Ext.define('App.view.polygon.Form', {
       xtype: 'textfield',
       itemId: 'exportui-area',
       fieldLabel: i18n.exportUI.totalArea,
-      //afterLabelTextTpl: required,
       name: 'area',
-      readOnly: true      
+      disabled: true   
     }]
   }],
 

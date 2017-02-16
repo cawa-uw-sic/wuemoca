@@ -11,8 +11,6 @@ Ext.define('App.view.chart.Gauge', {
 
   animate: true,
 
-  width: 300,
-
-  height: 240
+  innerPadding: 5
 
 });

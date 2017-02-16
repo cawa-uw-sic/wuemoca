@@ -19,9 +19,9 @@ Ext.define('App.service.Polygon', {
   selected: false,
   isBusy: false,
 
-  windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
+  progressBar: false,
 
-  windowUpload: Ext.create('App.util.Window', { title: 'Upload a shapefile', items: [{ xtype: 'app-polygon-formupload' }] }),
+  windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
   windowChart: Ext.create('App.util.Window'),
 
@@ -37,8 +37,6 @@ Ext.define('App.service.Polygon', {
 
     self.layer.setMap(App.service.Map.instance);
 
-    //self.layer.setVisible(__LocalDB.get('Selections.UserPolygon', false));
-
     self.drawControl = new ol.interaction.Draw({ type: ('Polygon') });
 
     self.selectControl = new ol.interaction.Select({
@@ -48,59 +46,72 @@ Ext.define('App.service.Polygon', {
 
     App.service.Map.instance.addInteraction(self.drawControl);
     App.service.Map.instance.addInteraction(self.selectControl);
-    this.deactivate();
+    self.deactivate();
+    self.switchView(App.service.Watcher.get('UserPolygon') == 'show');
 
     self.selectControl.on('select', function (e) {
-      self.whenUnselect(e);
-      if (e.selected.length < 1) return false;
-      self.whenSelect(e);
+
+      if (e.selected.length < 1) {
+        self.deselectMapAndList();       
+        return false;
+      }
+      var uid = e.selected[0].get('uid');
+      self.selectRowInGrid(uid);
     });
 
-
     self.drawControl.on('drawend', function (e) {
-      self.registerPolygon(e.feature.getGeometry());
+      var polygon = self.registerPolygon(e.feature.getGeometry());
+      self.saveAll();
       self.rerenderFeatures();
-      self.deactivate();
+      Ext.getStore('polygongrid').loadData(self.getGridData());      
+      self.selectRowInGrid(polygon.uid);
+      //prevent from zoom in with dblclick - see https://github.com/openlayers/openlayers/issues/3610
+      setTimeout(function(){self.deactivate();},251);      
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
       App.service.Helper.showComponents(['polygon-btn-activate']);
     });
-
-    self.rerenderFeatures();
-    self.switchView(__LocalDB.get('Selections.UserPolygon', false));
   },
 
   switchView: function(val){
-    App.service.Watcher.set('UserPolygon', val);
+    App.service.Watcher.set('UserPolygon', val ? 'show' : 'noshow');
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
-
     if (val == false){
-      this.selectControl.getFeatures().clear();
+      this.deselectMapAndList();
       this.drawControl.setActive(false);
       this.activated = false;
-      this.whenUnselect();
       this.windowChart.close();
       this.windowEdit.close();
     }
     else{
+      this.rerenderFeatures();
       App.service.Chart.window.close();
-      //App.service.Highlight.clear();
-      App.service.Status.set(' ');
+      App.service.Status.set('');
       App.service.Helper.getComponentExt('app-switcher').expand();
+      App.service.Helper.getComponentExt('app-zoom').collapse();
+      App.service.Map.filterAreaOfInterest('','0');
+      App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
+      App.service.Helper.getComponentExt('legend-window').hide();
+
     }
-    App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(val);
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
-  },
+    App.service.Map.setMainTitle();
 
+  },
+  deselectMapAndList: function(){
+    this.selectControl.getFeatures().clear();
+    App.service.Helper.getComponentExt('polygon-grid').getSelectionModel().deselectAll();
+    this.windowChart.close();
+    this.windowEdit.close();
+    this.selected = false;
+  },
   activate: function () {
     this.drawControl.setActive(true);
     this.selectControl.setActive(false);
     this.activated = true;
-    this.selectControl.getFeatures().clear();
-    this.whenUnselect();
-    this.selected = false;
     this.windowChart.close();
+    this.deselectMapAndList();
   },
 
   deactivate: function () {
@@ -110,82 +121,140 @@ Ext.define('App.service.Polygon', {
   },
 
   getDefaultColor: function (feature) {
+    var fillColor = '';
+    var fillColorEmpty = 'rgba(127,205,187, 0.5)';
+    var fillColorCalculated = 'rgba(29,145,192, 0.5)';
+    if (feature.getProperties().data.length == 0){
+      fillColor = fillColorEmpty;
+    }
+    else{
+      fillColor = fillColorCalculated;      
+    }
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        //color: '#41b6c4'
-        color: 'rgba(65, 182, 196, 0.7)'
+        color: fillColor
       }),
       stroke: new ol.style.Stroke({
-        color: '#2b8cbe'
+        color: '#016c59'
       }),
       text: new ol.style.Text({
+        font: '12px sans-serif',
         text: feature.getProperties().name
       })
     });
   },
 
   getSelectColor: function (feature) {
+    var fillColor = '';
+    var fillColorEmpty = 'rgba(255,64,64, 0.6)';
+    var fillColorCalculated = 'rgba(227,0,34, 0.6)';  
+    if (feature.getProperties().data.length == 0){
+      fillColor = fillColorEmpty;
+    }
+    else{
+      fillColor = fillColorCalculated;      
+    }      
     return new ol.style.Style({
       fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.7)'
-        //color: '#fff'
+        color: fillColor
       }),
       stroke: new ol.style.Stroke({
         color: '#4d004b'
       }),
       text: new ol.style.Text({
+        font: '12px sans-serif',
+        fill: new ol.style.Fill({
+          color: '#ffffff'
+        }),
         text: feature.getProperties().name
       })
     });
   },
 
-  updateWindowEdit: function () {
-    var polygon = this.all[this.getSelectedIndex()];
+  updateWindowEdit: function (polygon) {
+    var changeSelection = true;
+    var selectedPolygons = this.getSelectedPolygons();
+    if (selectedPolygons && selectedPolygons.length == 1){
+      if (selectedPolygons[0].uid == polygon.uid){
+        changeSelection = false;
+      }
+    }
+
+    if (changeSelection){
+      this.selectRowInGrid(polygon.uid);
+    }
     App.service.Helper.setComponentsValue([
-       { id: 'exportui-name',       value: polygon.info.name     || '' }
-      ,{ id: 'exportui-location',   value: polygon.info.location || '' }
-      ,{ id: 'exportui-area',   value: polygon.totalArea + ' ha' || '' }
+       { id: 'exportui-name',       value: polygon.info.name          || '' }
+      ,{ id: 'exportui-location',   value: polygon.info.location      || '' }
+      ,{ id: 'exportui-area',       value: polygon.totalArea + ' ha'  || '' }
     ]);
   },
 
-  whenUnselect: function (e) {
-    App.service.Helper.disableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
-    this.windowChart.close();
-    this.windowEdit.close();
-    //if (!this.windowEdit.isHidden()) this.windowEdit.close();
-  },
-
-  whenSelect: function (e) {
+  whenSelect: function () {
     App.service.Chart.window.close();
-    this.selected = e.selected[0];
-    if (!this.windowEdit.isHidden()) this.updateWindowEdit();
-    var name = this.all[this.getSelectedIndex()].info.name;
-    if (name == ''){
-      this.windowChart.close();
-      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-remove']);
-      this.updateWindowEdit();
-      this.windowEdit.show();
-    }
-    else{
-      App.service.Helper.enableComponents(['polygon-btn-edit', 'polygon-btn-calculate', 'polygon-btn-remove']);
-      App.service.Status.set('Selected polygon: ' + name);
-      this.showChartWindow();
+    if (!this.selected || this.selectControl.getFeatures().getLength() == 1){
+      this.selected = [];
     }
 
+    this.selected.push(this.selectControl.getFeatures().a[0]);
+
+    var polygons = this.getSelectedPolygons();
+    var nameEmpty = false;
+    for (i = 0; i < polygons.length; ++i){
+      if (polygons[i].info.name == ''){
+        nameEmpty = true;
+        break;
+      }      
+    }
+    //no name
+    if (nameEmpty){
+      this.windowChart.close();
+      //single polygon
+      if (polygons.length == 1){
+        this.updateWindowEdit(polygons[0]);
+        this.windowEdit.show();        
+      }
+    }
+    //with name
+    else{ 
+      //single polygon
+      if (polygons.length == 1){
+        if (!this.windowEdit.isHidden()) this.updateWindowEdit(polygons[0]);
+        var name = polygons[0].info.name;
+        App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
+        //no data
+        if (polygons[0].data.length == 0){
+          this.calculate();
+        }
+        //calculated data
+        else{
+          //if (!this.windowChart.isHidden()) this.showChartWindow(polygons[0]);
+          this.showChartWindow(polygons[0]);
+        }
+      }
+      //multiple polygons
+      else{
+        this.windowChart.close(); 
+        this.windowEdit.close();
+      }      
+    }
 
   },
 
   registerPolygon: function (geometry) {
+    var uniqueId = 'p-' + Date.now().toString().split('').reverse().join('');
     var polygon = {
-      uid: 'polygon-' + new Date().getTime(),
-      info: { name: '', location: '' },
-      totalArea: Array.isArray(geometry) ? '' : this.calculateTotalArea(geometry),
+      uid: uniqueId,
+      info: { name: uniqueId, location: '' },
+      totalArea: Array.isArray(geometry) ? this.calculateTotalArea(geometry, true) : this.calculateTotalArea(geometry, false),
       data: [],
-      geometry: Array.isArray(geometry) ? geometry : geometry.getCoordinates()[0]
-    };
+      geometry: Array.isArray(geometry) ? geometry : geometry.getCoordinates()[0],
+      extent: Array.isArray(geometry) ? this.calculateExtent(geometry, true) : this.calculateExtent(geometry, false)
+    }
 
     this.all.push(polygon);
     this.saveAll();
+
     return polygon;
   },
 
@@ -197,22 +266,91 @@ Ext.define('App.service.Polygon', {
     return feature;
   },
 
-  removeSelectedPolygon: function () {
-    this.all.splice(this.getSelectedIndex(), 1);
-    this.saveAll();
-    this.source.removeFeature(this.selected);
+  removeSelectedPolygons: function (polygon) {
+    var changeSelection = true;
+    var selectedPolygons = this.getSelectedPolygons();
+    if (selectedPolygons && selectedPolygons.length == 1){
+      if (polygon){
+        if (selectedPolygons[0].uid == polygon.uid){
+          changeSelection = false;
+        }
+      }
+      else{
+        polygon = selectedPolygons[0];
+      }
+    }
+
+    if (polygon && changeSelection){
+      this.selectRowInGrid(polygon.uid);
+    }
+    if (polygon){
+
+      var indices = this.getSelectedIndices();
+      for (i = 0; i < indices.length; ++i){
+        this.all.splice(indices[i], 1); 
+        if (indices[i+1]){
+          indices[i+1] -= i+1; 
+        }
+      }
+      this.saveAll();
+      this.rerenderFeatures();
+      /*for (i = 0; i < this.selected.length; ++i){
+        this.source.removeFeature(this.selected[i]);
+      }*/
+      this.deselectMapAndList();
+      this.windowEdit.close();
+      this.windowChart.close();
+      Ext.getStore('polygongrid').loadData(this.getGridData());
+    }
+  },
+
+  selectFeatureFromGrid: function(uid){
     this.selectControl.getFeatures().clear();
-    this.whenUnselect();
-    this.selected = false;
-    this.windowEdit.close();
-    this.windowChart.close();
+    var feature = null;
+    var features = this.layer.getSource().getFeatures();
+    for (var f = 0; f < features.length; ++f) {
+      if (features[f].get('uid') == uid){
+        feature = features[f];
+      }
+    }
+    if (feature){
+      this.selectControl.getFeatures().push(feature);
+      this.whenSelect();
+    }
+  },
+
+  selectRowInGrid: function(uid){
+    var rec = Ext.getStore('polygongrid').findRecord("uid", uid); 
+    App.service.Helper.getComponentExt('polygon-grid').getSelectionModel().select(rec);    
+  },
+
+  getGridData: function(){
+    self = this;
+    var griddata = [];
+    this.all.map(
+      function(polygon){
+        var extent = polygon.extent;
+        if (!extent){
+          extent = Array.isArray(polygon.geometry) ? self.calculateExtent(polygon.geometry, true) : self.calculateExtent(polygon.geometry, false);         
+        }
+        griddata.push({ uid: polygon.uid, name: polygon.info.name, extent: extent});
+    });
+    return griddata.reverse();
+  },
+
+  zoomToPolygon: function(extent){
+    var transformation = false;
+    App.service.Map.setMapExtent(extent, transformation); 
   },
 
   save: function (info) {
+    this.getSelectedPolygons()[0].info = info;
 
-    this.all[this.getSelectedIndex()].info = info;
-    this.rerenderFeatures();
+
     this.saveAll();
+    this.rerenderFeatures();
+    Ext.getStore('polygongrid').loadData(this.getGridData());      
+    this.selectRowInGrid(this.getSelectedPolygons()[0].uid);    
   },
 
   saveAll: function () {
@@ -228,85 +366,234 @@ Ext.define('App.service.Polygon', {
     });
   },
 
-  getSelectedIndex: function () {
+  /*getSelectedIndex: function () {
     return this.all.map(function (d) {
       return d.uid;
     }).indexOf(this.selected.get('uid'));
+  },*/
+
+  getSelectedIndices: function () {
+    var indices = [];
+    for (a = 0; a < this.all.length; ++a) {
+      for (i = 0; i < this.selected.length; ++i) {
+        if (this.all[a].uid == this.selected[i].get('uid')){
+          indices.push(a);
+        }
+      }
+    }
+    return indices;
+  },
+
+  getSelectedPolygons: function () {
+    var polygons = [];
+    for (a = 0; a < this.all.length; ++a) {
+      for (i = 0; i < this.selected.length; ++i) {
+        if (this.all[a].uid == this.selected[i].get('uid')){
+          polygons.push(this.all[a]);
+        }
+      }
+    }
+    return polygons;
+  },  
+
+  getPolygonFromUID: function(uid){
+    for (a = 0; a < this.all.length; ++a) {
+      if (this.all[a].uid == uid){
+        return this.all[a];
+      }
+    }    
   },
 
   calculate: function () {
-    var polygon = this.all[this.getSelectedIndex()];
-    if (polygon.data.length == 0){
-      var transformedGeometry = this.prepareRequestGeometry(polygon.geometry);
-      this.doRequest(transformedGeometry);
+    var self = this;
+    var polygons = self.all;
+    //var polygons = self.getSelectedPolygons();
+    //var sendRequest = false;
+    var emptyPolygons = [];
+    for (i = 0; i < polygons.length; ++i){
+      if (polygons[i].data.length == 0){
+        emptyPolygons.push(polygons[i]);
+        //sendRequest = true;
+        //break;
+      }      
+    }
+    var count = emptyPolygons.length;
+    var msg = i18n.polygon.progressMsg1 + ' ' + (count).toString() + ' ';
+    msg += count > 1 ? i18n.polygon.progressMsg2multi : i18n.polygon.progressMsg2single;
+    if (count > 0){
+      var index = 0;
+      //if (emptyPolygons.length > 1){
+        self.progressBar = Ext.Msg.show({
+          title: i18n.polygon.progressTitle,
+          msg: msg,
+          progressText: '',
+          width: 300,
+          progress: true,
+          closable: false,
+          modal: false,
+          buttons: Ext.Msg.OK
+        });
+        self.progressBar.msgButtons.ok.disable();
+        self.progressBar.updateProgress(index, '0 %');
+      //}
+
+      self.doRequest(index, emptyPolygons);
     }
     else{
-      alert('Indicators already calculated!');
-    }
+      Ext.Msg.alert('', i18n.polygon.alreadyCalculated);
+     }
   },
 
-  doRequest: function (geometry) {
+  doRequest: function (index, emptyPolygons) {
     var self = this;
+    polygon = emptyPolygons[index];
     self.isBusy = true;
     Ext.getBody().setStyle('cursor','progress');
-    App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','progress');
-
+    var geometry = self.prepareRequestGeometry(polygon.geometry);
     Ext.data.JsonP.request({
       url : __Global.api.Polygon + 'geometry=' + geometry,
       callbackName: 'PolygonResponse',
       params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
       success: function (results) {
-        self.isBusy = false;
-        Ext.getBody().setStyle('cursor','auto');
-        App.service.Helper.getComponentExt('polygon-btn-calculate').setStyle('cursor','auto');
-        var polygon = self.all[self.getSelectedIndex()];
         polygon.data = results;
-        self.saveAll();
-        alert('Indicators of ' +  polygon.info.name + ' calculated successfully');
-        self.showChartWindow();
+      },
+      callback: function(results){
+        self.isBusy = false;
+        index++;
+        if (results){ 
+          var message = undefined;
+          if (emptyPolygons.length == 1){
+            message = polygon.info.name + ': ' + i18n.polygon.success;  
+            self.zoomToPolygon(polygon.extent);
+          }
+          else if (index == emptyPolygons.length) {
+            message = i18n.polygon.success;
+          }                
+          if (self.progressBar){
+            self.progressBar.updateProgress(
+              index/emptyPolygons.length, 
+              Math.round(100 * index/emptyPolygons.length) + ' %', 
+              message
+            );
+          }
+        }
+        if (index < emptyPolygons.length){
+          //recursive function
+          self.doRequest(index, emptyPolygons);
+        }
+        else{
+          //loop finished
+          Ext.getBody().setStyle('cursor','auto');
+          self.saveAll();
+          self.rerenderFeatures();
+          if (self.progressBar){
+            self.progressBar.msgButtons.ok.enable();
+          }
+        }
+      },
+      failure: function(results){
+        if (emptyPolygons.length == 1){
+          Ext.Msg.alert('', polygon.info.name + ': ' + i18n.polygon.failure);
+        }
       }
     });
   },
 
-  showChartWindow: function (){
+  showChartWindow: function (polygon){
     var self = this;
-    var polygon = self.all[self.getSelectedIndex()];
-    var indicator = App.service.Watcher.getIndicator();
-    var crop = App.service.Watcher.get('Crop');
-    if (polygon.data.length > 0) {
-      if (!!indicator.chart && indicator.chart != 'Multiannual'){
-        var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
-        self.windowChart.setTitle(title);
-        self.windowChart.removeAll();
-        App.service.Chart.dataResponse(polygon.data);
+    var changeSelection = true;
+    var selectedPolygons = self.getSelectedPolygons();
+    if (selectedPolygons && selectedPolygons.length == 1){
+      if (polygon){
+        if (selectedPolygons[0].uid == polygon.uid){
+          changeSelection = false;
+        }
+      }
+      else{
+        polygon = selectedPolygons[0];
+      }
+    }
 
-        if (typeof indicator.chart != 'object'){
-          self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+    if (polygon && changeSelection){
+      self.selectRowInGrid(polygon.uid);
+    }
+    if (polygon){
+      //var polygon = self.getSelectedPolygons()[0];
+      var indicator = App.service.Watcher.getIndicator();
+      var crop = App.service.Watcher.get('Crop');
+
+      if (polygon.data.length > 0) {
+        self.windowChart.removeAll();
+        if (!!indicator.id){
+          if (!!indicator.chart && indicator.chart != 'Multiannual'){
+            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
+            self.windowChart.setTitle(title);
+
+            App.service.Chart.dataResponse(polygon.data);
+
+            if (typeof indicator.chart != 'object'){
+              self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
+            }
+            else{
+              var idx = indicator.crops.indexOf(crop);
+              self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+            }
+            App.service.Chart.userPolygon = true;
+            //return self.windowChart.show();
+          }
+          else{
+            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
+          }
         }
         else{
-          var idx = indicator.crops.indexOf(crop);
-          self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+          self.windowChart.setTitle(i18n.indicator.leftPanel);
         }
-        App.service.Chart.userPolygon = true;
-        return self.windowChart.show();
+        self.windowChart.show();
       }
-      self.windowChart.close();
-      alert('No chart available for selected indicator.');
-    }
-    else{
-      self.windowChart.close();
-      alert('First press ' + i18n.polygon.calculate + '!');
+      //no calculated data
+      else{
+        self.windowChart.close();
+        self.calculate();
+        //alert(i18n.polygon.pressCalculate);
+      }
+
     }
   },
 
-  calculateTotalArea: function (polygon){
+  calculateTotalArea: function (polygon, array){
     var wgs84Sphere = new ol.Sphere(6378137);
-    var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
-    __Global.projection.Mercator, __Global.projection.Geographic));
-    var coordinates = geom.getLinearRing(0).getCoordinates();
+    var coordinates = [];
+
+    if (!array){
+      var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
+        __Global.projection.Mercator, 
+        __Global.projection.Geographic
+      ));
+      coordinates = geom.getLinearRing(0).getCoordinates();
+    }
+    else{
+      coordinates = App.service.Helper.transformPoints(
+        polygon,
+        __Global.projection.Mercator,
+        __Global.projection.Geographic
+      );
+    }
     var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
     return (area/10000).toFixed();
   },
+
+  calculateExtent: function (polygon, array){
+    var extent = [];
+
+    if (!array){
+      extent = polygon.getLinearRing(0).getExtent();
+    }
+    else{
+      var geometry = new ol.geom.Polygon([polygon]);
+      extent = geometry.getExtent();
+    }
+    return extent;
+  },  
 
   prepareRequestGeometry: function (geometry) {
     var result = [];
@@ -320,8 +607,8 @@ Ext.define('App.service.Polygon', {
     return result.join(',');
   },
 
-
   uploadShapefile: function (event) {
+    App.service.Polygon.deselectMapAndList();
     loadshp({
       url: event.target.files[0],
       encoding: 'UTF-8',
@@ -335,7 +622,10 @@ Ext.define('App.service.Polygon', {
         )
         App.service.Polygon.registerPolygon(geometry);
       })
+      App.service.Polygon.saveAll();
       App.service.Polygon.rerenderFeatures();
+      Ext.getStore('polygongrid').loadData(App.service.Polygon.getGridData()); 
+      App.service.Polygon.calculate();
     });
   },
 

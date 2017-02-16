@@ -26,7 +26,7 @@ Ext.define('App.view.legend.Window', {
   border: false,
   width: 300,
   height: 300,
-  x: Ext.getBody().getWidth() - 755,
+  x: Ext.getBody().getWidth() - 650,
   y: 10,
   initCenter: false,
   collapsed: false,
@@ -35,14 +35,17 @@ Ext.define('App.view.legend.Window', {
   shadow: true,
   bodyBorder: false,
   bodyPadding: 10,
+  //renderTo:'map-panel',
   //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
+    itemId: 'legend-irrigation',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
        { xtype: 'app-legend-cx-irrigation',          flex: 3 }
       ,{ xtype: 'app-legend-sl-opacity-irrigation',  flex: 1 }
     ]
   }, {
+        itemId: 'legend-current',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
        { xtype: 'app-legend-cx-current',          flex: 3 }
@@ -50,6 +53,12 @@ Ext.define('App.view.legend.Window', {
     ]
   }, {
     xtype: 'app-legend-panel'
-  }]
+  }],
+  listeners:{
+    hide: function () {App.service.Watcher.set('Legend', 'noshow');},
+    show: function (win) {
+      App.service.Watcher.set('Legend', 'show');
+    }
+  }
 
 });

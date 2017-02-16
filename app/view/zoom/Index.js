@@ -14,12 +14,14 @@ Ext.define('App.view.zoom.Index', {
     'App.view.zoom.CbBuis',
     'App.view.zoom.CbUis',
     'App.view.zoom.CbWua',
+    //'App.view.zoom.CbPilot'
+    'App.view.zoom.BtnPilot'
 
-    'App.view.zoom.BtnOblast',
+    /*'App.view.zoom.BtnOblast',
     'App.view.zoom.BtnRayon',
     'App.view.zoom.BtnBuis',   
     'App.view.zoom.BtnUis',
-    'App.view.zoom.BtnWua'
+    'App.view.zoom.BtnWua'*/
   ],
 
   xtype: 'app-zoom',
@@ -29,61 +31,122 @@ Ext.define('App.view.zoom.Index', {
   controller: 'zoom',
 
   layout: {
-    type: 'hbox'
+    type: 'vbox',
+    pack: 'start',
+    align: 'stretch'
   },
 
   title: i18n.adminFilters.title,
 
   bodyPadding: '10 5 0 10',
-  defaults: {
+  /*defaults: {
     layout: {
       type: 'vbox',
       align: 'stretch'
     }
-  },
-
+  },*/
+    header: {
+      height: 44,
+      padding: '5 10 5 10',
+      items: [
+       { xtype: 'button', itemId: 'zoom-btn-reset', text: i18n.adminFilters.reset, padding: 0, handler: 'resetFilter'}
+    ]},
   items: [
     //comboboxes within containers
-    {
-      flex: 3,
-      items: [
-        { xtype: 'app-zoom-cb-country', margin: '0 5 5 5', labelWidth: 60 },
+    //{
+      //flex: 3,
+      //items: [
+      //area filter container
         {
           xtype: 'container',
-          margin: '0 5 0 0',
+          //margin: '0 5 0 0',
           padding: 0,
-          style:{ backgroundColor:'#f0f0f0' },
+          border: 1,
+          style:{ 
+            //backgroundColor:'#f0f0f0'
+            borderColor: '#878787',
+            borderStyle: 'solid'           
+          },
           layout: {
             type: 'vbox',
             align: 'stretch'
           },
           defaults:  {
-            labelWidth: 60
+            labelWidth: 65
           },
           items:[
-             { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
-             { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'}]
-      },
+            { xtype: 'app-zoom-cb-country', margin: '0 0 0 5', labelWidth: 65 },
+            //oblast-rayon-wua container
+            {
+              xtype: 'container',
+              itemId: 'zoom-container-oblast',
+              hidden: true,             
+              margin: '5 0 0 0',
+              padding: 0,
+              style:{ backgroundColor:'#f0f0f0' },
+              layout: {
+                type: 'vbox',
+                align: 'stretch'
+              },
+              defaults:  {
+                labelWidth: 65
+              },
+              items:[
+                 { xtype: 'app-zoom-cb-oblast', margin: '5'},//  margin: '0 0 5 0',
+                 { xtype: 'app-zoom-cb-rayon', margin: '0 5 5 5'},
+                 { xtype: 'app-zoom-cb-wua',  margin: '0 5 5 5' }
+                ]
+          },
+          //buis-uis container
+          {
+            xtype: 'container',
+            itemId: 'zoom-container-buis',
+            hidden: true,
+            margin: '5 0 0 0',
+            padding: 0,
+            style: { backgroundColor:'#e0ebf3' },
+            layout: {
+              type: 'vbox',
+              align: 'stretch'
+            },
+              defaults:  {
+                labelWidth: 65
+              },
+            items:[
+               { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,
+               { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
+               { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }
+              ]
+          }            
+          ]
+      },      
       {
         xtype: 'container',
-        margin: '5 5 0 0',
+        margin: '5 0 0 0',
         padding: 0,
-        style: { backgroundColor:'#e0ebf3' },
+                  border: 1,
+          style:{ 
+            backgroundColor:'#FFEFBB',
+            borderColor: '#878787',
+            borderStyle: 'solid'           
+          },
         layout: {
           type: 'vbox',
           align: 'stretch'
         },
           defaults:  {
-            labelWidth: 60
+            //labelWidth: 65
           },
         items:[
-           { xtype: 'app-zoom-cb-buis', margin: '5' },  //margin: '0 0 5 0',
-           { xtype: 'app-zoom-cb-uis', margin: '0 5 5 5' }]
-      },
-
-      { xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' }]
-    },
-    //buttons
+          { xtype: 'label', html: '<b>' + i18n.adminFilters._or + '</b>', margin:'5' } ,   
+          { xtype: 'app-zoom-btn-pilot', ui: 'default-toolbar', margin: '0 5 5 5' }
+        ]
+      }
+      //{ xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' },
+      //{ xtype: 'app-zoom-btn-pilot',  margin: '5 5 0 0' }
+      //]
+   // }
+   /* //buttons
     {
       flex: 1,
       items: [
@@ -93,6 +156,6 @@ Ext.define('App.view.zoom.Index', {
        { xtype: 'app-zoom-btn-uis', margin: '4 0 0 0' },
        { xtype: 'app-zoom-btn-wua', margin: '30 0 0 0' }
      ]
-   }
+   }*/
   ]
 });

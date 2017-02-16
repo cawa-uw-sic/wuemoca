@@ -7,7 +7,7 @@ Ext.define('App.service.Tooltip', {
   tooltip: Ext.create('App.view.tooltip.Index'),
 
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated || !App.util.Layer.current.getVisible()) return;
+    if (this.isBusy || App.service.Polygon.activated || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return;
     this.isBusy = true;
     this.doRequest(e);
   },
@@ -20,6 +20,10 @@ Ext.define('App.service.Tooltip', {
       params: {format_options: 'callback:Ext.data.JsonP.parseHoverResponse'},
       success: function (results) {
         self.showTooltip(e, results.features);
+        self.createTimer();
+      },
+      failure: function (results) {
+        App.service.Status.set('');
         self.createTimer();
       }
     });
@@ -36,8 +40,6 @@ Ext.define('App.service.Tooltip', {
     this.tooltip.hide();
     if (features.length > 0) {
       var html = this.getFeatureHTML(features[0].properties);
-      //this.tooltip.update(html.title + '<br>' + html.content);
-      //this.tooltip.showAt([e.originalEvent.pageX + 10, e.originalEvent.pageY + 10]);
       App.service.Status.set('<b>' + html.title + ' - ' + html.content + '</b>');
     }
   },
@@ -53,14 +55,16 @@ Ext.define('App.service.Tooltip', {
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
-      //content = i18n.crop[ App.service.Watcher.get('Crop') ];
     }
 
-    if (indicator.id == 'majority'){
+    if (indicator.id == 'mlu'){
       content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
     }
     else{
-      content += ': ' + parseFloat(properties[yField]).toFixed(2) + ' ' + ( indicator[ __Global.Lang + 'Unit' ] || '' );
+      content += ': ' + parseFloat(properties[yField]).toFixed(2);
+      if (indicator['chart'] != 'Multiannual' && indicator[ __Global.Lang + 'Unit' ] != '-'){
+        content += ' ' + indicator[ __Global.Lang + 'Unit' ];
+      }
     }
 
     return {

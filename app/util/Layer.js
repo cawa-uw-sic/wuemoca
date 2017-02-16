@@ -1,5 +1,5 @@
 var LayerParams = {
-  Irrigation  : __Global.geoserverWorkspace + ':ca_irrigation_mask_smooth',
+  Irrigation  : __Global.geoserverWorkspace + ':ca_irr_area_geom',
   Country     : __Global.geoserverWorkspace + ':ca_country_geom',
   Channel     : __Global.geoserverWorkspace + ':channel_geom',
   Aggreg      : __Global.geoserverWorkspace + ':ca_{aggreg}',
@@ -8,6 +8,16 @@ var LayerParams = {
 };
 
 var BackgroundLayers = {
+
+  satellite: new ol.layer.Tile({
+    preload: Infinity,
+    visible: false,
+    source: new ol.source.BingMaps({
+      key: 'AmlVh-kGlvEqlwjR_MtTKkdwxKSDwhkzsfzcbnmCedxGE_5oBZECnZ3MRXCKH-vb',
+      imagerySet: 'AerialWithLabels'
+    })
+  }),
+
   ocm: new ol.layer.Tile({
     visible: true,
     maxResolution: 200,
@@ -23,23 +33,27 @@ var BackgroundLayers = {
   }),
 
   irrigation: new ol.layer.Tile({
-    opacity: 0.8,
-    visible: false,
+    opacity: 1,
+    visible: App.service.Watcher.get('IrrigationExtent') == 'show' ? true : false,
+    //visible: false,
     source: new ol.source.TileWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',
       params: {
         LAYERS: LayerParams.Irrigation,
         TRANSPARENT: true,
-        FORMAT: 'image/png'
+        FORMAT: 'image/png',
+        TILED: true
       }
     })
   }),
 
   irrigation_overview: new ol.layer.Image({
-    opacity: 0.5,
+    opacity: 1,
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',     
       params: {
         LAYERS: LayerParams.Irrigation,
         TRANSPARENT: true,
@@ -53,6 +67,7 @@ var BackgroundLayers = {
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',      
       params: {
         LAYERS: LayerParams.Country,
         TRANSPARENT: true,
@@ -67,6 +82,7 @@ var BackgroundLayers = {
     visible: true,
     source: new ol.source.ImageWMS({
       url: __Global.urls.Mapserver + 'wms?',
+      serverType: 'geoserver',       
       params: {
         LAYERS: LayerParams.Channel,
         TRANSPARENT: true,
@@ -102,11 +118,12 @@ Ext.define('App.util.Layer', {
 
   admin: false,
 
-  irrigVisible: false,
+  //irrigVisible: false,
 
   background: [
      BackgroundLayers.ocm
     ,BackgroundLayers.osm
+    ,BackgroundLayers.satellite
     ,BackgroundLayers.irrigation
     ,BackgroundLayers.country
     ,BackgroundLayers.channel

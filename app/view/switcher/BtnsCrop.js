@@ -8,13 +8,16 @@ Ext.define('App.view.switcher.BtnsCrop', {
   xtype: 'app-switcher-btns-crop',
 
   itemId: 'switcher-btns-crop',
-  title: i18n.crop.label,
+  //title: i18n.crop.label,
   titleAlign : 'left',
+  header:{
+      padding: '8 8 0 8'
+  },
   hidden: true,
 
   border: false,
   frame: false,
-  columns: 6,
+  columns: 5,
   //flex: 1,
 
 
@@ -23,7 +26,7 @@ Ext.define('App.view.switcher.BtnsCrop', {
     width: 36,
     height: 36,
     padding: 3,
-    margin: '0 5 5 0'
+    margin: '0 0 5 5'
   },
   items: []
 

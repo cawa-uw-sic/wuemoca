@@ -6,9 +6,9 @@ Ext.define('App.view.Main', {
     'Ext.layout.container.Border',
     'Ext.layout.container.Absolute',
     'Ext.layout.container.Accordion',
-
-    'Ext.plugin.Viewport',
     'Ext.layout.container.Fit',
+    'Ext.plugin.Viewport',
+
     'Ext.data.proxy.JsonP',
     'Ext.data.proxy.Ajax',
 
@@ -26,7 +26,8 @@ Ext.define('App.view.Main', {
     'App.view.yearslider.Index',
 
     'App.view.legend.Button',
-    'App.view.legend.Window'
+    'App.view.legend.Window',
+    'App.view.satellite.Button'
   ],
 
   controller: 'main',
@@ -38,9 +39,11 @@ Ext.define('App.view.Main', {
   defaults: {
     bodyPadding: 0
   },
+
   listener:{
     afterrender: 'onMainAfterRender'
   },
+  
   items: [
     {
       region: 'north',
@@ -57,21 +60,30 @@ Ext.define('App.view.Main', {
       width: 300,
       layout:{
         type: 'accordion',
-        animate: true
+        animate: true,
+        multi: true
       },
       defaults: {
-        scrollable: 'vertical',
-        listeners:{
-            expand: function(p, eOpts){
-              App.service.Watcher.set('Accordion', p.getItemId());
-            }
-        }
+        scrollable: 'vertical'
       },
-      items: [
-         { xtype: 'app-zoom'     , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-zoom'     }
-        ,{ xtype: 'app-switcher' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-switcher' }
-        ,{ xtype: 'app-overview' , collapsed : __LocalDB.get('Selections.Accordion', 'app-switcher') != 'app-overview' }
-      ]
+      items: [{ 
+        xtype: 'app-zoom',
+        collapsed : __Selection['AreaFilter'] == 'noshow',
+        listeners:{
+          expand: function(p, eOpts){
+            __LocalDB.set('AreaFilter', 'show');
+          },
+          collapse: function(p, eOpts){
+            __LocalDB.set('AreaFilter', 'noshow');
+          }          
+        }
+      } ,{ 
+        xtype: 'app-switcher' , 
+        collapsed : false
+      } ,{ 
+        xtype: 'app-overview' , 
+        collapsed : true 
+      }]
     },
     {
       itemId: 'map-container',
@@ -90,7 +102,8 @@ Ext.define('App.view.Main', {
       items: [
         { xtype: 'app-map', anchor: '100% 100%' },
         { xtype: 'app-legend-window'},
-        { xtype: 'app-legend-button'}
+        { xtype: 'app-legend-button'},
+        { xtype: 'app-satellite-button' }
       ],
 
       bbar: Ext.create('Ext.ux.StatusBar', {
@@ -108,10 +121,10 @@ Ext.define('App.view.Main', {
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: i18n.polygon.showPolygon,
       region: 'east',
-      width: 150,
+      width: 170,
       collapsible: true, 
-      collapsed: !__LocalDB.get('Selections.UserPolygon', false),  
-
+      collapsed: __Selection['UserPolygon'] == 'noshow',  
+      layout: 'fit',
       margin: '0 0 0 5',
       items: [
         { xtype: 'app-polygon'}
@@ -119,7 +132,6 @@ Ext.define('App.view.Main', {
       listeners: {
         collapse: 'onHidePolygon',
         expand: 'onShowPolygon'
-
       }
     }
   ]

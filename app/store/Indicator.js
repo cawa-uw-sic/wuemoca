@@ -5,7 +5,7 @@ Ext.define('App.store.Indicator', {
 
   storeId: 'indicator',
 
-  fields: [ 'id', 'enName', 'ruName', 'enUnit', 'ruUnit', 'crops', 'aggreg', 'years' ],
+  fields: [ 'id', 'enName', 'ruName', 'enUnit', 'ruUnit', 'crops', 'aggreg', 'years', 'glossary', 'enTooltip', 'ruTooltip'],
 
   data: __Indicator,
 

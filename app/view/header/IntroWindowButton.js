@@ -7,7 +7,7 @@ Ext.define('App.view.header.IntroWindowButton', {
 
   id: 'introwindow-button',
 
-  text: 'Intro<br>Window',
+  text: i18n.header.introwindow,
   //height: 50,
 
   handler: 'onIntroWindowBtn'

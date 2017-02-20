@@ -19,8 +19,8 @@ Ext.define('App.view.legend.Panel', {
     itemId: 'legend-text',
   	style: {
   		padding: '0px 0px 0px 5px',
-  		fontSize: '14px',
-  		lineHeight: '135%'
+  		fontSize: '13px',
+  		lineHeight: '130%'
   	},
 
   	html: ''

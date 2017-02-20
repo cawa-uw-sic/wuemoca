@@ -61,10 +61,13 @@ Ext.define('App.service.Tooltip', {
       content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
     }
     else{
-      content += ': ' + parseFloat(properties[yField]).toFixed(2);
+      content += ': ' + parseFloat(properties[yField]).toFixed(indicator['decimals']);
       if (indicator['chart'] != 'Multiannual' && indicator[ __Global.Lang + 'Unit' ] != '-'){
         content += ' ' + indicator[ __Global.Lang + 'Unit' ];
       }
+    }
+    if (!!indicator['years']){
+      content += i18n.chart._in + App.service.Watcher.get('Year');
     }
 
     return {

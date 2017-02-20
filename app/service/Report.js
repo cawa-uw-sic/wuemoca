@@ -125,7 +125,7 @@ Ext.define('App.service.Report', {
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_wheat + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_veg + '</td>';
-      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_alfa + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_orchard + '</td>';
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_garden + '</td>';

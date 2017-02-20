@@ -105,6 +105,7 @@ Ext.define('App.service.Polygon', {
     this.windowChart.close();
     this.windowEdit.close();
     this.selected = false;
+    App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(true);
   },
   activate: function () {
     this.drawControl.setActive(true);
@@ -231,6 +232,7 @@ Ext.define('App.service.Polygon', {
           //if (!this.windowChart.isHidden()) this.showChartWindow(polygons[0]);
           this.showChartWindow(polygons[0]);
         }
+        App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
       }
       //multiple polygons
       else{
@@ -556,7 +558,6 @@ Ext.define('App.service.Polygon', {
         self.calculate();
         //alert(i18n.polygon.pressCalculate);
       }
-
     }
   },
 
@@ -628,6 +629,153 @@ Ext.define('App.service.Polygon', {
       App.service.Polygon.calculate();
     });
   },
+
+  downloadOptions: function(){
+    var self = this; 
+    if (self.isBusy) return false;
+    var fieldlist = [
+      "year",
+      "cotton_ha",
+      "wheat_ha",
+      "rice_ha",
+      "fallow_ha",
+      "double_ha",
+      "other_ha",
+      "alfa_ha",
+      "orchard_ha",
+      "garden_ha",
+      "fir_n",
+      "firf_sum",
+      "firf_cotton",
+      "firf_wheat",
+      "firf_rice",
+      "firf_other",
+      "firf_alfa",
+      "firf_orchard",
+      "firf_garden",
+      "firf_maize",
+      "firf_veg",
+      "firf_sun",
+      "uir_sum",
+      "uir_cotton",
+      "uir_wheat",
+      "uir_rice",
+      "uir_other",
+      "uir_alfa",
+      "uir_orchard",
+      "uir_garden",
+      "uir_maize",
+      "uir_veg",
+      "uir_sun",
+      "fp",
+      "y_cotton",
+      "y_wheat",
+      "pirf_cotton",
+      "pirf_wheat",
+      "cd"
+    ];
+    var selectedPolygons = self.getSelectedPolygons();
+    if (selectedPolygons.length > 0){
+      var polygon = selectedPolygons[0];
+      //write polygon to server database
+      var parameters = '';
+      parameters += 'datasets=' + polygon.data.length + '&'; 
+      for (d = 0; d < polygon.data.length; ++d) {
+        parameters += 'uid_' + d + '=' + polygon.uid + '&';
+        parameters += 'name_' + d + '=' + polygon.info.name + '&';
+        parameters += 'location_' + d + '=' + polygon.info.location + '&';
+        parameters += 'area_ha_' + d + '=' + polygon.totalArea + '&'; 
+        for (f = 0; f < fieldlist.length; ++f) {
+          if (!!polygon.data[d][fieldlist[f]]){
+            parameters += fieldlist[f] + '_' + d + '=' + polygon.data[d][fieldlist[f]] + '&';
+          }
+        }
+      }
+      parameters += 'geom=' + self.prepareRequestGeometry(polygon.geometry);
+      self.isBusy = true;
+      App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(true);
+      Ext.data.JsonP.request({
+        url :  __Global.api.writePolygon + parameters,
+        callbackName: 'writePolygonResponse',
+        params: {format_options: 'callback:Ext.data.JsonP.writePolygonResponse'},
+        success: function (results) {
+          Ext.Msg.show({
+            title: 'Select geodata format',
+            buttons: Ext.Msg.YESNOCANCEL,
+            buttonText: {
+              yes: 'KML',
+              no: 'GeoJSON',
+              cancel: 'Shapefile'
+            },
+            fn: function(btn) {
+              if (btn === 'yes') {
+                self.downloadKML();
+              } 
+              else if (btn === 'no') {
+                self.downloadGeoJSON();
+              } 
+              else {
+                self.downloadShp();
+              }
+            }
+          });  
+        },
+        callback: function (results) {
+          self.isBusy = false;
+          App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
+        }
+      });        
+    }
+
+  },
+
+
+
+  downloadGeoJSON: function(){
+    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/json', 'download_geojson');
+  },
+
+  downloadKML: function(){
+    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/vnd.google-earth.kml+xml', 'download_kml');
+  },
+
+  downloadShp: function (){
+    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=SHAPE-ZIP', 'download_shp');
+  },
+  /*downloadShp: function (){
+    var write = Ext.require('resources/js/src/write'),
+        fs = Ext.require('fs');
+
+    var points = [[[
+        [0, 0],
+        [10, 0],
+        [10, 10],
+        [0, 10],
+        [0, 0]
+    ]]];
+
+    write(
+        // feature data
+        [{ id: 0 }],
+        // geometry type
+        'POLYGON',
+        // geometries
+        points,
+        finish);
+
+    function finish(err, files) {
+        fs.writeFileSync('polygon.shp', toBuffer(files.shp.buffer));
+        fs.writeFileSync('polygon.shx', toBuffer(files.shx.buffer));
+        fs.writeFileSync('polygon.dbf', toBuffer(files.dbf.buffer));
+    }
+
+    function toBuffer(ab) {
+        var buffer = new Buffer(ab.byteLength),
+            view = new Uint8Array(ab);
+        for (var i = 0; i < buffer.length; ++i) { buffer[i] = view[i]; }
+        return buffer;
+    } 
+  },*/
 
   interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){
     var red1 = (color1 & 0xff0000) >> 16;

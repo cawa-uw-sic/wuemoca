@@ -223,7 +223,7 @@ Ext.define('App.service.Map', {
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     var CQLfilter = (!!aoi_filter) ? aoi_filter : '';
     var year_filter = 'year=' + App.service.Watcher.get('Year');
-    if (CQLfilter != ''){
+    if (CQLfilter != '') {
       CQLfilter += ' and ' + year_filter;
     }
     else{
@@ -348,7 +348,7 @@ Ext.define('App.service.Map', {
   },
 
   getLegendMedianStyle: function () {
-    return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '150%';
+    return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '165%';
   },
 
   filterAreaOfInterest: function(aoi, id, super_aoi, super_id){

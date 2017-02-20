@@ -17,7 +17,7 @@ Ext.define('App.view.switcher.BtnsCrop', {
 
   border: false,
   frame: false,
-  columns: 5,
+  columns: 6,
   //flex: 1,
 
 
@@ -26,7 +26,7 @@ Ext.define('App.view.switcher.BtnsCrop', {
     width: 36,
     height: 36,
     padding: 3,
-    margin: '0 0 5 5'
+    margin: '0 0 4 4'
   },
   items: []
 

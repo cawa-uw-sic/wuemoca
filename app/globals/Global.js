@@ -33,7 +33,8 @@ var __Global = {
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
-    Wua           : api + 'searchWUAs.jsp?' + langParam
+    Wua           : api + 'searchWUAs.jsp?' + langParam,
+    writePolygon  : api + 'writePolygon.jsp?'
   },
 
   urls: {

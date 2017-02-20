@@ -48,6 +48,12 @@ Ext.define('App.view.polygon.Index', {
         handler: function(){alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
+    },{
+      text: i18n.polygon.download,
+      iconCls: 'x-fa fa fa-download',
+      handler: 'onDownload',
+      itemId: 'polygon-btn-download',
+      disabled: true
 
    /* },{
       xtype: 'label',

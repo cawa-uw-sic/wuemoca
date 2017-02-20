@@ -18,6 +18,15 @@ var BackgroundLayers = {
     })
   }),
 
+  street: new ol.layer.Tile({
+    preload: Infinity,
+    visible: true,
+    source: new ol.source.BingMaps({
+      key: 'AmlVh-kGlvEqlwjR_MtTKkdwxKSDwhkzsfzcbnmCedxGE_5oBZECnZ3MRXCKH-vb',
+      imagerySet: 'Road'
+    })
+  }),
+
   ocm: new ol.layer.Tile({
     visible: true,
     maxResolution: 200,
@@ -123,6 +132,7 @@ Ext.define('App.util.Layer', {
   background: [
      BackgroundLayers.ocm
     ,BackgroundLayers.osm
+     //BackgroundLayers.street
     ,BackgroundLayers.satellite
     ,BackgroundLayers.irrigation
     ,BackgroundLayers.country
@@ -131,9 +141,9 @@ Ext.define('App.util.Layer', {
   ],
 
   overview: [
-     BackgroundLayers.osm
+     BackgroundLayers.street
     ,BackgroundLayers.irrigation_overview
-    ,BackgroundLayers.country
+    //,BackgroundLayers.country
   ],
 
   params: LayerParams,

@@ -24,6 +24,9 @@ Ext.define('App.controller.Polygon', {
     el.addEventListener('change', App.service.Polygon.uploadShapefile, false);
   },
 
+  onDownload: function (field){
+    App.service.Polygon.downloadOptions();
+  },
   /*onEdit: function () {
     App.service.Polygon.updateWindowEdit();
     App.service.Polygon.windowEdit.show();

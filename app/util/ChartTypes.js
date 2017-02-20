@@ -34,11 +34,10 @@ Ext.define('App.util.ChartTypes', {
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
-           xtype  : 'app-chart-vbar',
-           //width: 446,
-           store  : App.service.Chart.stores.defaults,
-           axes   : __Chart.VBar.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
-           series : __Chart.VBar.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
+          xtype  : 'app-chart-vbar',
+          store  : App.service.Chart.stores.defaults,
+          axes   : __Chart.VBar.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
+          series : __Chart.VBar.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
         }
       ]
     });
@@ -56,13 +55,14 @@ Ext.define('App.util.ChartTypes', {
         return yFields.push(ind_id + '_' + crop);
       }
     });
+
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
-           xtype  : 'app-chart-stackedvbar',
-           store  : App.service.Chart.stores.defaults, 
-           axes   : __Chart.StackedVBar.getAxes   ('year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : '')),
-           series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), indicator.decimals)
+          xtype  : 'app-chart-stackedvbar',
+          store  : App.service.Chart.stores.defaults, 
+          axes   : __Chart.StackedVBar.getAxes   ('year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : '')),
+          series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), indicator.decimals)
         }
       ]
     });
@@ -70,7 +70,6 @@ Ext.define('App.util.ChartTypes', {
 
   Multiannual: function (data) { 
     var self = this;
-
     var cr = App.service.Helper.getById( __Indicator, 'cr' );
     var flf = App.service.Helper.getById( __Indicator, 'flf' );
     var mlu = App.service.Helper.getById( __Indicator, 'mlu' );
@@ -85,7 +84,6 @@ Ext.define('App.util.ChartTypes', {
     if (deltaYears % 2 == 1){
       deltaYears++;
     }
-
 
     return Ext.create('App.view.chart.VPanel', {
       items: [
@@ -137,6 +135,46 @@ Ext.define('App.util.ChartTypes', {
             cls: 't-center t-xs-bigger',
             width: '50%'
           }]
+        }
+      ]
+    });
+  },
+
+  Line: function (data) {
+    self = this;
+    App.service.Chart.loadData();
+    var indicator = App.service.Watcher.getIndicator();
+    var yField = indicator.field;
+    var color = indicator.color;
+    if (!!indicator.crops) {
+      yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
+      color = __CropColors[App.service.Watcher.get('Crop')];
+    }
+    var maximum = NaN;
+    var threshold = 10;
+    var decimals = 0;
+    if (indicator.id == 'y'){
+      threshold = 6;
+    }
+    if (indicator.id == 'cd'){
+      maximum = 1;
+      decimals = 1;
+    }
+    else if (App.service.Chart.maxData < threshold){
+      maximum = threshold;
+    }
+
+    return Ext.create('App.view.chart.FPanel', {
+      items: [
+        {
+          xtype  : 'app-chart-line',
+          store  : App.service.Chart.stores.defaults,
+          innerPadding: {
+            left: 14,
+            right: 11
+          },
+          axes   : __Chart.Line.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
+          series : __Chart.Line.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
         }
       ]
     });

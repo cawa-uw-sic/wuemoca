@@ -37,23 +37,23 @@ Ext.define('App.service.Watcher', {
     return App.service.Helper.getById(items, this.get('Aggregation'));
   },
 
-  getFilterAggregation: function(aggregation){
-    var filter = '';
+  getSuperFilterAggregation: function(aggregation){
+    var super_filter = '';
     __Aggregation.map(function (unit) {
       if (unit.items) {
         unit.items.map(function (item) {
           if (item.id == aggregation){
-            filter = item.filter;
+            super_filter = item.super_filter;
           }
         });          
       }
       else{
         if (unit.id == aggregation){
-          filter = unit.filter;
+          super_filter = unit.super_filter;
         }
       }
     });  
-    return filter; 
+    return super_filter; 
   },
 
   activateFilters: function () {

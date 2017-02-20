@@ -351,9 +351,6 @@ Ext.define('App.service.Helper', {
       document.body.removeChild(link);
 
     }
-    else{
-      //alert('First press ' + i18n.polygon.calculate + '!');
-    }
   },
 
   indicator_table: function (data, userPolygon, totalArea, polygonName) {
@@ -406,50 +403,50 @@ Ext.define('App.service.Helper', {
       }
       result.body += '</tr>';
     }
-      //add column name explanation
-      var crops = [];
-      var cropNames = [];  
-      result.body += '<tr></tr>'; 
-      result.body += '<tr>';     
-      result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
-      result.body += '<th></th>';       
-      result.body += '<th>' + i18n.exp.indicatorName + '</th>';  
-      for (var i = 4; i <= fieldCount; i++){
-        result.body += '<th></th>';        
+    //add column name explanation
+    var crops = [];
+    var cropNames = [];  
+    result.body += '<tr></tr>'; 
+    result.body += '<tr>';     
+    result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
+    result.body += '<th></th>';       
+    result.body += '<th>' + i18n.exp.indicatorName + '</th>';  
+    for (var i = 4; i <= fieldCount; i++){
+      result.body += '<th></th>';        
+    }
+    result.body += '</tr>';                  
+
+    __Indicator.map(function (indicator) {
+      if (indicator.id == 'uir'){
+        crops = indicator.crops;
+        cropNames = indicator[__Global.Lang + 'Legend'];
+      }        
+      if (indicator.chart != 'Multiannual'){
+        result.body += '<tr>';     
+        result.body += '<td>' + indicator.field + '</td>'; 
+        result.body += '<td></td>';       
+        result.body += '<td>' + indicator[__Global.Lang + 'Name'] + ' (' + indicator[__Global.Lang + 'Unit'] + ')</td>';
+        for (var i = 4; i <= fieldCount; i++){
+          result.body += '<td></td>';        
+        }   
+        result.body += '</tr>';          
       }
-      result.body += '</tr>';                  
+    });
 
-      __Indicator.map(function (indicator) {
-        if (indicator.id == 'uir'){
-          crops = indicator.crops;
-          cropNames = indicator[__Global.Lang + 'Legend'];
-        }        
-        if (indicator.chart != 'Multiannual'){
-          result.body += '<tr>';     
-          result.body += '<td>' + indicator.field + '</td>'; 
-          result.body += '<td></td>';       
-          result.body += '<td>' + indicator[__Global.Lang + 'Name'] + ' (' + indicator[__Global.Lang + 'Unit'] + ')</td>';
-          for (var i = 4; i <= fieldCount; i++){
-            result.body += '<td></td>';        
-          }   
-          result.body += '</tr>';          
-        }
-      });
+    result.body += '<tr></tr>'; 
+    result.body += '<tr>';     
+    result.body += '<th>' + i18n.exp.cropAcronym + '</th>'; 
+    result.body += '<th></th>';       
+    result.body += '<th>' + i18n.exp.cropName + '</th>';   
+    result.body += '</tr>';   
 
-      result.body += '<tr></tr>'; 
+    crops.map(function (crop, idx) {
       result.body += '<tr>';     
-      result.body += '<th>' + i18n.exp.cropAcronym + '</th>'; 
-      result.body += '<th></th>';       
-      result.body += '<th>' + i18n.exp.cropName + '</th>';   
-      result.body += '</tr>';   
-
-      crops.map(function (crop, idx) {
-          result.body += '<tr>';     
-          result.body += '<td>' + crop + '</td>'; 
-          result.body += '<td></td>';       
-          result.body += '<td>' + cropNames[idx] + '</td>';   
-          result.body += '</tr>';         
-      }); 
+      result.body += '<td>' + crop + '</td>'; 
+      result.body += '<td></td>';       
+      result.body += '<td>' + cropNames[idx] + '</td>';   
+      result.body += '</tr>';         
+    }); 
  
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },  

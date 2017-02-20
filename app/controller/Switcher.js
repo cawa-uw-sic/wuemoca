@@ -62,7 +62,7 @@ Ext.define('App.controller.Switcher', {
  /* onUnit: function (cb, val) {
    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
-      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
+      if ((aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0)
         && (aoi_filter.indexOf('country') < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
       }
@@ -77,10 +77,22 @@ Ext.define('App.controller.Switcher', {
       if (val == 'command'){
         App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
       }
+      else if (val == 'wua'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-buis']);        
+      }
+      else if (val == 'rayon'){
+        App.service.Helper.resetComboboxes(['zoom-cb-wua', 'zoom-cb-buis']);        
+      }      
+      else if (val == 'buis'){
+        App.service.Helper.resetComboboxes(['zoom-cb-uis', 'zoom-cb-oblast']);        
+      } 
+      else if (val == 'oblast'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
+      }       
       //reset filter
-      if ((aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0)
-        && (aoi_filter.indexOf('country') < 0)
-        && (aoi_filter.indexOf(val) < 0)){
+      if ((aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
+       // && (aoi_filter.indexOf(val) < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
         console.log('onAggregation fillAggregations_new');        
         App.service.Map.fillAggregations_new();
@@ -88,10 +100,11 @@ Ext.define('App.controller.Switcher', {
       else{
         //set super filter
         if (aoi_filter.indexOf('and') >= 0){
-          var sub_aoi_filter = aoi_filter.split(' and ')[0];         
           var super_aoi_filter = aoi_filter.split(' and ')[1];
-          if (sub_aoi_filter.indexOf(App.service.Watcher.getFilterAggregation(val)) < 0){
-            App.service.Watcher.set('Aoi_Filter', super_aoi_filter);
+          if (aoi_filter.indexOf(val) < 0 || super_aoi_filter.split('=')[0] == val + '_id'){
+            //if (sub_aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0){
+              App.service.Watcher.set('Aoi_Filter', super_aoi_filter);
+            //}
           }
         }
       }

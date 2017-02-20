@@ -128,6 +128,9 @@ __Chart.VBar = {
       axis: 'left',
       xField: x,
       yField: [ y ],
+      style: {
+         fill: color
+      },      
       tooltip: {
         trackMouse: true,
         renderer: function(storeItem, item) {
@@ -135,12 +138,12 @@ __Chart.VBar = {
             parseFloat(item.get(y)).toFixed(decimals) + ' ' + measure
           );
         }
-      },
+      }/*,
       renderer: function(sprite, attr, record, index, store) {
         return Ext.apply(attr, {
           fill: color
         });
-      }
+      }*/
     }];
   }
 };
@@ -193,5 +196,75 @@ __Chart.StackedVBar = {
       }
     }];
   }
+};
 
+__Chart.Line = {
+
+  getAxes: function (x, y, measure, maximum, decimals) {
+    return [{
+      type: 'numeric',
+      position: 'left',
+      fields: y,
+      minimum: 0,
+      maximum: maximum,
+      title: false,
+      grid: true,
+      renderer: function (axis, value) {
+        return parseFloat(value).toFixed(decimals) + ' ' + measure;
+      }
+    }, {
+      type: 'category',
+      position: 'bottom',
+      fields: [ x ],
+      title: '',
+      label: {
+        font: {
+          fontSize: '9px'              
+        }
+      },
+      style: {
+        textPadding: -10
+      }
+    }];
+  },
+
+  getSeries: function (x, y, measure, color, decimals) {
+    return [{
+      type: 'line',
+      axis: 'left',
+      xField: x,
+      yField: [ y ],
+      style: {
+         stroke: color,
+         lineWidth: 2
+      },
+      marker: {
+         type: 'circle',
+         radius: 4,
+         lineWidth: 2,
+         fill: 'white'
+      }, 
+      label: {
+        field: y,
+        display: 'over',
+        font: '12px Helvetica',
+        renderer: function (text, sprite, config, rendererData, index) {
+          return parseFloat(text).toFixed(decimals) + ' ' + measure;
+        }
+      }/*,     
+      tooltip: {
+        trackMouse: true,
+        renderer: function(storeItem, item) {
+          return this.getTooltip().update(
+            parseFloat(item.get(y)).toFixed(decimals) + ' ' + measure
+          );
+        }
+      },
+      renderer: function(sprite, attr, record, index, store) {
+        return Ext.apply(attr, {
+          fill: color
+        });
+      }*/
+    }];
+  }
 };

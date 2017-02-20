@@ -44,8 +44,8 @@
   background-image:url(../images/fallow_icon.png) !important;
   background-size: 100% 100%;
 }
-.other {
-  background-image:url(../images/other_icon.png) !important;
+.alfa {
+  background-image:url(../images/alfa_icon.png) !important;
   background-size: 100% 100%;
 }
 .orchard {
@@ -56,16 +56,20 @@
   background-image:url(../images/garden_icon.png) !important;
   background-size: 100% 100%;
 }
+.other {
+  background-image:url(../images/other_icon.png) !important;
+  background-size: 100% 100%;
+}
 .maize {
   background-image:url(../images/maize_icon.png) !important;
   background-size: 100% 100%;
 }
-.veg {
-  background-image:url(../images/veg_icon.png) !important;
-  background-size: 100% 100%;
-}
 .sun {
   background-image:url(../images/sun_icon.png) !important;
+  background-size: 100% 100%;
+}
+.veg {
+  background-image:url(../images/veg_icon.png) !important;
   background-size: 100% 100%;
 }
 

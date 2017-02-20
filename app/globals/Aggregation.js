@@ -14,7 +14,7 @@ var __Aggregation = [
         ruNameShort    : 'Область',
         enTooltip      : 'Available for Aral Sea Basin',
         ruTooltip      : 'Доступно для бассейна Аральского моря',        
-        filter: 'oblast' ,        
+        super_filter: 'oblast' ,        
         isDefault      : true,
         items: false,
         glossary       : 'bme00017.htm'
@@ -26,7 +26,7 @@ var __Aggregation = [
         ruNameShort    : 'Район',
         enTooltip      : 'Available for Aral Sea Basin',
         ruTooltip      : 'Доступно для бассейна Аральского моря',         
-        filter: 'oblast' ,
+        super_filter: 'oblast' ,
         items: false,
         glossary       : 'bme00017.htm'
       }, {
@@ -37,11 +37,11 @@ var __Aggregation = [
         ruNameShort    : 'АВП' ,
         enTooltip      : 'Available for Fergana and Khorezm provinces only',
         ruTooltip      : 'Доступно только для Ферганской и Хорезмской областей',        
-        filter: 'oblast' ,
+        super_filter: 'oblast' ,
         aoi_filter: [
+            "country_id='UZB'", 
             "oblast_id=1730", 
-            "oblast_id=1733"/*, 
-            "country_id='UZB'"*/
+            "oblast_id=1733"
         ],
         tiled: true,
         items: false,
@@ -63,9 +63,9 @@ var __Aggregation = [
         ruNameShort    : 'БУИС',
         enTooltip      : 'Available for Uzbekistan only',
         ruTooltip      : 'Доступно для Узбекистана только',        
-        filter: 'buis', 
+        super_filter: 'buis', 
         aoi_filter: [
-            "country_id='UZB'", 
+            "country_id='UZB'" ,
             "oblast_id=1703", 
             "oblast_id=1706", 
             "oblast_id=1708",
@@ -78,9 +78,10 @@ var __Aggregation = [
             "oblast_id=1727", 
             "oblast_id=1730",
             "oblast_id=1733",
-            "oblast_id=1735",
+            "oblast_id=1735"
+            ,
             "buis_id",           
-            "uis_id"                          
+            "uis_id"                         
         ],             
         items: false,
         glossary       : 'bme00017.htm'
@@ -92,9 +93,9 @@ var __Aggregation = [
         ruNameShort    : 'УИС' ,
         enTooltip      : 'Available for Uzbekistan only',
         ruTooltip      : 'Доступно для Узбекистана только',         
-        filter: 'buis' ,
+        super_filter: 'buis' ,
         aoi_filter: [
-            "country_id='UZB'", 
+            "country_id='UZB'" ,
             "oblast_id=1703", 
             "oblast_id=1706", 
             "oblast_id=1708",
@@ -108,7 +109,7 @@ var __Aggregation = [
             "oblast_id=1730",
             "oblast_id=1733",
             "oblast_id=1735",
-            "buis_id",
+             "buis_id",
             "uis_id"
 
         ],        
@@ -122,7 +123,7 @@ var __Aggregation = [
         ruNameShort    : 'Районы УИС' ,
         enTooltip      : 'Available for Uzbekistan only',
         ruTooltip      : 'Доступно для Узбекистана только',         
-        filter: 'buis' ,
+        super_filter: 'buis' ,
         aoi_filter: [
             "country_id='UZB'", 
             "oblast_id=1703", 
@@ -152,11 +153,11 @@ var __Aggregation = [
         ruNameShort    : 'Comm. Area' ,
         enTooltip      : 'Available for Fergana valley only',
         ruTooltip      : 'Доступно только для Ферганской долины',        
-        filter: 'oblast' ,
+        super_filter: 'oblast' ,
         aoi_filter: [
-           /* "country_id='UZB'", 
+            "country_id='UZB'", 
             "country_id='KGZ'", 
-            "country_id='TJK'",*/ 
+            "country_id='TJK'",
             "oblast_id=1703", 
             "oblast_id=1714", 
             "oblast_id=1730",
@@ -198,7 +199,7 @@ var __Aggregation = [
     ruNameShort    : 'reg. Raster', 
          enTooltip      : 'Available for Aral Sea Basin',
         ruTooltip      : 'Доступно для бассейна Аральского моря',   
-    filter: 'oblast',     
+    super_filter: 'oblast',     
     tiled: true,
     items: false,
     glossary       : 'bme00017.htm'

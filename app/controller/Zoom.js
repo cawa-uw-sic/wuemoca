@@ -14,7 +14,6 @@ Ext.define('App.controller.Zoom', {
       var oblast = App.service.Watcher.get('Oblast');
       var buis = App.service.Watcher.get('Buis');
       if (oblast == null && buis == null ){
-      //if ((oblast == null || oblast == '0') && (buis == null || buis == '0')){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('country', val, 'extent'), true);
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('country', val);
@@ -31,7 +30,6 @@ Ext.define('App.controller.Zoom', {
           Ext.getStore('buis').load({params: {country: val}});
         }
       }
-      //App.service.Map.filterAreaOfInterest('country', val);
     }
   },
 
@@ -57,32 +55,29 @@ Ext.define('App.controller.Zoom', {
 
       if (rayon == null && wua == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('oblast', val, 'extent'), true); 
-
-        if (val != 'all'){
-          App.service.Map.filterAreaOfInterest('oblast', val);
+        if (this.setAggregationLevel('oblast')){
+          if (val != 'all'){
+            App.service.Map.filterAreaOfInterest('oblast', val);
+          }
+          else{
+            App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
+          }        
         }
-        else{
-          App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
-        }        
-        this.setAggregationLevel('oblast');
       }
     }
   },
 
   onRayon: function (cb, val) {
-
     App.service.Watcher.set('Rayon', val);
     if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-wua']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'), true);
-
-      if (val != 'all'){
+      if (this.setAggregationLevel('rayon') && val != 'all'){
         App.service.Map.filterAreaOfInterest('rayon', val, 'oblast', App.service.Watcher.get('Oblast'));
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
       }
-      this.setAggregationLevel('rayon');
     }
   },
 
@@ -101,21 +96,18 @@ Ext.define('App.controller.Zoom', {
       if (val != 'all'){
         App.service.Helper.showComponents(['zoom-cb-uis']);
         Ext.getStore('uis').load({params: {buis: val}});
-        //Ext.getStore('wua').load({params: {oblast: '', buis: val}});
       }
 
       //avoid zoom to buis if other parameters are stored
       var uis = App.service.Watcher.get('Uis');
-      //var wua = App.service.Watcher.get('Wua');
       if (uis == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'), true);
-        if (val != 'all'){
+        if (this.setAggregationLevel('buis') && val != 'all'){
           App.service.Map.filterAreaOfInterest('buis', val);
         }
         else{
           App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
         }
-        this.setAggregationLevel('buis');            
       }
     }
   },
@@ -124,16 +116,18 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Uis', val);
     if (val) {
       App.service.Map.setMapExtent(App.service.Helper.getScalar('uis', val, 'extent'), true);
-
-      if (val != 'all'){
-        App.service.Map.filterAreaOfInterest('uis', val, 'buis', App.service.Watcher.get('Buis'));
+      if (this.setAggregationLevel('uis')){
+        if (val != 'all'){
+          App.service.Map.filterAreaOfInterest('uis', val, 'buis', App.service.Watcher.get('Buis'));
+        }
+        else{
+          App.service.Map.filterAreaOfInterest('buis', App.service.Watcher.get('Buis'));
+        }
       }
       else{
-        App.service.Map.filterAreaOfInterest('buis', App.service.Watcher.get('Buis'));
+        App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));        
       }
-      this.setAggregationLevel('uis');     
     }
-
   },
 
   onWua: function (cb, val) {
@@ -147,46 +141,38 @@ Ext.define('App.controller.Zoom', {
     else if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-uis']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'), true);
-
-      if (val != 'all'){
+      if (this.setAggregationLevel('wua') && val != 'all'){
         App.service.Map.filterAreaOfInterest('wua', val, 'oblast', App.service.Watcher.get('Oblast'));
       }
       else{
         App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
       } 
-      this.setAggregationLevel('wua');     
-      
     }
-    
   },
+
   setAggregationLevel: function (aggreg) {
+    var changeAggreg = false;
     if (App.service.Watcher.get('Aggregation') != aggreg){ 
-      var changeAggreg = true;
-      var availableAggregations = App.service.Watcher.getIndicator().aggregation;
-      if (typeof availableAggregations == 'object') {
-        if (availableAggregations.indexOf(aggreg) < 0) {
-          changeAggreg = false;
+      changeAggreg = true;
+    }
+    //possible limitation of indicator's aggregation levels
+    var availableAggregations = App.service.Watcher.getIndicator().aggregation;
+    if (typeof availableAggregations == 'object') {
+      // means 'grid' limitation: grid can be filtered only by country or oblast
+      if (availableAggregations.indexOf(aggreg) < 0) {
+        changeAggreg = false;
+        if (aggreg != 'country' && aggreg != 'oblast'){
+          return false;
         }
       }
-
-      if (changeAggreg){
-        /*var unit = '';
-        for (var u = 0; u < __Aggregation.length; u++){
-          if (App.service.Helper.inArrayId(__Aggregation[u].items, aggreg)){
-            unit = __Aggregation[u].id;
-            break;
-          }
-        }*/
-
-        //App.service.Watcher.set('Unit', unit);
-
-        App.service.Watcher.set('Aggregation', aggreg);
-        App.service.Helper.setComponentsValue([
-          //{ id: 'switcher-cb-unit', selection: 'Unit' },
-          { id: 'switcher-cb-aggregation', selection: 'Aggregation' }
-        ]);
-      }
     }
+    if (changeAggreg){
+      App.service.Watcher.set('Aggregation', aggreg);
+      App.service.Helper.setComponentsValue([
+        { id: 'switcher-cb-aggregation', selection: 'Aggregation' }
+      ]);
+    }
+    return true;
   },
   
   resetFilter: function(button, e){

@@ -533,15 +533,17 @@ Ext.define('App.service.Polygon', {
 
             App.service.Chart.dataResponse(polygon.data);
 
-            if (typeof indicator.chart != 'object'){
+            if (indicator.chart != 'crops'){
+            //if (typeof indicator.chart != 'object'){
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
-            else{
-              var idx = indicator.crops.indexOf(crop);
-              self.windowChart.add(App.util.ChartTypes[indicator.chart[idx]](polygon.data));
+            else if (indicator.crops == 'all'){
+            //else{
+              var chart = App.service.Helper.getById(__Crop, crop).chart;
+              //var idx = indicator.crops.indexOf(crop);
+              self.windowChart.add(App.util.ChartTypes[chart](polygon.data));
             }
             App.service.Chart.userPolygon = true;
-            //return self.windowChart.show();
           }
           else{
             self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
@@ -677,7 +679,7 @@ Ext.define('App.service.Polygon', {
     var selectedPolygons = self.getSelectedPolygons();
     if (selectedPolygons.length > 0){
       var polygon = selectedPolygons[0];
-      //write polygon to server database
+      //write polygon to temporary server database table
       var parameters = '';
       parameters += 'datasets=' + polygon.data.length + '&'; 
       for (d = 0; d < polygon.data.length; ++d) {
@@ -700,7 +702,7 @@ Ext.define('App.service.Polygon', {
         params: {format_options: 'callback:Ext.data.JsonP.writePolygonResponse'},
         success: function (results) {
           Ext.Msg.show({
-            title: 'Select geodata format',
+            title: i18n.polygon.selectgeodata,
             buttons: Ext.Msg.YESNOCANCEL,
             buttonText: {
               yes: 'KML',
@@ -729,8 +731,6 @@ Ext.define('App.service.Polygon', {
 
   },
 
-
-
   downloadGeoJSON: function(){
     window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/json', 'download_geojson');
   },
@@ -742,40 +742,6 @@ Ext.define('App.service.Polygon', {
   downloadShp: function (){
     window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=SHAPE-ZIP', 'download_shp');
   },
-  /*downloadShp: function (){
-    var write = Ext.require('resources/js/src/write'),
-        fs = Ext.require('fs');
-
-    var points = [[[
-        [0, 0],
-        [10, 0],
-        [10, 10],
-        [0, 10],
-        [0, 0]
-    ]]];
-
-    write(
-        // feature data
-        [{ id: 0 }],
-        // geometry type
-        'POLYGON',
-        // geometries
-        points,
-        finish);
-
-    function finish(err, files) {
-        fs.writeFileSync('polygon.shp', toBuffer(files.shp.buffer));
-        fs.writeFileSync('polygon.shx', toBuffer(files.shx.buffer));
-        fs.writeFileSync('polygon.dbf', toBuffer(files.dbf.buffer));
-    }
-
-    function toBuffer(ab) {
-        var buffer = new Buffer(ab.byteLength),
-            view = new Uint8Array(ab);
-        for (var i = 0; i < buffer.length; ++i) { buffer[i] = view[i]; }
-        return buffer;
-    } 
-  },*/
 
   interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){
     var red1 = (color1 & 0xff0000) >> 16;

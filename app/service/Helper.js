@@ -136,12 +136,7 @@ Ext.define('App.service.Helper', {
   },
 
   getCropName: function(){
-    var indicator = App.service.Watcher.getIndicator();
-    var cropName = '';
-    if (!!indicator.crops){
-      var idx = indicator.crops.indexOf(App.service.Watcher.get('Crop'));
-      cropName = indicator[__Global.Lang + 'Legend'][idx];
-    }
+    var cropName = App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop'))[__Global.Lang + 'Name'];
     return cropName;
   },
   
@@ -168,7 +163,7 @@ Ext.define('App.service.Helper', {
     document.body.removeChild(link);    
   },
 
-  JSONToCSVConvertor: function () {
+  /*JSONToCSVConvertor: function () {
     //http://jsfiddle.net/JXrwM/5298/
     var userPolygon = App.service.Chart.userPolygon;
     var JSONData = App.service.Chart.data;
@@ -287,7 +282,7 @@ Ext.define('App.service.Helper', {
     else{
       //alert('First press ' + i18n.polygon.calculate + '!');
     }
-  },
+  },*/
 
   base64: function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
 
@@ -404,8 +399,6 @@ Ext.define('App.service.Helper', {
       result.body += '</tr>';
     }
     //add column name explanation
-    var crops = [];
-    var cropNames = [];  
     result.body += '<tr></tr>'; 
     result.body += '<tr>';     
     result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
@@ -414,13 +407,10 @@ Ext.define('App.service.Helper', {
     for (var i = 4; i <= fieldCount; i++){
       result.body += '<th></th>';        
     }
-    result.body += '</tr>';                  
+    result.body += '</tr>';       
 
     __Indicator.map(function (indicator) {
-      if (indicator.id == 'uir'){
-        crops = indicator.crops;
-        cropNames = indicator[__Global.Lang + 'Legend'];
-      }        
+
       if (indicator.chart != 'Multiannual'){
         result.body += '<tr>';     
         result.body += '<td>' + indicator.field + '</td>'; 
@@ -440,11 +430,11 @@ Ext.define('App.service.Helper', {
     result.body += '<th>' + i18n.exp.cropName + '</th>';   
     result.body += '</tr>';   
 
-    crops.map(function (crop, idx) {
+    __Crop.map(function (crop) {
       result.body += '<tr>';     
-      result.body += '<td>' + crop + '</td>'; 
+      result.body += '<td>' + crop.id + '</td>'; 
       result.body += '<td></td>';       
-      result.body += '<td>' + cropNames[idx] + '</td>';   
+      result.body += '<td>' + crop[__Global.Lang + 'Name'] + '</td>';   
       result.body += '</tr>';         
     }); 
  
@@ -469,10 +459,18 @@ Ext.define('App.service.Helper', {
       if (indicator.chart != 'Multiannual' && (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){
         var field = indicator.field;
         if (!!indicator.crops){
-          indicator.crops.map(function(crop){
-            var fieldcopy = field;
-            indicator_fields.push(fieldcopy.replace('{crop}', crop));
-          });
+          if (indicator.crops == 'all'){
+            __Crop.map(function(crop){
+              var fieldcopy = field;
+              indicator_fields.push(fieldcopy.replace('{crop}', crop.id));
+            });
+          }
+          else if (typeof indicator.crops == 'object'){
+            indicator.crops.map(function(crop){
+              var fieldcopy = field;
+              indicator_fields.push(fieldcopy.replace('{crop}', crop));
+            });
+          }
         }
         else{
           indicator_fields.push(field);

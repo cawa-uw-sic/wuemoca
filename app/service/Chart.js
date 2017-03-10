@@ -61,7 +61,6 @@ Ext.define('App.service.Chart', {
         self.window.close();
         self.data = [];
       }
-
     });
   },
 
@@ -80,12 +79,13 @@ Ext.define('App.service.Chart', {
       }
       self.window.setTitle(title);
 
-      if (typeof indicator.chart != 'object'){
+      if (indicator.chart != 'crops'){
+      //if (typeof indicator.chart != 'object'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
       }
-      else{
-        var idx = indicator.crops.indexOf(crop);
-        self.window.add(App.util.ChartTypes[indicator.chart[idx]](self.data));
+      else if (indicator.crops == 'all'){
+        var chart = App.service.Helper.getById(__Crop, crop).chart;
+        self.window.add(App.util.ChartTypes[chart](self.data));
       }
       self.userPolygon = false;
      // return self.window.show();
@@ -112,7 +112,6 @@ Ext.define('App.service.Chart', {
     else{
       this.data = data;
     }
-
   },
 
   loadData: function () {
@@ -130,9 +129,9 @@ Ext.define('App.service.Chart', {
       }      
     });
     self.stores.defaults.setData(self.data);
-  },
+  }
 
-  export2Excel: function(){
+  /*export2Excel: function(){
     var indicator = App.service.Watcher.getIndicator();
     var aggregation = App.service.Watcher.get('Aggregation');
     if (aggregation != 'grid'){
@@ -172,6 +171,6 @@ Ext.define('App.service.Chart', {
 
        window.open(requesturl, 'download_excel');
     }    
-  }
+  }*/
 
 });

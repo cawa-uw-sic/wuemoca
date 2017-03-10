@@ -92,8 +92,10 @@ Ext.define('App.service.Watcher', {
       callbackName: 'SyncDBResponse',
       params: {format_options: 'callback:Ext.data.JsonP.SyncDBResponse'},
       success: function (results) {
-        self.isBusy = false;
         self.mergeIndicators(results);
+      },
+      callback: function (results) {
+        self.isBusy = false;
         App.service.Map.loadLayer();
       }
     });

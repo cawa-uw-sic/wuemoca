@@ -48,7 +48,7 @@ __Chart.Gauge = {
 }
 
 
-__Chart.HBar = {
+/*__Chart.HBar = {
 
   getAxes: function (x, y) {
     return [{
@@ -90,7 +90,7 @@ __Chart.HBar = {
       }
     }];
   }
-};
+};*/
 
 __Chart.VBar = {
 

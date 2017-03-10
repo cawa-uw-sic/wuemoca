@@ -59,11 +59,6 @@ var i18n = {
     tooltip                 : 'Zoom to Pilot Area Dargom ISA'
   },
 
-  area: {
-    label                   : 'Select Irrigated Area',
-    empty                   : 'Aral Sea Basin'
-  },
-
   filter: {
     title                   : 'Map Controls'
   },
@@ -146,10 +141,7 @@ mapSelection:{
    title       :'Maps',
           reset:'reset<br>selections'
 },
-  rayon: {
-    label                   : 'District Filter (multiple choice)',
-    empty                   : 'all Districts of irrigated area'
-  },
+
   unit: {
     label                   : 'Select unit type',
     admin                   : 'Administration',
@@ -183,34 +175,13 @@ mapSelection:{
   },
   indicator: {
     label                   : 'Select indicator',
-    fir_n                    : 'Irrigated land area (net)',
-    firf                    : 'Irrigated crop acreage',
-    uir                    : 'Irrigated land use (per crop)',
-    pirf                    : 'Farm gross output actual',
-    y                   : 'Yield',
-    fp                  : 'Unused irrigated land',
-    mlu                : 'Major land use',
-    cd               : 'Crop rotation',
-    flf               : 'Fallow land frequency',
     filter                  : 'Activate filter for indicator list',
     leftPanel: 'Select indicator on the left side.',
     _of: 'of'
   },
 
   crop: {
-    label                   : 'Select crop type:',
-    cotton                  : 'Cotton',
-    rice                    : 'Rice',
-    wheat                   : 'Wheat',
-    fallow                  : 'Fallow',
-    'double'                : 'Double Season',//for majority needed
-    other                   : 'Other crop',
-    veg                     : 'Vegetable',
-    orchard                 : 'Orchard/Vineyard',
-    maize                   : 'Maize',
-    garden                  : 'Urban Garden',
-    sun                     : 'Sunflower',
-    sum                     : 'All crops'
+    label                   : 'Select crop type:'
   },
   yield_classes: {
     verylow                 : 'very low',
@@ -220,9 +191,8 @@ mapSelection:{
     veryhigh                : 'very high'
   },
 
-  layer: {
-    maxIrrigDescr           : 'The maximum extent of irrigated land as it could be observed with satellite images from 2001 to 2012',
-    overallDescr            : 'Remote Sensing products based on free-of-charge accessible data (MODIS 250m).',
+  //function example
+  /*layer: {
     yieldDescr              : function (crop_index, aggreg_index) {
       if (crop_index == 'wheat'){
         class1 = wheat_class1;
@@ -245,51 +215,13 @@ mapSelection:{
         return '';
       }
       return '<br>The map shows the yield of ' + i18n.crop[crop_index] + ' (tons per hectare) classified in seven classes:<br>- (' + class6 + ' - ' + class7 + ' t/ha) high<br>- (' + class5 + ' - ' + class6 + ' t/ha)<br>- (' + class4 + ' - ' + class5 + ' t/ha)<br>- (' + class3 + ' - ' + class4 + ' t/ha) medium<br>- (' + class2 + ' - ' + class3 + ' t/ha)<br>- (' + class1 + ' - ' + class2 + ' t/ha)<br>- (0.01 - ' + class1 + ' t/ha) low<br>in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + ').';
-    },
-    landuseDescr            : function (crop_index, aggreg_index) {
-      return '<br>The map shows the percentage share of ' + i18n.crop[crop_index] + ' on the irrigated land (incl. temporarily fallow land) in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + '). Permanent unused land is not considered.';
-    },
-    frequencyDescr          : function (min_year, max_year, crop_index, aggreg_index) {
-      return '<br>The map shows the mean number of years within ' + min_year + ' and ' + max_year + ' in which ' + i18n.crop[crop_index] + ' (temporarily unused) occurs in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + '). Permanent unused land is not considered.';
     }
-  },
+  },*/
 
   settings: {
-    legend: 'Legend',
+    legend                  : 'Legend',
     title                   : 'Map Legend',
-    opacity                 : 'set opacity',
-    layerInfo               : 'get layer info',
-    layerPng                : 'this layer as .png',
-    extent                  : 'Maximum irrigation extent',
-    fir_n_nocrops            : 'Irrigation area in ha',
-    firf_cotton             : 'Cotton in ha',
-    firf_wheat              : 'Wheat in ha',
-    firf_rice               : 'Rice in ha',
-    firf_other              : 'Other crop in ha',
-    firf_orchard            : 'Orchard/Vineyard in ha',
-    firf_garden             : 'Urban garden in ha',
-    firf_maize              : 'Maize in ha',
-    firf_veg                : 'Vegetable in ha',
-    firf_sun                : 'Sunflower in ha',
-    firf_sum                : 'Sum of crops in ha',
-    uir_sum                : 'Net used land in %',
-    uir_wheat              : 'Wheat in %',
-    uir_rice               : 'Rice in %',
-    uir_cotton             : 'Cotton in %',
-    uir_other              : 'Other Crop in %',
-    uir_orchard            : 'Orchard/Vineyard in %',
-    uir_garden             : 'Urban Garden in %',
-    uir_maize              : 'Maize in %',
-    uir_veg                : 'Vegetable in %',
-    uir_sun                : 'Sunflower in %',
-    pirf_wheat              : 'Wheat in t',
-    pirf_cotton             : 'Cotton in t',
-    y_wheat             : 'Wheat in t/ha',
-    y_cotton            : 'Cotton in t/ha',
-    fp_nocrops          : 'Fallow in %',
-    flf_nocrops       : 'Years of fallow',
-    mlu_nocrops        : 'Predominant crop type',
-    cd_nocrops       : 'Number of crop types'
+    extent                  : 'Maximum irrigation extent'
   },
 
   map: {
@@ -401,7 +333,8 @@ mapSelection:{
     remove:'Remove',
     sortAscText: 'Sort Ascending',
     sortDescText: 'Sort Descending',
-    sortClearText: 'Clear Sort'
+    sortClearText: 'Clear Sort',
+    selectgeodata: 'Select geodata format'
   },
 
   exportUI: {
@@ -510,11 +443,6 @@ switch (locale){
 
     };
 
-    i18n.area = {
-      label                 : 'Выберите площадь орошаемых земель',
-      empty                 : 'Бассейн Аральского моря'
-    };
-
     i18n.filter = {
       title                 : 'Навигация по карте'
     };
@@ -595,11 +523,6 @@ i18n.mapSelection ={
       reset:'сброс<br>настроек'
 };
 
-    i18n.rayon = {
-      label                 : 'Районные фильтр (множественный выбор)',
-      empty                 : 'все районы орошаемых земель'
-    };
-
     i18n.unit = {
       label                 : 'Выберите тип единиц',
       admin                 : 'Админиcтративные объекты',
@@ -634,34 +557,13 @@ i18n.mapSelection ={
     };
     i18n.indicator = {
       label                 : 'Выбрать показатель',
-      fir_n                  : 'Площади орошаемых земель (нетто)',
-      firf                  : 'Посевные площади на орошаемых землях',
-      uir                  : 'использования орошаемых земель на культуру',
-      pirf                  : 'Валовая продукция фактический',
-      y                 : 'Урожайность',
-      fp                : 'Неиспользованный орошаемые земли',
-      mlu              : 'Основные землепользования',
-      cd             : 'разнообразие сельскохозяйственных культур',
-      flf             : 'Частота неисп.земель',
       filter                : 'Активировать фильтр для списка индикаторов',
           _of: ',',
               leftPanel: 'Выберите индикатор на левой стороне.'
     };
 
     i18n.crop = {
-      label                 : 'Выбрать с/х культуру:',
-      cotton                : 'Хлопок',
-      rice                  : 'Рис',
-      wheat                 : 'Пшеница',
-      fallow                : 'Неиспользуемые земли',
-      'double'              : 'Double Season',
-      other                 : 'Другие культуры',
-      veg                   : 'овощной',
-      orchard               : 'фруктовый сад/виноградник',
-      maize                 : 'кукуруза',
-      garden                : 'Городской сад',
-      sun                   : 'подсолнух',
-      sum                   : 'Все зерновые культуры'
+      label                 : 'Выбрать с/х культуру:'
     };
     i18n.yield_classes = {
       verylow               : 'очень низкая',
@@ -670,78 +572,11 @@ i18n.mapSelection ={
       high                  : 'высокая',
       veryhigh              : 'очень высокая'
     };
-    i18n.layer = {
-      maxIrrigDescr         : 'Максимальная протяженность орошаемых земель, наблюдаемая на спутниковых снимках с 2001 по 2012',
-      overallDescr          : 'Продукт дистанционного зондирования, основанный на free-of-charge доступных данных(MODIS 250m)',
-      yieldDescr            : function (crop_index, aggreg_index) {
-        if (crop_index == 'wheat'){
-          class1 = wheat_class1;
-          class2 = wheat_class2;
-          class3 = wheat_class3;
-          class4 = wheat_class4;
-          class5 = wheat_class5;
-          class6 = wheat_class6;
-          class7 = wheat_class7;
-        }
-        else if (crop_index == 'cotton'){
-          class1 = cotton_class1;
-          class2 = cotton_class2;
-          class3 = cotton_class3;
-          class4 = cotton_class4;
-          class5 = cotton_class5;
-          class6 = cotton_class6;
-          class7 = cotton_class7;
-        } else {
-          return '';
-        }
-
-        return '<br>Карта показывает урожайность ' + i18n.crop[crop_index] + '  (тонн на гектар) классифицированную в семь классов:<br>- высокая (' + class6 + ' - ' + class7 + ' t/ha)<br>- (' + class5 + ' - ' + class6 + ' t/ha)<br>- (' + class4 + ' - ' + class5 + ' t/ha)<br>- средняя (' + class3 + ' - ' + class4 + ' t/ha)<br>- (' + class2 + ' - ' + class3 + ' t/ha)<br>- (' + class1 + ' - ' + class2 + ' t/ha)<br>- низкая (0.01 - ' + class1 + ' t/ha)<br>в соответствующей единицы измерения (' + i18n.aggreg[aggreg_index] + ').';
-      },
-      landuseDescr          : function (crop_index, aggreg_index) {
-        return '<br> Карта показывает использование земельных участков "' + i18n.crop[crop_index] + '", ее процент орошаемого участка (временно включены неиспользуемые земли) в соответствующем блоке (' + i18n.aggreg[aggreg_index + 'Short'] +'). Постоянная неиспользуемых земель не рассматривается.';
-      },
-      frequencyDescr        : function (min_year, max_year, crop_index, aggreg_index) {
-        return '<br>Карта показывает среднее количество лет в '+ min_year +' и '+ max_year + ', в котором ' + i18n.crop[crop_index] + ' происходит в соответствующий блок ('+ i18n.aggreg[aggreg_index + 'Short'] +'). Постоянная неиспользуемых земель не рассматривается.';
-      }
-    };
 
     i18n.settings = {
-            legend: 'Условные обозначения',
+      legend                : 'Условные обозначения',
       title                 : 'Условные обозначения карты',
-      opacity               : 'настроить прозрачность',
-      layerInfo             : 'получить информацию о слое',
-      layerPng              : 'этот слой как .png',
-      extent                : 'Максимальная площадь орошения',
-  fir_n_nocrops        : 'Irrigation area in га',
-  firf_cotton       : 'хлопок в га',
-  firf_wheat        : 'пшеница в га',
-  firf_rice       : 'рис в га',
-  firf_other        : 'Other crop в га',
-  firf_orchard        : 'фруктовый сад/Виноградник в га',
-  firf_garden     : 'Urban garden в га',
-    firf_maize              : 'Maize in ha',
-    firf_veg                : 'Vegetable in ha',
-    firf_sun                : 'Sunflower in ha',
-  firf_sum        : 'Sum of crops в га',
-  uir_sum        : 'нетто б земля в %',
-    uir_wheat               : 'пшеница в %',
-    uir_rice                : 'рис в %',
-    uir_cotton              : 'хлопок в %',
-  uir_other            : 'Other Crop в %',
-  uir_orchard              : 'фруктовый сад/Виноградник в %',
-  uir_garden               : 'Urban Garden в %',
-      uir_maize              : 'Maize in %',
-    uir_veg                : 'Vegetable in %',
-    uir_sun                : 'Sunflower in %',
-  uir_sum        : 'Sum of crops in %',
-    pirf_wheat                 : 'пшеница в т',
-  pirf_cotton                  : 'хлопок в т',
-    y_wheat                 : 'Урожайность пшеницы в т/га',
-  y_cotton                  : 'хлопок в т/га',
-    fp_nocrops           : 'Площадь неисп. земель в %',
-    flf_nocrops              : 'Years of fallow',
-  mlu_nocrops               : 'Преобладающий тип урожая',
-  cd_nocrops               : 'Количество типов культур'
+      extent                : 'Максимальная площадь орошения'
     };
 
     i18n.map = {
@@ -855,7 +690,8 @@ i18n.mapSelection ={
     showChart: 'Показать диаграмма',
     sortAscText: 'Сортировать по возрастанию',
     sortDescText: 'Сортировка по убыванию',
-    sortClearText: 'Очистить Сортировать'
+    sortClearText: 'Очистить Сортировать',
+    selectgeodata: 'Выберите формат геоданных'
     };
 
     i18n.exportUI = {

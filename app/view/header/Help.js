@@ -14,7 +14,7 @@ Ext.define('App.view.header.Help', {
       listeners: {
         click: 'onImpressum'
       }
-     },{
+    },{
       text: i18n.header.manual,
       //tooltip: i18n.header.faq_tooltip,
       iconCls: 'x-fa fa-lightbulb-o',
@@ -34,8 +34,14 @@ Ext.define('App.view.header.Help', {
       iconCls: 'x-fa fa-book',
       listeners: {
         click: 'onGlossary'
-      }      
+      }
+   /* },{
+      text: 'Instruction video',
+      //tooltip: i18n.header.glossary_tooltip,
+      iconCls: 'x-fa fa-youtube-play',
+      listeners: {
+        click: 'onVideo'
+      } */             
     }]
   })
-
 });

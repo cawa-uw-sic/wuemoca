@@ -5,7 +5,19 @@ Ext.define('App.view.chart.Croptheme', {
     alias: ['chart.theme.croptheme'],
 
     config: {
-        colors: [ __CropColors.cotton, __CropColors.wheat, __CropColors.rice, __CropColors.alfa, __CropColors.orchard, __CropColors.garden, __CropColors.other, __CropColors.maize, __CropColors.sun, __CropColors.veg ]
+        colors: [
+			cotton_color, 
+			wheat_color, 
+			rice_color, 
+			alfa_color, 
+			orchard_color, 
+			garden_color, 
+			other_color, 
+			maize_color, 
+			sun_color, 
+			veg_color 
+        ]
+     
     }
 
 });

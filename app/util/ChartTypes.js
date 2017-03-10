@@ -14,8 +14,9 @@ Ext.define('App.util.ChartTypes', {
     var yField = indicator.field;
     var color = indicator.color;
     if (!!indicator.crops) {
-      yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
-      color = __CropColors[App.service.Watcher.get('Crop')];
+      var crop = App.service.Watcher.get('Crop');
+      yField = yField.replace('{crop}', crop);
+      color = App.service.Helper.getById(__Crop, crop).color;
     }
     var maximum = NaN;
     var threshold = 10;
@@ -49,10 +50,12 @@ Ext.define('App.util.ChartTypes', {
     var indicator = App.service.Watcher.getIndicator();
     var ind_id = indicator.id;
     var yFields = [];
-    var cropNames = indicator[ __Global.Lang + 'Legend'].slice(1);
-    indicator.crops.map(function(crop) {
-      if (crop != 'sum'){
-        return yFields.push(ind_id + '_' + crop);
+    //var cropNames = indicator[ __Global.Lang + 'Legend'].slice(1);
+    var cropNames = [];
+    __Crop.map(function(crop) {
+      if (crop.id != 'sum'){
+        cropNames.push(crop[__Global.Lang + 'Name']);
+        yFields.push(ind_id + '_' + crop.id);
       }
     });
 
@@ -145,11 +148,12 @@ Ext.define('App.util.ChartTypes', {
     App.service.Chart.loadData();
     var indicator = App.service.Watcher.getIndicator();
     var yField = indicator.field;
-    var color = indicator.color;
+   /* var color = indicator.color;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
-      color = __CropColors[App.service.Watcher.get('Crop')];
-    }
+      color = App.service.Helper.getById(__Crop, crop).color;
+    }*/
+    var color = '#989800';
     var maximum = NaN;
     var threshold = 10;
     var decimals = 0;

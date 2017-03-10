@@ -180,3 +180,16 @@
 .x-form-item-default.x-item-disabled {
     opacity: 1;
 }
+.grouped-list .x-boundlist-item {
+    padding: 1px 3px 0 10px
+}
+.grouped-list .group-header {
+    padding: 4px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00589C;
+}

@@ -50,6 +50,10 @@ Ext.define('App.controller.Header', {
 
   onReport: function () {
     App.service.Report.window.show();
+  },
+
+  onVideo: function () {
+    window.open(__Global.urls.Video, 'video');
   }
 
 });

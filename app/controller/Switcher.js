@@ -10,7 +10,18 @@ Ext.define('App.controller.Switcher', {
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
     this.createFilters();
-    Ext.getStore('indicator').sort(__Global.Lang + 'Name', 'ASC');
+    Ext.getStore('indicator').sort([
+      {
+        property :  __Global.Lang + 'Group',
+        direction: 'ASC'
+      },
+      {
+        property :  __Global.Lang + 'Name',
+        direction: 'ASC'
+      }
+    ]);
+
+
    // App.service.Watcher.activateFilters();
   },
 
@@ -128,34 +139,40 @@ Ext.define('App.controller.Switcher', {
 
   fillCrops: function (component) {
     var indicator = App.service.Watcher.getIndicator();
-    var data = [];
+    var crops = [];
     var cropNames = [];
 
     component.removeAll();
 
     if (!indicator.crops) {
-      //data = [];
       App.service.Watcher.set('Crop', '');
       return App.service.Helper.hideComponents(['switcher-btns-crop']);
     }
-
+    //y and pirf
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
-      data = indicator.crops;
+      crops = indicator.crops;
       cropNames = indicator[__Global.Lang + 'Legend'];
       if (indicator.crops.indexOf(App.service.Watcher.get('Crop')) < 0) {
         App.service.Watcher.set('Crop', indicator.crops[0]);
       }
     }
-    if (!App.service.Watcher.get('Crop') && data.length > 0) App.service.Watcher.set('Crop', data[0]);
+    //firf and uir
+    else if (indicator.crops == 'all'){
+      __Crop.map(function (crop) {
+          crops.push(crop.id);
+          cropNames.push(crop[__Global.Lang + 'Name']);
+      });      
+    }
+    if (!App.service.Watcher.get('Crop') && crops.length > 0) App.service.Watcher.set('Crop', crops[0]);
 
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < crops.length; i++) {
       component.add({
-        iconCls: data[i],
-        itemId: data[i],
+        iconCls: crops[i],
+        itemId: crops[i],
         scale: 'large',
         tooltip: cropNames[i],
         toggleGroup: 'map-filters-crops',
-        pressed: App.service.Watcher.get('Crop') == data[i],
+        pressed: App.service.Watcher.get('Crop') == crops[i],
         handler: this.onCrop
       });
     }

@@ -296,14 +296,14 @@ Ext.define('App.service.Map', {
   getLegendTitle: function(withUnit){
     var legend_title = '';
     var indicator = App.service.Watcher.getIndicator();
-    if (indicator[__Global.Lang + 'Legend'].length > 1){
+    if (!!indicator.crops){
       //indicators with crop list
       legend_title = App.service.Helper.getCropName();
     }
     else{
-      legend_title = indicator[__Global.Lang + 'Legend'][0];
+      legend_title = indicator[__Global.Lang + 'Legend'];
     }
-    if (withUnit && (indicator['chart'] != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '-')) {
+    if (withUnit && (indicator.chart != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '-')) {
       legend_title += i18n.chart._in + indicator[__Global.Lang + 'Unit'];
     }
     return legend_title;
@@ -321,7 +321,7 @@ Ext.define('App.service.Map', {
     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
         if (!!indicator.crops){
-          var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : __Crop.indexOf(crop);
+          var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : App.service.Helper.getById(__Crop, crop).idx;
           median  = indicator.median  ? indicator.median  [index] : 0;
           maximum = indicator.maximum ? indicator.maximum [index] : 0;
         }

@@ -1,5 +1,6 @@
 .app-yearslider .x-panel-body {
   background: #5fa2dd;
+  padding: 5px 0px 0px 0px;
 }
 /*.app-yearslider-slider-bodyEl{
      height: 20px !important; 
@@ -20,6 +21,13 @@
 }
 .map-container .x-title {
   top: 0 !important;
+}
+.map-container .x-panel-header-title-default {
+  font-size: 14px;
+  line-height: 16px;
+}
+.map-container .x-panel-header-default {
+  padding: 6px 16px 16px 16px;
 }
 .x-slider{
   margin: 0 !important;
@@ -83,6 +91,30 @@
 }
 .email {
   background-image:url(../images/icon-email-16px.png) !important;
+}
+.header {
+  background-image:url(../images/header.png) !important;
+  background-size: 100% 100%;
+  width: 414px !important;
+  height: 35px !important;
+}
+.mapcontrol {
+  background-image:url(../images/mapcontrol.png) !important;
+  background-size: 100% 100%;
+  width: 92px !important;
+  height: 160px !important;
+}
+.mapdiagram {
+  background-image:url(../images/mapdiagram.png) !important;
+  background-size: 100% 100%;
+  width: 192px !important;
+  height: 180px !important;
+}
+.userpolygon {
+  background-image:url(../images/userpolygon.png) !important;
+  background-size: 100% 100%;
+  width: 92px !important;
+  height: 150px !important;
 }
 .zoomButton{
   padding: 3px !important;
@@ -174,22 +206,29 @@
   background-position:0 -1px;
 }
 .x-grid-cell-inner {
-    padding: 3px 3px 3px 6px;
+  padding: 3px 3px 3px 6px;
 }
 
-.x-form-item-default.x-item-disabled {
+.x-form-item-default .x-item-disabled {
     opacity: 1;
 }
 .grouped-list .x-boundlist-item {
-    padding: 1px 3px 0 10px
+    padding: 1px 3px 0 10px;
 }
 .grouped-list .group-header {
-    padding: 4px;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
+  padding: 4px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
 }
 .title {
   font-size: 18px;
   font-weight: bold;
   color: #00589C;
 }
+.ol-scale-line {
+  position: absolute;
+  top: 10px;
+  bottom: auto;
+  left: 40px;
+}
+

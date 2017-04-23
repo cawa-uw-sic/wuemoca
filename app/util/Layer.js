@@ -31,7 +31,7 @@ var BackgroundLayers = {
     visible: true,
     maxResolution: 200,
     source: new ol.source.OSM({
-      url: "https://{a-c}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png"
+      url: "https://{a-c}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=48db33c5dbf84800ac86e6a7776caf8f"
     })
   }),
 
@@ -81,7 +81,7 @@ var BackgroundLayers = {
         LAYERS: LayerParams.Country,
         TRANSPARENT: true,
         FORMAT: 'image/png',
-        STYLES: 'ca_country_' + __Global.Lang
+        STYLES: 'ca_country_' + __Global.lang
       }
     })
   }),
@@ -96,7 +96,7 @@ var BackgroundLayers = {
         LAYERS: LayerParams.Channel,
         TRANSPARENT: true,
         FORMAT: 'image/png',
-        STYLES: 'channel_' + __Global.Lang
+        STYLES: 'channel_' + __Global.lang
       }
     })
   }),

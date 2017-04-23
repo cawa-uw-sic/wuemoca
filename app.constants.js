@@ -1,3 +1,6 @@
+/**
+ * color codes
+ */
 //colors
 wuemoca_color = '#00589C';//blue
 

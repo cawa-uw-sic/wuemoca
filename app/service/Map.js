@@ -13,7 +13,10 @@ Ext.define('App.service.Map', {
           attributionOptions: ({
             collapsible: false
           })
-        })
+        }).extend([
+          //new ol.control.ScaleLine({className: 'ol-scale-line', target: document.getElementById('scale-line')})
+          new ol.control.ScaleLine()
+        ])
       });
     }
     __LocalDB.updateLocalDB();
@@ -48,6 +51,7 @@ Ext.define('App.service.Map', {
         self.setMainTitle();
         self.setLegend();
         self.setShapefileBtntext();
+        App.service.Status.set('&#160;');
       }
     }
     else{
@@ -88,7 +92,7 @@ Ext.define('App.service.Map', {
             LAYERS: __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_geom',
             TRANSPARENT: true,
             FORMAT: 'image/png',
-            STYLES: 'ca_' + App.service.Watcher.get('Aggregation') + '_' + __Global.Lang
+            STYLES: 'ca_' + App.service.Watcher.get('Aggregation') + '_' + __Global.lang
           }
         })
       });
@@ -105,7 +109,7 @@ Ext.define('App.service.Map', {
     App.util.Layer.current = null;
     App.util.Layer.admin = null;
     App.service.Helper.getComponentExt('map-container').setTitle('');
-    App.service.Status.set('');
+    App.service.Status.set('&#160;');
     App.service.Chart.window.close();
     App.service.Helper.getComponentExt('legend-current').setVisible(false);
     App.service.Helper.getComponentExt('legend-panel').setVisible(false);
@@ -194,16 +198,16 @@ Ext.define('App.service.Map', {
       var aggregation = App.service.Watcher.getAggregation();
       var title = '';
       if (userPolygon == 'noshow'){
-        title += aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map;
+        title += aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ':<br>';
       }
       else{
-        title += i18n.polygon.showPolygon;
+        title += i18n.polygon.showPolygon + ':<br>';
       }
-      if (indicator[__Global.Lang + 'NameShort']){
-        title += ': ' + indicator[__Global.Lang + 'NameShort'];
+      if (indicator[__Global.lang + 'NameShort']){
+        title += indicator[__Global.lang + 'NameShort'];
       }
       else{
-        title += ': ' + indicator[__Global.Lang + 'Name'];
+        title += indicator[__Global.lang + 'Name'];
       }
       if (!!indicator.crops) title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
       if (userPolygon == 'noshow'){
@@ -241,8 +245,14 @@ Ext.define('App.service.Map', {
     var view = this.instance.getView();
     var viewResolution = view.getResolution();
     return this.getLayerSource(allYears).getGetFeatureInfoUrl(
-      e.coordinate, viewResolution, view.getProjection(),
-      {'INFO_FORMAT': 'text/javascript', 'FEATURE_COUNT': 50}
+      e.coordinate, 
+      viewResolution, 
+      view.getProjection(),
+      {
+        'INFO_FORMAT': 'text/javascript',
+        'FEATURE_COUNT': 50,
+        'BUFFER': 1
+      }
     );
   },
 
@@ -260,10 +270,10 @@ Ext.define('App.service.Map', {
     var button = App.service.Helper.getComponentExt('switcher-btn-shapefile');
     button.setText(
       i18n.exp.download + ' ' + i18n.exp.map + ' (' + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') +
-      aggregation[__Global.Lang + 'NameShort'] + ') ' + i18n.exp.asSHP
+      aggregation[__Global.lang + 'NameShort'] + ') ' + i18n.exp.asSHP
     );
     button.setTooltip(
-      i18n.exp.tooltipSHP1 + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.Lang + 'NameShort'] +
+      i18n.exp.tooltipSHP1 + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.lang + 'NameShort'] +
       ' ' +  i18n.exp.tooltipSHP2
     );
   },
@@ -274,7 +284,7 @@ Ext.define('App.service.Map', {
     App.service.Helper.getComponentExt('legend-current').setVisible(true);
     App.service.Helper.getComponentExt('legend-panel').setVisible(true);
     App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(
-      aggregation[__Global.Lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
+      aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
       self.getLegendTitle(true)
     );
     App.service.Helper.getComponentExt('legend-image').setSrc(self.getLegendImage());
@@ -301,10 +311,10 @@ Ext.define('App.service.Map', {
       legend_title = App.service.Helper.getCropName();
     }
     else{
-      legend_title = indicator[__Global.Lang + 'Legend'];
+      legend_title = indicator[__Global.lang + 'Legend'];
     }
-    if (withUnit && (indicator.chart != 'Multiannual' && indicator[__Global.Lang + 'Unit'] != '-')) {
-      legend_title += i18n.chart._in + indicator[__Global.Lang + 'Unit'];
+    if (withUnit && (indicator.chart != 'Multiannual' && indicator[__Global.lang + 'Unit'] != '-')) {
+      legend_title += i18n.chart._in + indicator[__Global.lang + 'Unit'];
     }
     return legend_title;
   },
@@ -340,7 +350,7 @@ Ext.define('App.service.Map', {
 
     }
     if (indicator.id == 'mlu') {
-      indicator[__Global.Lang + 'CropNames'].map(function (c) {
+      indicator[__Global.lang + 'CropNames'].map(function (c) {
         text += c + '<br />'
       });
     }

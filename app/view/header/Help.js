@@ -8,11 +8,11 @@ Ext.define('App.view.header.Help', {
   iconCls: 'help',
   menu: new Ext.menu.Menu({
     items: [{
-      text: i18n.header.impressum,
-      //tooltip: i18n.header.impressum_tooltip,
+      text: i18n.header.imprint,
+      //tooltip: i18n.header.imprint_tooltip,
       iconCls: 'x-fa fa-envelope',
       listeners: {
-        click: 'onImpressum'
+        click: 'onImprint'
       }
     },{
       text: i18n.header.manual,
@@ -36,12 +36,12 @@ Ext.define('App.view.header.Help', {
         click: 'onGlossary'
       }
    /* },{
-      text: 'Instruction video',
+      text: 'Instruction Video General Information',
       //tooltip: i18n.header.glossary_tooltip,
       iconCls: 'x-fa fa-youtube-play',
       listeners: {
-        click: 'onVideo'
-      } */             
+        click: 'onVideoHeader'
+      }  */    
     }]
   })
 });

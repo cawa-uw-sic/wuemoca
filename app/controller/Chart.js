@@ -1,4 +1,8 @@
+/**
+* chart controller
+*/
 Ext.define('App.controller.Chart', {
+
   extend: 'Ext.app.ViewController',
 
   alias: 'controller.chart',
@@ -19,10 +23,18 @@ Ext.define('App.controller.Chart', {
     App.service.Chart.next();
   },*/
 
+  /**
+  * @method onExcel
+  * Create Excel file with all indicators for selected object. {@link }
+  */  
   onExcel: function () {
     App.service.Helper.JSONToHTMLConvertor();
   },
 
+  /**
+  * @method onPreview
+  * Show image of chart
+  */
   onPreview: function() {
     var chart = this.lookupReference('chart');
     if (Ext.os.is.Desktop) {

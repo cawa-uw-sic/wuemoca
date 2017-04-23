@@ -1,3 +1,6 @@
+/**
+* Legend window
+*/
 Ext.define('App.view.legend.Window', {
   extend: 'Ext.Window',
 
@@ -27,8 +30,7 @@ Ext.define('App.view.legend.Window', {
   width: 300,
   height: 300,
   x: Ext.getBody().getWidth() - 650,
-  y: 10,
-  initCenter: false,
+  y: 9,
   collapsed: false,
   resizable: false,
   closeAction: 'hide',

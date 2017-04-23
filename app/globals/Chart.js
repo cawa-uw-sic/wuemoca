@@ -1,8 +1,18 @@
 var __Chart = {};
 
-
+/**
+* gauge chart
+*/
 __Chart.Gauge = {
-
+  /**
+  * @method getAxes
+  * create numeric gauge axis
+  * @param {Number} max
+  * maximum chart value multiplied by 10 (workaround for numeric axis label bug)
+  * @param {Number} steps
+  * majorTickSteps  
+  * @return {Ext.chart.axis.Numeric}
+  */
   getAxes: function (max, steps) {
     return [{
       type: 'numeric',
@@ -11,6 +21,14 @@ __Chart.Gauge = {
       //workaround for numeric axis label bug (multiply by 10)
       maximum: max * 10,
       majorTickSteps: steps,
+      /**
+      * @method getAxesRenderer
+      * return label devided by 10 (workaround for numeric axis label bug)
+      * @param axis
+      * @param {Number} label
+      * @param layoutContext
+      * @return {Number}
+      */      
       renderer: function (axis, label, layoutContext) {
         label = label.toFixed();
         //workaround for numeric axis label bug (divide by 10)
@@ -18,7 +36,13 @@ __Chart.Gauge = {
       }
     }];
   },
-
+  /**
+  * @method getSeries
+  * create gauge series with donut and needle
+  * @param {String} field
+  * angleField, field with value
+  * @return {Ext.chart.series.Gauge}
+  */
   getSeries: function (field) {
     return [{
       type: 'gauge',
@@ -28,7 +52,19 @@ __Chart.Gauge = {
       //colors: colors
     }];
   },
-
+  /**
+  * @method getGradient
+  * return color gradient 0-50-100
+  * @param {String} color1
+  * 0 color
+  * @param {String} color2
+  * 50 color
+  * @param {String} color3
+  * 100 color
+  * @param {String} ind_id
+  * indicator id
+  * @return {Object[]}
+  */
   getGradient: function (color1, color2, color3, ind_id){
     return [{
         id: 'gradient-' + ind_id,
@@ -45,7 +81,7 @@ __Chart.Gauge = {
         }
     }];
   }
-}
+};
 
 
 /*__Chart.HBar = {
@@ -92,8 +128,25 @@ __Chart.Gauge = {
   }
 };*/
 
+/**
+* vertical bar chart
+*/
 __Chart.VBar = {
-
+  /**
+  * @method getAxes
+  * create numeric and category axes
+  * @param {Number} x
+  * field for x-axis
+  * @param {Number} y
+  * field for y-axis
+  * @param {String} measure
+  * unit for y-axis
+  * @param {Number} maximum
+  * maximum of y-axis
+  * @param {Number} decimals
+  * number of decimals  for y-axis 
+  * @return {Ext.chart.axis.Numeric | Ext.chart.axis.Category}
+  */
   getAxes: function (x, y, measure, maximum, decimals) {
     return [{
       type: 'numeric',
@@ -121,7 +174,21 @@ __Chart.VBar = {
       }
     }];
   },
-
+  /**
+  * @method getSeries
+  * create bar series
+  * @param {Number} x
+  * field for x-axis
+  * @param {Number} y
+  * field for y-axis
+  * @param {String} measure
+  * unit for tooltip
+  * @param {String} color
+  * color code for bar filling
+  * @param {Number} decimals
+  * number of decimals for tooltip
+  * @return {Ext.chart.series.Bar}
+  */
   getSeries: function (x, y, measure, color, decimals) {
     return [{
       type: 'bar',
@@ -147,7 +214,9 @@ __Chart.VBar = {
     }];
   }
 };
-
+/**
+* stacked bar chart
+*/
 __Chart.StackedVBar = {
 
   getAxes: function (x, yFields, measure) {
@@ -197,7 +266,9 @@ __Chart.StackedVBar = {
     }];
   }
 };
-
+/**
+* line chart
+*/
 __Chart.Line = {
 
   getAxes: function (x, y, measure, maximum, decimals) {

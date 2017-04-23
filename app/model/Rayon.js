@@ -1,3 +1,6 @@
+/**
+* district data model
+*/
 Ext.define('App.model.Rayon', {
   extend: 'Ext.data.Model',
 

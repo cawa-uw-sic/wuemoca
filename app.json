@@ -223,7 +223,7 @@
      */
     "js": [
         {
-            "path": "${app.dir}/resources/js/ol.js"
+            "path": "${app.dir}/resources/js/ol-debug.js"
         },
         {
             "path": "${app.dir}/resources/js/proj4.js"

@@ -1,7 +1,12 @@
+/**
+* map controller
+*/
 Ext.define('App.controller.Map', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.map',
-
+/**
+* create overview map
+*/
   onAfterRender: function (view) {
 
     var map = App.service.Map.instance;
@@ -14,7 +19,7 @@ Ext.define('App.controller.Map', {
       })
     );
 
-    map.on('singleclick', function (e) { App.service.Chart.display(e); });
+    map.on('singleclick', function(e) { App.service.Chart.display(e); });
 
     map.on('pointermove', function(e) { App.service.Tooltip.display(e); });
 

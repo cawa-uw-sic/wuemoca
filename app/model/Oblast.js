@@ -1,3 +1,6 @@
+/**
+* province data model
+*/
 Ext.define('App.model.Oblast', {
   extend: 'Ext.data.Model',
 

@@ -4,31 +4,73 @@ Ext.define('App.service.Tooltip', {
 
   isBusy: false,
 
-  tooltip: Ext.create('App.view.tooltip.Index'),
+  //tooltip: Ext.create('App.view.tooltip.Index'),
 
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return;
-    this.isBusy = true;
-    this.doRequest(e);
+    var map = App.service.Map.instance;  
+    if (
+      e.dragging || 
+      this.isBusy || 
+      //App.service.Polygon.activated || 
+      !App.service.Watcher.get('Indicator') //|| 
+      //!App.util.Layer.current.getVisible()
+    ) { 
+      if (!App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()){
+
+        App.service.Status.set('&#160;');
+        map.getTargetElement().style.cursor = '';           
+      }
+      return;
+    }
+    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.activated){
+      var pixel = map.getEventPixel(e.originalEvent);
+      var hit = map.hasFeatureAtPixel(pixel);
+      
+      map.getTarget().style.cursor = hit ? 'pointer' : '';      
+    }
+    else if (App.util.Layer.current.getVisible()){
+      this.isBusy = true;
+      this.doRequest(e);
+    }
   },
 
   doRequest: function (e) {
     var self = this;
-    Ext.data.JsonP.request({
-      url: App.service.Map.getUrl(e, !!App.service.Watcher.getIndicator().years),
-      callbackName: 'parseHoverResponse',
-      params: {format_options: 'callback:Ext.data.JsonP.parseHoverResponse'},
-      success: function (results) {
-        self.showTooltip(e, results.features);
-        self.createTimer();
-      },
-      failure: function (results) {
-        App.service.Status.set('');
-        self.createTimer();
-      }
-    });
+    var map = App.service.Map.instance;
+    var url = App.service.Map.getUrl(e, !!App.service.Watcher.getIndicator().years);
+    if (url){
+      Ext.data.JsonP.request({
+        url: url,
+        callbackName: 'parseHoverResponse',
+        params: {format_options: 'callback:Ext.data.JsonP.parseHoverResponse'},
+        success: function (results) {
+          if (results.features.length > 0){
+            self.showTooltip(e, results.features);
+            //show mouse pointer if features are captured
+            map.getTargetElement().style.cursor = 'pointer';
+          }
+          else{
+            App.service.Status.set('&#160;');
+            map.getTargetElement().style.cursor = '';
+          }
+          self.createTimer();
+        },
+        failure: function (results) {
+          App.service.Status.set('&#160;');
+          map.getTargetElement().style.cursor = '';
+          self.createTimer();
+        }
+      });
+
+    }
+    else{
+       map.getTargetElement().style.cursor = '';
+       App.service.Status.set('&#160;');
+       self.createTimer();
+    }
   },
 
+  //timer to avoid overload of Ext.data.JsonP.requests
   createTimer: function () {
     var self = this;
     setTimeout(function() {
@@ -37,7 +79,7 @@ Ext.define('App.service.Tooltip', {
   },
 
   showTooltip: function (e, features) {
-    this.tooltip.hide();
+    //this.tooltip.hide();
     if (features.length > 0) {
       var html = this.getFeatureHTML(features[0].properties);
       App.service.Status.set('<b>' + html.title + ' - ' + html.content + '</b>');
@@ -49,7 +91,7 @@ Ext.define('App.service.Tooltip', {
     var indicator = App.service.Watcher.getIndicator();
     var aggregation = App.service.Watcher.getAggregation();
 
-    var title = (properties[aggregation.id + '_' + __Global.Lang] || '') + ' ' + aggregation[__Global.Lang + 'NameShort'];
+    var title = (properties[aggregation.id + '_' + __Global.lang] || '') + ' ' + aggregation[__Global.lang + 'NameShort'];
 
     var content =  App.service.Map.getLegendTitle(false);
     var yField = indicator.field;
@@ -58,12 +100,12 @@ Ext.define('App.service.Tooltip', {
     }
 
     if (indicator.id == 'mlu'){
-      content += ': ' + indicator[__Global.Lang + 'CropNames'][properties[yField] - 1];
+      content += ': ' + indicator[__Global.lang + 'CropNames'][properties[yField] - 1];
     }
     else{
       content += ': ' + parseFloat(properties[yField]).toFixed(indicator['decimals']);
-      if (indicator['chart'] != 'Multiannual' && indicator[ __Global.Lang + 'Unit' ] != '-'){
-        content += ' ' + indicator[ __Global.Lang + 'Unit' ];
+      if (indicator['chart'] != 'Multiannual' && indicator[ __Global.lang + 'Unit' ] != '-'){
+        content += ' ' + indicator[ __Global.lang + 'Unit' ];
       }
     }
     if (!!indicator['years']){

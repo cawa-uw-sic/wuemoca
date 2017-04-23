@@ -1,3 +1,6 @@
+/**
+* User polygon toolbar
+*/
 Ext.define('App.view.polygon.Index', {
   extend: 'Ext.toolbar.Toolbar',
 
@@ -28,7 +31,8 @@ Ext.define('App.view.polygon.Index', {
       text: i18n.polygon.activate,
       iconCls: 'x-fa fa-edit',
       handler: 'onActivate',
-      itemId: 'polygon-btn-activate'
+      itemId: 'polygon-btn-activate',
+      tooltip: i18n.polygon.drawTooltip
     },{
       text: i18n.polygon.deactivate,
       iconCls: 'x-fa fa-lock',

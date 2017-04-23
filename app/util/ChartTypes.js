@@ -37,8 +37,8 @@ Ext.define('App.util.ChartTypes', {
         {
           xtype  : 'app-chart-vbar',
           store  : App.service.Chart.stores.defaults,
-          axes   : __Chart.VBar.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
-          series : __Chart.VBar.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
+          axes   : __Chart.VBar.getAxes   ('year', yField, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), maximum, decimals),
+          series : __Chart.VBar.getSeries ('year', yField, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), color, indicator.decimals)
         }
       ]
     });
@@ -50,11 +50,11 @@ Ext.define('App.util.ChartTypes', {
     var indicator = App.service.Watcher.getIndicator();
     var ind_id = indicator.id;
     var yFields = [];
-    //var cropNames = indicator[ __Global.Lang + 'Legend'].slice(1);
+    //var cropNames = indicator[ __Global.lang + 'Legend'].slice(1);
     var cropNames = [];
     __Crop.map(function(crop) {
       if (crop.id != 'sum'){
-        cropNames.push(crop[__Global.Lang + 'Name']);
+        cropNames.push(crop[__Global.lang + 'Name']);
         yFields.push(ind_id + '_' + crop.id);
       }
     });
@@ -64,8 +64,8 @@ Ext.define('App.util.ChartTypes', {
         {
           xtype  : 'app-chart-stackedvbar',
           store  : App.service.Chart.stores.defaults, 
-          axes   : __Chart.StackedVBar.getAxes   ('year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : '')),
-          series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), indicator.decimals)
+          axes   : __Chart.StackedVBar.getAxes   ('year', yFields, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : '')),
+          series : __Chart.StackedVBar.getSeries (cropNames, 'year', yFields, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), indicator.decimals)
         }
       ]
     });
@@ -76,7 +76,7 @@ Ext.define('App.util.ChartTypes', {
     var cr = App.service.Helper.getById( __Indicator, 'cr' );
     var flf = App.service.Helper.getById( __Indicator, 'flf' );
     var mlu = App.service.Helper.getById( __Indicator, 'mlu' );
-    var cropNameList = mlu[__Global.Lang + 'CropNames'];
+    var cropNameList = mlu[__Global.lang + 'CropNames'];
     var cropList = mlu['croplist'];
     //workaround for numeric axis label bug (multiply by 10)
     App.service.Chart.stores.cr.setData([ { data: data[0].cr * 10 } ]);
@@ -94,7 +94,7 @@ Ext.define('App.util.ChartTypes', {
           html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' + i18n.chart.multiannualHeader2,
           cls: 't-center t-bold t-bigger mlu-header'
         },{
-          html: mlu[__Global.Lang + 'Name'] + ': ' + cropNameList[data[0].mlu - 1],
+          html: mlu[__Global.lang + 'Name'] + ': ' + cropNameList[data[0].mlu - 1],
           cls: 't-center t-bigger mlu-landuse'
         },{
           html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') + '">',         
@@ -130,11 +130,11 @@ Ext.define('App.util.ChartTypes', {
             pack: 'center'
           },
           items: [{
-            html: cr[__Global.Lang + 'Name'] + '<br/>' + cr[__Global.Lang + 'Legend']  + ': <b>' + data[0].cr.toFixed(1) + '</b>',
+            html: cr[__Global.lang + 'Name'] + '<br/>' + cr[__Global.lang + 'Legend']  + ': <b>' + data[0].cr.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           },{
-            html: flf[__Global.Lang + 'Name'] + '<br/>' + flf[__Global.Lang + 'Legend'] + ': <b>' + data[0].flf.toFixed(1) + '</b>',
+            html: flf[__Global.lang + 'Name'] + '<br/>' + flf[__Global.lang + 'Legend'] + ': <b>' + data[0].flf.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '50%'
           }]
@@ -177,8 +177,8 @@ Ext.define('App.util.ChartTypes', {
             left: 14,
             right: 11
           },
-          axes   : __Chart.Line.getAxes   ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), maximum, decimals),
-          series : __Chart.Line.getSeries ('year', yField, (indicator[ __Global.Lang + 'Unit' ] != '-' ? indicator[ __Global.Lang + 'Unit' ] : ''), color, indicator.decimals)
+          axes   : __Chart.Line.getAxes   ('year', yField, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), maximum, decimals),
+          series : __Chart.Line.getSeries ('year', yField, (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), color, indicator.decimals)
         }
       ]
     });

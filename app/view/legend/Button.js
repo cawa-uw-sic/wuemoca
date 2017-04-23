@@ -1,3 +1,6 @@
+/**
+* Legend button
+*/
 Ext.define('App.view.legend.Button', {
   extend: 'Ext.button.Button',
 

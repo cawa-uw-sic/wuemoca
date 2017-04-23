@@ -1,3 +1,6 @@
+/**
+* Map panel
+*/
 Ext.define('App.view.Map',{
   extend: 'GeoExt.component.Map',
 
@@ -6,12 +9,19 @@ Ext.define('App.view.Map',{
   ],
 
   xtype: 'app-map',
-
+/**
+* controller
+*/
   controller: 'map',
-
+/**
+* listener
+*/
   listeners: {
     afterrender: 'onAfterRender'
   },
-
+/**
+* @method
+* initialize map
+*/
   map: App.service.Map.initialize()
 });

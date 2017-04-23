@@ -1,3 +1,6 @@
+/**
+* Switcher panel for map selections
+*/
 Ext.define('App.view.switcher.Index', {
   extend: 'Ext.panel.Panel',
 

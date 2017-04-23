@@ -1,5 +1,16 @@
-var __LocalDB = {
-
+/**
+* @class __LocalDB
+* local DB stores user settings in the localStorage of the browser
+*/
+__LocalDB = {
+/**
+* @method get
+* get the stored value
+* @param attr
+* attribute is the name of the stored value
+* @param fallback
+* default value in case no value is stored in the localStorage
+*/
   get: function (attr, fallback) {
     if (attr.indexOf('.') >= 0) {
       attr = attr.split('.');
@@ -11,7 +22,14 @@ var __LocalDB = {
 
     return this.parseValues(localStorage.getItem(attr)) || fallback;
   },
-
+/**
+* @method set
+* set the value in the localStorage
+* @param attr
+* with which name the value is to be stored
+* @param val
+* value to be stored in the localStorage
+*/
   set: function (attr, val) {
     if (attr.indexOf('undefined') < 0){
       if (typeof val == 'object') val = JSON.stringify(val);
@@ -24,7 +42,12 @@ var __LocalDB = {
       return localStorage.setItem(attr, val);
     }
   },
-
+/**
+* @method parseValues
+* parse the values in JSON format
+* @param obj
+* values to be parsed
+*/
   parseValues: function (obj) {
     try {
       return JSON.parse(obj);
@@ -33,7 +56,10 @@ var __LocalDB = {
     }
     return obj;
   },
-
+/**
+* @method updateLocalDB
+* clean the localStorage from unused items and abbreviations
+*/
   updateLocalDB: function(){
       //update localStorage
       for (var i = 0; i < localStorage.length; i++){

@@ -1,59 +1,92 @@
+/**
+* header controller
+*/
 Ext.define('App.controller.Header', {
   extend: 'Ext.app.ViewController',
 
   alias: 'controller.header',
 
   requires: [
-    'App.view.header.DetailWindow',
-    'App.view.header.IntroWindow'
+    //'App.view.header.DetailWindow',
+    //'App.view.header.IntroWindow'
   ],
-
   init: function () {
-    this.DetailWindow = Ext.create('App.view.header.DetailWindow');
-    this.IntroWindow = Ext.create('App.view.header.IntroWindow');
+    //this.DetailWindow = Ext.create('App.view.header.DetailWindow');
+    //this.IntroWindow = Ext.create('App.view.header.IntroWindow');
   },
-
+  /**
+  * @method onLocale
+  * switch language
+  */
   onLocale: function () {
     localStorage.setItem('locale', nextLocale());
     location.reload();
   },
-
-  onImpressum: function () {
-    window.open(__Global.urls.Impressum, 'impressum');
+  /**
+  * @method onImprint
+  * show imprint document
+  */
+  onImprint: function () {
+    App.service.Helper.openDocument(__Global.urls.Imprint, 'imprint');
   },
-
+  /**
+  * @method onFaq
+  * open glossary URL on FAQ page
+  */
   onFaq: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
     App.service.Helper.openGlossaryFrame(__Global.urls.Faq);
   },
-
+  /**
+  * @method onGlossary
+  * open glossary URL
+  */
   onGlossary: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
    App.service.Helper.openGlossaryFrame(__Global.urls.Intro);
   },
-
+  /**
+  * @method onManual
+  * open manual document
+  */
   onManual: function () {
-    window.open(__Global.urls.Manual, 'manual');
+    App.service.Helper.openDocument(__Global.urls.Manual, 'manual');
   },
-
+  /**
+  * @method onFeedback
+  * open feedback URL
+  */
   onFeedback: function () {
-    window.open(i18n.header.questionnaire_url, 'feedbackdoc');
+    App.service.Helper.openDocument(i18n.header.questionnaire_url, 'feedbackdoc');
   },
-
+  /**
+  * @method onDetail
+  * show detail window
+  */
   onDetail: function () {
     this.DetailWindow.show();
   },
-
+  /**
+  * @method onIntroWindowBtn
+  * show intro window
+  */
   onIntroWindowBtn: function () {
     this.IntroWindow.show();
   },
-
+  /**
+  * @method onReport
+  * show report window
+  */
   onReport: function () {
     App.service.Report.window.show();
   },
-
-  onVideo: function () {
-    window.open(__Global.urls.Video, 'video');
+  /**
+  * @method onVideoHeader
+  * open video URL
+  */
+  onVideoHeader: function () {
+    App.service.Helper.openDocument(__Global.urls.VideoHeader, 'videoheader');
+    //App.service.Helper.getComponentExt('header-introwindow').hide();
   }
 
 });

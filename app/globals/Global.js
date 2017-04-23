@@ -1,30 +1,66 @@
 var server = 'https://wuemoca.geographie.uni-wuerzburg.de/';
+
 var api = server + 'mvc-backend/';
+
 var documents = server + 'mvc-documents/';
-var glossaryName = 'glossary_wuemoca_vers2_test';
-var lang = locale;
-var langParam = 'lang=' + lang;
 
-var __Global = {
+var glossaryName = '20170407_CAWa_WUEMoCA_Glossary_beta_version_v01';
 
-  Lang            : lang,
+var langParam = 'lang=' + locale;
+/**
+* @class __Global
+* global settings
+*/
+var __Global = {};
 
-  proxy: {
+/**
+* proxy settings
+*/
+__Global.proxy= {
     Type          : 'jsonp',
     Reader        : 'json'
-  },
+};
 
-  projection: {
+__Global.lang            = locale;
+/**
+* projection collection
+*/
+__Global.projection= {
     Geographic    : 'EPSG:4326',
     Mercator      : 'EPSG:3857'
-  },
-
-  year: {
+};
+/**
+* min and max year
+*/
+__Global.year= {
     Max           : 2016,
     Min           : 2000
-  },
-
-  api: {
+};
+/**
+* @property api
+* backend JSP script collection
+* @property api.Report
+* script for request of DB values for report
+* @property api.Indicator    
+* script for getting indicator specific values from DB (e.g. median)
+* @property api.Polygon   
+* script for DB aggregation on-the-fly with indicator calculation for user polygon
+* @property api.Country    
+* script for getting country list with extent from DB
+* @property api.Oblast    
+* script for getting oblast list with extent from DB
+* @property api.Rayon   
+* script for getting rayon list with extent from DB
+* @property api.Buis    
+* script for getting BUIS list with extent from DB
+* @property api.Uis    
+* script for getting UIS list with extent from DB
+* @property api.Wua    
+* script for getting WUA list with extent from DB
+* @property api.writePolygon    
+* script for writing values and geometry to temporary DB table
+*/         
+__Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
     Polygon       : api + 'calculatePolygon_v4.jsp?',
@@ -35,26 +71,33 @@ var __Global = {
     Uis           : api + 'refreshUIS.jsp?' + langParam,
     Wua           : api + 'searchWUAs.jsp?' + langParam,
     writePolygon  : api + 'writePolygon.jsp?'
-  },
-
-  urls: {
+};
+/**
+*  collection of URLs of backend documents
+*/
+__Global.urls= {
     Server        : server,
     Mapserver     : server + 'geoserver/',
+    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html    
     Glossary      : documents + glossaryName + '.htm',
     GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
     //Faq           : 'bme00057.htm#bookme_anchor3',
-    Faq           : 'bme00057.htm',    
-    Intro         : 'bme00004.htm',
-    Impressum     : documents + 'Imprint.pdf',
+    Faq           : 'bme00040.htm',    
+    Intro         : 'bme00001.htm',
+    Imprint     : documents + 'Imprint.pdf',
     Manual        : documents + 'Manual.pdf',
-    Video        : documents + '2017-03-10_at_10-20-22.mp4'
-  },
-
-  geoserverWorkspace : 'wuemoca_v3',
-
-  chart: {
+    VideoHeader        : documents + 'WUEMoCA_general_information.gif'
+};
+/**
+* Geoserver workspace
+*/
+__Global.geoserverWorkspace = 'wuemoca_v3';
+/**
+* chart settings
+*/
+__Global.chart= {
     Height: 350,
     BarWidth: 36
-  }
-
 };
+
+//};

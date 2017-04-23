@@ -1,4 +1,12 @@
+/**
+* @class __Crop
+* list of crop types with idx, id, English and Russian names, chart type and crop color
+*/
 var __Crop = [
+  /**
+  * @property sum
+  * sum crop
+  */
   {
     idx   : 0,
     id    : 'sum',
@@ -7,6 +15,10 @@ var __Crop = [
     chart : 'Stacked',
     color : sum_color
   },
+  /**
+    * @property cotton
+  * cotton crop
+  */  
   {
     idx   : 1,
     id    : 'cotton',
@@ -15,6 +27,10 @@ var __Crop = [
     chart : 'Defaults',
     color : cotton_color
   },
+  /**
+    * @property wheat
+  * wheat crop
+  */  
   {
     idx   : 2,
     id    : 'wheat',
@@ -23,6 +39,10 @@ var __Crop = [
     chart : 'Defaults',
     color : wheat_color
   },
+  /**
+    * @property rice
+  * rice crop
+  */  
   {
     idx   : 3,
     id    : 'rice',
@@ -31,6 +51,10 @@ var __Crop = [
     chart : 'Defaults',
     color : rice_color
   },
+  /**
+    * @property alfa
+  * alfa crop
+  */  
   {
     idx   : 4,
     id    : 'alfa',
@@ -39,6 +63,10 @@ var __Crop = [
     chart : 'Defaults',
     color : alfa_color
   },
+  /**
+    * @property orchard
+  * orchard crop
+  */  
   {
     idx   : 5,
     id    : 'orchard',
@@ -47,6 +75,10 @@ var __Crop = [
     chart : 'Defaults',
     color : orchard_color
   },
+  /**
+    * @property garden
+  * garden crop
+  */  
   {
     idx   : 6,
     id    : 'garden',
@@ -55,6 +87,10 @@ var __Crop = [
     chart : 'Defaults',
     color : garden_color
   },
+  /**
+    * @property other
+  * other crop
+  */  
   {
     idx   : 7,
     id    : 'other',
@@ -63,6 +99,10 @@ var __Crop = [
     chart : 'Defaults',
     color : other_color
   },
+  /**
+    * @property maize
+  * maize crop
+  */  
   {
     idx   : 8,
     id    : 'maize',
@@ -71,6 +111,10 @@ var __Crop = [
     chart : 'Defaults',
     color : maize_color
   },
+  /**
+    * @property sun
+  * sun crop
+  */  
   {
     idx   : 9,
     id    : 'sun',
@@ -79,6 +123,10 @@ var __Crop = [
     chart : 'Defaults',
     color : sun_color
   },
+  /**
+    * @property veg
+  * veg crop
+  */  
   {
     idx   : 10,
     id    : 'veg',

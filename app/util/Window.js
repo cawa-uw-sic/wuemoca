@@ -12,5 +12,8 @@ Ext.define('App.util.Window', {
   plain: true,
   shadow: true,
   bodyBorder: false
+  //x: 305
+  //alignTarget: Ext.getBody(),
+  //defaultAlign: 'lb-lb'
 
 });

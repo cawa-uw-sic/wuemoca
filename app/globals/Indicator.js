@@ -1,5 +1,12 @@
+/**
+* @class __Indicator
+* list of indicators with id, DB field, English and Russian names, short names, tooltips, units, settings of crops, aggregation, years, legend, chart
+*/
 var __Indicator = [
-
+  /**
+  * @property fir_n
+  * fir_n indicator
+  */
   {
     id             : 'fir_n',
     field          : 'fir_n',
@@ -7,7 +14,7 @@ var __Indicator = [
     ruName         : 'Орошаемая площадь нетто',
     enNameShort         : 'Net irrigated area',
     ruNameShort         : 'Орошаемая площадь нетто',
-    enTooltip      : 'Averaged multi-annual information on the area equipped with irrigation infrastructure',
+    enTooltip      : 'Averaged area equipped with irrigation infrastructure',
     ruTooltip      : 'Площадь оснащенная ирригационной инфраструктурой',
     enUnit         : 'ha',
     ruUnit         : 'га',
@@ -26,15 +33,20 @@ var __Indicator = [
     maximum        : 0,
     chart          : false,
     decimals       : 0,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor14'
+  }, 
+  /**
+  * @property firf
+  * firf indicator
+  */
+  {
     id             : 'firf',
     field          : 'firf_{crop}',
     enName         : 'Irrigated acreage per crop',
     ruName         : 'Посевная орошаемая площадь',
     enNameShort    : 'Irrigated acreage',
     ruNameShort    : 'Посевная орошаемая площадь',
-    enTooltip      : 'Annual information on the cropped area under irrigation',
+    enTooltip      : 'Crop-specific area under irrigation',
     ruTooltip      : 'Площадь активного орошаемых пахотных земель',    
     enUnit         : 'ha',
     ruUnit         : 'га',
@@ -53,15 +65,20 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     decimals       : 0,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor11'
+  }, 
+  /**
+  * @property uir
+  * uir indicator
+  */
+  {
     id             : 'uir',
     field          : 'uir_{crop}',
     enName         : 'Irrigated land use per crop',
     ruName         : 'Использование орошаемых земель под с/х культурами',
     enNameShort    : 'Irrigated land use',
     ruNameShort    : 'Использование орошаемых земель',
-    enTooltip      : 'Annual information on the cropping intensity on actually irrigated areas',
+    enTooltip      : 'Crop-specific area share of actually irrigated areas',
     ruTooltip      : 'Используйте интенсивность по отношению к чистой орошаемой площади',       
     enUnit         : '%',
     ruUnit         : '%',
@@ -80,15 +97,20 @@ var __Indicator = [
     maximum        : 0,   
     chart: 'crops', 
     decimals       : 1,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor12'
+  }, 
+  /**
+  * @property pirf
+  * pirf indicator
+  */
+  {
     id             : 'pirf',
     field          : 'pirf_{crop}',
     enName         : 'Farm gross output actual',
     ruName         : 'Фактическая валовая продукция',
     enNameShort         : 'Gross output',
     ruNameShort         : 'Валовая продукция ',
-    enTooltip      : 'Annual information on the crop quantities produced',
+    enTooltip      : 'Crop quantities (harvests) produced',
     ruTooltip      : 'Урожай количество орошаемых земель',      
     enUnit         : 'tons',
     ruUnit         : 'тонны',
@@ -107,15 +129,20 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Defaults',
     decimals       : 0,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor10'
+  }, 
+  /**
+  * @property y
+  * y indicator
+  */
+  {
     id             : 'y',
     field          : 'y_{crop}',
     enName         : 'Yield',
     ruName         : 'Урожайность',
     enNameShort         : 'Yield',
     ruNameShort         : 'Урожайность',  
-    enTooltip      : 'Annual information on the crop production per unit of harvested area',
+    enTooltip      : 'Crop production per unit of harvested area',
     ruTooltip      : 'Урожайность орошаемых земель',       
     enUnit         : 't/ha',
     ruUnit         : 'т/га',
@@ -134,15 +161,20 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Defaults',
     decimals       : 1,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   }, 
+  /**
+  * @property fp
+  * fp indicator
+  */
+  {
     id             : 'fp',
     field          : 'fp',
     enName         : 'Temporary unused irrigable land',
     ruName         : 'Временно неиспользуемые орошаемые земли',
     enNameShort         : 'Fallow land',
     ruNameShort         : 'Временно неиспользуемые орошаемые земли',
-    enTooltip      : 'Annual information on the area share of land that was set aside before recultivation to the net irrigated area',
+    enTooltip      : 'Area share of fallow land in total net irrigated area',
     ruTooltip      : 'Неиспользование интенсивность по отношению к чистой орошаемой площади',     
     enUnit         : '%',
     ruUnit         : '%',
@@ -162,15 +194,20 @@ var __Indicator = [
     chart          : 'Defaults',
     color          : fp_color,
     decimals       : 1,
-    glossary       : 'bme00073.htm'
-}, {
+    glossary       : 'bme00073.htm#bookme_anchor15'
+  }, 
+  /**
+  * @property cd
+  * cd indicator
+  */
+  {
     id             : 'cd',
     field          : 'cd',
     enName         : 'Irrigated crop type diversity',
     ruName         : 'Разнообразие с/х культур',
     enNameShort         : 'Crop type diversity',
     ruNameShort         : 'Разнообразие с/х культур',
-    enTooltip      : 'Annual information on the variety of different crop types',
+    enTooltip      : 'Variety of different crop types (Inverse Simpson Diversity Index)',
     ruTooltip      : 'Индекс различных типов культур соседних областей',       
     enUnit         : '-',
     ruUnit         : '-',
@@ -190,15 +227,20 @@ var __Indicator = [
     chart          : 'Line',
     color          : '#989800',
     decimals       : 2,
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor7'
+  }, 
+  /**
+  * @property mlu
+  * mlu indicator
+  */
+  {
     id             : 'mlu',
     field          : 'mlu',
     enName         : 'Major land use',
     ruName         : 'Основные виды землепользования',
     enNameShort         : 'Major land use',
     ruNameShort         : 'Основные виды землепользования', 
-    enTooltip      : 'Multi-annual information on the predominating land use',
+    enTooltip      : 'Predominant land use based on average frequency',
     ruTooltip      : 'Преобладающий тип культур в течение всего периода исследования',     
     enUnit         : '-',
     ruUnit         : '-',
@@ -217,15 +259,20 @@ var __Indicator = [
     enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Alfalfa', 'Orchard/Vineyard', 'Urban Garden', 'Other crop'],
     ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor13'
+  }, 
+  /**
+  * @property cr
+  * cr indicator
+  */
+  {
     id             : 'cr',
     field          : 'cr',
     enName         : 'Crop rotation',
     ruName         : 'Севооборот',
     enNameShort         : 'Crop rotation',
     ruNameShort         : 'Севооборот',
-    enTooltip      : 'Averaged multi-annual information on the alternation of different crop types',
+    enTooltip      : 'Average number of crop type alternations',
     ruTooltip      : 'Среднее количество изменения типов культур в течение всего периода исследования',       
     enUnit         : '-',
     ruUnit         : '-',
@@ -244,15 +291,20 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Multiannual',
     legendcolors   : [cr_dark, cr_color, cr_bright],
-    glossary       : 'bme00073.htm'
-  }, {
+    glossary       : 'bme00073.htm#bookme_anchor8'
+  }, 
+  /**
+  * @property flf
+  * flf indicator
+  */
+  {
     id             : 'flf',
     field          : 'flf',
     enName         : 'Fallow land frequency',
     ruName         : 'Частота неисп.земель',
     enNameShort         : 'Fallow land frequency',
     ruNameShort         : 'Частота неиспользования земель',
-    enTooltip      : 'Averaged multi-annual information on the number of years for which land was set aside before recultivation',
+    enTooltip      : 'Average number of years that land was not cultivated',
     ruTooltip      : 'Среднее количество неиспользования земель в годах, в течение всего периода исследования',
     enUnit         : '-',
     ruUnit         : '-',
@@ -271,7 +323,7 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Multiannual',
     legendcolors   : [flf_bright, flf_color, flf_dark],
-    glossary       : 'bme00073.htm'
+    glossary       : 'bme00073.htm#bookme_anchor9'
   }
 
 ];

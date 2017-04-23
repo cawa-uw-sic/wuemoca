@@ -1,3 +1,6 @@
+/**
+* Satellite map button
+*/
 Ext.define('App.view.satellite.Button', {
   extend: 'Ext.button.Button',
 

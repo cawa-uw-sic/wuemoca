@@ -1,3 +1,6 @@
+/**
+* chart
+*/
 Ext.define('App.service.Chart', {
 
   singleton: true,
@@ -5,40 +8,73 @@ Ext.define('App.service.Chart', {
   requires: [
     'App.util.Window'
   ],
-
+/**
+ * @property isBusy
+ */
   isBusy: false,
-
+/**
+ * @property isVisible
+ */
   isVisible: true,
-
+/**
+ * @property window chart window
+ */
   window: Ext.create('App.util.Window'),
-
+/**
+ * @property e click event
+ */
   e: false,
-
+/**
+ * @property data data list
+ */
   data: [],
-
+/**
+ * @property maxData
+ */
   maxData: 0,
-
+/**
+ * @property userPolygon
+ */
   userPolygon: false,
-
+/**
+ * @property stores chart store list
+ * @property stores.defaults chart store for the default column or line charts
+ * @property stores.cr chart store for gauge charts (crop rotation)
+ * @property stores.flf chart store for gauge charts (fallow land frequency) 
+ */
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
     cr  : Ext.create('Ext.data.JsonStore'),
     flf : Ext.create('Ext.data.JsonStore')
   },
-
+  /**
+  * @method initialize
+  * apply close and boxready events to chart window
+  */
   initialize: function () {
     var self = this;
     self.window.on("close", function () {
       App.service.Highlight.clear();
     });
+    self.window.on("boxready", function (window) {
+      window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
+    });
   },
-
+  /**
+  * @method display
+  * load requested data and show chart window
+  * @param e
+  * click event
+  */
   display: function (e) {
     if (this.isBusy || App.service.Polygon.activated || App.service.Map.itsPolygon(e) || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return false;
     this.e = e;
     this.doRequest();
   },
-
+  /**
+  * @method doRequest
+  * do JSONP request with WMS getFeatureInfo and fill temporary data list
+  */
   doRequest: function () {
     var self = this;
     self.isBusy = true;
@@ -63,7 +99,10 @@ Ext.define('App.service.Chart', {
       }
     });
   },
-
+  /**
+  * @method showWindow
+  * add data list to chart, chart to window, set window title and show chart window
+  */
   showWindow: function () {
     var self = this;
     var indicator = App.service.Watcher.getIndicator();
@@ -71,8 +110,8 @@ Ext.define('App.service.Chart', {
     self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
       var first = self.data[0];
-      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.Lang] || '') + ' '
-        + App.service.Watcher.getAggregation()[__Global.Lang + 'NameShort'];
+      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
+        + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
 
       if (indicator.chart != 'Multiannual'){
         title += ' - ' + App.service.Map.getLegendTitle(true);
@@ -91,11 +130,16 @@ Ext.define('App.service.Chart', {
      // return self.window.show();
     }
     else{
-      self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
+      self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name']);      
     }
     self.window.show();
   },
-
+  /**
+  * @method dataResponse
+  * sort data response per year
+  * @param data
+  * temporary data list to be sorted
+  */
   dataResponse: function (data) {
     this.data = [];
     if (data[0].properties){
@@ -113,7 +157,10 @@ Ext.define('App.service.Chart', {
       this.data = data;
     }
   },
-
+  /**
+  * @method loadData
+  * set data to chart store
+  */
   loadData: function () {
     var self = this;
     self.maxData = 0;
@@ -138,7 +185,7 @@ Ext.define('App.service.Chart', {
       var indicator_field = '';
       var filename = '';
       var crop = App.service.Watcher.get('Crop');
-      var outputname = indicator[__Global.Lang + 'Name'].replace(/ /g,"_");
+      var outputname = indicator[__Global.lang + 'Name'].replace(/ /g,"_");
       if (!!indicator.crops) {
         if (crop == 'sum'){
           indicator.crops.map(function(c) {
@@ -157,7 +204,7 @@ Ext.define('App.service.Chart', {
       var aggregation_id = aggregation + '_id';
       var object_id = App.service.Chart.data[0][aggregation_id];
       var cql_filter = aggregation_id + '=' + object_id;
-      var propertyname = aggregation_id + ',' + aggregation + '_' + __Global.Lang + indicator_field;
+      var propertyname = aggregation_id + ',' + aggregation + '_' + __Global.lang + indicator_field;
 
       var requesturl = __Global.urls.Mapserver + "wfs" +
       "?request=getfeature" +

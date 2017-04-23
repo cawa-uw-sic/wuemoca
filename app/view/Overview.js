@@ -1,3 +1,6 @@
+/**
+* Overview map panel
+*/
 Ext.define('App.view.Overview', {
   extend: 'Ext.panel.Panel',
 
@@ -6,16 +9,28 @@ Ext.define('App.view.Overview', {
   ],
 
   xtype: 'app-overview',
-
+/**
+* itemId
+*/
   itemId: 'app-overview',
-
+/**
+* layout
+*/
   layout: 'fit',
-
+/**
+* height
+*/
   height: 500,
-
+/**
+* title depending on locale
+*/
   title: i18n.map.title,
-
+/**
+* bodyPadding
+*/
   bodyPadding: 10,
-
+/**
+* items, will be filled on loading
+*/
   items: []
 });

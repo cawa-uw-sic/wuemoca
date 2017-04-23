@@ -8,7 +8,12 @@ Ext.define('App.service.Report', {
     'App.util.Window'
   ],
 
-  window    : Ext.create('App.util.Window', { title: i18n.report.generate_window, items: [{ xtype: 'app-report-form' }], listeners: { show: 'onReportWindow' } }),
+  window    : Ext.create('App.util.Window', { 
+    title: i18n.report.generate_window, 
+    items: [{ xtype: 'app-report-form' }], 
+    listeners: { show: 'onReportWindow' },
+    modal: true
+  }),
 
   uri       : 'data:application/vnd.ms-excel;base64,',
   template  : '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
@@ -114,7 +119,7 @@ Ext.define('App.service.Report', {
     result.head += '</tr>';
 
     data.map(function (rec) {
-      var name = rec['rayon_' + __Global.Lang] || rec['uis_' + __Global.Lang];
+      var name = rec['rayon_' + __Global.lang] || rec['uis_' + __Global.lang];
       var totalGrain = parseFloat(rec.firf_wheat) + parseFloat(rec.firf_maize);
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
@@ -186,7 +191,7 @@ Ext.define('App.service.Report', {
     result.head += '</tr>';
 
     data.map(function (rec) {
-      var name = rec['rayon_' + __Global.Lang] || rec['uis_' + __Global.Lang];
+      var name = rec['rayon_' + __Global.lang] || rec['uis_' + __Global.lang];
 
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
@@ -257,7 +262,7 @@ Ext.define('App.service.Report', {
     result.head += '</tr>';
 
     data.map(function (rec) {
-      var name = rec['rayon_' + __Global.Lang] || rec['uis_' + __Global.Lang];
+      var name = rec['rayon_' + __Global.lang] || rec['uis_' + __Global.lang];
 
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';

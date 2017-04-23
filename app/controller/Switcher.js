@@ -1,8 +1,14 @@
+/**
+* switcher controller for map selection panel (switch indicator, crop type and aggregation level)
+*/
 Ext.define('App.controller.Switcher', {
   extend: 'Ext.app.ViewController',
 
   alias: 'controller.switcher',
-
+  /**
+  * @method afterRender
+  * set stored indicator and aggregation values to comboboxes, sort indicator entries
+  */
   afterRender: function () {
     App.service.Helper.setComponentsValue([
        { id: 'switcher-cb-indicator',   selection: 'Indicator'   }
@@ -12,11 +18,11 @@ Ext.define('App.controller.Switcher', {
     this.createFilters();
     Ext.getStore('indicator').sort([
       {
-        property :  __Global.Lang + 'Group',
+        property :  __Global.lang + 'Group',
         direction: 'ASC'
       },
       {
-        property :  __Global.Lang + 'Name',
+        property :  __Global.lang + 'Name',
         direction: 'ASC'
       }
     ]);
@@ -24,7 +30,14 @@ Ext.define('App.controller.Switcher', {
 
    // App.service.Watcher.activateFilters();
   },
-
+  /**
+  * @method onIndicator
+  * when indicator is changed, store new indicator, set cb label with tooltip, update yearslider, update chart
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onIndicator: function (cb, val) {
 
     console.log('onIndicator: ' + val);
@@ -37,13 +50,18 @@ Ext.define('App.controller.Switcher', {
     }
 
     App.service.Watcher.set('Indicator', val);
-
+/**
+* get stored indicator object
+*/
     var indicator = App.service.Watcher.getIndicator();
     //var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      //'" title="' + indicator[__Global.Lang + 'NameShort'] + ': ' + indicator[__Global.Lang + 'Tooltip'] + 
+      //'" title="' + indicator[__Global.lang + 'NameShort'] + ': ' + indicator[__Global.lang + 'Tooltip'] + 
       //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
-    var label = '<a data-qtip="' + i18n.header.readmore + ' ' + indicator[__Global.Lang + 'NameShort'] + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;      
+
+    var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
+      '" data-qtip="' + i18n.header.readmore + ' ' + indicator[__Global.lang + 'NameShort'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;  
+
     cb.setFieldLabel(label);
 
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
@@ -58,7 +76,14 @@ Ext.define('App.controller.Switcher', {
       App.service.Polygon.showChartWindow();
     }
   },
-
+  /**
+  * @method onCrop
+  * when crop is changed, store new crop, set button group title with tooltip, update chart
+  * @param button
+  * button
+  * @param el
+  * new value
+  */
   onCrop: function (button, el) {
     App.service.Watcher.set('Crop', button.getItemId());
     if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
@@ -81,7 +106,14 @@ Ext.define('App.controller.Switcher', {
     App.service.Watcher.set('Unit', val);
     this.fillAggregations(cb.getSelection().get('items'), val);
   },*/
-
+  /**
+  * @method onAggregation
+  * when aggregation is changed, check map filter, store new aggregation, set cb label with tooltip, update chart
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onAggregation: function (cb, val) {
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
@@ -125,9 +157,10 @@ Ext.define('App.controller.Switcher', {
 
     var aggregation = App.service.Watcher.getAggregation();
     //var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-      //'" title="' + aggregation[__Global.Lang + 'NameShort'] + ': ' + aggregation[__Global.Lang + 'Tooltip'] + 
+      //'" title="' + aggregation[__Global.lang + 'NameShort'] + ': ' + aggregation[__Global.lang + 'Tooltip'] + 
       //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
-    var label = '<a data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.Lang + 'NameShort'] + 
+    var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+      '" data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.lang + 'NameShort'] + 
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;      
     cb.setFieldLabel(label);
 
@@ -136,7 +169,12 @@ Ext.define('App.controller.Switcher', {
       App.service.Polygon.showChartWindow();
     }
   },
-
+  /**
+  * @method fillCrops
+  * create crop buttons depending from current indicator
+  * @param component
+  * button group
+  */
   fillCrops: function (component) {
     var indicator = App.service.Watcher.getIndicator();
     var crops = [];
@@ -151,7 +189,7 @@ Ext.define('App.controller.Switcher', {
     //y and pirf
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
       crops = indicator.crops;
-      cropNames = indicator[__Global.Lang + 'Legend'];
+      cropNames = indicator[__Global.lang + 'Legend'];
       if (indicator.crops.indexOf(App.service.Watcher.get('Crop')) < 0) {
         App.service.Watcher.set('Crop', indicator.crops[0]);
       }
@@ -160,7 +198,7 @@ Ext.define('App.controller.Switcher', {
     else if (indicator.crops == 'all'){
       __Crop.map(function (crop) {
           crops.push(crop.id);
-          cropNames.push(crop[__Global.Lang + 'Name']);
+          cropNames.push(crop[__Global.lang + 'Name']);
       });      
     }
     if (!App.service.Watcher.get('Crop') && crops.length > 0) App.service.Watcher.set('Crop', crops[0]);
@@ -200,7 +238,14 @@ Ext.define('App.controller.Switcher', {
     unitStore.removeAll();
     unitStore.loadData(unitData);
   },
-
+  /**
+  * @method fillAggregations
+  * fill aggregation list and set combobox value
+  * @param aggregationData
+  * list of allowed aggregations
+  * @param unit
+  * unit
+  */
   fillAggregations: function (aggregationData, unit) {
     var aggregationStore = Ext.getStore('aggregation');
 
@@ -228,11 +273,11 @@ Ext.define('App.controller.Switcher', {
       });
       var cb = Ext.create('Ext.form.field.ComboBox', {
         store: store,
-        displayField: __Global.Lang + 'Name',
+        displayField: __Global.lang + 'Name',
         valueField: 'id',
         itemId: 'switcher-filter-' + filter.id,
         value: __FilterSelection[filter.id],
-        emptyText: __EmptyFilter[__Global.Lang + 'Name'],
+        emptyText: __EmptyFilter[__Global.lang + 'Name'],
         listeners: { change: self.changeFilters }
       });
       fieldset.add(cb);
@@ -256,7 +301,14 @@ Ext.define('App.controller.Switcher', {
   loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
   },
-
+  /**
+  * @method resetSelection
+  * reset original settings
+  * @param button
+  * reset button
+  * @param e
+  * click event: do not collapse/expand accordion panel
+  */
   resetSelection: function(button, e){
     //App.service.Helper.resetComboboxes(['switcher-cb-indicator']);
     App.service.Watcher.set('Indicator', undefined);
@@ -265,7 +317,10 @@ Ext.define('App.controller.Switcher', {
     //do not collapse/expand accordion panel
     e.stopPropagation();
   },  
-
+  /**
+  * @method onShapefile
+  * download zipped shapefile (with map filter if applicable) as WFS from GeoServer
+  */
   onShapefile: function(){
     var aggregation = App.service.Watcher.get('Aggregation');
     var propertyname = '';
@@ -287,7 +342,7 @@ Ext.define('App.controller.Switcher', {
     if (!!aoi_filter){
       requesturl += '&cql_filter=' + aoi_filter;
     }       
-    window.open(requesturl, 'download_shp');
+    App.service.Helper.openDocument(requesturl, 'download_shp');
   }
 
 });

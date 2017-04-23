@@ -11,9 +11,8 @@ Ext.define('App.service.Polygon', {
   layer: false,
 
   drawControl: false,
-  modifyControl: false,
-  selectControl: false,
 
+  selectControl: false,
   activated: false,
 
   selected: false,
@@ -46,11 +45,11 @@ Ext.define('App.service.Polygon', {
 
     App.service.Map.instance.addInteraction(self.drawControl);
     App.service.Map.instance.addInteraction(self.selectControl);
+
     self.deactivate();
     self.switchView(App.service.Watcher.get('UserPolygon') == 'show');
 
     self.selectControl.on('select', function (e) {
-
       if (e.selected.length < 1) {
         self.deselectMapAndList();       
         return false;
@@ -70,6 +69,9 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
       App.service.Helper.showComponents(['polygon-btn-activate']);
     });
+    self.windowChart.on("boxready", function (window) {
+      window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
+    });
   },
 
   switchView: function(val){
@@ -86,19 +88,18 @@ Ext.define('App.service.Polygon', {
     else{
       this.rerenderFeatures();
       App.service.Chart.window.close();
-      App.service.Status.set('');
+      App.service.Status.set('&#160;');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('app-zoom').collapse();
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       App.service.Helper.getComponentExt('legend-window').hide();
-
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
     App.service.Map.setMainTitle();
-
   },
+
   deselectMapAndList: function(){
     this.selectControl.getFeatures().clear();
     App.service.Helper.getComponentExt('polygon-grid').getSelectionModel().deselectAll();
@@ -107,6 +108,7 @@ Ext.define('App.service.Polygon', {
     this.selected = false;
     App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(true);
   },
+
   activate: function () {
     this.drawControl.setActive(true);
     this.selectControl.setActive(false);
@@ -197,7 +199,7 @@ Ext.define('App.service.Polygon', {
       this.selected = [];
     }
 
-    this.selected.push(this.selectControl.getFeatures().a[0]);
+    this.selected.push(this.selectControl.getFeatures().item(0));
 
     var polygons = this.getSelectedPolygons();
     var nameEmpty = false;
@@ -222,7 +224,7 @@ Ext.define('App.service.Polygon', {
       if (polygons.length == 1){
         if (!this.windowEdit.isHidden()) this.updateWindowEdit(polygons[0]);
         var name = polygons[0].info.name;
-        App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
+        //App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
         //no data
         if (polygons[0].data.length == 0){
           this.calculate();
@@ -240,7 +242,6 @@ Ext.define('App.service.Polygon', {
         this.windowEdit.close();
       }      
     }
-
   },
 
   registerPolygon: function (geometry) {
@@ -424,20 +425,18 @@ Ext.define('App.service.Polygon', {
     msg += count > 1 ? i18n.polygon.progressMsg2multi : i18n.polygon.progressMsg2single;
     if (count > 0){
       var index = 0;
-      //if (emptyPolygons.length > 1){
-        self.progressBar = Ext.Msg.show({
-          title: i18n.polygon.progressTitle,
-          msg: msg,
-          progressText: '',
-          width: 300,
-          progress: true,
-          closable: false,
-          modal: false,
-          buttons: Ext.Msg.OK
-        });
-        self.progressBar.msgButtons.ok.disable();
-        self.progressBar.updateProgress(index, '0 %');
-      //}
+      self.progressBar = Ext.Msg.show({
+        title: i18n.polygon.progressTitle,
+        msg: msg,
+        progressText: '',
+        width: 300,
+        progress: true,
+        closable: false,
+        modal: false,
+        buttons: Ext.Msg.OK
+      });
+      self.progressBar.msgButtons.ok.disable();
+      self.progressBar.updateProgress(index, '0 %');
 
       self.doRequest(index, emptyPolygons);
     }
@@ -546,7 +545,7 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.userPolygon = true;
           }
           else{
-            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.Lang + 'Name']);      
+            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name']);      
           }
         }
         else{
@@ -568,10 +567,11 @@ Ext.define('App.service.Polygon', {
     var coordinates = [];
 
     if (!array){
-      var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
+      //var geom = /** @type {ol.geom.Polygon} */(polygon.clone().transform(
+      var geom = polygon.clone().transform(
         __Global.projection.Mercator, 
         __Global.projection.Geographic
-      ));
+      );
       coordinates = geom.getLinearRing(0).getCoordinates();
     }
     else{
@@ -732,15 +732,15 @@ Ext.define('App.service.Polygon', {
   },
 
   downloadGeoJSON: function(){
-    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/json', 'download_geojson');
+    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/json', 'download_geojson');
   },
 
   downloadKML: function(){
-    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/vnd.google-earth.kml+xml', 'download_kml');
+    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/vnd.google-earth.kml+xml', 'download_kml');
   },
 
   downloadShp: function (){
-    window.open('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=SHAPE-ZIP', 'download_shp');
+    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=SHAPE-ZIP', 'download_shp');
   },
 
   interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){

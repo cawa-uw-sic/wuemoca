@@ -1,3 +1,6 @@
+/**
+* report controller
+*/
 Ext.define('App.controller.Report', {
   extend: 'Ext.app.ViewController',
 

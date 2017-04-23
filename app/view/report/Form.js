@@ -21,7 +21,7 @@ Ext.define('App.view.report.Form', {
   border: false,
   //bodyPadding: 10,
   fieldDefaults: {
-    labelAlign: 'top'
+  labelAlign: 'top'
   },
   layout: {
     type: 'vbox',
@@ -36,7 +36,8 @@ Ext.define('App.view.report.Form', {
   items: [
 
     { xtype: 'app-report-radio'},
-    { xtype: 'fieldset',
+    { 
+      xtype: 'fieldset',
       layout: {
         type: 'hbox',
         align: 'stretch'
@@ -50,7 +51,8 @@ Ext.define('App.view.report.Form', {
         ,{ xtype: 'app-report-cb-year',  name: 'year', emptyText: i18n.report.selectYear}
         ,{ xtype: 'app-zoom-cb-country', name: 'country', itemId: 'report-cb-country', emptyText: i18n.report.selectCountry, store: { type: 'reportcountry' } }
     ]},
-    { xtype: 'fieldset',
+    { 
+      xtype: 'fieldset',
       layout: {
         type: 'hbox',
         align: 'stretch'

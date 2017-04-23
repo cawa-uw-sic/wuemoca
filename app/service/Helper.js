@@ -1,3 +1,6 @@
+/**
+* helper methods
+*/
 Ext.define('App.service.Helper', {
 
   singleton: true,
@@ -136,14 +139,24 @@ Ext.define('App.service.Helper', {
   },
 
   getCropName: function(){
-    var cropName = App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop'))[__Global.Lang + 'Name'];
+    var cropName = App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop'))[__Global.lang + 'Name'];
     return cropName;
   },
   
   clearZoomCombos: function(){
     this.setComponentsValue([{ id: 'zoom-cb-country', value: null }]);
-
   },
+  
+  openDocument: function (filename, target){
+    var link = document.createElement("a");    
+    link.style = "visibility:hidden";
+    link.href = filename;
+    link.target = target;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  },
+
   openGlossaryFrame: function(frame){
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
     /*insert in head section of index.html of Glossary on Server (here: glossary_wuemoca_vers2_test.htm):
@@ -235,10 +248,10 @@ Ext.define('App.service.Helper', {
       __Indicator.map(function (indicator) {
         if (indicator.id == 'uir'){
           crops = indicator.crops;
-          cropNames = indicator[__Global.Lang + 'Legend'];
+          cropNames = indicator[__Global.lang + 'Legend'];
         }        
         if (indicator.chart != 'Multiannual'){
-          CSV += indicator.field + ';;' + indicator[__Global.Lang + 'Name'] + ' (' + indicator[__Global.Lang + 'Unit'] + ')\r\n';
+          CSV += indicator.field + ';;' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')\r\n';
         }
       });
 
@@ -283,11 +296,17 @@ Ext.define('App.service.Helper', {
       //alert('First press ' + i18n.polygon.calculate + '!');
     }
   },*/
-
+/**
+* @method base64
+*/
   base64: function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
-
+/**
+* @method format
+*/
   format: function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
-
+/**
+* @method JSONToHTMLConvertor
+*/
   JSONToHTMLConvertor: function () { 
     var self = this;
     var userPolygon = App.service.Chart.userPolygon;
@@ -415,7 +434,7 @@ Ext.define('App.service.Helper', {
         result.body += '<tr>';     
         result.body += '<td>' + indicator.field + '</td>'; 
         result.body += '<td></td>';       
-        result.body += '<td>' + indicator[__Global.Lang + 'Name'] + ' (' + indicator[__Global.Lang + 'Unit'] + ')</td>';
+        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
         for (var i = 4; i <= fieldCount; i++){
           result.body += '<td></td>';        
         }   
@@ -434,7 +453,7 @@ Ext.define('App.service.Helper', {
       result.body += '<tr>';     
       result.body += '<td>' + crop.id + '</td>'; 
       result.body += '<td></td>';       
-      result.body += '<td>' + crop[__Global.Lang + 'Name'] + '</td>';   
+      result.body += '<td>' + crop[__Global.lang + 'Name'] + '</td>';   
       result.body += '</tr>';         
     }); 
  
@@ -449,7 +468,7 @@ Ext.define('App.service.Helper', {
       var aggregation_id = aggregation + '_id';
       indicator_fields.push(aggregation_id);
       if (aggregation != 'grid'){
-        indicator_fields.push(aggregation + '_' + __Global.Lang);
+        indicator_fields.push(aggregation + '_' + __Global.lang);
       }
       indicator_fields.push('area_ha');
     }  

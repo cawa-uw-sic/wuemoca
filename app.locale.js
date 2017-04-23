@@ -8,7 +8,6 @@ window.nextLocale = function () {
   if (locales.indexOf(locale) == locales.length - 1) return locales[0];
   return locales[locales.indexOf(locale) + 1];
 };
-
 var i18n = {
 
   info : {
@@ -18,7 +17,7 @@ var i18n = {
   },
 
   header: {
-    wuemoca_long            : 'Water Use Efficiency Monitor in Central Asia',
+    wuemoca_long            : '<b>W</b>ater <b>U</b>se <b>E</b>fficiency <b>Mo</b>nitor in <b>C</b>entral <b>A</b>sia',
     cawa_homepage           : 'CAWa project homepage',
     introwindow             : 'Intro<br>Window',
     cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
@@ -30,16 +29,17 @@ var i18n = {
     questionnaire_url       : 'https://de.surveymonkey.com/r/RMVQ267',
     feedback                : 'Feedback',
     about                   : 'About',
-	help                    : 'Help and Info',
+	 help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
-    impressum               : 'Imprint',
+    imprint               : 'Imprint',
     manual                  : 'User Manual',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
     readmore: 'Read more about',
     uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
-    sic: 'SIC ICWC'
+    sic: 'SIC ICWC',
+    beta: 'BETA version'
   },
 
   pilot: {
@@ -324,7 +324,7 @@ mapSelection:{
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
     shift: 'Select a single polygon or multiple polygons with SHIFT key',
-    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84 (EPSG:4326)',
+    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84.\nIndicators are calculated automatically after uploading.',
     list: 'Polygon list',
     doubleclick:'Doubleclick for zoom',
     name:'Name',
@@ -334,7 +334,8 @@ mapSelection:{
     sortAscText: 'Sort Ascending',
     sortDescText: 'Sort Descending',
     sortClearText: 'Clear Sort',
-    selectgeodata: 'Select geodata format'
+    selectgeodata: 'Select geodata format',
+    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
   },
 
   exportUI: {
@@ -390,7 +391,6 @@ mapSelection:{
   }
 };
 
-
 switch (locale){
   case 'ru':
     i18n.header = {
@@ -410,13 +410,14 @@ switch (locale){
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
 	  help                    : 'Помощь и информация',
-	impressum               : 'выходные данные',
+	imprint               : 'выходные данные',
 	manual                  : 'Руководство пользователя',
 	faq                     : 'Часто задаваемые вопросы',
 	glossary                : 'Глоссарий',
       readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
-    sic: 'НИЦ МКВК'
+    sic: 'НИЦ МКВК',
+    beta: 'Бета-версия'
     };
 
     i18n.pilot = {
@@ -553,7 +554,7 @@ i18n.mapSelection ={
       uisShort              : 'УИС',
       command               : 'Подкомандная зона канала',
       commandShort          : 'Подкомандная зона канала',
-      map                   : ''
+      map: 'карту'
     };
     i18n.indicator = {
       label                 : 'Выбрать показатель',
@@ -682,7 +683,7 @@ i18n.mapSelection ={
     tooltip: 'Выбранный полигон',
     pressCalculate: 'сначала нажмите расчет индикатора!',
     shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
-    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84 (EPSG:4326)',
+    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84.\nIndicators are calculated automatically after uploading.',
     list: 'Список Полигон',
     doubleclick:'Двойной щелчок для увеличения',
     name:'Название',
@@ -691,7 +692,8 @@ i18n.mapSelection ={
     sortAscText: 'Сортировать по возрастанию',
     sortDescText: 'Сортировка по убыванию',
     sortClearText: 'Очистить Сортировать',
-    selectgeodata: 'Выберите формат геоданных'
+    selectgeodata: 'Выберите формат геоданных',
+    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
     };
 
     i18n.exportUI = {

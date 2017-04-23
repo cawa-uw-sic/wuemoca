@@ -1,8 +1,18 @@
+/**
+* zoom controller for map filter panel (selection of province, district, BISA, ISA, etc.)
+*/
 Ext.define('App.controller.Zoom', {
   extend: 'Ext.app.ViewController',
 
   alias: 'controller.zoom',
-
+  /**
+  * @method onCountry
+  * when country is changed, zoom to new extent, apply map filter, load depending comboboxes
+  * @param {App.view.zoom.CbCountry} cb
+  * country combobox
+  * @param {String} val
+  * new value
+  */
   onCountry: function (cb, val) {
     App.service.Watcher.set('Country', val);
     App.service.Helper.resetStores(['oblast', 'buis']);
@@ -32,7 +42,14 @@ Ext.define('App.controller.Zoom', {
       }
     }
   },
-
+  /**
+  * @method onOblast
+  * when oblast is changed, zoom to new extent, apply map filter, load depending comboboxes, set aggregation level
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onOblast: function (cb, val) {
     App.service.Watcher.set('Oblast', val);
     App.service.Helper.resetStores(['rayon', 'wua']);
@@ -66,7 +83,14 @@ Ext.define('App.controller.Zoom', {
       }
     }
   },
-
+  /**
+  * @method onRayon
+  * when rayon is changed, zoom to new extent, apply map filter, set aggregation level
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onRayon: function (cb, val) {
     App.service.Watcher.set('Rayon', val);
     if (val) {
@@ -80,7 +104,14 @@ Ext.define('App.controller.Zoom', {
       }
     }
   },
-
+  /**
+  * @method onBuis
+  * when BUIS is changed, zoom to new extent, apply map filter, load depending comboboxes, set aggregation level
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onBuis: function (cb, val) {
     App.service.Watcher.set('Buis', val);
     App.service.Helper.resetStores(['uis', 'wua']);
@@ -111,7 +142,14 @@ Ext.define('App.controller.Zoom', {
       }
     }
   },
-
+  /**
+  * @method onUis
+  * when UIS is changed, zoom to new extent, apply map filter, set aggregation level
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onUis: function (cb, val) {
     App.service.Watcher.set('Uis', val);
     if (val) {
@@ -129,7 +167,14 @@ Ext.define('App.controller.Zoom', {
       }
     }
   },
-
+  /**
+  * @method onWua
+  * when WUA is changed, zoom to new extent, apply map filter, set aggregation level
+  * @param cb
+  * combobox
+  * @param val
+  * new value
+  */
   onWua: function (cb, val) {
     App.service.Watcher.set('Wua', val);
     //reset filter if user clears search textfield
@@ -149,7 +194,15 @@ Ext.define('App.controller.Zoom', {
       } 
     }
   },
-
+  /**
+  * @method setAggregationLevel
+  * set aggregation level, check possible limitations of allowed aggregation levels of current indicator
+  * 'grid' limitation: grid can be filtered only by country or oblast
+  * @param aggreg
+  * aggregation level
+  * @return {Boolean}
+  * true for successful setting of aggregation level
+  */
   setAggregationLevel: function (aggreg) {
     var changeAggreg = false;
     if (App.service.Watcher.get('Aggregation') != aggreg){ 
@@ -174,13 +227,35 @@ Ext.define('App.controller.Zoom', {
     }
     return true;
   },
-  
+  /**
+  * @method resetFilter
+  * reset all map filters
+  * @param button
+  * reset button
+  * @param e
+  * click event: do not collapse/expand accordion panel
+  */  
   resetFilter: function(button, e){
     App.service.Map.filterAreaOfInterest('','0');
     //do not collapse/expand accordion panel
     e.stopPropagation();
   },
-
+  /**
+  * @method onPilot
+  * when pilot area is selected, clear all stored ids, empty comboboxes, set new ids, start loading chain with country combobox
+  * @param country
+  * country id
+  * @param oblast
+  * oblast id
+  * @param rayon
+  * rayon id
+  * @param buis
+  * buis id
+  * @param uis
+  * uis id
+  * @param wua
+  * wua id  
+  */
   onPilot: function (country, oblast, rayon, buis, uis, wua) {
     //undefined error
     if (Ext.getStore('oblast').count() > 0){

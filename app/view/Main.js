@@ -1,3 +1,6 @@
+/**
+* Main panel and starting loading point
+*/
 Ext.define('App.view.Main', {
   extend: 'Ext.panel.Panel',
   xtype: 'app-main',
@@ -29,13 +32,21 @@ Ext.define('App.view.Main', {
     'App.view.legend.Window',
     'App.view.satellite.Button'
   ],
-
+/**
+* controller
+*/
   controller: 'main',
-
+/**
+* layout for viewport
+*/
   layout: 'border',
-
+/**
+* bodyBorder
+*/
   bodyBorder: false,
-
+/**
+* property for all items
+*/
   defaults: {
     bodyPadding: 0
   },
@@ -43,16 +54,42 @@ Ext.define('App.view.Main', {
   listener:{
     afterrender: 'onMainAfterRender'
   },
-  
+/**
+* @property {Ext.panel.Panel[]} items panels of viewport
+* @property {Ext.panel.Panel} items.north 
+* north region for header panel
+* @property {App.view.header.Index} items.north.items
+* header
+* @property {Ext.panel.Panel} items.west
+* west region for accordion panel
+* @property {App.view.zoom.Index | App.view.switcher.Index | App.view.Overview} items.west.items
+* accordion items
+* @property {Ext.panel.Panel} items.center
+* center region for map panel
+* @property {App.view.yearslider.Index} items.center.header
+* map panel header
+* @property {App.view.Map | App.view.legend.Button | App.view.legend.Window | App.view.satellite.Button} items.center.items
+* map items
+* @property {Ext.ux.statusbar.StatusBar} items.center.bbar
+* map bottom bar
+* @property {Ext.panel.Panel} items.east
+* east region for user polygon panel
+* @property {App.view.polygon.Index} items.east.items
+* user polygon toolbar
+*/ 
   items: [
+  
     {
       region: 'north',
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: 'blupp',
       header: false,
       height: 55,
-      items: [{ xtype: 'app-header' }]
+      items: [
+        { xtype: 'app-header' }
+      ]
     },
+ 
     {
       title: i18n.filter.title,
       region: 'west',
@@ -85,6 +122,7 @@ Ext.define('App.view.Main', {
         collapsed : true 
       }]
     },
+   
     {
       itemId: 'map-container',
       id: 'map-panel',
@@ -97,17 +135,18 @@ Ext.define('App.view.Main', {
       header: {
         height: 44,
         items: [
-         { xtype: 'app-yearslider'}
-      ]},
+          { xtype: 'app-yearslider' }
+        ]
+      },
       items: [
-        { xtype: 'app-map', anchor: '100% 100%' },
+        { xtype: 'app-map', anchor: '100% 100%'},
         { xtype: 'app-legend-window'},
         { xtype: 'app-legend-button'},
-        { xtype: 'app-satellite-button' }
+        { xtype: 'app-satellite-button'}
       ],
 
       bbar: Ext.create('Ext.ux.StatusBar', {
-        defaultText: 'Move the mouse over the map',
+        defaultText: '&#160;',
         itemId: 'app-status',
         cls: 'app-status',
         statusAlign: 'left'
@@ -116,7 +155,9 @@ Ext.define('App.view.Main', {
       listeners: {
         afterrender: 'onMapAfterRender'
       }
-    },{
+    },
+
+    {
       itemId: 'user-polygon',
       //Per WAI-ARIA, all regions should have a heading element that contains region's title.
       title: i18n.polygon.showPolygon,

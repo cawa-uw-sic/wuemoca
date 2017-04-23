@@ -15,7 +15,7 @@ hidden:true,
     type: 'unit'
   },
 
-  displayField: __Global.Lang + 'Name',
+  displayField: __Global.lang + 'Name',
   queryMode: 'local',
   valueField: 'id',
 

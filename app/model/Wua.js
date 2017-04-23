@@ -1,3 +1,6 @@
+/**
+* WUA data model
+*/
 Ext.define('App.model.Wua', {
   extend: 'Ext.data.Model',
 

@@ -1,3 +1,6 @@
+/**
+* user polygon controller
+*/
 Ext.define('App.controller.Polygon', {
   extend: 'Ext.app.ViewController',
 

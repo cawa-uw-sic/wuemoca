@@ -1,15 +1,17 @@
 Ext.define('App.view.header.IntroWindowButton', {
-  extend: 'Ext.button.Button',
+	extend: 'Ext.button.Button',
 
-  xtype: 'app-introwindow-button',
+	xtype: 'app-introwindow-button',
 
-  itemId: 'introwindow-button',
+	itemId: 'introwindow-button',
 
-  id: 'introwindow-button',
+	id: 'introwindow-button',
 
-  text: i18n.header.introwindow,
-  //height: 50,
+	iconCls: 'x-fa fa-youtube-play',
 
-  handler: 'onIntroWindowBtn'
+	text: 'Instruction<br>videos',
+	//height: 50,
+
+	handler: 'onIntroWindowBtn'
 
 });

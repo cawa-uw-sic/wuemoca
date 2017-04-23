@@ -1,3 +1,6 @@
+/**
+* Header toolbar
+*/
 Ext.define('App.view.header.Index', {
   extend: 'Ext.toolbar.Toolbar',
 
@@ -23,6 +26,8 @@ Ext.define('App.view.header.Index', {
   controller: 'header',
 
   cls: 'app-header',
+
+  overflowHandler: 'scroller',
 
   height: 55,
 

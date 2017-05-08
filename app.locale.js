@@ -9,6 +9,10 @@ window.nextLocale = function () {
   return locales[locales.indexOf(locale) + 1];
 };
 var i18n = {
+    yesno :{
+      yes: 'Yes',
+      no: 'No'
+    },
 
   info : {
     title                   : 'Information',
@@ -29,7 +33,7 @@ var i18n = {
     questionnaire_url       : 'https://de.surveymonkey.com/r/RMVQ267',
     feedback                : 'Feedback',
     about                   : 'About',
-	 help                    : 'Help and Info',
+	  help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
     imprint               : 'Imprint',
@@ -318,8 +322,11 @@ mapSelection:{
           progressMsg2single: 'polygon...',
           progressMsg2multi: 'polygons...',
           success : 'Indicators calculated successfully!',
-          failure: 'Indicator calculation failed!',
+          failure: 'Indicator calculation failed',
+                largearea: ' due to large area',          
           alreadyCalculated: 'Indicators already calculated!',
+          partlyCalculated: 'Indicator calculation failed for some polygons.',
+          calculation_message: 'Do you want to calculate indicators for the selected polygon?',
     exportExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
@@ -393,6 +400,10 @@ mapSelection:{
 
 switch (locale){
   case 'ru':
+    i18n.yesno = {
+      yes: 'да',
+      no: 'нет'
+    };
     i18n.header = {
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
@@ -675,9 +686,12 @@ i18n.mapSelection ={
           progressMsg2single: 'полигона...',
           progressMsg2multi: 'полигонов...',
                 progressMsg: 'Агрегат для полигонов...',
-                failure: 'Расчет индикатора не удалось!',
+                failure: 'Расчет индикатора не удалось',
+                largearea: ' из-за большой площади',
                 success : 'Индикаторы рассчитываются успешно!',
                 alreadyCalculated: 'Индикаторы уже подсчитали!',
+                partlyCalculated: 'Расчет индикатора не удалось для некоторых полигонов.',
+                          calculation_message: 'Вы хотите рассчитать индикаторы для выбранного полигона?',
           exportExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
     tooltip: 'Выбранный полигон',

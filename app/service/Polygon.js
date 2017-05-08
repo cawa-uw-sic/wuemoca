@@ -194,6 +194,7 @@ Ext.define('App.service.Polygon', {
   },
 
   whenSelect: function () {
+    self = this;
     App.service.Chart.window.close();
     if (!this.selected || this.selectControl.getFeatures().getLength() == 1){
       this.selected = [];
@@ -209,7 +210,7 @@ Ext.define('App.service.Polygon', {
         break;
       }      
     }
-    //no name
+    //no name, cannot be the case
     if (nameEmpty){
       this.windowChart.close();
       //single polygon
@@ -227,7 +228,21 @@ Ext.define('App.service.Polygon', {
         //App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
         //no data
         if (polygons[0].data.length == 0){
-          this.calculate();
+          Ext.Msg.show({
+            title: i18n.polygon.progressTitle,
+            message: i18n.polygon.calculation_message,
+            icon: Ext.Msg.QUESTION,            
+            buttons: Ext.Msg.YESNO,
+            buttonText: {
+              yes: i18n.yesno.yes,
+              no: i18n.yesno.no
+            },
+            fn: function(btn) {
+              if (btn === 'yes') {
+                self.calculate();
+              } 
+            }
+          }); 
         }
         //calculated data
         else{
@@ -294,13 +309,10 @@ Ext.define('App.service.Polygon', {
         if (indices[i+1]){
           indices[i+1] -= i+1; 
         }
-      }
+      } 
+      this.deselectMapAndList();
       this.saveAll();
       this.rerenderFeatures();
-      /*for (i = 0; i < this.selected.length; ++i){
-        this.source.removeFeature(this.selected[i]);
-      }*/
-      this.deselectMapAndList();
       this.windowEdit.close();
       this.windowChart.close();
       Ext.getStore('polygongrid').loadData(this.getGridData());
@@ -348,8 +360,6 @@ Ext.define('App.service.Polygon', {
 
   save: function (info) {
     this.getSelectedPolygons()[0].info = info;
-
-
     this.saveAll();
     this.rerenderFeatures();
     Ext.getStore('polygongrid').loadData(this.getGridData());      
@@ -410,14 +420,10 @@ Ext.define('App.service.Polygon', {
   calculate: function () {
     var self = this;
     var polygons = self.all;
-    //var polygons = self.getSelectedPolygons();
-    //var sendRequest = false;
     var emptyPolygons = [];
     for (i = 0; i < polygons.length; ++i){
       if (polygons[i].data.length == 0){
         emptyPolygons.push(polygons[i]);
-        //sendRequest = true;
-        //break;
       }      
     }
     var count = emptyPolygons.length;
@@ -437,21 +443,98 @@ Ext.define('App.service.Polygon', {
       });
       self.progressBar.msgButtons.ok.disable();
       self.progressBar.updateProgress(index, '0 %');
-
-      self.doRequest(index, emptyPolygons);
+      var count_success = 0;
+      self.doRequest(index, emptyPolygons, count_success);
     }
     else{
       Ext.Msg.alert('', i18n.polygon.alreadyCalculated);
      }
   },
-
-  doRequest: function (index, emptyPolygons) {
+  /**
+  * @method doRequest
+  * send Ext.Ajax.request to server JSP with parameter geometry (comma separated list of coordinates) 
+  * to aggregate DB raster tables to the polygon and calculate all indicators. 
+  * This function is calling itself (recursive) until the list of not calculated polygons is finished
+  * @param index
+  * index in the list of not calculated polygons
+  * @param emptyPolygons
+  * list of not calculated polygons
+  * @param count_success
+  * number of successfully calculated polygons in the list
+  */
+  doRequest: function (index, emptyPolygons, count_success) {
     var self = this;
     polygon = emptyPolygons[index];
     self.isBusy = true;
     Ext.getBody().setStyle('cursor','progress');
     var geometry = self.prepareRequestGeometry(polygon.geometry);
-    Ext.data.JsonP.request({
+
+    Ext.Ajax.request({
+      url: __Global.api.Polygon,
+      //default is 30000
+      timeout: 1000000,
+      method: 'POST',
+      params: {
+        geometry: geometry
+      },
+      success: function(response) {
+        count_success++;
+        polygon.data = Ext.decode(response.responseText);
+      },
+      callback: function(){
+        self.isBusy = false;
+        index++;
+        var message = undefined;
+        if (emptyPolygons.length == 1){
+          if (count_success == 1){ 
+            message = polygon.info.name + ': ' + i18n.polygon.success;  
+            self.zoomToPolygon(polygon.extent);
+          }
+        }
+        else if (index == emptyPolygons.length) {
+          if (count_success == emptyPolygons.length){ 
+            message = i18n.polygon.success;
+          }
+          else{
+            message = i18n.polygon.partlyCalculated;
+          }
+        }                
+
+
+        if (self.progressBar){
+          self.progressBar.updateProgress(
+            index/emptyPolygons.length, 
+            Math.round(100 * index/emptyPolygons.length) + ' %', 
+            message
+          );
+        }
+        if (index < emptyPolygons.length){
+          //recursive function
+          self.doRequest(index, emptyPolygons, count_success);
+        }
+        else{
+          //loop finished
+          Ext.getBody().setStyle('cursor','auto');
+          self.saveAll();
+          self.rerenderFeatures();
+          if (self.progressBar){
+            self.progressBar.msgButtons.ok.enable();
+          }
+        }
+      },
+      failure: function(response){
+        if (emptyPolygons.length == 1){
+          var timeout_message = '';
+          if (response.timedout){
+            timeout_message = i18n.polygon.largearea;
+          }
+          Ext.Msg.alert('', polygon.info.name + ': ' + i18n.polygon.failure + timeout_message + '!');
+        }
+      }
+    });
+
+
+    /*Ext.data.JsonP.request({
       url : __Global.api.Polygon + 'geometry=' + geometry,
       callbackName: 'PolygonResponse',
       params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
@@ -497,7 +580,7 @@ Ext.define('App.service.Polygon', {
           Ext.Msg.alert('', polygon.info.name + ': ' + i18n.polygon.failure);
         }
       }
-    });
+    });*/
   },
 
   showChartWindow: function (polygon){
@@ -556,7 +639,7 @@ Ext.define('App.service.Polygon', {
       //no calculated data
       else{
         self.windowChart.close();
-        self.calculate();
+        //self.calculate();
         //alert(i18n.polygon.pressCalculate);
       }
     }
@@ -632,71 +715,74 @@ Ext.define('App.service.Polygon', {
     });
   },
 
+  /**
+  * @method downloadOptions
+  * send Ext.Ajax.request to server JSP with parameter geometry and all indicator values 
+  * to insert the values in a temporary server DB table. 
+  * A Geoserver map layer points to this table and provides WFS download options in three different formats
+  */
   downloadOptions: function(){
     var self = this; 
     if (self.isBusy) return false;
-    var fieldlist = [
-      "year",
-      "cotton_ha",
-      "wheat_ha",
-      "rice_ha",
-      "fallow_ha",
-      "double_ha",
-      "other_ha",
-      "alfa_ha",
-      "orchard_ha",
-      "garden_ha",
-      "fir_n",
-      "firf_sum",
-      "firf_cotton",
-      "firf_wheat",
-      "firf_rice",
-      "firf_other",
-      "firf_alfa",
-      "firf_orchard",
-      "firf_garden",
-      "firf_maize",
-      "firf_veg",
-      "firf_sun",
-      "uir_sum",
-      "uir_cotton",
-      "uir_wheat",
-      "uir_rice",
-      "uir_other",
-      "uir_alfa",
-      "uir_orchard",
-      "uir_garden",
-      "uir_maize",
-      "uir_veg",
-      "uir_sun",
-      "fp",
-      "y_cotton",
-      "y_wheat",
-      "pirf_cotton",
-      "pirf_wheat",
-      "cd"
-    ];
+
+    var fieldlist = App.service.Helper.getExportFields(true);
     var selectedPolygons = self.getSelectedPolygons();
     if (selectedPolygons.length > 0){
       var polygon = selectedPolygons[0];
       //write polygon to temporary server database table
-      var parameters = '';
-      parameters += 'datasets=' + polygon.data.length + '&'; 
+      var parameters = {};
+      parameters['datasets'] = polygon.data.length; 
       for (d = 0; d < polygon.data.length; ++d) {
-        parameters += 'uid_' + d + '=' + polygon.uid + '&';
-        parameters += 'name_' + d + '=' + polygon.info.name + '&';
-        parameters += 'location_' + d + '=' + polygon.info.location + '&';
-        parameters += 'area_ha_' + d + '=' + polygon.totalArea + '&'; 
+        parameters['uid_' + d] = polygon.uid;
+        parameters['name_' + d] = polygon.info.name;
+        parameters['location_' + d] = polygon.info.location;
+        parameters['area_ha_' + d] = polygon.totalArea; 
         for (f = 0; f < fieldlist.length; ++f) {
           if (!!polygon.data[d][fieldlist[f]]){
-            parameters += fieldlist[f] + '_' + d + '=' + polygon.data[d][fieldlist[f]] + '&';
+            parameters[fieldlist[f] + '_' + d] = polygon.data[d][fieldlist[f]];
           }
         }
       }
-      parameters += 'geom=' + self.prepareRequestGeometry(polygon.geometry);
+      parameters['geom'] = self.prepareRequestGeometry(polygon.geometry);
       self.isBusy = true;
       App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(true);
-      Ext.data.JsonP.request({
+
+      Ext.Ajax.request({
+        url: __Global.api.writePolygon,
+        //default is 30000
+        timeout: 1000000,
+        method: 'POST',
+        params: parameters,
+        success: function (response) {
+          Ext.Msg.show({
+            title: i18n.polygon.selectgeodata,
+            buttons: Ext.Msg.YESNOCANCEL,
+            buttonText: {
+              yes: 'KML',
+              no: 'GeoJSON',
+              cancel: 'Shapefile'
+            },
+            fn: function(btn) {
+              if (btn === 'yes') {
+                self.downloadKML();
+              } 
+              else if (btn === 'no') {
+                self.downloadGeoJSON();
+              } 
+              else {
+                self.downloadShp();
+              }
+            }
+          });  
+        },
+        callback: function (rsponse) {
+          self.isBusy = false;
+          App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
+        }
+      });
+
+
+     /* Ext.data.JsonP.request({
         url :  __Global.api.writePolygon + parameters,
         callbackName: 'writePolygonResponse',
         params: {format_options: 'callback:Ext.data.JsonP.writePolygonResponse'},
@@ -726,21 +812,36 @@ Ext.define('App.service.Polygon', {
           self.isBusy = false;
           App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
         }
-      });        
+      }); */       
     }
 
   },
 
   downloadGeoJSON: function(){
-    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/json', 'download_geojson');
+    App.service.Helper.openDocument(
+      __Global.urls.Mapserver_WFS + 
+      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' +
+      'outputFormat=application/json', 
+      'download_geojson'
+    );
   },
 
   downloadKML: function(){
-    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=application/vnd.google-earth.kml+xml', 'download_kml');
+    App.service.Helper.openDocument(
+      __Global.urls.Mapserver_WFS + 
+      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' +     
+      'outputFormat=application/vnd.google-earth.kml+xml',
+      'download_kml'
+    );
   },
 
   downloadShp: function (){
-    App.service.Helper.openDocument('https://wuemoca.geographie.uni-wuerzburg.de:443/geoserver/wuemoca_v3/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=wuemoca_v3:mypolygon&outputFormat=SHAPE-ZIP', 'download_shp');
+    App.service.Helper.openDocument(
+      __Global.urls.Mapserver_WFS + 
+      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' + 
+      'outputFormat=SHAPE-ZIP', 
+      'download_shp'
+    );
   },
 
   interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){

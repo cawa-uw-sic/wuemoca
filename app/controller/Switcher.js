@@ -329,14 +329,10 @@ Ext.define('App.controller.Switcher', {
       propertyname += field + ',';
     });
 
-    var requesturl = __Global.urls.Mapserver + 'wfs?' +
-      'request=getfeature&' +
-      'version=1.0.0&' +
-      'outputformat=shape-zip&' +
-      'service=wfs&' +
-      'format_options=CHARSET:UTF-8&' +
-      'propertyname=' + propertyname + 'geom&' +      
-      'typename=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
+    var requesturl = __Global.urls.Mapserver_WFS + 
+      'outputFormat=SHAPE-ZIP&' +
+      'propertyName=' + propertyname + 'geom&' +      
+      'typeName=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
 
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){

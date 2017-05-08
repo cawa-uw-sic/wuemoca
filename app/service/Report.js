@@ -39,9 +39,8 @@ Ext.define('App.service.Report', {
 
     var oblast = params.oblast;
     var title = App.service.Helper.getComponentExt( oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
-    title +=  oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
+    title += oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
     var year = params.year;
-
 
     Ext.data.JsonP.request({
       url :  __Global.api.Report + 'table=' + table + '&parent=' + parent + '&year=' + year,
@@ -120,23 +119,23 @@ Ext.define('App.service.Report', {
 
     data.map(function (rec) {
       var name = rec['rayon_' + __Global.lang] || rec['uis_' + __Global.lang];
-      var totalGrain = parseFloat(rec.firf_wheat) + parseFloat(rec.firf_maize);
+      var totalGrain = parseFloat(rec.firf_wheat).toFixed(1) + parseFloat(rec.firf_maize).toFixed(1);
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.fir_n).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_cotton).toFixed(1) + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_wheat + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_veg + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_alfa + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_orchard + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_wheat).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_veg).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_alfa).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_orchard).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_garden + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_other + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.firf_rice + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fallow_ha + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_garden).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_other).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_rice).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.fallow_ha).toFixed(1) + '</td>';
       result.body += '</tr>';
     });
 
@@ -152,7 +151,7 @@ Ext.define('App.service.Report', {
         topTitle = topTitle.replace('{year}', year);
     var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
 
-    result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
+    result.head = '<tr><th colspan="14">' + topTitle + '</th></tr>';
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
@@ -164,6 +163,7 @@ Ext.define('App.service.Report', {
     result.head += '<th colspan="2">' + i18n.report.perennialTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.homesteadTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.otherTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.riceTH + '</th>';
     result.head += '</tr>';
 
     result.head += '<tr>';
@@ -188,6 +188,7 @@ Ext.define('App.service.Report', {
     result.head += '<th>' + i18n.report.tnTH + '</th>';
     result.head += '<th>' + i18n.report.tnTH + '</th>';
     result.head += '<th>' + i18n.report.tnTH + '</th>';
+    result.head += '<th>' + i18n.report.tnTH + '</th>';
     result.head += '</tr>';
 
     data.map(function (rec) {
@@ -196,17 +197,18 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.fir_n).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.pirf_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.pirf_cotton).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.pirf_wheat + '</td>';
-      result.body += '<td></td>';
-      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.pirf_wheat).toFixed(1) + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.pirf_rice).toFixed(1) + '</td>';      
       result.body += '</tr>';
     });
 
@@ -223,7 +225,7 @@ Ext.define('App.service.Report', {
 
     var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
     
-    result.head = '<tr><th colspan="13">' + topTitle + '</th></tr>';
+    result.head = '<tr><th colspan="14">' + topTitle + '</th></tr>';
     result.head += '<tr>';
     result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
@@ -235,6 +237,7 @@ Ext.define('App.service.Report', {
     result.head += '<th colspan="2">' + i18n.report.perennialTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.homesteadTH + '</th>';
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.otherTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.riceTH + '</th>';    
     result.head += '</tr>';
 
     result.head += '<tr>';
@@ -259,6 +262,7 @@ Ext.define('App.service.Report', {
     result.head += '<th>' + i18n.report.thaTH + '</th>';
     result.head += '<th>' + i18n.report.thaTH + '</th>';
     result.head += '<th>' + i18n.report.thaTH + '</th>';
+    result.head += '<th>' + i18n.report.thaTH + '</th>';    
     result.head += '</tr>';
 
     data.map(function (rec) {
@@ -267,17 +271,18 @@ Ext.define('App.service.Report', {
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.fir_n + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.fir_n).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.y_cotton + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_cotton).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + rec.y_wheat + '</td>';
-      result.body += '<td></td>';
-      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_wheat).toFixed(1) + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_rice).toFixed(1) + '</td>';      
       result.body += '</tr>';
     });
 

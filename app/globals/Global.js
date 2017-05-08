@@ -1,8 +1,10 @@
-var server = 'https://wuemoca.geographie.uni-wuerzburg.de/';
+var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
 
-var api = server + 'mvc-backend/';
+var api = server + '/mvc-backend/';
 
-var documents = server + 'mvc-documents/';
+var documents = server + '/mvc-documents/';
+
+var geoserver_workspace = 'wuemoca_v3';
 
 var glossaryName = '20170407_CAWa_WUEMoCA_Glossary_beta_version_v01';
 
@@ -63,7 +65,7 @@ __Global.year= {
 __Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
-    Polygon       : api + 'calculatePolygon_v4.jsp?',
+    Polygon       : api + 'calculatePolygon_v5.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
@@ -76,8 +78,9 @@ __Global.api = {
 *  collection of URLs of backend documents
 */
 __Global.urls= {
-    Server        : server,
-    Mapserver     : server + 'geoserver/',
+    Mapserver     : server + '/geoserver/',
+    Mapserver_WFS : server + ':443/geoserver/' + geoserver_workspace + '/ows?' +
+        'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html    
     Glossary      : documents + glossaryName + '.htm',
     GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
@@ -91,7 +94,7 @@ __Global.urls= {
 /**
 * Geoserver workspace
 */
-__Global.geoserverWorkspace = 'wuemoca_v3';
+__Global.geoserverWorkspace = geoserver_workspace;
 /**
 * chart settings
 */

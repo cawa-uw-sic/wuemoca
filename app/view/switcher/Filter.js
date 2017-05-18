@@ -7,8 +7,8 @@ Ext.define('App.view.switcher.Filter', {
 
   itemId: 'switcher-filter',
 
- //padding: 5,
- hidden:true,
+  //padding: 5,
+  hidden:true,
 
   checkboxToggle: true,
   collapsible: true,

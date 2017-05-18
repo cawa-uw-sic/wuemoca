@@ -115,59 +115,7 @@ Ext.define('App.controller.Switcher', {
   * new value
   */
   onAggregation: function (cb, val) {
-    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    if (!!aoi_filter){
-      if (val == 'command'){
-        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
-      }
-      else if (val == 'wua'){
-        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-buis']);        
-      }
-      else if (val == 'rayon'){
-        App.service.Helper.resetComboboxes(['zoom-cb-wua', 'zoom-cb-buis']);        
-      }      
-      else if (val == 'buis'){
-        App.service.Helper.resetComboboxes(['zoom-cb-uis', 'zoom-cb-oblast']);        
-      } 
-      else if (val == 'oblast'){
-        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
-      }       
-      //reset filter
-      if ((aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0)
-        && (aoi_filter.indexOf('country') < 0)){
-       // && (aoi_filter.indexOf(val) < 0)){
-        App.service.Watcher.set('Aoi_Filter', false);
-        console.log('onAggregation fillAggregations_new');        
-        App.service.Map.fillAggregations_new();
-      }
-      else{
-        //set super filter
-        if (aoi_filter.indexOf('and') >= 0){
-          var super_aoi_filter = aoi_filter.split(' and ')[1];
-          if (aoi_filter.indexOf(val) < 0 || super_aoi_filter.split('=')[0] == val + '_id'){
-            //if (sub_aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0){
-              App.service.Watcher.set('Aoi_Filter', super_aoi_filter);
-            //}
-          }
-        }
-      }
-    }
-    App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
-    App.service.Watcher.set('Aggregation', val);
-
-    var aggregation = App.service.Watcher.getAggregation();
-    //var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-      //'" title="' + aggregation[__Global.lang + 'NameShort'] + ': ' + aggregation[__Global.lang + 'Tooltip'] + 
-      //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
-    var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-      '" data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.lang + 'NameShort'] + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;      
-    cb.setFieldLabel(label);
-
-    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
-    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
-      App.service.Polygon.showChartWindow();
-    }
+    App.service.Map.onAggregation(cb, val);
   },
   /**
   * @method fillCrops
@@ -316,29 +264,6 @@ Ext.define('App.controller.Switcher', {
     this.afterRender();
     //do not collapse/expand accordion panel
     e.stopPropagation();
-  },  
-  /**
-  * @method onShapefile
-  * download zipped shapefile (with map filter if applicable) as WFS from GeoServer
-  */
-  onShapefile: function(){
-    var aggregation = App.service.Watcher.get('Aggregation');
-    var propertyname = '';
-    var field_array = App.service.Helper.getExportFields(false);
-    field_array.map(function (field) {
-      propertyname += field + ',';
-    });
-
-    var requesturl = __Global.urls.Mapserver_WFS + 
-      'outputFormat=SHAPE-ZIP&' +
-      'propertyName=' + propertyname + 'geom&' +      
-      'typeName=' + __Global.geoserverWorkspace + ':ca_' + aggregation;
-
-    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    if (!!aoi_filter){
-      requesturl += '&cql_filter=' + aoi_filter;
-    }       
-    App.service.Helper.openDocument(requesturl, 'download_shp');
   }
 
 });

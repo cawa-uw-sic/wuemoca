@@ -11,9 +11,6 @@ Ext.define('App.view.switcher.CbAggregation', {
   xtype: 'app-switcher-cb-aggregation',
   /**
   */
-  itemId: 'switcher-cb-aggregation',
-  /**
-  */
   labelAlign: 'top',
   /**
   */
@@ -53,9 +50,6 @@ Ext.define('App.view.switcher.CbAggregation', {
   /**
   */
   editable: false,
-  /**
-  * {@link App.controller.Switcher#onAggregation}
-  */
   listeners: {
     change: 'onAggregation'
   }

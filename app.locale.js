@@ -1,7 +1,7 @@
 window.locales = ['en', 'ru'];
 window.localesText = {
-  en: 'Switch to<br>English',
-  ru: 'Переключиться<br>на Русский'
+  en: 'English',
+  ru: 'Русский'
 };
 window.locale = localStorage.getItem('locale') || 'en';
 window.nextLocale = function () {
@@ -43,6 +43,7 @@ var i18n = {
     readmore: 'Read more about',
     uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
     sic: 'SIC ICWC',
+    sicurl: 'http://sic.icwc-aral.uz/releases/eng/285.htm',
     beta: 'BETA version'
   },
 
@@ -69,7 +70,7 @@ var i18n = {
 
   report: {
 
-      generate_button              : 'Generate<br>Report',
+      generate_button              : 'Generate Report',
             generate_window              : 'Generate Report',
     year                    : 'Select year',
       selectCountry: 'Select country',
@@ -257,7 +258,7 @@ mapSelection:{
   },
 
   exp: {
-    title                   : 'Export',
+    title                   : 'Export and Report',
     opts                    : 'Export selection options',
     tableCsv                : 'Table as CSV',
     tableExcel              : 'Export all indicators to Excel',
@@ -279,13 +280,25 @@ mapSelection:{
     singleOblast            : 'single Province (oblast)',
     allRayonsOblast         : 'all Districts of Province (oblast)',
     allOblastsCountry       : 'all Provinces of Country',
-          allOblastsCA : 'all Provinces of CA',
-          download: 'Download',
-          asSHP: 'as SHP',
-          filtered: 'filtered',
-          tooltipSHP1: 'A ',
-          tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created',
-          map: 'map'
+    allOblastsCA : 'all Provinces of CA',
+    download: 'Download',
+    asSHP: 'as SHP',
+    filtered: 'filtered',
+    tooltipSHP1: 'A ',
+    tooltipSHP2: 'Shapefile (zipped) with all indicator values of all years will be created',
+    map: 'map',
+    table: 'table',
+    mapOrTable : 'map or table',
+    selectFilter: 'Select filter',
+    selectOutput: 'Select download format',
+    download: 'Download',
+          nofilter: 'Area filter not activated',
+          noselection1: 'No',
+          noselection2: 'selected (on the map)',
+          selected: 'selected',
+          conjunction: 's' + ' of ',
+          all: 'all',
+          plural: 's'
   },
 
   timeSlider: {
@@ -306,7 +319,7 @@ mapSelection:{
     showPolygon             : 'My Polygons',
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
-    exportPressed           : 'Report mode',
+    exporterPressed           : 'Report mode',
     chartPressed            : 'Chart mode',
     removeAll               : 'Remove all polygons',
     removeSel               : 'Remove selected polygon',
@@ -327,7 +340,7 @@ mapSelection:{
           alreadyCalculated: 'Indicators already calculated!',
           partlyCalculated: 'Indicator calculation failed for some polygons.',
           calculation_message: 'Do you want to calculate indicators for the selected polygon?',
-    exportExcel: 'Export to EXCEL',
+    exporterExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
     shift: 'Select a single polygon or multiple polygons with SHIFT key',
@@ -359,7 +372,7 @@ mapSelection:{
     btnSubmit               : 'Save'
   },
 
-  exportTemplate: {
+  exporterTemplate: {
     landuseTable            : 'Landuse Table',
     landuseChart            : 'Landuse Chart',
     yieldTable              : 'Yield Table',
@@ -428,6 +441,7 @@ switch (locale){
       readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
     sic: 'НИЦ МКВК',
+        sicurl: 'http://sic.icwc-aral.uz/releases/rus/285.htm',
     beta: 'Бета-версия'
     };
 
@@ -460,8 +474,8 @@ switch (locale){
     };
 
     i18n.report = {
-      generate_button              : 'Получить<br>отчет',
-            generate_window              : 'Получить отчет',
+      generate_button              : 'Получить отчет',
+      generate_window              : 'Получить отчет',
       year                  : 'Выберать год',
       selectCountry: 'Выбрать страну',
       selectOblast: 'Выбрать область',
@@ -619,7 +633,7 @@ i18n.mapSelection ={
     };
 
     i18n.exp = {
-      title                 : 'Экспорт',
+      title                 : 'Экспорт и отчет',
       opts                  : 'Выбор опций экспорта',
       tableCsv              : 'Таблица как CSV',
       tableExcel              : 'Таблица как EXCEL',
@@ -649,7 +663,20 @@ i18n.mapSelection ={
           tooltipSHP1: '',
 
           tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет',
-          map: 'карту'
+          map: 'карту',
+          table: 'таблица',
+          mapOrTable : 'карту или таблица',
+          selectFilter: 'Выбрать фильтр',
+          selectOutput: 'Выберите формат вывод',
+          download: 'Скачать',
+          nofilter: 'Фильтр территории не активирован',
+          noselection1: 'нет',
+          noselection2: 'выбран (на карту)',
+          selected: 'выбранные',
+          conjunction: ' ',
+                    all: 'все',
+                    plural: ''
+   
     };
 
     i18n.timeSlider = {
@@ -670,7 +697,7 @@ i18n.mapSelection ={
           showPolygon             : 'Мои полигоны',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
-      exportPressed         : 'Режим экспорта',
+      exporterPressed         : 'Режим экспорта',
       chartPressed          : 'Режим графика',
       removeAll             : 'Удалить все полигоны',
       removeSel             : 'Удалить выбранный полигон',
@@ -692,7 +719,7 @@ i18n.mapSelection ={
                 alreadyCalculated: 'Индикаторы уже подсчитали!',
                 partlyCalculated: 'Расчет индикатора не удалось для некоторых полигонов.',
                           calculation_message: 'Вы хотите рассчитать индикаторы для выбранного полигона?',
-          exportExcel: 'Экспорт в Excel',
+          exporterExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
     tooltip: 'Выбранный полигон',
     pressCalculate: 'сначала нажмите расчет индикатора!',
@@ -724,7 +751,7 @@ i18n.mapSelection ={
       btnSubmit             : 'Сохранить'
     };
 
-    i18n.exportTemplate = {
+    i18n.exporterTemplate = {
       landuseTable          : 'Таблица землепользования',
       landuseChart          : 'График землепользования',
       yieldTable            : 'Таблица урожайности',

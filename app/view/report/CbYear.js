@@ -7,7 +7,7 @@ Ext.define('App.view.report.CbYear', {
 
   xtype: 'app-report-cb-year',
 
-  itemId: 'report-cb-year',
+
   
   fieldLabel: i18n.report.year,
 

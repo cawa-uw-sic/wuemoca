@@ -65,7 +65,7 @@ __Global.year= {
 __Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
-    Polygon       : api + 'calculatePolygon_v5.jsp?',
+    Polygon       : api + 'calculatePolygon.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
@@ -81,7 +81,15 @@ __Global.urls= {
     Mapserver     : server + '/geoserver/',
     Mapserver_WFS : server + ':443/geoserver/' + geoserver_workspace + '/ows?' +
         'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',
-    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html    
+    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
+    /*insert in head section of index.htm of Glossary on Server:
+    var fname="content";     //MAIN CONTENT AREA FRAME **NAME**
+    window.onload=function(){
+      var d=document.location.search;
+      var h=document.location.hash; //anchor
+      if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length) + h;
+    }
+    */  
     Glossary      : documents + glossaryName + '.htm',
     GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
     //Faq           : 'bme00057.htm#bookme_anchor3',

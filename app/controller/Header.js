@@ -35,7 +35,7 @@ Ext.define('App.controller.Header', {
   */
   onFaq: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-    App.service.Helper.openGlossaryFrame(__Global.urls.Faq);
+    App.service.Helper.openDocument(__Global.urls.GlossaryBase + __Global.urls.Faq, 'glossary');
   },
   /**
   * @method onGlossary
@@ -43,7 +43,7 @@ Ext.define('App.controller.Header', {
   */
   onGlossary: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-   App.service.Helper.openGlossaryFrame(__Global.urls.Intro);
+    App.service.Helper.openDocument(__Global.urls.GlossaryBase + __Global.urls.Intro, 'glossary');
   },
   /**
   * @method onManual
@@ -73,13 +73,7 @@ Ext.define('App.controller.Header', {
   onIntroWindowBtn: function () {
     this.IntroWindow.show();
   },
-  /**
-  * @method onReport
-  * show report window
-  */
-  onReport: function () {
-    App.service.Report.window.show();
-  },
+
   /**
   * @method onVideoHeader
   * open video URL

@@ -79,7 +79,7 @@ Ext.define('App.view.header.CbTitle', {
   */  
   valueField: 'id',
   /**
-  * when value is specified, the show this dataset (no empty field)
+  * when value is specified, then show this dataset (no empty field)
   */    
   value: 'beta',
   /**

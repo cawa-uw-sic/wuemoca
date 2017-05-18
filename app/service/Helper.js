@@ -38,6 +38,17 @@ Ext.define('App.service.Helper', {
       }
   },
 
+  getComboboxSelectedIndex: function (itemId){
+    var combobox = this.getComponentExt(itemId);
+    var store = combobox.getStore();
+    return store.indexOf(combobox.findRecord(combobox.valueField, combobox.getValue()));
+  }, 
+
+  setComboboxSelectedIndex: function (itemId, index){
+    var combobox = this.getComponentExt(itemId);
+    combobox.setValue(combobox.getStore().getAt(index).get(combobox.valueField));
+  }, 
+
   hideComponents: function (components) {
     for (var i = components.length - 1; i >= 0; i--) {
       var cmp = this.getComponentExt(components[i]);
@@ -305,7 +316,8 @@ Ext.define('App.service.Helper', {
 */
   format: function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
 /**
-* @method JSONToHTMLConvertor
+* @method JSONToHTMLConvertor 
+* the indicator values, stored in the chart store in JSON format, are written to HTML table with MS Excel content type
 */
   JSONToHTMLConvertor: function () { 
     var self = this;
@@ -336,7 +348,7 @@ Ext.define('App.service.Helper', {
       var polygonName = '';
       var totalArea = 0;
       if (userPolygon){
-        polygonName = polygon.info.name + '_' + polygon.info.location;
+        polygonName = polygon.info.name.replace(/ /g,"_") + '_' + polygon.info.location.replace(/ /g,"_");
         fileName += polygonName;
         totalArea = polygon.totalArea;        
       }
@@ -464,15 +476,21 @@ Ext.define('App.service.Helper', {
     var indicator_fields = [];
     var aggregation = 'grid';
     if (!userPolygon){ 
-      aggregation = App.service.Watcher.get('Aggregation');
+      var aggregation_object = App.service.Watcher.getAggregation();
+      aggregation = aggregation_object['id'];
       var aggregation_id = aggregation + '_id';
       indicator_fields.push(aggregation_id);
       if (aggregation != 'grid'){
         indicator_fields.push(aggregation + '_' + __Global.lang);
       }
-      indicator_fields.push('area_ha');
-    }  
-  
+      var super_filter = aggregation_object['super_filter'];
+      if (super_filter != aggregation){
+        indicator_fields.push(super_filter + '_id');
+        indicator_fields.push(super_filter + '_' + __Global.lang);
+      }
+      indicator_fields.push('area_ha'); 
+    } 
+ 
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
       if (indicator.chart != 'Multiannual' && (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){

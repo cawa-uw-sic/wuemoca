@@ -37,6 +37,7 @@ Ext.define('App.service.Map', {
       this.instance.getSize(),
       {maxZoom: 12}
     );
+    App.service.Chart.window.close();
   },
 
   loadLayer: function () {
@@ -50,7 +51,7 @@ Ext.define('App.service.Map', {
         self.loadAdminLayer();
         self.setMainTitle();
         self.setLegend();
-        self.setShapefileBtntext();
+        App.service.Exporter.setDownloadCombotext();
         App.service.Status.set('&#160;');
       }
     }
@@ -264,20 +265,6 @@ Ext.define('App.service.Map', {
     );
   },
 
-  setShapefileBtntext: function(){
-    var aggregation = App.service.Watcher.getAggregation();
-    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    var button = App.service.Helper.getComponentExt('switcher-btn-shapefile');
-    button.setText(
-      i18n.exp.download + ' ' + i18n.exp.map + ' (' + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') +
-      aggregation[__Global.lang + 'NameShort'] + ') ' + i18n.exp.asSHP
-    );
-    button.setTooltip(
-      i18n.exp.tooltipSHP1 + (!!aoi_filter ? i18n.exp.filtered + ' ' : '') + aggregation[__Global.lang + 'NameShort'] +
-      ' ' +  i18n.exp.tooltipSHP2
-    );
-  },
-
   setLegend: function () {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
@@ -361,6 +348,64 @@ Ext.define('App.service.Map', {
     return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '165%';
   },
 
+  onAggregation: function(cb, val){
+    var aoi_filter = App.service.Watcher.get('Aoi_Filter');
+    if (!!aoi_filter){
+      if (val == 'command'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
+      }
+      else if (val == 'wua'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-buis']);        
+      }
+      else if (val == 'rayon'){
+        App.service.Helper.resetComboboxes(['zoom-cb-wua', 'zoom-cb-buis']);        
+      }      
+      else if (val == 'buis'){
+        App.service.Helper.resetComboboxes(['zoom-cb-uis', 'zoom-cb-oblast']);        
+      } 
+      else if (val == 'oblast'){
+        App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
+      }       
+      //reset filter
+      if ((aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0)
+        && (aoi_filter.indexOf('country') < 0)){
+       // && (aoi_filter.indexOf(val) < 0)){
+        App.service.Watcher.set('Aoi_Filter', false);
+        console.log('onAggregation fillAggregations_new');        
+        this.fillAggregations_new();
+      }
+      else{
+        //set super filter
+        if (aoi_filter.indexOf(' and ') >= 0){
+          var super_aoi_filter = aoi_filter.split(' and ')[1];
+          if (aoi_filter.indexOf(val) < 0 || super_aoi_filter.split('=')[0] == val + '_id'){
+            //if (sub_aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0){
+              App.service.Watcher.set('Aoi_Filter', super_aoi_filter);
+            //}
+          }
+        }
+      }
+    }
+    App.service.Helper.getComponentExt('zoom-btn-reset').setDisabled(!aoi_filter);
+    App.service.Watcher.set('Aggregation', val);
+
+    var aggregation = App.service.Watcher.getAggregation();
+    //var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+      //'" title="' + aggregation[__Global.lang + 'NameShort'] + ': ' + aggregation[__Global.lang + 'Tooltip'] + 
+      //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
+    if (cb.getItemId() == 'switcher-cb-aggregation'){
+      var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+        '" data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.lang + 'NameShort'] + 
+        '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;      
+      cb.setFieldLabel(label);
+    }
+
+    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
+      App.service.Polygon.showChartWindow();
+    }
+  },
+
   filterAreaOfInterest: function(aoi, id, super_aoi, super_id){
     var aoi_filter = false;
     if (id != '0'){
@@ -421,7 +466,7 @@ Ext.define('App.service.Map', {
           .updateParams({
             'cql_filter': CQLfilter
           });
-        this.setShapefileBtntext();
+        App.service.Exporter.setDownloadCombotext();
       }
     }
   },
@@ -444,7 +489,7 @@ Ext.define('App.service.Map', {
       }*/
     }
     if (aoi_filter){
-      if (aoi_filter.indexOf('and') >= 0){
+      if (aoi_filter.indexOf(' and ') >= 0){
         var super_aoi_filter = aoi_filter.split(' and ')[1];
         aoi_filter = super_aoi_filter;
       }

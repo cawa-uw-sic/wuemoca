@@ -5,5 +5,7 @@ Ext.define('App.store.Year', {
 
   storeId: 'year',
 
+  fields: [ 'id', 'name'],
+
   data: []
 });

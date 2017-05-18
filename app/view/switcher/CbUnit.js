@@ -4,7 +4,7 @@ Ext.define('App.view.switcher.CbUnit', {
   requires: [
     'App.store.Unit'
   ],
-hidden:true,
+  hidden:true,
   xtype: 'app-switcher-cb-unit',
 
   itemId: 'switcher-cb-unit',

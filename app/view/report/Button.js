@@ -7,8 +7,6 @@ Ext.define('App.view.report.Button', {
 
   text: i18n.report.generate_button,
 
-  height: 50,
-
   iconCls: 'x-fa fa-file-excel-o',
 
   handler: 'onReport'

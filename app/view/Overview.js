@@ -10,15 +10,12 @@ Ext.define('App.view.Overview', {
 
   xtype: 'app-overview',
 /**
-* itemId
 */
   itemId: 'app-overview',
 /**
-* layout
 */
   layout: 'fit',
 /**
-* height
 */
   height: 500,
 /**
@@ -26,7 +23,6 @@ Ext.define('App.view.Overview', {
 */
   title: i18n.map.title,
 /**
-* bodyPadding
 */
   bodyPadding: 10,
 /**

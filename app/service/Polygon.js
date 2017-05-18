@@ -62,8 +62,8 @@ Ext.define('App.service.Polygon', {
       var polygon = self.registerPolygon(e.feature.getGeometry());
       self.saveAll();
       self.rerenderFeatures();
-      Ext.getStore('polygongrid').loadData(self.getGridData());      
-      self.selectRowInGrid(polygon.uid);
+      Ext.getStore('polygongrid').loadData(self.getGridData());  
+      self.calculate();    
       //prevent from zoom in with dblclick - see https://github.com/openlayers/openlayers/issues/3610
       setTimeout(function(){self.deactivate();},251);      
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
@@ -78,12 +78,17 @@ Ext.define('App.service.Polygon', {
     App.service.Watcher.set('UserPolygon', val ? 'show' : 'noshow');
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
+    App.service.Helper.getComponentExt('exporter-window').hide();
+    App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
+    App.service.Helper.getComponentExt('exporter-cb-aggregation').setVisible(!val);     
     if (val == false){
       this.deselectMapAndList();
       this.drawControl.setActive(false);
       this.activated = false;
       this.windowChart.close();
       this.windowEdit.close();
+      App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(
+        App.service.Watcher.getIndicator().chart == 'Multiannual');
     }
     else{
       this.rerenderFeatures();
@@ -94,9 +99,12 @@ Ext.define('App.service.Polygon', {
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       App.service.Helper.getComponentExt('legend-window').hide();
+      App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
+
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
+
     App.service.Map.setMainTitle();
   },
 
@@ -225,7 +233,6 @@ Ext.define('App.service.Polygon', {
       if (polygons.length == 1){
         if (!this.windowEdit.isHidden()) this.updateWindowEdit(polygons[0]);
         var name = polygons[0].info.name;
-        //App.service.Status.set(i18n.polygon.tooltip + ': ' + name);
         //no data
         if (polygons[0].data.length == 0){
           Ext.Msg.show({
@@ -246,7 +253,6 @@ Ext.define('App.service.Polygon', {
         }
         //calculated data
         else{
-          //if (!this.windowChart.isHidden()) this.showChartWindow(polygons[0]);
           this.showChartWindow(polygons[0]);
         }
         App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
@@ -471,7 +477,7 @@ Ext.define('App.service.Polygon', {
 
     Ext.Ajax.request({
       url: __Global.api.Polygon,
-      //default is 30000
+      //default is 30000, increased to calculate large polygons
       timeout: 1000000,
       method: 'POST',
       params: {
@@ -499,7 +505,6 @@ Ext.define('App.service.Polygon', {
             message = i18n.polygon.partlyCalculated;
           }
         }                
-
 
         if (self.progressBar){
           self.progressBar.updateProgress(
@@ -602,7 +607,6 @@ Ext.define('App.service.Polygon', {
       self.selectRowInGrid(polygon.uid);
     }
     if (polygon){
-      //var polygon = self.getSelectedPolygons()[0];
       var indicator = App.service.Watcher.getIndicator();
       var crop = App.service.Watcher.get('Crop');
 
@@ -616,13 +620,11 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
-            //if (typeof indicator.chart != 'object'){
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
             else if (indicator.crops == 'all'){
             //else{
               var chart = App.service.Helper.getById(__Crop, crop).chart;
-              //var idx = indicator.crops.indexOf(crop);
               self.windowChart.add(App.util.ChartTypes[chart](polygon.data));
             }
             App.service.Chart.userPolygon = true;
@@ -639,8 +641,6 @@ Ext.define('App.service.Polygon', {
       //no calculated data
       else{
         self.windowChart.close();
-        //self.calculate();
-        //alert(i18n.polygon.pressCalculate);
       }
     }
   },
@@ -717,9 +717,9 @@ Ext.define('App.service.Polygon', {
 
   /**
   * @method downloadOptions
-  * send Ext.Ajax.request to server JSP with parameter geometry and all indicator values 
-  * to insert the values in a temporary server DB table. 
-  * A Geoserver map layer points to this table and provides WFS download options in three different formats
+  * send Ext.Ajax.request to server JSP with parameters geometry and all indicator values 
+  * to insert the values in a temporary server PostGIS table. 
+  * The Geoserver map layer mypolygon points to this table and provides WFS download options in three different formats
   */
   downloadOptions: function(){
     var self = this; 
@@ -749,99 +749,27 @@ Ext.define('App.service.Polygon', {
 
       Ext.Ajax.request({
         url: __Global.api.writePolygon,
-        //default is 30000
+        //default is 30000, increased to pass large polygons
         timeout: 1000000,
         method: 'POST',
         params: parameters,
-        success: function (response) {
-          Ext.Msg.show({
-            title: i18n.polygon.selectgeodata,
-            buttons: Ext.Msg.YESNOCANCEL,
-            buttonText: {
-              yes: 'KML',
-              no: 'GeoJSON',
-              cancel: 'Shapefile'
-            },
-            fn: function(btn) {
-              if (btn === 'yes') {
-                self.downloadKML();
-              } 
-              else if (btn === 'no') {
-                self.downloadGeoJSON();
-              } 
-              else {
-                self.downloadShp();
-              }
-            }
-          });  
+        success: function () {
+          App.service.Helper.getComponentExt('exporter-window').show();
         },
-        callback: function (rsponse) {
+        callback: function () {
           self.isBusy = false;
           App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
+        },
+        failure: function(response){
+          var timeout_message = '';
+          if (response.timedout){
+            timeout_message = i18n.polygon.largearea;
+          }
+          Ext.Msg.alert('', polygon.info.name + ': ' + 'download failed ' + timeout_message + '!');
+          console.log(response.responseText);
         }
       });
-
-
-     /* Ext.data.JsonP.request({
-        url :  __Global.api.writePolygon + parameters,
-        callbackName: 'writePolygonResponse',
-        params: {format_options: 'callback:Ext.data.JsonP.writePolygonResponse'},
-        success: function (results) {
-          Ext.Msg.show({
-            title: i18n.polygon.selectgeodata,
-            buttons: Ext.Msg.YESNOCANCEL,
-            buttonText: {
-              yes: 'KML',
-              no: 'GeoJSON',
-              cancel: 'Shapefile'
-            },
-            fn: function(btn) {
-              if (btn === 'yes') {
-                self.downloadKML();
-              } 
-              else if (btn === 'no') {
-                self.downloadGeoJSON();
-              } 
-              else {
-                self.downloadShp();
-              }
-            }
-          });  
-        },
-        callback: function (results) {
-          self.isBusy = false;
-          App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(false);
-        }
-      }); */       
     }
-
-  },
-
-  downloadGeoJSON: function(){
-    App.service.Helper.openDocument(
-      __Global.urls.Mapserver_WFS + 
-      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' +
-      'outputFormat=application/json', 
-      'download_geojson'
-    );
-  },
-
-  downloadKML: function(){
-    App.service.Helper.openDocument(
-      __Global.urls.Mapserver_WFS + 
-      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' +     
-      'outputFormat=application/vnd.google-earth.kml+xml',
-      'download_kml'
-    );
-  },
-
-  downloadShp: function (){
-    App.service.Helper.openDocument(
-      __Global.urls.Mapserver_WFS + 
-      'typeName=' + __Global.geoserverWorkspace + ':mypolygon&' + 
-      'outputFormat=SHAPE-ZIP', 
-      'download_shp'
-    );
   },
 
   interpolateColor: function(color1, color2, color3, minimum, median, maximum, value){

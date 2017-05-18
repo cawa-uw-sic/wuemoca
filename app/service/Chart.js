@@ -55,6 +55,7 @@ Ext.define('App.service.Chart', {
     var self = this;
     self.window.on("close", function () {
       App.service.Highlight.clear();
+      self.data = [];
     });
     self.window.on("boxready", function (window) {
       window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
@@ -88,6 +89,7 @@ Ext.define('App.service.Chart', {
           self.dataResponse(results.features);
           App.service.Highlight.display(results.features);
           self.showWindow();
+          App.service.Exporter.setDownloadCombotext();
         }
         App.service.Polygon.windowChart.close();
       },
@@ -178,7 +180,7 @@ Ext.define('App.service.Chart', {
     self.stores.defaults.setData(self.data);
   }
 
-  /*export2Excel: function(){
+  /*exporter2Excel: function(){
     var indicator = App.service.Watcher.getIndicator();
     var aggregation = App.service.Watcher.get('Aggregation');
     if (aggregation != 'grid'){

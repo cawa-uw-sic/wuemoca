@@ -48,8 +48,19 @@ Ext.define('App.view.report.Form', {
         margin: 5
       },
       items: [
-        ,{ xtype: 'app-report-cb-year',  name: 'year', emptyText: i18n.report.selectYear}
-        ,{ xtype: 'app-zoom-cb-country', name: 'country', itemId: 'report-cb-country', emptyText: i18n.report.selectCountry, store: { type: 'reportcountry' } }
+        { 
+          xtype: 'app-report-cb-year',  
+          name: 'year', 
+          itemId: 'report-cb-year',
+          emptyText: i18n.report.selectYear
+        },{ 
+          xtype: 'app-zoom-cb-country', 
+          name: 'country', 
+          itemId: 'report-cb-country', 
+          fieldLabel: i18n.adminFilters.country, 
+          emptyText: i18n.report.selectCountry, 
+          store: { type: 'reportcountry' } 
+        }
     ]},
     { 
       xtype: 'fieldset',
@@ -63,9 +74,19 @@ Ext.define('App.view.report.Form', {
         margin: 5
       },      
       items: [       
-        ,{ xtype: 'app-zoom-cb-oblast',  name: 'oblast',  itemId: 'report-cb-oblast',  emptyText: i18n.report.selectOblast, store: { type: 'reportoblast'  } }
-        ,{ xtype: 'app-zoom-cb-buis',    name: 'buis',    itemId: 'report-cb-buis',    emptyText: i18n.report.selectBUIS, store: { type: 'reportbuis'    } }
-
+        { 
+          xtype: 'app-zoom-cb-oblast',  
+          name: 'oblast',  
+          itemId: 'report-cb-oblast',  
+          emptyText: i18n.report.selectOblast, 
+          store: { type: 'reportoblast'  } 
+        },{ 
+          xtype: 'app-zoom-cb-buis',    
+          name: 'buis',    
+          itemId: 'report-cb-buis',    
+          emptyText: i18n.report.selectBUIS, 
+          store: { type: 'reportbuis'    }
+        }
       ]
   }],
 

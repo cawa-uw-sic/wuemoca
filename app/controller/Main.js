@@ -72,7 +72,6 @@ Ext.define('App.controller.Main', {
       //BackgroundLayers.street.setVisible(false);     
     }
   },
-
   /**
   * @method onReportWindow
   * open report window

@@ -24,6 +24,8 @@ Ext.define('App.view.Main', {
     'App.view.header.Index',
     'App.view.zoom.Index',
     'App.view.switcher.Index',
+    'App.view.exporter.Index',
+    'App.view.exporter.Window',
     'App.view.polygon.Index',
 
     'App.view.yearslider.Index',
@@ -89,7 +91,7 @@ Ext.define('App.view.Main', {
         { xtype: 'app-header' }
       ]
     },
- 
+    //accordion panel
     {
       title: i18n.filter.title,
       region: 'west',
@@ -98,7 +100,9 @@ Ext.define('App.view.Main', {
       layout:{
         type: 'accordion',
         animate: true,
-        multi: true
+        multi: true,
+        // specification of items with different heights (see flex configuration of items)
+        fill: false
       },
       defaults: {
         scrollable: 'vertical'
@@ -106,6 +110,8 @@ Ext.define('App.view.Main', {
       items: [{ 
         xtype: 'app-zoom',
         collapsed : __Selection['AreaFilter'] == 'noshow',
+        // adapted to content        
+        flex: 0,
         listeners:{
           expand: function(p, eOpts){
             __LocalDB.set('AreaFilter', 'show');
@@ -116,10 +122,19 @@ Ext.define('App.view.Main', {
         }
       } ,{ 
         xtype: 'app-switcher' , 
-        collapsed : false
-      } ,{ 
+        collapsed : false,
+        // fill space but larger
+        flex: 2
+      } ,{         
+        xtype: 'app-exporter' , 
+        collapsed : true,
+        // adapted to content
+        flex: 0        
+      } ,{         
         xtype: 'app-overview' , 
-        collapsed : true 
+        collapsed : true,
+        // fill space but smaller
+        flex: 1
       }]
     },
    
@@ -142,7 +157,8 @@ Ext.define('App.view.Main', {
         { xtype: 'app-map', anchor: '100% 100%'},
         { xtype: 'app-legend-window'},
         { xtype: 'app-legend-button'},
-        { xtype: 'app-satellite-button'}
+        { xtype: 'app-satellite-button'},
+        { xtype: 'app-exporter-window'}
       ],
 
       bbar: Ext.create('Ext.ux.StatusBar', {

@@ -1,9 +1,9 @@
 Ext.define('App.view.switcher.IconLabel', {
     extend:'Ext.form.Label',
 
-      xtype: 'app-switcher-iconlabel',
+    xtype: 'app-switcher-iconlabel',
 
-  itemId: 'switcher-iconlabel',
+    itemId: 'switcher-iconlabel',
     iconCls: null,
     constructor: function(config) {
     var me = this;

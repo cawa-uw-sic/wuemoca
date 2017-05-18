@@ -11,7 +11,8 @@ Ext.define('App.service.Report', {
   window    : Ext.create('App.util.Window', { 
     title: i18n.report.generate_window, 
     items: [{ xtype: 'app-report-form' }], 
-    listeners: { show: 'onReportWindow' },
+    listeners: { 
+      show: 'onReportWindow' },
     modal: true
   }),
 

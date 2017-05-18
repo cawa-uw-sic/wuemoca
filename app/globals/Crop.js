@@ -5,7 +5,7 @@
 var __Crop = [
   /**
   * @property sum
-  * sum crop
+  * all crops
   */
   {
     idx   : 0,
@@ -53,7 +53,7 @@ var __Crop = [
   },
   /**
     * @property alfa
-  * alfa crop
+  * alfalfa crop
   */  
   {
     idx   : 4,
@@ -65,7 +65,7 @@ var __Crop = [
   },
   /**
     * @property orchard
-  * orchard crop
+  * orchard/vineyard crop
   */  
   {
     idx   : 5,
@@ -77,7 +77,7 @@ var __Crop = [
   },
   /**
     * @property garden
-  * garden crop
+  * urban garden crop
   */  
   {
     idx   : 6,
@@ -113,7 +113,7 @@ var __Crop = [
   },
   /**
     * @property sun
-  * sun crop
+  * sunflower crop
   */  
   {
     idx   : 9,
@@ -125,7 +125,7 @@ var __Crop = [
   },
   /**
     * @property veg
-  * veg crop
+  * vegetable crop
   */  
   {
     idx   : 10,

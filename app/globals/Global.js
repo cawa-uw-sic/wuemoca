@@ -97,6 +97,7 @@ __Global.urls= {
     Intro         : 'bme00001.htm',
     Imprint     : documents + 'Imprint.pdf',
     Manual        : documents + 'Manual.pdf',
+    AcronymPDF      : documents + 'acronyms.pdf',
     VideoHeader        : documents + 'WUEMoCA_general_information.gif'
 };
 /**
@@ -107,7 +108,7 @@ __Global.geoserverWorkspace = geoserver_workspace;
 * chart settings
 */
 __Global.chart= {
-    Height: 350,
+    Height: 320,
     BarWidth: 36
 };
 

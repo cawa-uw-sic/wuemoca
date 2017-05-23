@@ -70,7 +70,11 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.showComponents(['polygon-btn-activate']);
     });
     self.windowChart.on("boxready", function (window) {
-      window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
+      window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
+      window.setHeight(__Global.chart.Height);
+      window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
+     // window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
+          
     });
   },
 
@@ -80,15 +84,13 @@ Ext.define('App.service.Polygon', {
     this.selectControl.setActive(val);
     App.service.Helper.getComponentExt('exporter-window').hide();
     App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
-    App.service.Helper.getComponentExt('exporter-cb-aggregation').setVisible(!val);     
     if (val == false){
       this.deselectMapAndList();
       this.drawControl.setActive(false);
       this.activated = false;
       this.windowChart.close();
       this.windowEdit.close();
-      App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(
-        App.service.Watcher.getIndicator().chart == 'Multiannual');
+      App.service.Exporter.setDownloadCombotext();
     }
     else{
       this.rerenderFeatures();

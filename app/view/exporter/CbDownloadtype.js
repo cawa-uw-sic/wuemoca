@@ -61,6 +61,7 @@ Ext.define('App.view.exporter.CbDownloadtype', {
   */  
   valueField: 'id',
   /**
+  Selected value
   */ 
   value: 'excel',
   /**

@@ -56,9 +56,14 @@ Ext.define('App.service.Chart', {
     self.window.on("close", function () {
       App.service.Highlight.clear();
       self.data = [];
+      App.service.Exporter.setDownloadCombotext();      
     });
     self.window.on("boxready", function (window) {
-      window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
+
+      window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
+      window.setHeight(__Global.chart.Height);
+      window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
+      //window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);    
     });
   },
   /**
@@ -68,7 +73,15 @@ Ext.define('App.service.Chart', {
   * click event
   */
   display: function (e) {
-    if (this.isBusy || App.service.Polygon.activated || App.service.Map.itsPolygon(e) || !App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()) return false;
+    if (
+      this.isBusy || 
+      App.service.Polygon.activated || 
+      App.service.Map.itsPolygon(e) || 
+      !App.service.Watcher.get('Indicator') || 
+      !App.util.Layer.current.getVisible()
+    ){ 
+      return false;
+    } 
     this.e = e;
     this.doRequest();
   },
@@ -78,28 +91,37 @@ Ext.define('App.service.Chart', {
   */
   doRequest: function () {
     var self = this;
-    self.isBusy = true;
-    Ext.data.JsonP.request({
-      url : App.service.Map.getUrl(self.e, false),
-      callbackName: 'ChartResponse',
-      params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
-      success: function (results) {
-        self.isBusy = false;
-        if (results.features.length > 0){
-          self.dataResponse(results.features);
-          App.service.Highlight.display(results.features);
-          self.showWindow();
-          App.service.Exporter.setDownloadCombotext();
+    if (self.isBusy) return false;
+    var url = App.service.Map.getUrl(self.e, false);
+    if (url){
+      self.isBusy = true;
+      Ext.data.JsonP.request({
+        url : url,
+        callbackName: 'ChartResponse',
+        params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
+        success: function (results) {
+          if (results.features.length > 0){
+            self.dataResponse(results.features);
+            App.service.Highlight.display(results.features);
+            self.showWindow();
+          }
+          else{
+            self.window.close();
+          }
+          App.service.Polygon.windowChart.close();
+        },
+        callback: function (results){
+          self.isBusy = false;
+          App.service.Exporter.setDownloadCombotext();        
+        },
+        failure: function(results){
+          self.window.close();
         }
-        App.service.Polygon.windowChart.close();
-      },
-      failure: function (results) {
-        self.isBusy = false;
-        App.service.Highlight.clear();
-        self.window.close();
-        self.data = [];
-      }
-    });
+      });
+    }
+    else{
+      self.window.close();
+    }
   },
   /**
   * @method showWindow

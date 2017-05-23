@@ -120,14 +120,14 @@ Ext.define('App.service.Report', {
 
     data.map(function (rec) {
       var name = rec['rayon_' + __Global.lang] || rec['uis_' + __Global.lang];
-      var totalGrain = parseFloat(rec.firf_wheat).toFixed(1) + parseFloat(rec.firf_maize).toFixed(1);
+      var totalGrain = parseFloat(rec.firf_wheat) + parseFloat(rec.firf_maize);
       result.body += '<tr>';
       result.body += '<td>' + name + '</td>';
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.fir_n).toFixed(1) + '</td>';
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_cotton).toFixed(1) + '</td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + totalGrain.toFixed(1) + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_wheat).toFixed(1) + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_veg).toFixed(1) + '</td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firf_alfa).toFixed(1) + '</td>';

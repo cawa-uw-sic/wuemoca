@@ -120,6 +120,7 @@ Ext.define('App.service.Map', {
   hideShowElements: function(currentLayer){
     App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
     App.service.Yearslider.didRender();
+    App.service.Exporter.setDownloadCombotext();
   },
 
   getLayerSource: function (yearIncluded) {
@@ -517,6 +518,7 @@ Ext.define('App.service.Map', {
     if (aggreg_ids.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
       App.service.Watcher.set('Aggregation', aggreg_ids[0]);
       App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
+      //App.service.Helper.setComponentsValue([]);
     }
 
 

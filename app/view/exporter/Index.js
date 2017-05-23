@@ -42,7 +42,6 @@ Ext.define('App.view.exporter.Index', {
     { 
       xtype: 'button', 
       itemId: 'exporter-btn-download', 
-      text: i18n.exp.download + ' ' + i18n.exp.mapOrTable,
       iconCls: 'x-fa fa fa-download',      
       //ui: 'default-toolbar', 
       handler: 'onDownloadWindow'
@@ -51,10 +50,20 @@ Ext.define('App.view.exporter.Index', {
       xtype: 'button', 
       itemId: 'exporter-btn-report',
       text: i18n.report.generate_button,
+      tooltip: i18n.report.btnTooltip,      
       iconCls: 'x-fa fa-file-excel-o',
       //ui: 'default-toolbar',
       handler: 'onReport'
 
-    }  
+    },
+    { 
+      xtype: 'button', 
+      itemId: 'exporter-btn-pdf',
+      text: i18n.exp.acronym,
+      iconCls: 'x-fa fa-file-pdf-o',
+      ui: 'default-toolbar',
+      handler: 'onAcronymPDF'
+
+    }   
   ]
 });

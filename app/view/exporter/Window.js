@@ -1,5 +1,5 @@
 /**
-* Switcher window for download options
+* Exporter window for download options
 */
 Ext.define('App.view.exporter.Window', {
   extend: 'Ext.Window',
@@ -11,17 +11,16 @@ Ext.define('App.view.exporter.Window', {
   id: 'exporter-window',
 
   requires: [
-    //'App.controller.Switcher',
     'App.view.exporter.Form'
   ],
 
   controller: 'exporter',
 
-  title: 'Download options',
+  title: i18n.exp.opts,
   layout: { type: 'fit'},
   border: false,
   width: 300,
-  height: 360,
+  //height: 360,
   x: 10,
   //y: 10,
   collapsed: false,
@@ -29,16 +28,14 @@ Ext.define('App.view.exporter.Window', {
   closeAction: 'hide',
   shadow: true,
   bodyBorder: false,
-  //bodyPadding: 10,
+
   items: [
     { xtype: 'app-exporter-form' }
   ],
   listeners: { 
     boxready: function(){
       var data = App.service.Report.getYearData();
-      data.unshift({id: 'all', name: i18n.exp.all});
-      App.service.Helper.getComponentExt('exporter-cb-year').getStore().setData(data);
-      App.service.Helper.getComponentExt('exporter-cb-year').setValue('all');      
+      App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(data);
     }
   }
 

@@ -291,6 +291,7 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Multiannual',
     legendcolors   : [cr_dark, cr_color, cr_bright],
+    decimals       : 1,    
     glossary       : 'bme00073.htm#bookme_anchor8'
   }, 
   /**
@@ -323,6 +324,7 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Multiannual',
     legendcolors   : [flf_bright, flf_color, flf_dark],
+    decimals       : 1,      
     glossary       : 'bme00073.htm#bookme_anchor9'
   }
 

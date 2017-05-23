@@ -3,8 +3,8 @@ Ext.define('App.util.Window', {
 
   layout:'fit',
   border: false,
-  width: (((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth),//__Global.chart.Width,
-  height: __Global.chart.Height,
+  width: 520,
+  height: 320,
   title: '',
   collapsed: false,
   resizable: false,

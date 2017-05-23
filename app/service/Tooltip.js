@@ -28,7 +28,7 @@ Ext.define('App.service.Tooltip', {
       
       map.getTarget().style.cursor = hit ? 'pointer' : '';      
     }
-    else if (App.util.Layer.current.getVisible()){
+    else if (App.util.Layer.current && App.util.Layer.current.getVisible()){
       this.isBusy = true;
       this.doRequest(e);
     }
@@ -53,15 +53,16 @@ Ext.define('App.service.Tooltip', {
             App.service.Status.set('&#160;');
             map.getTargetElement().style.cursor = '';
           }
-          self.createTimer();
+        },
+        callback: function (results){
+          // set delay to avoid too much traffic
+          self.createTimer();          
         },
         failure: function (results) {
           App.service.Status.set('&#160;');
           map.getTargetElement().style.cursor = '';
-          self.createTimer();
         }
       });
-
     }
     else{
        map.getTargetElement().style.cursor = '';

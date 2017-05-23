@@ -72,6 +72,7 @@ var i18n = {
 
       generate_button              : 'Generate Report',
             generate_window              : 'Generate Report',
+            btnTooltip:'Report format according to statistics',
     year                    : 'Select year',
       selectCountry: 'Select country',
       selectOblast: 'Select province',
@@ -259,7 +260,7 @@ mapSelection:{
 
   exp: {
     title                   : 'Export and Report',
-    opts                    : 'Export selection options',
+    opts                    : 'Download options',
     tableCsv                : 'Table as CSV',
     tableExcel              : 'Export all indicators to Excel',
     indicatorAcronym: 'Indicator acronym',
@@ -289,6 +290,9 @@ mapSelection:{
     map: 'map',
     table: 'table',
     mapOrTable : 'map or table',
+btnTooltip1: 'Download all indicators on',
+btnTooltip2: 'level. Select filter, download format and year(s).',   
+
     selectFilter: 'Select filter',
     selectOutput: 'Select download format',
     download: 'Download',
@@ -298,7 +302,8 @@ mapSelection:{
           selected: 'selected',
           conjunction: 's' + ' of ',
           all: 'all',
-          plural: 's'
+          plural: 's',
+          acronym: 'Show acronym explanations'
   },
 
   timeSlider: {
@@ -319,15 +324,15 @@ mapSelection:{
     showPolygon             : 'My Polygons',
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
-    exporterPressed           : 'Report mode',
+    exportPressed           : 'Report mode',
     chartPressed            : 'Chart mode',
     removeAll               : 'Remove all polygons',
     removeSel               : 'Remove selected polygon',
 
     activate                : 'Draw Polygon',
     deactivate              : 'Stop drawing',
-    upload                  : 'Upload Polygon',
-        download                  : 'Download Polygon',
+    upload                  : 'Upload Shapefile',
+    download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
           progressTitle : 'Calculate Indicators',
@@ -340,7 +345,7 @@ mapSelection:{
           alreadyCalculated: 'Indicators already calculated!',
           partlyCalculated: 'Indicator calculation failed for some polygons.',
           calculation_message: 'Do you want to calculate indicators for the selected polygon?',
-    exporterExcel: 'Export to EXCEL',
+    exportExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
     shift: 'Select a single polygon or multiple polygons with SHIFT key',
@@ -372,7 +377,7 @@ mapSelection:{
     btnSubmit               : 'Save'
   },
 
-  exporterTemplate: {
+  exportTemplate: {
     landuseTable            : 'Landuse Table',
     landuseChart            : 'Landuse Chart',
     yieldTable              : 'Yield Table',
@@ -476,6 +481,7 @@ switch (locale){
     i18n.report = {
       generate_button              : 'Получить отчет',
       generate_window              : 'Получить отчет',
+      btnTooltip: 'Report format according to statistics',
       year                  : 'Выберать год',
       selectCountry: 'Выбрать страну',
       selectOblast: 'Выбрать область',
@@ -634,7 +640,7 @@ i18n.mapSelection ={
 
     i18n.exp = {
       title                 : 'Экспорт и отчет',
-      opts                  : 'Выбор опций экспорта',
+      opts                  : 'опции скачивания',
       tableCsv              : 'Таблица как CSV',
       tableExcel              : 'Таблица как EXCEL',
     indicatorAcronym: 'индикатор акроним',
@@ -666,6 +672,8 @@ i18n.mapSelection ={
           map: 'карту',
           table: 'таблица',
           mapOrTable : 'карту или таблица',
+          btnTooltip1: 'Download all indicators on',
+          btnTooltip2: 'level. Select filter, download format and year(s).',  
           selectFilter: 'Выбрать фильтр',
           selectOutput: 'Выберите формат вывод',
           download: 'Скачать',
@@ -675,7 +683,8 @@ i18n.mapSelection ={
           selected: 'выбранные',
           conjunction: ' ',
                     all: 'все',
-                    plural: ''
+                    plural: '',
+                    acronym: 'Show acronym explanations'
    
     };
 
@@ -697,15 +706,16 @@ i18n.mapSelection ={
           showPolygon             : 'Мои полигоны',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
-      exporterPressed         : 'Режим экспорта',
+      exportPressed         : 'Режим экспорта',
       chartPressed          : 'Режим графика',
       removeAll             : 'Удалить все полигоны',
       removeSel             : 'Удалить выбранный полигон',
 
       activate              : 'Нарисовать полигон',
       deactivate            : 'Прекратить рисование',
-      upload                : 'Загрузить полигон',
-              download                  : 'Скачать Полигон',
+      upload                : 'Загрузить<br>Shapefile',
+
+              download                  : 'Скачать подборку',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',
@@ -719,7 +729,7 @@ i18n.mapSelection ={
                 alreadyCalculated: 'Индикаторы уже подсчитали!',
                 partlyCalculated: 'Расчет индикатора не удалось для некоторых полигонов.',
                           calculation_message: 'Вы хотите рассчитать индикаторы для выбранного полигона?',
-          exporterExcel: 'Экспорт в Excel',
+          exportExcel: 'Экспорт в Excel',
       remove                : 'Удалить',
     tooltip: 'Выбранный полигон',
     pressCalculate: 'сначала нажмите расчет индикатора!',
@@ -751,7 +761,7 @@ i18n.mapSelection ={
       btnSubmit             : 'Сохранить'
     };
 
-    i18n.exporterTemplate = {
+    i18n.exportTemplate = {
       landuseTable          : 'Таблица землепользования',
       landuseChart          : 'График землепользования',
       yieldTable            : 'Таблица урожайности',

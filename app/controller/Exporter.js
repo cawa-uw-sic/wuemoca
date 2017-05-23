@@ -19,8 +19,10 @@ Ext.define('App.controller.Exporter', {
   */
   onDownloadWindow: function () {
     App.service.Helper.getComponentExt('exporter-window').show();
-    App.service.Helper.setComponentsValue([{ id: 'exporter-cb-aggregation', selection: 'Aggregation' }]);
   },  
+  onAcronymPDF: function(){
+     App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf');
+  },
   /**
   * @method onDownloadSelection
   * check if download button can be enabled
@@ -35,10 +37,7 @@ Ext.define('App.controller.Exporter', {
   },  
   onFormSubmit: function (el, form, val) {
     var vals = el.up().up().getValues();
-
-   // if ((!vals.oblast && !vals.buis) || !vals.year) return Ext.Msg.alert('', i18n.report.alert);
     App.service.Exporter.download(vals);
-
     App.service.Helper.getComponentExt('exporter-window').hide();
   },
 
@@ -52,6 +51,7 @@ Ext.define('App.controller.Exporter', {
   */
   onAggregation: function (cb, val) {
     App.service.Map.onAggregation(cb, val);
+    //App.service.Helper.getComponentExt('switcher-cb-aggregation').setValue(val);
   }
 
 });

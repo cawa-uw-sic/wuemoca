@@ -28,7 +28,7 @@ Ext.define('App.controller.Chart', {
   * Create Excel file with all indicators for selected object. {@link }
   */  
   onExcel: function () {
-    App.service.Helper.JSONToHTMLConvertor();
+    App.service.Helper.JSONToHTMLConvertor('all');
   },
 
   /**

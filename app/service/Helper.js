@@ -319,7 +319,7 @@ Ext.define('App.service.Helper', {
 * @method JSONToHTMLConvertor 
 * the indicator values, stored in the chart store in JSON format, are written to HTML table with MS Excel content type
 */
-  JSONToHTMLConvertor: function () { 
+  JSONToHTMLConvertor: function (year) { 
     var self = this;
     var userPolygon = App.service.Chart.userPolygon;
     var JSONData = App.service.Chart.data;
@@ -344,24 +344,30 @@ Ext.define('App.service.Helper', {
       var sortedData = JSON.parse(JSON.stringify( arrData, indicator_fields , 4));
  
       //Generate a file name
-      var fileName = 'WUEMoCA_indicators_';
+      var fileName = '';
       var polygonName = '';
       var totalArea = 0;
       if (userPolygon){
-        polygonName = polygon.info.name.replace(/ /g,"_") + '_' + polygon.info.location.replace(/ /g,"_");
+        polygonName = polygon.info.name.replace(/ /g,'_'); 
+        if (polygon.info.location != ''){
+          polygonName += '_' + polygon.info.location.replace(/ /g,'_'); 
+        }
         fileName += polygonName;
         totalArea = polygon.totalArea;        
       }
       else{
-        fileName += object_id + '_' + aggregation;
+        fileName += aggregation + '_' + object_id;
+      }
+      if (year != ''){
+        fileName += '_' + year;
       }
       //this will remove the blank-spaces from the title and replace it with an underscore
-      fileName = fileName.replace(/ /g,"_");   
+      fileName = fileName.replace(/ |,/g,'_');   
 
       var uri  = 'data:application/vnd.ms-excel;base64,';
       var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
  
-      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, totalArea, polygonName) };
+      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, year, totalArea, polygonName) };
 
       //this trick will generate a temp <a /> tag
       var link = document.createElement("a");    
@@ -379,7 +385,7 @@ Ext.define('App.service.Helper', {
     }
   },
 
-  indicator_table: function (data, userPolygon, totalArea, polygonName) {
+  indicator_table: function (data, userPolygon, year, totalArea, polygonName) {
     var fieldCount = 0;
     var result = { head: '', body: '' };
    
@@ -400,34 +406,39 @@ Ext.define('App.service.Helper', {
 
     //1st loop is to extract each row
     for (var i = 0; i < data.length; i++) {
-      result.body += '<tr>';
-      if (userPolygon){
-        result.body += '<td>' + polygonName + '</td>';   
-        result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';     
-      }
-      //2nd loop will extract each column
-      for (var index in data[i]) {
-        if (isNaN(data[i][index]) || typeof data[i][index] == 'string' || index == 'year'){
-          result.body += '<td>' + data[i][index] + '</td>';
+      if (year == '' || year.indexOf(data[i]['year']) != -1){
+        result.body += '<tr>';
+        if (userPolygon){
+          result.body += '<td>' + polygonName + '</td>';   
+          result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';     
         }
-        else{
-          var format = '0';
-          __Indicator.map(function (indicator) {
-            if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
-              format = '#,##0';
-              if (indicator.decimals > 0){
-                format += '.';
-                for (var count = 1; count <= indicator.decimals; count++){
-                  format += '0';
-                }
-              } 
-            }
-          });       
-          //workaround for problem with three decimals and German or Russian delimiter  
-          result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';          
+        //2nd loop will extract each column
+        for (var index in data[i]) {
+          if (isNaN(data[i][index]) || typeof data[i][index] == 'string' || index == 'year' || index.indexOf('_id') != -1){
+            result.body += '<td>' + data[i][index] + '</td>';
+          }
+          else if (index == 'area_ha'){
+            result.body += '<td style=\'mso-number-format:"#,##0"\'>' + data[i][index] + '</td>'; 
+          }
+          else{
+            var format = '0';
+            __Indicator.map(function (indicator) {
+              if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
+                format = '#,##0';
+                if (indicator.decimals > 0){
+                  format += '.';
+                  for (var count = 1; count <= indicator.decimals; count++){
+                    format += '0';
+                  }
+                } 
+              }
+            });       
+            //workaround for problem with three decimals and German or Russian delimiter  
+            result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';          
+          }
         }
+        result.body += '</tr>';
       }
-      result.body += '</tr>';
     }
     //add column name explanation
     result.body += '<tr></tr>'; 

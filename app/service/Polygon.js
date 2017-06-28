@@ -268,7 +268,10 @@ Ext.define('App.service.Polygon', {
   },
 
   registerPolygon: function (geometry) {
-    var uniqueId = 'p-' + Date.now().toString().split('').reverse().join('');
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the 11 characters after the decimal.
+    var uniqueId = 'p-' + Math.random().toString(36).substr(2);
+    //var uniqueId = 'p-' + Date.now().toString().split('').reverse().join('');
     var polygon = {
       uid: uniqueId,
       info: { name: uniqueId, location: '' },

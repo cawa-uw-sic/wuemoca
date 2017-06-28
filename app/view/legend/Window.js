@@ -15,20 +15,27 @@ Ext.define('App.view.legend.Window', {
 
     'Ext.layout.container.VBox',
     'Ext.layout.container.HBox',
+        'Ext.layout.container.Fit',
+                'Ext.layout.container.Anchor',
     'App.view.legend.CxIrrigation',
     'App.view.legend.SlOpacityIrrigation',
     'App.view.legend.CxCurrent',
-    'App.view.legend.SlOpacityCurrent',
-    'App.view.legend.Panel'
+    'App.view.legend.SlOpacityCurrent'
+    //'App.view.legend.Panel'
   ],
 
   controller: 'legend',
 
-  title: i18n.settings.title,
-  layout: { type: 'vbox', align: 'stretch' },
+  title: 'Map Layer',//i18n.settings.title,
+  layout: { 
+    type: 'vbox'
+    , align: 'stretch' 
+  },
   border: false,
   width: 300,
-  height: 300,
+  autoHeight: true,
+  minHeight: 162,
+  //height: 300,
   x: Ext.getBody().getWidth() - 650,
   y: 9,
   collapsed: false,
@@ -36,7 +43,7 @@ Ext.define('App.view.legend.Window', {
   closeAction: 'hide',
   shadow: true,
   bodyBorder: false,
-  bodyPadding: 10,
+  bodyPadding: '10px 10px 0px 10px',
   //renderTo:'map-panel',
   //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
@@ -47,14 +54,43 @@ Ext.define('App.view.legend.Window', {
       ,{ xtype: 'app-legend-sl-opacity-irrigation',  flex: 1 }
     ]
   }, {
-        itemId: 'legend-current',
+    itemId: 'legend-current',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
        { xtype: 'app-legend-cx-current',          flex: 3 }
       ,{ xtype: 'app-legend-sl-opacity-current',  flex: 1 }
     ]
   }, {
-    xtype: 'app-legend-panel'
+
+   // xtype: 'app-legend-panel',
+    xtype: 'fieldset',
+    title: i18n.settings.title,
+    itemId: 'legend-panel',
+    layout: { type: 'hbox', align: 'stretch' },
+
+    collapsible: true,
+    collapsed: true,
+
+    items:[{
+      xtype: 'image',
+      itemId: 'legend-image',
+      height: 150,
+      width: 40,
+      alt: 'legend',
+      src: ''
+    },{
+      xtype: 'component',
+      itemId: 'legend-text',
+      style: {
+        padding: '0px 0px 0px 5px',
+        fontSize: '13px',
+        lineHeight: '130%'
+      },
+
+      html: ''
+
+    }]    
+    //xtype: 'app-legend-panel'
   }],
   listeners:{
     hide: function () {App.service.Watcher.set('Legend', 'noshow');},

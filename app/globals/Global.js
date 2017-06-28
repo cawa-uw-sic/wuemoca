@@ -108,7 +108,7 @@ __Global.geoserverWorkspace = geoserver_workspace;
 * chart settings
 */
 __Global.chart= {
-    Height: 320,
+    Height: 340,
     BarWidth: 36
 };
 

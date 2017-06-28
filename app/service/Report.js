@@ -39,8 +39,8 @@ Ext.define('App.service.Report', {
     var parent = params.oblast || params.buis;
 
     var oblast = params.oblast;
-    var title = App.service.Helper.getComponentExt( oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
-    title += oblast ? ' ' + i18n.adminFilters.oblast : ' ' + i18n.adminFilters.buis;
+    var title1 = App.service.Helper.getComponentExt( oblast ? 'report-cb-oblast' : 'report-cb-buis' ).getSelection().get('name');
+    var title2 = oblast ? i18n.adminFilters.oblast : i18n.adminFilters.buis;
     var year = params.year;
 
     Ext.data.JsonP.request({
@@ -49,7 +49,11 @@ Ext.define('App.service.Report', {
       params: {format_options: 'callback:Ext.data.JsonP.ReportResponse'},
       success: function (results) {
         self.isBusy = false;
-        var ctx = { worksheet: title + ' ' + params.type + ' ' + year, table: self[params.type](results, title, year, oblast) };
+        var worksheetname = title1.replace(/ /g,"_") + '_' + params.type + '_' + year;
+        if (worksheetname.length > 31){
+          worksheetname = params.type + '_' + year;
+        }
+        var ctx = { worksheet: worksheetname, table: self[params.type](results, title1 + ' ' + title2, year, oblast) };
 
         //this trick will generate a temp <a /> tag
         var link = document.createElement("a");    
@@ -57,7 +61,8 @@ Ext.define('App.service.Report', {
         
         //set the visibility hidden so it will not effect on your web-layout
         link.style = "visibility:hidden";
-        link.download = "WUEMoCA Report.xls";
+        //link.download = "WUEMoCA Report.xls";
+        link.download = title1.replace(/ /g,"_") + '_' + title2 + '_' + params.type + '_' + year + '.xls';
         
         //this part will append the anchor tag and remove it after automatic click
         document.body.appendChild(link);
@@ -69,7 +74,7 @@ Ext.define('App.service.Report', {
     });   
   },
 
-  typePattern: function (data, title, year, oblast) {
+  cropPattern: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titlePattern.replace('{object}', title);
@@ -145,7 +150,7 @@ Ext.define('App.service.Report', {
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
 
-  typeHarvest: function (data, title, year, oblast) {
+  grossHarvest: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titleHarvest.replace('{object}', title);
@@ -218,7 +223,7 @@ Ext.define('App.service.Report', {
     return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
   },
 
-  typeYield: function (data, title, year, oblast) {
+  cropYield: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
 
     var topTitle = i18n.report.titleYield.replace('{object}', title);

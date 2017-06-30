@@ -291,7 +291,7 @@ mapSelection:{
     table: 'table',
     mapOrTable : 'map or table',
 btnTooltip1: 'Download all indicators on',
-btnTooltip2: 'level. Select filter, download format and year(s).',   
+btnTooltip2: 'level. Select filter, download format and year(s).',
 
     selectFilter: 'Select filter',
     selectOutput: 'Select download format',
@@ -320,6 +320,16 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     m                       : 'm'
   },
 
+  wue: {
+    windowTitle             : 'Water Intake Form',
+    btnSubmit               : 'Calculate',
+    byDecade                : 'by decade',
+    byMonth                 : 'monthly',
+    byYear                  : 'yearly',
+    year                    : 'Year',
+    decade                  : 'Decade'
+  },
+
    polygon: {
     showPolygon             : 'My Polygons',
     notPressed              : 'Polygon drawing mode',
@@ -332,6 +342,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     activate                : 'Draw Polygon',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
+    calculateWUE            : 'Calculate WUE',
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -341,7 +352,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           progressMsg2multi: 'polygons...',
           success : 'Indicators calculated successfully!',
           failure: 'Indicator calculation failed',
-                largearea: ' due to large area',          
+                largearea: ' due to large area',
           alreadyCalculated: 'Indicators already calculated!',
           partlyCalculated: 'Indicator calculation failed for some polygons.',
           calculation_message: 'Do you want to calculate indicators for the selected polygon?',
@@ -413,6 +424,20 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   },
   alert: {
     ambiguous               : 'The clicked point is ambiguous, please click one unit only (maybe zoom in).'
+  },
+  month: {
+    m1:                      'Jan',
+    m2:                      'Feb',
+    m3:                      'Mar',
+    m4:                      'Apr',
+    m5:                      'May',
+    m6:                      'Jun',
+    m7:                      'Jul',
+    m8:                      'Aug',
+    m9:                      'Sep',
+    m10:                     'Oct',
+    m11:                     'Nov',
+    m12:                     'Dec'
   }
 };
 
@@ -673,7 +698,7 @@ i18n.mapSelection ={
           table: 'таблица',
           mapOrTable : 'карту или таблица',
           btnTooltip1: 'Download all indicators on',
-          btnTooltip2: 'level. Select filter, download format and year(s).',  
+          btnTooltip2: 'level. Select filter, download format and year(s).',
           selectFilter: 'Выбрать фильтр',
           selectOutput: 'Выберите формат вывод',
           download: 'Скачать',
@@ -685,7 +710,7 @@ i18n.mapSelection ={
                     all: 'все',
                     plural: '',
                     acronym: 'Show acronym explanations'
-   
+
     };
 
     i18n.timeSlider = {
@@ -702,6 +727,16 @@ i18n.mapSelection ={
       m                     : 'м'
     };
 
+    i18n.wue = {
+      windowTitle             : 'Форма ввода водоподачи',
+      btnSubmit               : 'Произвести расчет',
+      byDecade                : 'по декаде',
+      byMonth                 : 'по месяцам',
+      byYear                  : 'по годам',
+      year                    : 'Год',
+      decade                  : 'Декада'
+    },
+
     i18n.polygon = {
           showPolygon             : 'Мои полигоны',
       notPressed            : 'Режим рисования полигонов',
@@ -714,6 +749,7 @@ i18n.mapSelection ={
       activate              : 'Нарисовать полигон',
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить<br>Shapefile',
+      calculateWUE          : 'Расчет водоэффективности',
 
               download                  : 'Скачать подборку',
       edit                  : 'Редактировать',
@@ -799,5 +835,19 @@ i18n.mapSelection ={
     ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может быть увеличение)'
   };
 
+  i18n.month = {
+    m1:                      'Янв',
+    m2:                      'Фев',
+    m3:                      'Мар',
+    m4:                      'Апр',
+    m5:                      'Май',
+    m6:                      'Июн',
+    m7:                      'Июл',
+    m8:                      'Авг',
+    m9:                      'Сен',
+    m10:                     'Окт',
+    m11:                     'Ноя',
+    m12:                     'Дек'
+  }
   break;
 }

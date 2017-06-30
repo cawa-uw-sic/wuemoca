@@ -49,7 +49,7 @@ Ext.define('App.controller.Polygon', {
   onRemove: function (grid, rowIndex, colIndex) {
     var rec = grid.getStore().getAt(rowIndex);
     var uid = rec.get('uid');
-    var polygon = App.service.Polygon.getPolygonFromUID(uid);     
+    var polygon = App.service.Polygon.getPolygonFromUID(uid);
     App.service.Polygon.removeSelectedPolygons(polygon);
   },
 
@@ -62,7 +62,7 @@ Ext.define('App.controller.Polygon', {
   /*onShowChart: function (grid, rowIndex, colIndex) {
     var rec = grid.getStore().getAt(rowIndex);
     var uid = rec.get('uid');
-    var polygon = App.service.Polygon.getPolygonFromUID(uid);    
+    var polygon = App.service.Polygon.getPolygonFromUID(uid);
     App.service.Polygon.showChartWindow(polygon);
   },*/
 
@@ -73,6 +73,10 @@ Ext.define('App.controller.Polygon', {
     if (record.data.extent){
       App.service.Polygon.zoomToPolygon(record.data.extent);
     }
+  },
+
+  onWUE: function () {
+    App.service.Wue.window.show();
   }
 
 });

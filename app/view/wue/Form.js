@@ -33,7 +33,7 @@ Ext.define('App.view.wue.Form', {
 
     { xtype: 'app-wue-radio'},
 
-    { xtype: 'container', itemId: 'app-wue-container', items: [{ xtype: 'app-wue-form-by-decade' }] }
+    { xtype: 'container', itemId: 'app-wue-container', items: [{ xtype: 'app-wue-form-by-year' }] }
 
   ],
 

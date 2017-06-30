@@ -35,13 +35,13 @@ Ext.define('App.view.header.Help', {
       listeners: {
         click: 'onGlossary'
       }
-   /* },{
+   },{
       text: 'Instruction Video General Information',
       //tooltip: i18n.header.glossary_tooltip,
       iconCls: 'x-fa fa-youtube-play',
       listeners: {
         click: 'onVideoHeader'
-      }  */    
+      }    
     }]
   })
 });

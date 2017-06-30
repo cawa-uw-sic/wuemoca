@@ -124,7 +124,9 @@
   line-height: 15px !important;
   padding: 5px 10px !important;
 }
-
+.x-legend{
+ padding: 0px 5px !important;
+}
 .x-legend-container{
   border: 0 none;
   /*width: 650px;
@@ -211,6 +213,15 @@
 
 .x-form-item-default .x-item-disabled {
     opacity: 1;
+}
+.x-fieldset {
+  padding: 0px 10px 5px 10px;
+ }
+.x-fieldset-header{
+  padding: 5px !important;
+}
+.x-fieldset-header-text{
+    font-size: 13px !important;
 }
 .grouped-list .x-boundlist-item {
     padding: 1px 3px 0 10px;

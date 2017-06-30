@@ -8,9 +8,9 @@ Ext.define('App.view.report.Radio', {
   columns: 3,
 
   items: [
-  	{ name: 'type', boxLabel: i18n.report.typePattern, inputValue: 'typePattern', checked: true },
-  	{ name: 'type', boxLabel: i18n.report.typeHarvest, inputValue: 'typeHarvest' },
-  	{ name: 'type', boxLabel: i18n.report.typeYield,   inputValue: 'typeYield'   }
+  	{ name: 'type', boxLabel: i18n.report.cropPattern, inputValue: 'cropPattern', checked: true },
+  	{ name: 'type', boxLabel: i18n.report.grossHarvest, inputValue: 'grossHarvest' },
+  	{ name: 'type', boxLabel: i18n.report.cropYield,   inputValue: 'cropYield'   }
   ]
 
 });

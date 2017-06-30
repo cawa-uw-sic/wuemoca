@@ -1,6 +1,7 @@
 /**
 * @class __Indicator
-* list of indicators with id, DB field, English and Russian names, short names, tooltips, units, settings of crops, aggregation, years, legend, chart
+* list of indicators with id, DB field, English and Russian names, short names, tooltips, units, settings of crops, 
+* aggregation, years, legend, chart
 */
 var __Indicator = [
   /**
@@ -142,7 +143,7 @@ var __Indicator = [
     ruName         : 'Урожайность',
     enNameShort         : 'Yield',
     ruNameShort         : 'Урожайность',  
-    enTooltip      : 'Crop production per unit of harvested area',
+    enTooltip      : 'Crop production per hectare of harvested area',
     ruTooltip      : 'Урожайность орошаемых земель',       
     enUnit         : 't/ha',
     ruUnit         : 'т/га',
@@ -256,8 +257,10 @@ var __Indicator = [
     enLegend       : 'Predominant crop type',
     ruLegend       : 'Преобладающий тип урожая',
     croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'alfa', 'orchard', 'garden', 'other'],
-    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Alfalfa', 'Orchard/Vineyard', 'Urban Garden', 'Other crop'],
-    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
+    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Alfalfa', 'Orchard/Vineyard', 
+                    'Urban Garden', 'Other crop'],
+    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 
+                    'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
     glossary       : 'bme00073.htm#bookme_anchor13'
   }, 
@@ -326,6 +329,134 @@ var __Indicator = [
     legendcolors   : [flf_bright, flf_color, flf_dark],
     decimals       : 1,      
     glossary       : 'bme00073.htm#bookme_anchor9'
-  }
+  },
+  /**
+  * @property y
+  * y indicator
+  */
+  /*{
+    id             : 'v_water',
+    field          : 'v_water',
+    enName         : 'Available Water Supply for Irrigated Land',
+    ruName         : 'Available Water Supply for Irrigated Land',
+    enNameShort         : 'Water Supply',
+    ruNameShort         : 'Water Supply', 
+    enTooltip      : 'Available Water Supply for Irrigated Land per hectare',
+    ruTooltip      : 'Available Water Supply for Irrigated Land per hectare',     
+    enUnit         : 'mm/ha',
+    ruUnit         : 'mm/ha',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup: 'All aggregation levels',
+    ruGroup: 'Все уровни агрегации',    
+    years          : 'all',
+    yearsPrefix    : false,
+    category       : 'landuse',
+    type           : 'descriptive',
+    mapType        : 'colored',
+    enLegend       : 'Water Supply',
+    ruLegend       : 'Water Supply',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    decimals       : 1,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },  */
+     /**
+  * @property y
+  * y indicator
+  */
+ /* {
+    id             : 'vir',
+    field          : 'vir',
+    enName         : 'Irrigation Effectiveness Index',
+    ruName         : 'Irrigation Effectiveness Index',
+    enNameShort         : 'Irrigation Effectiveness',
+    ruNameShort         : 'Irrigation Effectiveness',  
+    enTooltip      : 'Index of amount of water losses',
+    ruTooltip      : 'Index of amount of water losses',
+    enUnit         : '-',
+    ruUnit         : '-',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup: 'All aggregation levels',
+    ruGroup: 'Все уровни агрегации',    
+    years          : 'all',
+    yearsPrefix    : false,
+    category       : 'landuse',
+    type           : 'descriptive',
+    mapType        : 'colored',
+    enLegend       : 'Irrigation Effectiveness Index',
+    ruLegend       : 'Irrigation Effectiveness Index',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Line',
+    decimals       : 1,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   }, */
+     /**
+  * @property y
+  * y indicator
+  */
+ /* {
+    id             : 'e_prod',
+    field          : 'e_prod',
+    enName         : 'Water Productivity',
+    ruName         : 'Water Productivity',
+    enNameShort         : 'Water Productivity',
+    ruNameShort         : 'Water Productivity',
+    enTooltip      : 'Output (money) in relation to input (water)',
+    ruTooltip      : 'Output (money) in relation to input (water)',
+    enUnit         : '$/m³',
+    ruUnit         : '$/m³',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup: 'All aggregation levels',
+    ruGroup: 'Все уровни агрегации',    
+    years          : 'all',
+    yearsPrefix    : false,
+    category       : 'landuse',
+    type           : 'descriptive',
+    mapType        : 'colored',
+    enLegend       : 'Water Productivity',
+    ruLegend       : 'Water Productivity',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    decimals       : 1,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   }, */
+     /**
+  * @property y
+  * y indicator
+  */
+  {
+    id             : 'etf',
+    field          : 'etf',
+    enName         : 'Actual Evapotranspiration',
+    ruName         : 'Фактическая эвапотранспирация',
+    enNameShort         : 'Evapotranspiration',
+    ruNameShort         : 'эвапотранспирация',
+    enTooltip      : 'Amount of water lost from the irrigated surface within one year',
+    ruTooltip      : 'Количество воды, потерянной с орошаемой поверхности в течение одного года',
+    enUnit         : 'mm',
+    ruUnit         : 'мм',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup: 'All aggregation levels',
+    ruGroup: 'Все уровни агрегации',    
+    years          : 'all',
+    yearsPrefix    : false,
+    category       : 'landuse',
+    type           : 'descriptive',
+    mapType        : 'colored',
+    enLegend       : 'Actual Evapotranspiration',
+    ruLegend       : 'Фактическая эвапотранспирация',
+    median         : 556,
+    maximum        : 1705,
+    chart          : 'Defaults',
+    decimals       : 0,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   } 
 
 ];

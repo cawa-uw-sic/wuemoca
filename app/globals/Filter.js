@@ -55,7 +55,7 @@ var __Filter = [
       ruName: 'Ежегодные индикаторы'
     }, {
       id    : 'no',
-      enName: 'Multiannual Indicators',
+      enName: 'Multi-annual Indicators',
       ruName: 'Суммарные индикаторы'
     }]
   }, {

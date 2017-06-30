@@ -180,7 +180,9 @@ Ext.define('App.service.Map', {
 
   getLayerName: function () {
     var layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation');
-    if (App.service.Watcher.getIndicator().yearsPrefix) layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation') + '_no_years';
+    if (App.service.Watcher.getIndicator().yearsPrefix) {
+      layerName += '_no_years';
+    }
     return layerName;
   },
 
@@ -275,10 +277,17 @@ Ext.define('App.service.Map', {
       aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
       self.getLegendTitle(true)
     );
-    App.service.Helper.getComponentExt('legend-image').setSrc(self.getLegendImage());
-    App.service.Helper.getComponentExt('legend-text').setStyle({ lineHeight: self.getLegendMedianStyle() });
-   // debugger;
-    App.service.Helper.getComponentExt('legend-text').update(self.getLegendMedian());
+    var image_src = self.getLegendImage();
+    if (image_src != ''){
+      App.service.Helper.getComponentExt('legend-panel').setVisible(true);
+      App.service.Helper.getComponentExt('legend-image').setSrc(image_src);
+      App.service.Helper.getComponentExt('legend-text').setStyle({ lineHeight: self.getLegendMedianStyle() });
+     // debugger;
+      App.service.Helper.getComponentExt('legend-text').update(self.getLegendMedian());
+    }
+    else{
+      App.service.Helper.getComponentExt('legend-panel').setVisible(false);
+    }
   },
 
   getLegendImage: function () {
@@ -332,7 +341,7 @@ Ext.define('App.service.Map', {
       if (!!median && median != 0) {
         text = (typeof median == 'object')
               ? i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low
-              : '0' + br + median + br + maximum;
+              : maximum + br + median + br + '0';
       }
 
 

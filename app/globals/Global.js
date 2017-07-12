@@ -72,7 +72,8 @@ __Global.api = {
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
     Wua           : api + 'searchWUAs.jsp?' + langParam,
-    writePolygon  : api + 'writePolygon.jsp?'
+    writePolygon  : api + 'writePolygon.jsp?',
+    WUE           : api + 'calculateWUE.jsp?'
 };
 /**
 *  collection of URLs of backend documents

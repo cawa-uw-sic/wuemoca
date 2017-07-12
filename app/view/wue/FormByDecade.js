@@ -33,7 +33,7 @@ Ext.define('App.view.wue.FormByDecade', {
 
     for (var i = 1; i <= 12; i++) {
       columns.push({
-        header: i18n.month['m'+i],
+        header: i18n.month['m' + i],
         dataIndex: 'm' + i,
         width: 54,
         editor: { allowBlank: true }

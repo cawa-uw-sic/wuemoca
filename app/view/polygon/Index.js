@@ -85,7 +85,7 @@ Ext.define('App.view.polygon.Index', {
       iconCls: 'x-fa fa-tint',
       handler: 'onWUE',
       itemId: 'polygon-btn-wue',
-      tooltip: i18n.polygon.calculateWUE,
+      tooltip: i18n.polygon.calculateWUElong,
       disabled: true
     },{
       xtype: 'label',

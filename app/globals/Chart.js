@@ -431,7 +431,7 @@ __Chart.Line = {
         display: display,
         font: '12px Helvetica',
         renderer: function(text, sprite, config, rendererData, index){
-          if (y = 'fir_n'){
+          if (y == 'fir_n'){
             return (index == parseInt(rendererData.store.data.length/2)) ? parseFloat(text).toFixed(decimals) + ' ' + measure : '';
           }
           else{

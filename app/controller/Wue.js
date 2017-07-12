@@ -9,6 +9,8 @@ Ext.define('App.controller.Wue', {
   onFormSubmit: function (el, form, val) {
     var vals = el.up().up().getValues();
     console.log(vals);
+    App.service.Wue.calculateVir(vals);
+    App.service.Wue.window.close();
   },
 
   onPeriodChange: function (el, val) {

@@ -324,7 +324,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   },
 
   wue: {
-    windowTitle             : 'Water Intake Form',
+    windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
     byDecade                : 'by decade',
     byMonth                 : 'monthly',
@@ -346,6 +346,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
+    calculateWUElong            : 'Calculate Water Use Efficiency Indicators',    
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -736,7 +737,7 @@ i18n.mapSelection ={
     };
 
     i18n.wue = {
-      windowTitle             : 'Форма ввода водоподачи',
+      windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Произвести расчет',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
@@ -758,7 +759,7 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить<br>Shapefile',
       calculateWUE          : 'Расчет водоэффективности',
-
+calculateWUElong          : 'Расчет водоэффективности',
               download                  : 'Скачать подборку',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',

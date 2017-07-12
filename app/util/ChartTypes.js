@@ -257,7 +257,7 @@ Ext.define('App.util.ChartTypes', {
     var threshold = 10;
     var decimals = 0;
     var display = 'over';
-    if (indicator.id = 'fir_n'){
+    if (indicator.id == 'fir_n'){
       display = 'under';
     }
     if (indicator.id == 'y'){

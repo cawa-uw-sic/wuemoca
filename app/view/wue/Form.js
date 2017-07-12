@@ -17,7 +17,7 @@ Ext.define('App.view.wue.Form', {
   border: false,
   //bodyPadding: 10,
   fieldDefaults: {
-  labelAlign: 'top'
+    labelAlign: 'top'
   },
   layout: {
     type: 'vbox',
@@ -40,7 +40,7 @@ Ext.define('App.view.wue.Form', {
   buttons: [{
     itemId: 'wue-btn-submit',
     text: i18n.wue.btnSubmit,
-    disabled: true,
+    disabled: false,
     handler: 'onFormSubmit'
   }]
 

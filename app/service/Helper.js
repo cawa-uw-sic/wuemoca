@@ -514,8 +514,8 @@ Ext.define('App.service.Helper', {
  
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
-      if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true)) && 
-        (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){
+      if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true))
+        && ((indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0) || userPolygon)){
         var field = indicator.field;
         if (!!indicator.crops){
           if (indicator.crops == 'all'){

@@ -23,7 +23,7 @@ var __Indicator = [
     aggregation    : 'all',
     enGroup: 'All aggregation levels',
     ruGroup: 'Все уровни агрегации',    
-    years          : false,
+    years          : 'all',
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
@@ -32,7 +32,8 @@ var __Indicator = [
     ruLegend       : 'Поливная площадь',
     median         : 0,
     maximum        : 0,
-    chart          : false,
+    chart          : 'Line',
+    color          : '#de2d26',
     decimals       : 0,
     glossary       : 'bme00073.htm#bookme_anchor14'
   }, 
@@ -104,7 +105,7 @@ var __Indicator = [
   * @property pirf
   * pirf indicator
   */
-  {
+  /*{
     id             : 'pirf',
     field          : 'pirf_{crop}',
     enName         : 'Farm gross output actual',
@@ -131,12 +132,12 @@ var __Indicator = [
     chart          : 'Defaults',
     decimals       : 0,
     glossary       : 'bme00073.htm#bookme_anchor10'
-  }, 
+  }, */
   /**
   * @property y
   * y indicator
   */
-  {
+  /*{
     id             : 'y',
     field          : 'y_{crop}',
     enName         : 'Yield',
@@ -163,7 +164,7 @@ var __Indicator = [
     chart          : 'Defaults',
     decimals       : 1,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   }, 
+   }, */
   /**
   * @property fp
   * fp indicator
@@ -262,6 +263,7 @@ var __Indicator = [
     ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 
                     'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
+    exportUserPolygon: true,
     glossary       : 'bme00073.htm#bookme_anchor13'
   }, 
   /**
@@ -293,6 +295,7 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     chart          : 'Multiannual',
+    exportUserPolygon: false,
     legendcolors   : [cr_dark, cr_color, cr_bright],
     decimals       : 1,    
     glossary       : 'bme00073.htm#bookme_anchor8'
@@ -326,6 +329,7 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     chart          : 'Multiannual',
+    exportUserPolygon: false,
     legendcolors   : [flf_bright, flf_color, flf_dark],
     decimals       : 1,      
     glossary       : 'bme00073.htm#bookme_anchor9'
@@ -338,43 +342,11 @@ var __Indicator = [
     id             : 'v_water',
     field          : 'v_water',
     enName         : 'Available Water Supply for Irrigated Land',
-    ruName         : 'Available Water Supply for Irrigated Land',
+    ruName         : 'Водообеспеченность орошаемых земель',
     enNameShort         : 'Water Supply',
-    ruNameShort         : 'Water Supply', 
-    enTooltip      : 'Available Water Supply for Irrigated Land per hectare',
-    ruTooltip      : 'Available Water Supply for Irrigated Land per hectare',     
-    enUnit         : 'mm/ha',
-    ruUnit         : 'mm/ha',
-    crops          : false,
-    aggregation    : 'all',
-    enGroup: 'All aggregation levels',
-    ruGroup: 'Все уровни агрегации',    
-    years          : 'all',
-    yearsPrefix    : false,
-    category       : 'landuse',
-    type           : 'descriptive',
-    mapType        : 'colored',
-    enLegend       : 'Water Supply',
-    ruLegend       : 'Water Supply',
-    median         : 0,
-    maximum        : 0,
-    chart          : 'Defaults',
-    decimals       : 1,
-    glossary       : 'bme00073.htm#bookme_anchor16'
-   },  */
-     /**
-  * @property y
-  * y indicator
-  */
- /* {
-    id             : 'vir',
-    field          : 'vir',
-    enName         : 'Irrigation Effectiveness Index',
-    ruName         : 'Irrigation Effectiveness Index',
-    enNameShort         : 'Irrigation Effectiveness',
-    ruNameShort         : 'Irrigation Effectiveness',  
-    enTooltip      : 'Index of amount of water losses',
-    ruTooltip      : 'Index of amount of water losses',
+    ruNameShort         : 'водоснабжение', 
+    enTooltip      : 'Available Water Supply for Irrigated Land',
+    ruTooltip      : 'Водообеспеченность орошаемых земель',     
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -386,14 +358,47 @@ var __Indicator = [
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'colored',
+    enLegend       : 'Water Supply',
+    ruLegend       : 'водоснабжение',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    decimals       : 1,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },  */
+     /**
+  * @property vir
+  * vir indicator
+  */
+ {
+    id             : 'vir',
+    field          : 'vir',
+    enName         : 'Irrigation Effectiveness Index',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort         : 'Irrigation Effectiveness',
+    ruNameShort         : 'Эффективность ирригации',  
+    enTooltip      : 'Index of amount of water losses',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : '-',
+    ruUnit         : '-',
+    crops          : false,
+    aggregation    : ['oblast'],
+    enGroup: 'Provinces only',
+    ruGroup: 'Provinces only',    
+    years          : 'all',
+    yearsPrefix    : false,
+    category       : 'landuse',
+    type           : 'descriptive',
+    mapType        : 'colored',
     enLegend       : 'Irrigation Effectiveness Index',
-    ruLegend       : 'Irrigation Effectiveness Index',
+    ruLegend       : 'Индекс эффективности ирригации',
     median         : 0,
     maximum        : 0,
     chart          : 'Line',
-    decimals       : 1,
+    color: '#2c7fb8',
+    decimals       : 2,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   }, */
+   },
      /**
   * @property y
   * y indicator
@@ -402,11 +407,11 @@ var __Indicator = [
     id             : 'e_prod',
     field          : 'e_prod',
     enName         : 'Water Productivity',
-    ruName         : 'Water Productivity',
+    ruName         : 'продуктивность воды',
     enNameShort         : 'Water Productivity',
-    ruNameShort         : 'Water Productivity',
+    ruNameShort         : 'продуктивность воды',
     enTooltip      : 'Output (money) in relation to input (water)',
-    ruTooltip      : 'Output (money) in relation to input (water)',
+    ruTooltip      : 'Выход (деньги) по отношению к входным (водным)',
     enUnit         : '$/m³',
     ruUnit         : '$/m³',
     crops          : false,
@@ -419,7 +424,7 @@ var __Indicator = [
     type           : 'descriptive',
     mapType        : 'colored',
     enLegend       : 'Water Productivity',
-    ruLegend       : 'Water Productivity',
+    ruLegend       : 'продуктивность воды',
     median         : 0,
     maximum        : 0,
     chart          : 'Defaults',

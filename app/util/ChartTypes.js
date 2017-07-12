@@ -149,7 +149,7 @@ Ext.define('App.util.ChartTypes', {
         },        
         items:
         [ 
-          { xtype: 'label', text: 'All crops incl. double usage, without fallow land' }
+          { xtype: 'label', text: i18n.chart.sumDoubleFallow }
           ,{ xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
         ]
@@ -251,14 +251,19 @@ Ext.define('App.util.ChartTypes', {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
       color = App.service.Helper.getById(__Crop, crop).color;
     }*/
-    var color = '#989800';
+    //var color = '#989800';
+    var color = indicator.color;
     var maximum = NaN;
     var threshold = 10;
     var decimals = 0;
+    var display = 'over';
+    if (indicator.id = 'fir_n'){
+      display = 'under';
+    }
     if (indicator.id == 'y'){
       threshold = 6;
     }
-    if (indicator.id == 'cd'){
+    if (indicator.id == 'cd' || indicator.id == 'vir'){
       maximum = 1;
       decimals = 1;
     }
@@ -287,7 +292,8 @@ Ext.define('App.util.ChartTypes', {
             yField, 
             (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), 
             color, 
-            indicator.decimals
+            indicator.decimals,
+            display
           )
         }
       ],

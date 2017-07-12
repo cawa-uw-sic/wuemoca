@@ -15,8 +15,7 @@ Ext.define('App.view.chart.Croptheme', {
 			other_color, 
 			maize_color, 
 			sun_color, 
-			veg_color,
-			'black'
+			veg_color
         ]
      
     }

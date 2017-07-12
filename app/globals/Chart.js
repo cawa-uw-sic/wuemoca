@@ -50,7 +50,6 @@ __Chart.Gauge = {
       angleField: field,
       donut: 60,
       needle: true
-      //colors: colors
     }];
   },
   getSprites: function (text){
@@ -179,7 +178,7 @@ __Chart.VBar = {
           }
         }
         if (y.indexOf('fir') != -1){
-          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' Tsd ' + measure;
+          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
         }
         else{
           label = parseFloat(value).toFixed(decimals) + ' ' + measure;
@@ -285,7 +284,7 @@ __Chart.StackedVBar = {
           }
         }
         if (ind_type == 'abs'){
-          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' Tsd ' + measure;
+          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
         }
         else{
           label = parseFloat(value).toFixed(0) + ' ' + measure;
@@ -376,7 +375,24 @@ __Chart.Line = {
       title: false,
       grid: true,
       renderer: function (axis, value) {
-        return parseFloat(value).toFixed(decimals) + ' ' + measure;
+        var label = '';
+        var decimalsHa = 0;
+        if (value % 1000 > 0){
+          decimalsHa = 1;
+          if (value % 100 > 0){
+            decimalsHa = 2; 
+            if (value % 10 > 0){
+              decimalsHa = 3; 
+            }
+          }
+        }
+        if (y == 'fir_n'){
+          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
+        }
+        else{
+          label = parseFloat(value).toFixed(decimals) + ' ' + measure;
+        }
+        return label;
       }
     }, {
       type: 'category',
@@ -394,7 +410,7 @@ __Chart.Line = {
     }];
   },
 
-  getSeries: function (x, y, measure, color, decimals) {
+  getSeries: function (x, y, measure, color, decimals, display) {
     return [{
       type: 'line',
       axis: 'left',
@@ -412,10 +428,15 @@ __Chart.Line = {
       }, 
       label: {
         field: y,
-        display: 'over',
+        display: display,
         font: '12px Helvetica',
-        renderer: function (text, sprite, config, rendererData, index) {
-          return parseFloat(text).toFixed(decimals) + ' ' + measure;
+        renderer: function(text, sprite, config, rendererData, index){
+          if (y = 'fir_n'){
+            return (index == parseInt(rendererData.store.data.length/2)) ? parseFloat(text).toFixed(decimals) + ' ' + measure : '';
+          }
+          else{
+            return parseFloat(text).toFixed(decimals) + ' ' + measure;
+          }
         }
       }/*,     
       tooltip: {

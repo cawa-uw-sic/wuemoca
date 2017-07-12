@@ -226,8 +226,10 @@ mapSelection:{
 
   settings: {
     legend                  : 'Legend',
-    title                   : 'Map Legend',
-    extent                  : 'Maximum irrigation extent'
+    title                   : 'Map Layers',
+    extent                  : 'Irrigated area',
+    showLegend: 'Show legend',
+    hideLegend: 'Hide legend'
   },
 
   map: {
@@ -255,7 +257,8 @@ mapSelection:{
     numCrops                : 'Number of crop types',
     flf               : 'Fallow land frequency',
     yearsFallow             : 'Years of fallow',
-          noChart    : 'No diagram available for'
+          noChart    : 'No diagram available for',
+          sumDoubleFallow: 'All crops incl. double usage, without fallow land'
   },
 
   exp: {
@@ -607,8 +610,12 @@ i18n.mapSelection ={
 
     i18n.settings = {
       legend                : 'Условные обозначения',
-      title                 : 'Условные обозначения карты',
-      extent                : 'Максимальная площадь орошения'
+    title                   : 'Слои карт',
+    extent                  : 'Орошаемая площадь',
+    showLegend: 'Показать легенду',
+    hideLegend: 'Скрыть легенду'      
+      //title                 : 'Условные обозначения карты',
+      //extent                : 'Максимальная площадь орошения'
     };
 
     i18n.map = {
@@ -635,7 +642,8 @@ i18n.mapSelection ={
       numCrops              : 'Кол-во типов культур',
       flf             : 'Частота неисп.земель',
       yearsFallow           : 'Годы неисп.земель',
-      noChart    : 'Нет диаграмма для'
+      noChart    : 'Нет диаграмма для',
+                sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель'
     };
 
     i18n.exp = {

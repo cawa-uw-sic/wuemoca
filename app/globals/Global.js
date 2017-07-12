@@ -65,7 +65,7 @@ __Global.year= {
 __Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
-    Polygon       : api + 'calculatePolygon.jsp?',
+    Polygon       : api + 'calculatePolygon_v7.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,

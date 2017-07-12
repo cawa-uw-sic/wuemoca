@@ -421,8 +421,13 @@ Ext.define('App.service.Helper', {
             result.body += '<td style=\'mso-number-format:"#,##0"\'>' + data[i][index] + '</td>'; 
           }
           else{
+
             var format = '0';
+            var mlu_name = '';
             __Indicator.map(function (indicator) {
+              if (indicator.id == 'mlu'){
+                mlu_name = indicator[__Global.lang + 'CropNames'][data[i][index] - 1];
+              }
               if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
                 format = '#,##0';
                 if (indicator.decimals > 0){
@@ -432,9 +437,14 @@ Ext.define('App.service.Helper', {
                   }
                 } 
               }
-            });       
-            //workaround for problem with three decimals and German or Russian delimiter  
-            result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';          
+            }); 
+            if (index != 'mlu'){      
+              //workaround for problem with three decimals and German or Russian delimiter  
+              result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';      
+            }   
+            else{
+              result.body += '<td>' + mlu_name + '</td>';
+            } 
           }
         }
         result.body += '</tr>';
@@ -453,7 +463,7 @@ Ext.define('App.service.Helper', {
 
     __Indicator.map(function (indicator) {
 
-      if (indicator.chart != 'Multiannual'){
+      if (indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true)){
         result.body += '<tr>';     
         result.body += '<td>' + indicator.field + '</td>'; 
         result.body += '<td></td>';       
@@ -504,7 +514,8 @@ Ext.define('App.service.Helper', {
  
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
-      if (indicator.chart != 'Multiannual' && (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){
+      if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true)) && 
+        (indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)){
         var field = indicator.field;
         if (!!indicator.crops){
           if (indicator.crops == 'all'){

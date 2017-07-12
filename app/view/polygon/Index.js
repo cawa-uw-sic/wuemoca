@@ -80,7 +80,14 @@ Ext.define('App.view.polygon.Index', {
       handler: 'onRemove',
       itemId: 'polygon-btn-remove',
       disabled: true*/
-    },{      
+    },{
+      text: i18n.polygon.calculateWUE,
+      iconCls: 'x-fa fa-tint',
+      handler: 'onWUE',
+      itemId: 'polygon-btn-wue',
+      tooltip: i18n.polygon.calculateWUE,
+      disabled: true
+    },{
       xtype: 'label',
       html: '<b>' + i18n.polygon.list + '</b><br>(' + i18n.polygon.doubleclick + ')'
     },{

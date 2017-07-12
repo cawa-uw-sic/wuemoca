@@ -11,7 +11,7 @@ Ext.define('App.view.report.Form', {
     'App.view.zoom.CbBuis',
     'App.store.ReportCountry',
     'App.store.ReportOblast',
-    'App.store.ReportBuis'  
+    'App.store.ReportBuis'
   ],
 
   xtype: 'app-report-form',
@@ -36,7 +36,7 @@ Ext.define('App.view.report.Form', {
   items: [
 
     { xtype: 'app-report-radio'},
-    { 
+    {
       xtype: 'fieldset',
       layout: {
         type: 'hbox',
@@ -48,21 +48,21 @@ Ext.define('App.view.report.Form', {
         margin: 5
       },
       items: [
-        { 
-          xtype: 'app-report-cb-year',  
-          name: 'year', 
+        {
+          xtype: 'app-report-cb-year',
+          name: 'year',
           itemId: 'report-cb-year',
           emptyText: i18n.report.selectYear
-        },{ 
-          xtype: 'app-zoom-cb-country', 
-          name: 'country', 
-          itemId: 'report-cb-country', 
-          fieldLabel: i18n.adminFilters.country, 
-          emptyText: i18n.report.selectCountry, 
-          store: { type: 'reportcountry' } 
+        },{
+          xtype: 'app-zoom-cb-country',
+          name: 'country',
+          itemId: 'report-cb-country',
+          fieldLabel: i18n.adminFilters.country,
+          emptyText: i18n.report.selectCountry,
+          store: { type: 'reportcountry' }
         }
     ]},
-    { 
+    {
       xtype: 'fieldset',
       layout: {
         type: 'hbox',
@@ -72,19 +72,19 @@ Ext.define('App.view.report.Form', {
         flex:1,
         border: false,
         margin: 5
-      },      
-      items: [       
-        { 
-          xtype: 'app-zoom-cb-oblast',  
-          name: 'oblast',  
-          itemId: 'report-cb-oblast',  
-          emptyText: i18n.report.selectOblast, 
-          store: { type: 'reportoblast'  } 
-        },{ 
-          xtype: 'app-zoom-cb-buis',    
-          name: 'buis',    
-          itemId: 'report-cb-buis',    
-          emptyText: i18n.report.selectBUIS, 
+      },
+      items: [
+        {
+          xtype: 'app-zoom-cb-oblast',
+          name: 'oblast',
+          itemId: 'report-cb-oblast',
+          emptyText: i18n.report.selectOblast,
+          store: { type: 'reportoblast'  }
+        },{
+          xtype: 'app-zoom-cb-buis',
+          name: 'buis',
+          itemId: 'report-cb-buis',
+          emptyText: i18n.report.selectBUIS,
           store: { type: 'reportbuis'    }
         }
       ]

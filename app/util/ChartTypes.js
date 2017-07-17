@@ -251,25 +251,18 @@ Ext.define('App.util.ChartTypes', {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
       color = App.service.Helper.getById(__Crop, crop).color;
     }*/
-    //var color = '#989800';
     var color = indicator.color;
-    var maximum = NaN;
-    var threshold = 10;
-    var decimals = 0;
+    var maximum = 1;
+    var decimals = 1;
     var display = 'over';
     if (indicator.id == 'fir_n'){
       display = 'under';
     }
-    if (indicator.id == 'y'){
-      threshold = 6;
+
+    if (App.service.Chart.maxData > maximum){
+      maximum = App.service.Chart.maxData;
     }
-    if (indicator.id == 'cd' || indicator.id == 'vir'){
-      maximum = 1;
-      decimals = 1;
-    }
-    else if (App.service.Chart.maxData < threshold){
-      maximum = threshold;
-    }
+
 
     return Ext.create('App.view.chart.FPanel', {
       items: [

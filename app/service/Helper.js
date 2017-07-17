@@ -474,6 +474,19 @@ Ext.define('App.service.Helper', {
         result.body += '</tr>';          
       }
     });
+    if (userPolygon){
+      __Indicator_userPolygon.map(function (indicator) {
+
+          result.body += '<tr>';     
+          result.body += '<td>' + indicator.field + '</td>'; 
+          result.body += '<td></td>';       
+          result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
+          for (var i = 4; i <= fieldCount; i++){
+            result.body += '<td></td>';        
+          }   
+          result.body += '</tr>';          
+      });         
+    }
 
     result.body += '<tr></tr>'; 
     result.body += '<tr>';     
@@ -536,6 +549,19 @@ Ext.define('App.service.Helper', {
         }
       }        
     });
+    if (userPolygon){
+      indicator_fields.push('wf');
+      for (var month = 3; month <= 10; month++) {
+        indicator_fields.push('etf_m' + month);
+        indicator_fields.push('vir_m' + month);
+        indicator_fields.push('wf_m' + month);
+        for (var decade = 1; decade <= 3; decade++){
+            indicator_fields.push('etf_m' + month + '_' + decade);
+            indicator_fields.push('vir_m' + month + '_' + decade);
+            indicator_fields.push('wf_m' + month + '_' + decade);
+        }
+      }
+    }
     return indicator_fields;
   }
 

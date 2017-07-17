@@ -25,7 +25,7 @@ Ext.define('App.view.wue.FormByMonth', {
       flex: 1
     }];
 
-    for (var i = 1; i <= 12; i++) {
+    for (var i = 3; i <= 10; i++) {
       columns.push({
         header: i18n.month['m' + i],
         dataIndex: 'm' + i,

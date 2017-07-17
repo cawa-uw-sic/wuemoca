@@ -35,6 +35,7 @@ var __Indicator = [
     chart          : 'Line',
     color          : '#de2d26',
     decimals       : 0,
+    up: true,
     glossary       : 'bme00073.htm#bookme_anchor14'
   }, 
   /**
@@ -67,6 +68,7 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     decimals       : 0,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor11'
   }, 
   /**
@@ -99,6 +101,7 @@ var __Indicator = [
     maximum        : 0,   
     chart: 'crops', 
     decimals       : 1,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor12'
   }, 
   /**
@@ -196,6 +199,7 @@ var __Indicator = [
     chart          : 'Defaults',
     color          : fp_color,
     decimals       : 1,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor15'
   }, 
   /**
@@ -229,6 +233,7 @@ var __Indicator = [
     chart          : 'Line',
     color          : '#989800',
     decimals       : 2,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor7'
   }, 
   /**
@@ -264,6 +269,7 @@ var __Indicator = [
                     'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
     exportUserPolygon: true,
+        up: false,
     glossary       : 'bme00073.htm#bookme_anchor13'
   }, 
   /**
@@ -297,7 +303,8 @@ var __Indicator = [
     chart          : 'Multiannual',
     exportUserPolygon: false,
     legendcolors   : [cr_dark, cr_color, cr_bright],
-    decimals       : 1,    
+    decimals       : 1,  
+        up: false,  
     glossary       : 'bme00073.htm#bookme_anchor8'
   }, 
   /**
@@ -309,8 +316,8 @@ var __Indicator = [
     field          : 'flf',
     enName         : 'Fallow land frequency',
     ruName         : 'Частота неисп.земель',
-    enNameShort         : 'Fallow land frequency',
-    ruNameShort         : 'Частота неиспользования земель',
+    enNameShort    : 'Fallow land frequency',
+    ruNameShort    : 'Частота неиспользования земель',
     enTooltip      : 'Average number of years that land was not cultivated',
     ruTooltip      : 'Среднее количество неиспользования земель в годах, в течение всего периода исследования',
     enUnit         : '-',
@@ -331,41 +338,44 @@ var __Indicator = [
     chart          : 'Multiannual',
     exportUserPolygon: false,
     legendcolors   : [flf_bright, flf_color, flf_dark],
-    decimals       : 1,      
+    decimals       : 1,  
+        up: false,    
     glossary       : 'bme00073.htm#bookme_anchor9'
   },
   /**
-  * @property y
-  * y indicator
+  * @property v_water
+  * v_water indicator
   */
-  /*{
+  {
     id             : 'v_water',
     field          : 'v_water',
-    enName         : 'Available Water Supply for Irrigated Land',
+    enName         : 'Available Water Supply Index',
     ruName         : 'Водообеспеченность орошаемых земель',
-    enNameShort         : 'Water Supply',
-    ruNameShort         : 'водоснабжение', 
-    enTooltip      : 'Available Water Supply for Irrigated Land',
+    enNameShort    : 'Water Supply Index',
+    ruNameShort    : 'водоснабжение', 
+    enTooltip      : 'Index of available water delivery',
     ruTooltip      : 'Водообеспеченность орошаемых земель',     
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
-    aggregation    : 'all',
-    enGroup: 'All aggregation levels',
-    ruGroup: 'Все уровни агрегации',    
+    aggregation    : ['rayon', 'oblast'],
+    enGroup        : 'District/Province only',
+    ruGroup        : 'District/Province only',    
     years          : 'all',
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'colored',
-    enLegend       : 'Water Supply',
+    enLegend       : 'Water Supply Index',
     ruLegend       : 'водоснабжение',
     median         : 0,
     maximum        : 0,
-    chart          : 'Defaults',
-    decimals       : 1,
+    chart          : 'Line',
+    color          : '#081d58',
+    decimals       : 2,
+        up: false,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   },  */
+   },  
      /**
   * @property vir
   * vir indicator
@@ -375,28 +385,29 @@ var __Indicator = [
     field          : 'vir',
     enName         : 'Irrigation Effectiveness Index',
     ruName         : 'Индекс эффективности ирригации',
-    enNameShort         : 'Irrigation Effectiveness',
-    ruNameShort         : 'Эффективность ирригации',  
+    enNameShort    : 'Irrigation Effectiveness',
+    ruNameShort    : 'Эффективность ирригации',  
     enTooltip      : 'Index of amount of water losses',
     ruTooltip      : 'Индекс количества потерь воды',
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
     aggregation    : ['oblast'],
-    enGroup: 'Provinces only',
-    ruGroup: 'Provinces only',    
+    enGroup        : 'Province only',
+    ruGroup        : 'Province only',    
     years          : 'all',
     yearsPrefix    : false,
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'colored',
-    enLegend       : 'Irrigation Effectiveness Index',
+    enLegend       : 'Irrigation Effectiveness Index annual',
     ruLegend       : 'Индекс эффективности ирригации',
     median         : 0,
     maximum        : 0,
     chart          : 'Line',
-    color: '#2c7fb8',
+    color          : '#2c7fb8',
     decimals       : 2,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor16'
    },
      /**
@@ -455,13 +466,165 @@ var __Indicator = [
     category       : 'landuse',
     type           : 'descriptive',
     mapType        : 'colored',
-    enLegend       : 'Actual Evapotranspiration',
+    enLegend       : 'Actual Evapotranspiration annual',
     ruLegend       : 'Фактическая эвапотранспирация',
     median         : 556,
     maximum        : 1705,
     chart          : 'Defaults',
     decimals       : 0,
+        up: true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   } 
-
+   }
+];
+var __Indicator_userPolygon = [
+  /**
+  * @property y
+  * y indicator
+  */
+   {
+    id             : 'etf_mX',
+    field          : 'etf_mX',
+    enName         : 'Actual Evapotranspiration monthly',
+    ruName         : 'Фактическая эвапотранспирация',
+    enNameShort         : 'Evapotranspiration monthly',
+    ruNameShort         : 'эвапотранспирация',
+    enTooltip      : 'Amount of water lost from the irrigated surface per month of vegetation period (March-Oct)',
+    ruTooltip      : 'Количество воды, потерянной с орошаемой поверхности в течение одного года',
+    enUnit         : 'mm',
+    ruUnit         : 'мм',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 0,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   } ,
+      {
+    id             : 'etf_mX_1/2/3',
+    field          : 'etf_mX_1/2/3',
+    enName         : 'Actual Evapotranspiration decadal',
+    ruName         : 'Фактическая эвапотранспирация',
+    enNameShort         : 'Evapotranspiration decadal',
+    ruNameShort         : 'эвапотранспирация',
+    enTooltip      : 'Amount of water lost from the irrigated surface within per decade of month',
+    ruTooltip      : 'Количество воды, потерянной с орошаемой поверхности в течение одного года',
+    enUnit         : 'mm',
+    ruUnit         : 'мм',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 0,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   } ,
+ 
+        /**
+  * @property vir
+  * vir indicator
+  */
+ {
+    id             : 'vir_mX',
+    field          : 'vir_mX',
+    enName         : 'Irrigation Effectiveness Index monthly',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort    : 'Irrigation Effectiveness monthly',
+    ruNameShort    : 'Эффективность ирригации',  
+    enTooltip      : 'Index of amount of water losses per month of vegetation period (March-Oct)',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : '-',
+    ruUnit         : '-',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 2,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },
+    {
+    id             : 'vir_mX_1/2/3',
+    field          : 'vir_mX_1/2/3',
+    enName         : 'Irrigation Effectiveness Index decadal',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort    : 'Irrigation Effectiveness decadal',
+    ruNameShort    : 'Эффективность ирригации',  
+    enTooltip      : 'Index of amount of water losses per decade of month',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : '-',
+    ruUnit         : '-',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 2,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },
+           /**
+  * @property vir
+  * vir indicator
+  */
+ {
+    id             : 'wf',
+    field          : 'wf',
+    enName         : 'Water intake',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort    : 'Water intake',
+    ruNameShort    : 'Эффективность ирригации',  
+    enTooltip      : 'Water intake',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : 'Mio. m³',
+    ruUnit         : '',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 2,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },
+           /**
+  * @property vir
+  * vir indicator
+  */
+ {
+    id             : 'wf_mX',
+    field          : 'wf_mX',
+    enName         : 'Water intake monthly',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort    : 'Water intake monthly',
+    ruNameShort    : 'Эффективность ирригации',  
+    enTooltip      : 'Water intake per month of vegetation period (March-Oct)',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : 'Mio. m³',
+    ruUnit         : '',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 2,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   },
+    {
+    id             : 'wf_mX_1/2/3',
+    field          : 'wf_mX_1/2/3',
+    enName         : 'Water intake decadal',
+    ruName         : 'Индекс эффективности ирригации',
+    enNameShort    : 'Water intake decadal',
+    ruNameShort    : 'Эффективность ирригации',  
+    enTooltip      : 'Water intake per decade of month',
+    ruTooltip      : 'Индекс количества потерь воды',
+    enUnit         : 'Mio. m³',
+    ruUnit         : '',
+    crops          : false,
+    aggregation    : 'userPolygon',
+    years          : 'all',
+    yearsPrefix    : false,
+    chart          : false,
+    decimals       : 2,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+   }
 ];

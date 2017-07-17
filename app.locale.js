@@ -326,9 +326,9 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
-    byDecade                : 'by decade',
-    byMonth                 : 'monthly',
-    byYear                  : 'yearly',
+    byDecade                : 'by decade (download only)',
+    byMonth                 : 'monthly (download only)',
+    byYear                  : 'yearly (diagram and download)',
     year                    : 'Year',
     decade                  : 'Decade'
   },

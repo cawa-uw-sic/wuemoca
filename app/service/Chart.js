@@ -197,7 +197,10 @@ Ext.define('App.service.Chart', {
     self.data.map(function (rec, i) {
       if (parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
-      }      
+      } 
+      if ((yField == 'vir' || yField == 'v_water') && parseFloat(self.data[i][yField]) == 0){
+        self.data[i][yField] = Infinity;
+      }     
     });
     self.stores.defaults.setData(self.data);
   }

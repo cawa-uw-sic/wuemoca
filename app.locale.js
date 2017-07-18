@@ -346,7 +346,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
-    calculateWUElong            : 'Calculate Water Use Efficiency Indicators',    
+    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',    
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -375,7 +375,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     sortDescText: 'Sort Descending',
     sortClearText: 'Clear Sort',
     selectgeodata: 'Select geodata format',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
+    drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.'
   },
 
   exportUI: {

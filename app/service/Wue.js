@@ -60,7 +60,7 @@ Ext.define('App.service.Wue', {
         msg = 'Calculate monthly values';
       }
       this.progressBar = Ext.Msg.show({
-        title: 'Calculate WUE indicators',
+        title: 'Calculate Irrigation Effectiveness',
         msg: msg,
         progressText: '',
         width: 300,
@@ -83,7 +83,7 @@ Ext.define('App.service.Wue', {
             else{
               msg = 'Download selected polygon to see monthly results.';
             }       
-            Ext.Msg.alert('WUE calculation successful', msg);      
+            Ext.Msg.alert('Irrigation Effectiveness calculation successful', msg);      
     }
     /*for (d = 0; d < polygon.data.length; ++d) {
       var fir_n = polygon.data[d]['fir_n'];
@@ -206,10 +206,10 @@ Ext.define('App.service.Wue', {
           if (self.progressBar){
             var msg = '';
             if (!!items[0].data.decade){
-              msg = 'WUE calculation successful! Download selected polygon to see decadal results.';
+              msg = 'Irrigation Effectiveness calculation successful! Download selected polygon to see decadal results.';
             }
             else{
-              msg = 'WUE calculation successful! Download selected polygon to see monthly results.';
+              msg = 'Irrigation Effectiveness calculation successful! Download selected polygon to see monthly results.';
             }            
             self.progressBar.msgButtons.ok.enable();
             self.progressBar.updateProgress(

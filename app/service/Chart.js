@@ -198,7 +198,7 @@ Ext.define('App.service.Chart', {
       if (parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       } 
-      if ((yField == 'vir' || yField == 'v_water') && parseFloat(self.data[i][yField]) == 0){
+      if ((yField == 'vir' || yField == 'v_water') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
         self.data[i][yField] = Infinity;
       }     
     });

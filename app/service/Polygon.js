@@ -5,6 +5,7 @@ Ext.define('App.service.Polygon', {
   ],
 
   singleton: true,
+
   all: __LocalDB.get('Polygons', []),
 
   source: false,
@@ -744,8 +745,9 @@ Ext.define('App.service.Polygon', {
         parameters['location_' + d] = polygon.info.location;
         parameters['area_ha_' + d] = polygon.totalArea;
         for (f = 0; f < fieldlist.length; ++f) {
-          if (!!polygon.data[d][fieldlist[f]]){
-            parameters[fieldlist[f] + '_' + d] = polygon.data[d][fieldlist[f]];
+          var value = polygon.data[d][fieldlist[f]];
+          if (!!value && value != Infinity){
+            parameters[fieldlist[f] + '_' + d] = value;
           }
         }
       }

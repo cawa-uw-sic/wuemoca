@@ -262,6 +262,7 @@ Ext.define('App.util.ChartTypes', {
     if (App.service.Chart.maxData > maximum){
       maximum = App.service.Chart.maxData;
     }
+    var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? 'Press "Calculate WUE" and insert Water intake' : '';
 
 
     return Ext.create('App.view.chart.FPanel', {
@@ -301,7 +302,7 @@ Ext.define('App.util.ChartTypes', {
         },
         items:
         [ 
-          //{ xtype: 'label', text: 'All crops incl. double usage, without fallow land' }
+          { xtype: 'label', text: vir_text },
           { xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
         ]

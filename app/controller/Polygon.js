@@ -76,6 +76,9 @@ Ext.define('App.controller.Polygon', {
   },
 
   onWUE: function () {
+    var container = App.service.Helper.getComponentExt('app-wue-container');
+    container.removeAll();
+    container.add({ xtype: 'app-wue-form-by-year' });
     App.service.Wue.window.show();
   }
 

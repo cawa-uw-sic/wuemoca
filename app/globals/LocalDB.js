@@ -13,6 +13,7 @@ __LocalDB = {
 */
   get: function (attr, fallback) {
     if (attr.indexOf('.') >= 0) {
+
       attr = attr.split('.');
       var item = localStorage.getItem(attr[0]);
       if (!item) return fallback;

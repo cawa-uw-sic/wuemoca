@@ -7,7 +7,7 @@ Ext.define('App.view.legend.SlOpacityIrrigation', {
   increment: 10,
   maxValue: 100,
   minValue: 0,
-  value: 100,
+  value: 80,
 
   listeners: {
     change: 'onOpacityIrrigation'

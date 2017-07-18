@@ -531,6 +531,36 @@ Ext.define('App.service.Map', {
     }
 
 
+  },
+
+  setIndicatorFilter: function(userPolygon){
+    var indicatorStore = Ext.getStore('indicator');
+
+    indicatorStore.removeAll();
+
+    if (userPolygon){
+      //duplicate array of nested objects
+      var indicatorData = JSON.parse(JSON.stringify(__Indicator));
+      var filteredData = [];
+      indicatorData.map(function (indicator) {
+        if (indicator.up) {
+          indicator.enGroup = 'Land use';
+          indicator.ruGroup = 'Землепользование';
+          if (indicator.id == 'vir' || indicator.id == 'etf'){
+            indicator.enGroup = 'Water use efficiency';
+            indicator.ruGroup = 'Эффективность использования воды';           
+          }
+          filteredData.push(indicator);
+        }
+      });
+      indicatorStore.loadData(filteredData);
+    }
+    else{
+      indicatorStore.loadData(__Indicator);
+    }
+
+
+
   }
 
 });

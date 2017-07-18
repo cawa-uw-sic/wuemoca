@@ -226,8 +226,10 @@ mapSelection:{
 
   settings: {
     legend                  : 'Legend',
-    title                   : 'Map Legend',
-    extent                  : 'Maximum irrigation extent'
+    title                   : 'Map Layers',
+    extent                  : 'Irrigated area',
+    showLegend: 'Show legend',
+    hideLegend: 'Hide legend'
   },
 
   map: {
@@ -255,7 +257,8 @@ mapSelection:{
     numCrops                : 'Number of crop types',
     flf               : 'Fallow land frequency',
     yearsFallow             : 'Years of fallow',
-          noChart    : 'No diagram available for'
+          noChart    : 'No diagram available for',
+          sumDoubleFallow: 'All crops incl. double usage, without fallow land'
   },
 
   exp: {
@@ -321,11 +324,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   },
 
   wue: {
-    windowTitle             : 'Water Intake Form',
+    windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
-    byDecade                : 'by decade',
-    byMonth                 : 'monthly',
-    byYear                  : 'yearly',
+    byDecade                : 'by decade (download only)',
+    byMonth                 : 'monthly (download only)',
+    byYear                  : 'yearly (diagram and download)',
     year                    : 'Year',
     decade                  : 'Decade'
   },
@@ -343,6 +346,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
+    calculateWUElong            : 'Calculate Water Use Efficiency Indicators',    
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -632,8 +636,12 @@ i18n.mapSelection ={
 
     i18n.settings = {
       legend                : 'Условные обозначения',
-      title                 : 'Условные обозначения карты',
-      extent                : 'Максимальная площадь орошения'
+    title                   : 'Слои карт',
+    extent                  : 'Орошаемая площадь',
+    showLegend: 'Показать легенду',
+    hideLegend: 'Скрыть легенду'      
+      //title                 : 'Условные обозначения карты',
+      //extent                : 'Максимальная площадь орошения'
     };
 
     i18n.map = {
@@ -660,7 +668,8 @@ i18n.mapSelection ={
       numCrops              : 'Кол-во типов культур',
       flf             : 'Частота неисп.земель',
       yearsFallow           : 'Годы неисп.земель',
-      noChart    : 'Нет диаграмма для'
+      noChart    : 'Нет диаграмма для',
+                sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель'
     };
 
     i18n.exp = {
@@ -728,7 +737,7 @@ i18n.mapSelection ={
     };
 
     i18n.wue = {
-      windowTitle             : 'Форма ввода водоподачи',
+      windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Произвести расчет',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
@@ -750,7 +759,7 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить<br>Shapefile',
       calculateWUE          : 'Расчет водоэффективности',
-
+calculateWUElong          : 'Расчет водоэффективности',
               download                  : 'Скачать подборку',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',

@@ -15,18 +15,15 @@ Ext.define('App.view.legend.Window', {
 
     'Ext.layout.container.VBox',
     'Ext.layout.container.HBox',
-        'Ext.layout.container.Fit',
-                'Ext.layout.container.Anchor',
     'App.view.legend.CxIrrigation',
     'App.view.legend.SlOpacityIrrigation',
     'App.view.legend.CxCurrent',
     'App.view.legend.SlOpacityCurrent'
-    //'App.view.legend.Panel'
   ],
 
   controller: 'legend',
 
-  title: 'Map Layer',//i18n.settings.title,
+  title: i18n.settings.title,
   layout: { 
     type: 'vbox'
     , align: 'stretch' 
@@ -44,7 +41,6 @@ Ext.define('App.view.legend.Window', {
   shadow: true,
   bodyBorder: false,
   bodyPadding: '10px 10px 0px 10px',
-  //renderTo:'map-panel',
   //(problem with slider visibility: http://stackoverflow.com/questions/25667836/extjs-slider-not-visible-on-view)
   items: [{
     itemId: 'legend-irrigation',
@@ -62,9 +58,8 @@ Ext.define('App.view.legend.Window', {
     ]
   }, {
 
-   // xtype: 'app-legend-panel',
     xtype: 'fieldset',
-    title: i18n.settings.title,
+    title: i18n.settings.showLegend,
     itemId: 'legend-panel',
     layout: { type: 'hbox', align: 'stretch' },
 
@@ -89,8 +84,15 @@ Ext.define('App.view.legend.Window', {
 
       html: ''
 
-    }]    
-    //xtype: 'app-legend-panel'
+    }],
+    listeners: {
+      beforecollapse: function ( fieldset, eOpts ){
+        fieldset.setTitle(i18n.settings.showLegend);
+      },
+      beforeexpand: function ( fieldset, eOpts ){
+        fieldset.setTitle(i18n.settings.hideLegend);
+      }
+    }
   }],
   listeners:{
     hide: function () {App.service.Watcher.set('Legend', 'noshow');},

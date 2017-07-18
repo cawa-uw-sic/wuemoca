@@ -1,5 +1,5 @@
 var LayerParams = {
-  Irrigation  : __Global.geoserverWorkspace + ':ca_irr_area_geom',
+  Irrigation  : __Global.geoserverWorkspace + ':irrigation_extent',
   Country     : __Global.geoserverWorkspace + ':ca_country_geom',
   Channel     : __Global.geoserverWorkspace + ':channel_geom',
   Aggreg      : __Global.geoserverWorkspace + ':ca_{aggreg}',
@@ -42,7 +42,7 @@ var BackgroundLayers = {
   }),
 
   irrigation: new ol.layer.Tile({
-    opacity: 1,
+    opacity: 0.8,
     visible: App.service.Watcher.get('IrrigationExtent') == 'show' ? true : false,
     //visible: false,
     source: new ol.source.TileWMS({

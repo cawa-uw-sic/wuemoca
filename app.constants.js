@@ -30,6 +30,8 @@ cd_color      = '#ffffbf'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (ht
 fir_n_color   = '#de2d26'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 sum_color     = '#fc9272'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 etf_color	  = '#00CD66'; //  #FFD700 / #00CD66 / #00868B / yellow-green-blue
+vir_color     = '#2c7fb8'; // #edf8b1 / #7fcdbb / #2c7fb8 / lightyellow-blue (http://colorbrewer2.org/)
+v_water_color = '#081d58'; // #ffffd9 / #41b6c4 / #081d58 / lightyellow-blue (http://colorbrewer2.org/)
 
 flf_bright    = '#EAF5E9';
 flf_dark      = '#195016';

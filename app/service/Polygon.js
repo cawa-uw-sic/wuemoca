@@ -108,6 +108,7 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
 
     App.service.Map.setMainTitle();
+    App.service.Map.setIndicatorFilter(val);
   },
 
   deselectMapAndList: function(){

@@ -38,8 +38,8 @@ Ext.define('App.controller.Wue', {
       for (var year = __Global.year.Min; year <= __Global.year.Max; year++) {
         var itemyear = {};
         itemyear['fieldLabel'] = year.toString();
-        itemyear['name'] = year.toString();   
-        //load water intake if stored from previous input    
+        itemyear['name'] = year.toString();
+        //load water intake if stored from previous input
         for (d = 0; d < polygon.data.length; ++d) {
           if (polygon.data[d]['year'] == year){
             if (polygon.data[d]['wf'] != undefined){
@@ -56,13 +56,14 @@ Ext.define('App.controller.Wue', {
   onRenderFormByMonth: function (el) {
     var data = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
+    console.log(polygon);
     for (var year = __Global.year.Min; year <= __Global.year.Max; year++) {
       var datayear = {};
       datayear['year'] = year;
       //load water intake if stored from previous input
       for (d = 0; d < polygon.data.length; ++d) {
         if (polygon.data[d]['year'] == year){
-          for (var month = 3; month <= 10; month++) { 
+          for (var month = 3; month <= 10; month++) {
             if (polygon.data[d]['wf_m' + month] != undefined){
               datayear['m' + month] = polygon.data[d]['wf_m' + month];
             }
@@ -87,7 +88,7 @@ Ext.define('App.controller.Wue', {
         //load water intake if stored from previous input
         for (d = 0; d < polygon.data.length; ++d) {
           if (polygon.data[d]['year'] == year){
-            for (var month = 3; month <= 10; month++) { 
+            for (var month = 3; month <= 10; month++) {
               if (polygon.data[d]['wf_m' + month + '_' + decade] != undefined){
                 datayear['m' + month] = polygon.data[d]['wf_m' + month + '_' + decade];
               }

@@ -21,6 +21,10 @@ Ext.define('App.service.Polygon', {
 
   progressBar: false,
 
+  importFeature: false,
+  importData: false,
+  importNameprefix: false,
+
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
   windowChart: Ext.create('App.util.Window'),
@@ -81,10 +85,12 @@ Ext.define('App.service.Polygon', {
 
   switchView: function(val){
     App.service.Watcher.set('UserPolygon', val ? 'show' : 'noshow');
+    App.service.Helper.getComponentExt('legend-userpolygon').setVisible(val);
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
     App.service.Helper.getComponentExt('exporter-window').hide();
     App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
+    var legendwindow = App.service.Helper.getComponentExt('legend-window');
     if (val == false){
       this.deselectMapAndList();
       this.drawControl.setActive(false);
@@ -92,16 +98,19 @@ Ext.define('App.service.Polygon', {
       this.windowChart.close();
       this.windowEdit.close();
       App.service.Exporter.setDownloadCombotext();
+      if (!legendwindow.isHidden()){
+        legendwindow.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
+      }
     }
     else{
       this.rerenderFeatures();
-      App.service.Chart.window.close();
+      //App.service.Chart.window.close();
       App.service.Status.set('&#160;');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('app-zoom').collapse();
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
-      App.service.Helper.getComponentExt('legend-window').hide();
+      legendwindow.hide();
       App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
 
     }
@@ -707,18 +716,27 @@ Ext.define('App.service.Polygon', {
       encoding: 'UTF-8',
       EPSG: 4326
     }, function(data) {
+      var count = 0;
       data.features.map(function (polygon) {
-        var geometry = App.service.Helper.transformPoints(
-          polygon.geometry.coordinates[0],
-          __Global.projection.Geographic,
-          __Global.projection.Mercator
-        )
-        App.service.Polygon.registerPolygon(geometry);
+        if (polygon.geometry.coordinates.length > 1){
+          Ext.Msg.alert('MultiPolygons are not supported', "Upload of Multi-part Polygon failed");
+        }
+        else{
+          count++;
+          var geometry = App.service.Helper.transformPoints(
+            polygon.geometry.coordinates[0],
+            __Global.projection.Geographic,
+            __Global.projection.Mercator
+          )
+          App.service.Polygon.registerPolygon(geometry);
+        }
       })
-      App.service.Polygon.saveAll();
-      App.service.Polygon.rerenderFeatures();
-      Ext.getStore('polygongrid').loadData(App.service.Polygon.getGridData());
-      App.service.Polygon.calculate();
+      if (count > 0){
+        App.service.Polygon.saveAll();
+        App.service.Polygon.rerenderFeatures();
+        Ext.getStore('polygongrid').loadData(App.service.Polygon.getGridData());
+        App.service.Polygon.calculate();
+      }
     });
   },
 
@@ -819,12 +837,49 @@ Ext.define('App.service.Polygon', {
     else {
       return ((color_a - color_b) * (1 - (idx / (max-min)))) + color_b;
     }
-
   },
 
   toggleDisabledButtons: function (disabled) {
     App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(disabled);
     App.service.Helper.getComponentExt('polygon-btn-wue').setDisabled(disabled);
+  },
+
+  importSelectedGeometry: function(feature){
+    this.importFeature = feature;
+  },
+
+  importSelectedData: function(data, name_prefix){
+    if (data){
+      var fieldlist = App.service.Helper.getExportFields(true);
+      for (var d = 0; d < data.length; d++){
+        for(var key in data[0]) {
+          if (fieldlist.indexOf(key) == -1){
+            delete data[0][key];
+          }
+        }
+      }
+    }
+    this.importData = data;
+    this.importNameprefix = name_prefix;
+  },
+
+  importPolygon: function (){
+    var newgeometry = null;
+    if (this.importFeature.geometry.coordinates.length > 1){
+      Ext.Msg.alert('MultiPolygons are not supported', "Import of Multi-part Polygon failed");
+    }
+    else{
+      newgeometry = new ol.geom.Polygon(this.importFeature.geometry.coordinates[0]);
+      var newpolygon = this.registerPolygon(newgeometry);
+      newpolygon.data = this.importData;
+      newpolygon.info.name = newpolygon.info.name.replace('p', this.importNameprefix);
+      this.switchView(true);
+      App.service.Chart.window.close();
+      this.saveAll();
+      this.rerenderFeatures();
+      Ext.getStore('polygongrid').loadData(this.getGridData());
+    }
+
   }
 
 });

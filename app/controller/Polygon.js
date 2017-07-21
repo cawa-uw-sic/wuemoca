@@ -30,6 +30,9 @@ Ext.define('App.controller.Polygon', {
   onDownload: function (field){
     App.service.Polygon.downloadOptions();
   },
+  onImport: function(){
+    App.service.Polygon.importPolygon();
+  },
   /*onEdit: function () {
     App.service.Polygon.updateWindowEdit();
     App.service.Polygon.windowEdit.show();

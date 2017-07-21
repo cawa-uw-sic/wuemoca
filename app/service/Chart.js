@@ -56,7 +56,12 @@ Ext.define('App.service.Chart', {
     self.window.on("close", function () {
       App.service.Highlight.clear();
       self.data = [];
-      App.service.Exporter.setDownloadCombotext();      
+      App.service.Exporter.setDownloadCombotext(); 
+      if (App.service.Watcher.get('UserPolygon') == 'show'){
+        App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
+        App.service.Polygon.importSelectedGeometry(false);
+        App.service.Polygon.importSelectedData(false, false);
+      }           
     });
     self.window.on("boxready", function (window) {
 
@@ -104,6 +109,15 @@ Ext.define('App.service.Chart', {
             self.dataResponse(results.features);
             App.service.Highlight.display(results.features);
             self.showWindow();
+            //if (App.service.Watcher.get('UserPolygon') == 'show'){
+              //enable import button
+              var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+              App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
+              App.service.Helper.getComponentExt('polygon-btn-import').setText('Import selected<br>' + aggregation_name);
+              App.service.Polygon.importSelectedGeometry(results.features[0]);
+              App.service.Polygon.importSelectedData(self.data, aggregation_name);
+
+            //}
           }
           else{
             self.window.close();

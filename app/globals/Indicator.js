@@ -140,7 +140,7 @@ var __Indicator = [
   * @property y
   * y indicator
   */
-  /*{
+  {
     id             : 'y',
     field          : 'y_{crop}',
     enName         : 'Yield',
@@ -167,7 +167,7 @@ var __Indicator = [
     chart          : 'Defaults',
     decimals       : 1,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   }, */
+   }, 
   /**
   * @property fp
   * fp indicator
@@ -218,9 +218,9 @@ var __Indicator = [
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
-    aggregation    : ['grid'],
-    enGroup: 'Regular Raster only',
-    ruGroup: 'Только Регулярный растр',
+    aggregation    : 'all',
+    enGroup: 'All aggregation levels',
+    ruGroup: 'Все уровни агрегации',    
     years          : 'all',
     yearsPrefix    : false,
     category       : 'landuse',

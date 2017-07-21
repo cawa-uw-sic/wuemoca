@@ -17,6 +17,8 @@ Ext.define('App.view.legend.Window', {
     'Ext.layout.container.HBox',
     'App.view.legend.CxIrrigation',
     'App.view.legend.SlOpacityIrrigation',
+    'App.view.legend.CxUserPolygon',
+    'App.view.legend.SlOpacityUserPolygon',    
     'App.view.legend.CxCurrent',
     'App.view.legend.SlOpacityCurrent'
   ],
@@ -33,8 +35,8 @@ Ext.define('App.view.legend.Window', {
   autoHeight: true,
   minHeight: 162,
   //height: 300,
-  x: Ext.getBody().getWidth() - 650,
-  y: 9,
+  //x: Ext.getBody().getWidth() - 650,
+  //y: 9,
   collapsed: false,
   resizable: false,
   closeAction: 'hide',
@@ -50,6 +52,13 @@ Ext.define('App.view.legend.Window', {
       ,{ xtype: 'app-legend-sl-opacity-irrigation',  flex: 1 }
     ]
   }, {
+    itemId: 'legend-userpolygon',
+    layout: { type: 'hbox', align: 'stretch' },
+    items: [
+       { xtype: 'app-legend-cx-userpolygon',          flex: 3 }
+      ,{ xtype: 'app-legend-sl-opacity-userpolygon',  flex: 1 }
+    ]
+  }, {    
     itemId: 'legend-current',
     layout: { type: 'hbox', align: 'stretch' },
     items: [
@@ -97,7 +106,13 @@ Ext.define('App.view.legend.Window', {
   listeners:{
     hide: function () {App.service.Watcher.set('Legend', 'noshow');},
     show: function (win) {
+      win.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
       App.service.Watcher.set('Legend', 'show');
+    },
+    boxready: function (win){
+      if (!win.isHidden()){
+        win.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
+      }
     }
   }
 

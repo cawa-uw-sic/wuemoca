@@ -36,6 +36,12 @@ Ext.define('App.controller.Legend', {
     App.service.Map.hideShowElements(val);
     App.service.Watcher.set('Current', val ? 'show' : 'noshow');
   },
+
+  onUserPolygon: function (el, val) {
+    App.service.Polygon.layer.setVisible(val);
+    //App.service.Polygon.deselectMapAndList();
+    App.service.Polygon.rerenderFeatures();
+  },
   /**
   * @method onOpacityIrrigation
   * set opacity of maximum irrigation extent layer
@@ -59,6 +65,10 @@ Ext.define('App.controller.Legend', {
     App.util.Layer.current.setOpacity(val / 100);
     App.util.Layer.currentOpaque = val;
 
+  },
+    onOpacityUserPolygon: function (el, val) {
+    App.service.Polygon.layer.setOpacity(val / 100);
+    App.service.Polygon.rerenderFeatures();
   }
 
 });

@@ -53,6 +53,12 @@ Ext.define('App.view.polygon.Index', {
         baseCls: 'x-btn'
       }
     },{
+      text: 'Import selected blabla',
+      iconCls: 'x-fa fa-mail-forward',
+      handler: 'onImport',
+      itemId: 'polygon-btn-import',
+      disabled: true
+    },{      
       text: i18n.polygon.calculateWUE,
       iconCls: 'x-fa fa-tint',
       handler: 'onWUE',

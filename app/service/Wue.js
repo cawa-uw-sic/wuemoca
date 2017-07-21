@@ -38,7 +38,12 @@ Ext.define('App.service.Wue', {
         this.polygon.data[d]['wf'] = wf;
       }
       App.service.Polygon.saveAll();
-      App.service.Polygon.rerenderFeatures();  
+      App.service.Polygon.rerenderFeatures();
+      //switch to vir indicator so the user sees the results immediatly
+      if (App.service.Watcher.get('Indicator') != 'vir'){
+        App.service.Watcher.set('Indicator', 'vir');
+        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]); 
+      } 
       if (!App.service.Polygon.windowChart.isHidden()){
         App.service.Polygon.showChartWindow();
       }

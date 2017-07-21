@@ -544,10 +544,10 @@ Ext.define('App.service.Map', {
       var filteredData = [];
       indicatorData.map(function (indicator) {
         if (indicator.up) {
-          indicator.enGroup = 'Land use';
+          indicator.enGroup = 'My Polygons - Land use';
           indicator.ruGroup = 'Землепользование';
           if (indicator.id == 'vir' || indicator.id == 'etf'){
-            indicator.enGroup = 'Water use efficiency';
+            indicator.enGroup = 'My Polygons - Water use efficiency';
             indicator.ruGroup = 'Эффективность использования воды';           
           }
           filteredData.push(indicator);

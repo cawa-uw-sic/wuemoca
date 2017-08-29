@@ -98,7 +98,7 @@ __Global.urls= {
     Intro         : 'bme00001.htm',
     Imprint     : documents + 'Imprint.pdf',
     Manual        : documents + 'Manual.pdf',
-    AcronymPDF      : documents + 'acronyms.pdf',
+    AcronymPDF      : documents + 'WUEMoCA_Overview_indicators.pdf',
     VideoHeader        : documents + 'WUEMoCA_general_information.gif'
 };
 /**

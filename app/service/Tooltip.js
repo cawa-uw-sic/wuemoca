@@ -94,7 +94,7 @@ Ext.define('App.service.Tooltip', {
 
     var title = (properties[aggregation.id + '_' + __Global.lang] || '') + ' ' + aggregation[__Global.lang + 'NameShort'];
 
-    var content =  App.service.Map.getLegendTitle(false);
+    var content =  App.service.Map.getLegendTitle(false, false);
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));
@@ -104,12 +104,15 @@ Ext.define('App.service.Tooltip', {
       content += ': ' + indicator[__Global.lang + 'CropNames'][properties[yField] - 1];
     }
     else{
-      content += ': ' + parseFloat(properties[yField]).toFixed(indicator['decimals']);
-      if (indicator['chart'] != 'Multiannual' && indicator[ __Global.lang + 'Unit' ] != '-'){
+      content += ': ' + parseFloat(properties[yField]).toLocaleString(
+        __Global.lang, 
+        {maximumFractionDigits: indicator.decimals}
+      );
+      if (indicator.id == 'fir_n' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
         content += ' ' + indicator[ __Global.lang + 'Unit' ];
       }
     }
-    if (!!indicator['years']){
+    if (!!indicator.years){
       content += i18n.chart._in + App.service.Watcher.get('Year');
     }
 

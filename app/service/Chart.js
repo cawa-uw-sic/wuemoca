@@ -115,7 +115,9 @@ Ext.define('App.service.Chart', {
               App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
               App.service.Helper.getComponentExt('polygon-btn-import').setText('Import selected<br>' + aggregation_name);
               App.service.Polygon.importSelectedGeometry(results.features[0]);
-              App.service.Polygon.importSelectedData(self.data, aggregation_name);
+              //duplicate array of nested objects, don't change original data
+              var data_copy = JSON.parse(JSON.stringify(self.data));
+              App.service.Polygon.importSelectedData(data_copy, aggregation_name);
 
             //}
           }
@@ -147,15 +149,6 @@ Ext.define('App.service.Chart', {
     var crop = App.service.Watcher.get('Crop');
     self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
-      var first = self.data[0];
-      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
-        + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-
-      if (indicator.chart != 'Multiannual'){
-        title += ' - ' + App.service.Map.getLegendTitle(true);
-      }
-      self.window.setTitle(title);
-
       if (indicator.chart != 'crops'){
       //if (typeof indicator.chart != 'object'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
@@ -164,6 +157,14 @@ Ext.define('App.service.Chart', {
         var chart = App.service.Helper.getById(__Crop, crop).chart;
         self.window.add(App.util.ChartTypes[chart](self.data));
       }
+      var first = self.data[0];
+      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
+        + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+
+      if (indicator.chart != 'Multiannual'){
+        title += ' - ' + App.service.Map.getLegendTitle(true, self.maxData > 1000);
+      }
+      self.window.setTitle(title);
       self.userPolygon = false;
      // return self.window.show();
     }
@@ -209,10 +210,10 @@ Ext.define('App.service.Chart', {
       yField = yField.replace('{crop}', crop);
     }    
     self.data.map(function (rec, i) {
-      if (parseFloat(self.data[i][yField]) > self.maxData){
+      if (self.data[i][yField] != Infinity && parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       } 
-      if ((yField == 'vir' || yField == 'v_water') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
+      if ((yField == 'vir' || yField == 'v_sum') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
         self.data[i][yField] = Infinity;
       }     
     });

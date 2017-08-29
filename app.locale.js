@@ -37,13 +37,13 @@ var i18n = {
     contact                 : 'Contact',
     responsible             : 'persons responsible',
     imprint               : 'Imprint',
-    manual                  : 'User Manual',
+    manual                  : 'User Guide',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
-    readmore: 'Read more about',
-    uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
+    readmore: 'Click to read more about',
+    uniwue                  : 'Department of Remote Sensing at University of Wuerzburg',
     sic: 'SIC ICWC',
-    sicurl: 'http://sic.icwc-aral.uz/releases/eng/285.htm',
+    sicurl: 'http://sic.icwc-aral.uz/index_e.htm',
     beta: 'BETA version'
   },
 
@@ -247,6 +247,7 @@ mapSelection:{
     allYear                 : 'all available years',
     measure                 : 't/ha',
     _in                     : ' in ',
+    thousand: 'thousand ',
     raster                  : 'Raster cell',
     shareCrops              : 'share (%)',
     y                   : 'yield (t/ha)',
@@ -306,7 +307,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           conjunction: 's' + ' of ',
           all: 'all',
           plural: 's',
-          acronym: 'Show acronym explanations'
+          acronym: 'Show overview indicators'
   },
 
   timeSlider: {
@@ -375,7 +376,9 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     sortDescText: 'Sort Descending',
     sortClearText: 'Clear Sort',
     selectgeodata: 'Select geodata format',
-    drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.'
+    drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.',
+    smallerThan30ha: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
+        outside: 'is outside the irrigated area and cannot be processed.'
   },
 
   exportUI: {
@@ -475,7 +478,7 @@ switch (locale){
       readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
     sic: 'НИЦ МКВК',
-        sicurl: 'http://sic.icwc-aral.uz/releases/rus/285.htm',
+        sicurl: 'http://sic.icwc-aral.uz/index.htm',
     beta: 'Бета-версия'
     };
 
@@ -504,7 +507,7 @@ switch (locale){
     };
 
     i18n.filter = {
-      title                 : 'Навигация по карте'
+      title                 : 'Управление картой'
     };
 
     i18n.report = {
@@ -580,7 +583,7 @@ switch (locale){
 
     };
 i18n.mapSelection ={
-   title       :'Опции выбора карты',
+   title       :'Слои',
       reset:'сброс<br>настроек'
 };
 
@@ -658,6 +661,7 @@ i18n.mapSelection ={
       forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
       _in                   : ' в ',
+          thousand: 'тысяча ',
       raster                : 'Растровые',
       shareCrops            : 'Доля культур (%)',
       y                 : 'урожай (т/га)',
@@ -789,7 +793,9 @@ calculateWUElong          : 'Расчет водоэффективности',
     sortDescText: 'Сортировка по убыванию',
     sortClearText: 'Очистить Сортировать',
     selectgeodata: 'Выберите формат геоданных',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
+    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.',
+        smallerThan30ha: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
+        outside: 'is outside the irrigated area and cannot be processed.'
     };
 
     i18n.exportUI = {

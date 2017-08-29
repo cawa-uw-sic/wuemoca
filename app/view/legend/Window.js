@@ -35,8 +35,8 @@ Ext.define('App.view.legend.Window', {
   autoHeight: true,
   minHeight: 162,
   //height: 300,
-  //x: Ext.getBody().getWidth() - 650,
-  //y: 9,
+  x: Ext.getBody().getWidth() - 648,
+  y: 8,
   collapsed: false,
   resizable: false,
   closeAction: 'hide',
@@ -110,9 +110,9 @@ Ext.define('App.view.legend.Window', {
       App.service.Watcher.set('Legend', 'show');
     },
     boxready: function (win){
-      if (!win.isHidden()){
+      //if (!win.isHidden()){
         win.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
-      }
+      //}
     }
   }
 

@@ -82,6 +82,7 @@ Ext.define('App.controller.Polygon', {
     var container = App.service.Helper.getComponentExt('app-wue-container');
     container.removeAll();
     container.add({ xtype: 'app-wue-form-by-year' });
+    App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
     App.service.Wue.window.show();
   }
 

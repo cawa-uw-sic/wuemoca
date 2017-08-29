@@ -3,7 +3,7 @@ Ext.define('App.view.header.GreenspinLogo', {
 
   xtype: 'app-header-greenspinlogo',
 
-  html: '<a href="http://www.greenspin.de/en/" target="greenspin"><img src="resources/images/greenspinlogo.png" ' + 
-  	'width="104" height="40" border="0" alt="green spin"></a>'
+  html: '<a href="https://www.greenspin.de/" target="greenspin"><img src="resources/images/greenspin-logo.png" ' + 
+  	'width="100" height="40" border="0" alt="green spin"></a>'
 
 });

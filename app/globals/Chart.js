@@ -13,13 +13,15 @@ __Chart.Gauge = {
   * majorTickSteps  
   * @return {Ext.chart.axis.Numeric}
   */
-  getAxes: function (max, steps, title) {
+  getAxes: function (min, max, steps, title) {
     return [{
       type: 'numeric',
-      title: title,
+      title: {
+        text: title
+      },
       position: 'gauge',
-      minimum: 0,
       //workaround for numeric axis label bug (multiply by 10)
+      minimum: min * 10,
       maximum: max * 10,
       majorTickSteps: steps,
       /**
@@ -156,32 +158,77 @@ __Chart.VBar = {
   * number of decimals  for y-axis 
   * @return {Ext.chart.axis.Numeric | Ext.chart.axis.Category}
   */
-  getAxes: function (x, y, measure, maximum, decimals) {
+  getAxes: function (x, y, thousand, title, maximum, decimals) {
+  /* getAxes: function (x, y, measure, maximum, decimals, yield_classes) {
+    var limits = [];
+    if (typeof yield_classes == 'object'){
+      //yield_classes.map(function(yield_class){
+        limits.push({
+          value: yield_classes[0],
+          line: {
+            strokeStyle: 'black',
+            lineWidth: 2,
+            lineDash: [6, 3],
+            title: {
+              text: 'low',
+              fontSize: 15,
+              fontWeight : 'bold',
+              strokeStyle : 'white',
+              lineWidth: 0.5
+            }
+          }
+        });        
+        limits.push({
+          value: yield_classes[3],
+          line: {
+            strokeStyle: 'black',
+            lineWidth: 2,
+            lineDash: [6, 3],
+            title: {
+              text: 'medium',
+              fontSize: 15,
+              fontWeight : 'bold',
+              strokeStyle : 'white',
+              lineWidth: 0.5
+            }
+          }
+        });
+        limits.push({
+          value: yield_classes[6],
+          line: {
+            strokeStyle: 'black',
+            lineWidth: 2,
+            lineDash: [6, 3],
+            title: {
+              text: 'high',
+              fontSize: 15,
+              fontWeight : 'bold',
+              strokeStyle : 'white',
+              lineWidth: 0.5
+            }
+          }
+        });        
+      //});
+    }*/
     return [{
       type: 'numeric',
       position: 'left',
       fields: y,
       minimum: 0,
       maximum: maximum,
-      title: false,
+      title: {
+        fontSize: 12,
+        text: title
+      },
       grid: true,
+      //limits: limits,      
       renderer: function (axis, value) {
         var label = '';
-        var decimalsHa = 0;
-        if (value % 1000 > 0){
-          decimalsHa = 1;
-          if (value % 100 > 0){
-            decimalsHa = 2; 
-            if (value % 10 > 0){
-              decimalsHa = 3; 
-            }            
-          }
-        }
-        if (y.indexOf('fir') != -1){
-          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
+        if (thousand){
+          label = (parseFloat(value)/1000).toFixed(decimals);
         }
         else{
-          label = parseFloat(value).toFixed(decimals) + ' ' + measure;
+          label = parseFloat(value).toFixed(decimals);
         }
         return label;
       }
@@ -196,7 +243,7 @@ __Chart.VBar = {
         }
       },
       style: {
-          textPadding: -10
+        textPadding: -10
       }
     }];
   },
@@ -227,8 +274,9 @@ __Chart.VBar = {
       tooltip: {
         trackMouse: true,
         renderer: function(storeItem, item) {
+          var value = parseFloat(item.get(y));
           return this.getTooltip().update(
-            parseFloat(item.get(y)).toFixed(decimals) + ' ' + measure
+            value.toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + ' ' + measure
           );
         }
       }/*,
@@ -245,17 +293,18 @@ __Chart.VBar = {
 */
 __Chart.StackedVBar = {
 
-  getAxes: function (x, yFields, ind_type, limit, measure, maximum) {
+  getAxes: function (x, yFields, thousand, title, ind_type, limit, maximum, decimals) {
     return [{
       type: 'numeric',
       position: 'left',
       fields: yFields,
       minimum: 0,
       maximum: maximum,
-      title: false,
+      title: {
+        fontSize: 12,
+        text: title
+      },
       grid: true,
-
-
       limits: [{
         value: limit,
         line: {
@@ -273,21 +322,11 @@ __Chart.StackedVBar = {
       }],
       renderer: function (axis, value) {
         var label = '';
-        var decimalsHa = 0;
-        if (value % 1000 > 0){
-          decimalsHa = 1;
-          if (value % 100 > 0){
-            decimalsHa = 2; 
-            if (value % 10 > 0){
-              decimalsHa = 3; 
-            }
-          }
-        }
-        if (ind_type == 'abs'){
-          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
+        if (thousand){
+          label = (parseFloat(value)/1000).toFixed(decimals);
         }
         else{
-          label = parseFloat(value).toFixed(0) + ' ' + measure;
+          label = parseFloat(value).toFixed(decimals);
         }
         return label;
       }
@@ -302,7 +341,7 @@ __Chart.StackedVBar = {
         }
       },
       style: {
-          textPadding: -10
+        textPadding: -10
       }   
     }];
   },
@@ -322,7 +361,7 @@ __Chart.StackedVBar = {
             var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
                 crop = item.series.getTitle()[fieldIndex];
             tooltip.setHtml(crop + ': ' +
-                parseFloat(record.get(item.field)).toFixed(decimals) + ' ' + measure);
+                parseFloat(record.get(item.field)).toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + ' ' + measure);
         }
       }
     });
@@ -365,7 +404,7 @@ __Chart.StackedVBar = {
 */
 __Chart.Line = {
 
-  getAxes: function (x, y, measure, maximum, decimals) {
+  getAxes: function (x, y, thousand, maximum, decimals) {
     return [{
       type: 'numeric',
       position: 'left',
@@ -376,21 +415,11 @@ __Chart.Line = {
       grid: true,
       renderer: function (axis, value) {
         var label = '';
-        var decimalsHa = 0;
-        if (value % 1000 > 0){
-          decimalsHa = 1;
-          if (value % 100 > 0){
-            decimalsHa = 2; 
-            if (value % 10 > 0){
-              decimalsHa = 3; 
-            }
-          }
-        }
-        if (y == 'fir_n'){
-          label = (parseFloat(value)/1000).toFixed(decimalsHa) + ' K ' + measure;
+        if (thousand){
+          label = (parseFloat(value)/1000).toFixed(decimals);
         }
         else{
-          label = parseFloat(value).toFixed(decimals) + ' ' + measure;
+          label = parseFloat(value).toFixed(decimals);
         }
         return label;
       }
@@ -432,7 +461,9 @@ __Chart.Line = {
         font: '12px Helvetica',
         renderer: function(text, sprite, config, rendererData, index){
           if (y == 'fir_n'){
-            return (index == parseInt(rendererData.store.data.length/2)) ? parseFloat(text).toFixed(decimals) + ' ' + measure : '';
+            return (index == parseInt(rendererData.store.data.length/2)) ? 
+            parseFloat(text).toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + 
+            ' ' + measure : '';
           }
           else{
             return parseFloat(text).toFixed(decimals) + ' ' + measure;

@@ -64,7 +64,8 @@ Ext.define('App.view.polygon.Index', {
       handler: 'onWUE',
       itemId: 'polygon-btn-wue',
       tooltip: i18n.polygon.calculateWUElong,
-      disabled: true
+      disabled: true,
+      hidden: false
     },{
       text: i18n.polygon.download,
       iconCls: 'x-fa fa fa-download',

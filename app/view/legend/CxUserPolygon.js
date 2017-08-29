@@ -5,7 +5,7 @@ Ext.define('App.view.legend.CxUserPolygon', {
 
   itemId: 'legend-cx-userpolygon',
 
-  boxLabel: 'My Polygons',
+  boxLabel: i18n.polygon.showPolygon,
   
   checked: true,
 

@@ -8,9 +8,9 @@ Ext.define('App.view.wue.Radio', {
   columns: 3,
 
   items: [
-    { name: 'period', boxLabel: i18n.wue.byYear, inputValue: 'year', checked: true },
-    { name: 'period', boxLabel: i18n.wue.byMonth, inputValue: 'month' },
-    { name: 'period', boxLabel: i18n.wue.byDecade,   inputValue: 'decade'   }
+    { name: 'period', boxLabel: i18n.wue.byYear,   inputValue: 'year', checked: true },
+    { name: 'period', boxLabel: i18n.wue.byMonth,  inputValue: 'month' },
+    { name: 'period', boxLabel: i18n.wue.byDecade, inputValue: 'decade' }
   ],
 
   listeners: {

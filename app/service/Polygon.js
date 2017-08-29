@@ -500,7 +500,10 @@ Ext.define('App.service.Polygon', {
         geometry: geometry
       },
       success: function(response) {
-        count_success++;
+        if (response.responseText.indexOf('empty') == -1){
+          count_success++;
+          
+        }
         polygon.data = Ext.decode(response.responseText);
       },
       callback: function(){
@@ -510,7 +513,15 @@ Ext.define('App.service.Polygon', {
         if (emptyPolygons.length == 1){
           if (count_success == 1){
             message = polygon.info.name + ': ' + i18n.polygon.success;
+            //not valid because irrigated area smaller than 30 ha
+            if (polygon.data[0].valid == 'novalid'){
+              message += '<br>' + i18n.poygon.smallerThan30ha;
+            }
             self.zoomToPolygon(polygon.extent);
+          }
+          else{
+            message = polygon.info.name + ' ' + i18n.polygon.outside;
+            self.removeSelectedPolygons(polygon);
           }
         }
         else if (index == emptyPolygons.length) {
@@ -630,9 +641,6 @@ Ext.define('App.service.Polygon', {
         self.windowChart.removeAll();
         if (!!indicator.id){
           if (!!indicator.chart && indicator.chart != 'Multiannual'){
-            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true);
-            self.windowChart.setTitle(title);
-
             App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
@@ -643,6 +651,8 @@ Ext.define('App.service.Polygon', {
               var chart = App.service.Helper.getById(__Crop, crop).chart;
               self.windowChart.add(App.util.ChartTypes[chart](polygon.data));
             }
+            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true, App.service.Chart.maxData > 1000);
+            self.windowChart.setTitle(title);            
             App.service.Chart.userPolygon = true;
           }
           else{

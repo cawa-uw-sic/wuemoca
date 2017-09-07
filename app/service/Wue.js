@@ -82,6 +82,7 @@ Ext.define('App.service.Wue', {
     }
     else{
       this.calculateVir(items);
+
       var msg = '';
       if (!!items[0].data.decade){
         msg = 'Download selected polygon to see decadal results.';
@@ -117,14 +118,15 @@ Ext.define('App.service.Wue', {
   calculateVir: function(items){
 
     for (d = 0; d < this.polygon.data.length; ++d) {
-      var etf = 0;
-      var vir = Infinity;
-      var wf = 0;
+
       var firn = this.polygon.data[d]['firn'];
       var year = this.polygon.data[d]['year'];
       for (i = 0; i < items.length; ++i) {
         if (items[i].data['year'] == year){
           for (var month = 3; month <= 10; month++) { 
+            var etf = 0;
+            var vir = Infinity;
+            var wf = 0;            
             if (!!items[0].data.decade){
               for (var decade = 1; decade <= 3; decade++) {
                 etf = this.polygon.data[d]['etf_m' + month + '_' + decade];
@@ -152,6 +154,7 @@ Ext.define('App.service.Wue', {
         } 
       }
     }
+    App.service.Polygon.saveAll();
 
     //App.service.Polygon.rerenderFeatures(); 
   },
@@ -207,7 +210,7 @@ Ext.define('App.service.Wue', {
         }
         else{
           self.calculateVir(items);
-          App.service.Polygon.saveAll();
+          //App.service.Polygon.saveAll();
           Ext.getBody().setStyle('cursor','auto');
           if (self.progressBar){
             var msg = '';

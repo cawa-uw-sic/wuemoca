@@ -447,6 +447,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     m10:                     'Oct',
     m11:                     'Nov',
     m12:                     'Dec'
+  },
+  decade: {
+    1:                      'First decade of month',
+    2:                      'Second decade of month',
+    3:                      'Third decade of month'
   }
 };
 
@@ -867,6 +872,11 @@ calculateWUElong          : 'Расчет водоэффективности',
     m10:                     'Окт',
     m11:                     'Ноя',
     m12:                     'Дек'
+  }
+    i18n.decade = {
+    1:                      'First decade of month',
+    2:                      'Second decade of month',
+    3:                      'Third decade of month'
   }
   break;
 }

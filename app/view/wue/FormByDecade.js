@@ -21,14 +21,15 @@ Ext.define('App.view.wue.FormByDecade', {
   store: {
     type: 'wue-decade'
   },
-
+  columnLines: true,
   height: 350,
 
   initComponent: function() {
     var columns = [{
       header: i18n.wue.decade,
       dataIndex: 'decade',
-      flex: 1
+      flex: 1,
+      menuDisabled: true
     }];
 
     for (var i = 3; i <= 10; i++) {
@@ -36,6 +37,7 @@ Ext.define('App.view.wue.FormByDecade', {
         header: i18n.month['m' + i],
         dataIndex: 'm' + i,
         width: 54,
+        menuDisabled: true,
         editor: { allowBlank: true }
       });
     }

@@ -15,14 +15,15 @@ Ext.define('App.view.wue.FormByMonth', {
   store: {
     type: 'wue-month'
   },
-
+  columnLines: true,
   height: 350,
 
   initComponent: function() {
     var columns = [{
       header: i18n.wue.year,
       dataIndex: 'year',
-      flex: 1
+      flex: 1,
+      menuDisabled: true
     }];
 
     for (var i = 3; i <= 10; i++) {
@@ -30,6 +31,7 @@ Ext.define('App.view.wue.FormByMonth', {
         header: i18n.month['m' + i],
         dataIndex: 'm' + i,
         width: 55,
+        menuDisabled: true,
         editor: { allowBlank: true }
       });
     }

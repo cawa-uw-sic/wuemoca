@@ -108,7 +108,7 @@ Ext.define('App.service.Tooltip', {
         __Global.lang, 
         {maximumFractionDigits: indicator.decimals}
       );
-      if (indicator.id == 'fir_n' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
+      if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
         content += ' ' + indicator[ __Global.lang + 'Unit' ];
       }
     }

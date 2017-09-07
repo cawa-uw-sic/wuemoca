@@ -211,8 +211,8 @@
   padding: 3px 3px 3px 6px;
 }
 
-.x-form-item-default .x-item-disabled {
-    opacity: 1;
+.x-form-type-text.x-item-disabled {
+    opacity: 1 !important;
 }
 .x-fieldset {
   padding: 0px 10px 5px 10px;

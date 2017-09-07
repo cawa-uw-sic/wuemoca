@@ -23,7 +23,7 @@ Ext.define('App.service.Wue', {
   calculateVir_annual: function(vals){
     if (vals.period == 'year'){
       for (d = 0; d < this.polygon.data.length; ++d) {
-        var fir_n = this.polygon.data[d]['fir_n'];
+        var firn = this.polygon.data[d]['firn'];
         var etf = this.polygon.data[d]['etf'];
         var year = this.polygon.data[d]['year'];
         //Infinity = no values are displayed in the chart
@@ -31,8 +31,8 @@ Ext.define('App.service.Wue', {
         //water intake
         var wf = 0;
         if (!isNaN(parseFloat(vals[year]))){
-          wf = parseFloat(vals[year]);
-          vir = ((etf * fir_n) / (wf * 100000));
+          wf = parseFloat(vals[year]).toFixed(2);
+          vir = ((etf * firn) / (wf * 100000)).toFixed(2);
         }
         this.polygon.data[d]['vir'] = vir;
         this.polygon.data[d]['wf'] = wf;
@@ -76,22 +76,23 @@ Ext.define('App.service.Wue', {
       });
       this.progressBar.msgButtons.ok.disable();
       this.progressBar.updateProgress(0, '0 %');
-      var geometry = App.service.Polygon.prepareRequestGeometry(this.polygon.geometry);
-      this.calculateEtf(geometry, items, __Global.year.Min);
+      var wkt_geometry = this.polygon.wkt_geometry;
+      //var geometry = App.service.Polygon.prepareRequestGeometry(this.polygon.geometry, false);
+      this.calculateEtf(wkt_geometry, items, __Global.year.Min);
     }
     else{
       this.calculateVir(items);
-            var msg = '';
-            if (!!items[0].data.decade){
-              msg = 'Download selected polygon to see decadal results.';
-            }
-            else{
-              msg = 'Download selected polygon to see monthly results.';
-            }       
-            Ext.Msg.alert('Irrigation Effectiveness calculation successful', msg);      
+      var msg = '';
+      if (!!items[0].data.decade){
+        msg = 'Download selected polygon to see decadal results.';
+      }
+      else{
+        msg = 'Download selected polygon to see monthly results.';
+      }       
+      Ext.Msg.alert('Irrigation Effectiveness calculation successful', msg);      
     }
     /*for (d = 0; d < polygon.data.length; ++d) {
-      var fir_n = polygon.data[d]['fir_n'];
+      var firn = polygon.data[d]['firn'];
       var etf = polygon.data[d]['etf'];
       var year = polygon.data[d]['year'];
       
@@ -119,7 +120,7 @@ Ext.define('App.service.Wue', {
       var etf = 0;
       var vir = Infinity;
       var wf = 0;
-      var fir_n = this.polygon.data[d]['fir_n'];
+      var firn = this.polygon.data[d]['firn'];
       var year = this.polygon.data[d]['year'];
       for (i = 0; i < items.length; ++i) {
         if (items[i].data['year'] == year){
@@ -129,8 +130,8 @@ Ext.define('App.service.Wue', {
                 etf = this.polygon.data[d]['etf_m' + month + '_' + decade];
                 if (items[i].data['decade'] == decade){
                   if (!isNaN(parseFloat(items[i].data['m' + month]))){
-                    wf = parseFloat(items[i].data['m' + month]);
-                    vir = ((etf * fir_n) / (wf * 100000)); 
+                    wf = parseFloat(items[i].data['m' + month]).toFixed(2);
+                    vir = ((etf * firn) / (wf * 100000)).toFixed(2); 
                   }
                   this.polygon.data[d]['vir_m' + month + '_' + decade] = vir;
                   this.polygon.data[d]['wf_m' + month + '_' + decade] = wf;
@@ -140,8 +141,8 @@ Ext.define('App.service.Wue', {
             else{
               etf = this.polygon.data[d]['etf_m' + month];
               if (!isNaN(parseFloat(items[i].data['m' + month]))){              
-                wf = parseFloat(items[i].data['m' + month]);
-                vir = ((etf * fir_n) / (wf * 100000)); 
+                wf = parseFloat(items[i].data['m' + month]).toFixed(2);
+                vir = ((etf * firn) / (wf * 100000)).toFixed(2); 
 
               }
               this.polygon.data[d]['vir_m' + month] = vir;
@@ -162,7 +163,7 @@ Ext.define('App.service.Wue', {
     self.isBusy = true;
     Ext.getBody().setStyle('cursor','progress');
     var parameters = {};
-    parameters['geometry'] = geometry;
+    parameters['wkt_geometry'] = geometry;
     parameters['year'] = year;
 
     Ext.Ajax.request({
@@ -173,13 +174,13 @@ Ext.define('App.service.Wue', {
       params: parameters,
       success: function(response) {
         self.isBusy = false;
-        console.log(year + ': ' + Ext.decode(response.responseText));
+        //console.log(year + ': ' + Ext.decode(response.responseText));
         //append data to existing polygon data
         var result_data = Ext.decode(response.responseText);
         for (d = 0; d < self.polygon.data.length; ++d) {
           if (self.polygon.data[d]['year'] == year){ 
             for(var key in result_data[0]) {
-              self.polygon.data[d][key] = result_data[0][key];
+              self.polygon.data[d][key] = parseFloat(result_data[0][key]).toFixed(2);
             }
           }
         }
@@ -189,12 +190,12 @@ Ext.define('App.service.Wue', {
           year++; 
           if (self.progressBar){
             var msg = '';
-            if (!!items[0].data.decade){
-              msg = 'Calculate decadal values';
-            }
+            //if (!!items[0].data.decade){
+              msg = 'Calculate decadal and monthly values';
+            /*}
             else{
               msg = 'Calculate monthly values';
-            }
+            }*/
             self.progressBar.updateProgress(
               (year - __Global.year.Min)/((__Global.year.Max - __Global.year.Min) + 1),
               Math.round(((year - __Global.year.Min)/((__Global.year.Max - __Global.year.Min) + 1)) * 100) + ' %',
@@ -210,12 +211,12 @@ Ext.define('App.service.Wue', {
           Ext.getBody().setStyle('cursor','auto');
           if (self.progressBar){
             var msg = '';
-            if (!!items[0].data.decade){
-              msg = 'Irrigation Effectiveness calculation successful! Download selected polygon to see decadal results.';
-            }
+            //if (!!items[0].data.decade){
+              msg = 'Irrigation Effectiveness calculation successful! Download selected polygon to get calculated results.';
+            /*}
             else{
               msg = 'Irrigation Effectiveness calculation successful! Download selected polygon to see monthly results.';
-            }            
+            }*/        
             self.progressBar.msgButtons.ok.enable();
             self.progressBar.updateProgress(
               1,

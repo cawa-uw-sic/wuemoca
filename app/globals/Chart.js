@@ -312,7 +312,7 @@ __Chart.StackedVBar = {
           lineWidth: 2,
           lineDash: [6, 3],
           title: {
-            text: i18n.report.fir_nTH,
+            text: i18n.report.firnTH,
             fontSize: 15,
             fontWeight : 'bold',
             strokeStyle : 'white',
@@ -460,7 +460,7 @@ __Chart.Line = {
         display: display,
         font: '12px Helvetica',
         renderer: function(text, sprite, config, rendererData, index){
-          if (y == 'fir_n'){
+          if (y == 'firn'){
             return (index == parseInt(rendererData.store.data.length/2)) ? 
             parseFloat(text).toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + 
             ' ' + measure : '';

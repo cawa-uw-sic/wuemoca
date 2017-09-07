@@ -76,8 +76,8 @@ __LocalDB = {
       var selections = localStorage.getItem('Selections');
       if (selections){
         var change = false;
-        if (selections.indexOf('firn') >= 0){
-          selections = selections.replace('firn','fir_n');
+        if (selections.indexOf('fir_n') >= 0){
+          selections = selections.replace('fir_n','firn');
           change = true;
         } 
         if (selections.indexOf('uiri') >= 0){
@@ -85,11 +85,15 @@ __LocalDB = {
           change = true;
         } 
         if (selections.indexOf('yield') >= 0){
-          selections = selections.replace('yield','y');
+          selections = selections.replace('yield','yf');
           change = true;
         }
-        if (selections.indexOf('fallow') >= 0){
-          selections = selections.replace('fallow','fp');
+        if (selections.indexOf('"y"') >= 0){
+          selections = selections.replace('"y"','"yf"');
+          change = true;
+        }        
+        if (selections.indexOf('"fallow"') >= 0){
+          selections = selections.replace('"fallow"','"fp"');
           change = true;
         }
         if (selections.indexOf('majority') >= 0){
@@ -97,9 +101,13 @@ __LocalDB = {
           change = true;
         } 
         if (selections.indexOf('rotation') >= 0){
-          selections = selections.replace('rotation','cr');
+          selections = selections.replace('rotation','lur');
           change = true;
         } 
+        if (selections.indexOf('"cr"') >= 0){
+          selections = selections.replace('"cr"','"lur"');
+          change = true;
+        }         
         if (selections.indexOf('diversity') >= 0){
           selections = selections.replace('diversity','cd');
           change = true;
@@ -107,50 +115,18 @@ __LocalDB = {
         if (selections.indexOf('frequency') >= 0){
           selections = selections.replace('frequency','flf');
           change = true;
+        }
+        if (selections.indexOf('v_sum') >= 0){
+          selections = selections.replace('v_sum','vet');
+          change = true;
         } 
+        if (selections.indexOf('"v"') >= 0){
+          selections = selections.replace('"v"','"vc"');
+          change = true;
+        }                  
         if (change){
           localStorage.setItem('Selections', selections);
         }
-      }
-
-      var polygons = localStorage.getItem('Polygons');
-      if (polygons){
-        var change = false;
-        if (polygons.indexOf('firn') >= 0){
-          polygons = polygons.replace(/firn/g,'fir_n');
-          change = true;
-        } 
-        if (polygons.indexOf('uiri') >= 0){
-          polygons = polygons.replace(/uiri/g,'uir');
-          change = true;        
-        } 
-        if (polygons.indexOf('yield') >= 0){
-          polygons = polygons.replace(/yield/g,'y');
-          change = true;        
-        }
-        if (polygons.indexOf('fallow') >= 0){
-          polygons = polygons.replace(/fallow/g,'fp');
-          change = true;  
-        }
-        if (polygons.indexOf('majority') >= 0){
-          polygons = polygons.replace(/majority/g,'mlu');
-          change = true;  
-        } 
-        if (polygons.indexOf('rotation') >= 0){
-          polygons = polygons.replace(/rotation/g,'cr');
-          change = true;  
-        } 
-        if (polygons.indexOf('diversity') >= 0){
-          polygons = polygons.replace(/diversity/g,'cd');
-          change = true;  
-        } 
-        if (polygons.indexOf('frequency') >= 0){
-          polygons = polygons.replace(/frequency/g,'flf');
-          change = true;  
-        } 
-        if (change){
-          localStorage.setItem('Polygons', polygons);  
-        }   
       }
   }
 

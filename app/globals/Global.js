@@ -65,15 +65,15 @@ __Global.year= {
 __Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
-    Polygon       : api + 'calculatePolygon_v7.jsp?',
+    Polygon       : api + 'calculatePolygon_v7_multi.jsp?',
     Country       : api + 'refreshCountries.jsp?' + langParam,
     Oblast        : api + 'refreshOblasts.jsp?' + langParam,
     Rayon         : api + 'refreshRayons.jsp?' + langParam,
     Buis          : api + 'refreshBUIS.jsp?' + langParam,
     Uis           : api + 'refreshUIS.jsp?' + langParam,
     Wua           : api + 'searchWUAs.jsp?' + langParam,
-    writePolygon  : api + 'writePolygon.jsp?',
-    WUE           : api + 'calculateWUE.jsp?'
+    writePolygon  : api + 'writePolygon_multi.jsp?',
+    WUE           : api + 'calculateWUE_multi.jsp?'
 };
 /**
 *  collection of URLs of backend documents

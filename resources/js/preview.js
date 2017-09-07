@@ -135,9 +135,9 @@ function toGeojson(geojsonData) {
         geometry = feature.geometry = {};
         //properties = feature.properties = dbfRecords[i];
 
-        // point : 1 , polyline : 3 , polygon : 5, multipoint : 8
+        // point : 1 , polyline : 3 , polygon : 5, multipoint : 8, polygonz : 15
         switch(shpRecords[i].shape.type) {
-            case 1:
+            /*case 1:
                 geometry.type = "Point";
                 var reprj = TransCoord(shpRecords[i].shape.content.x, shpRecords[i].shape.content.y);
                 geometry.coordinates = [
@@ -152,22 +152,29 @@ function toGeojson(geojsonData) {
                     var reprj = TransCoord(shpRecords[i].shape.content.points[j], shpRecords[i].shape.content.points[j+1]);
                     geometry.coordinates.push([reprj.x, reprj.y]);
                 };
-                break;
+                break;*/
+            case 15:            
             case 5:
-                geometry.type = "Polygon";
+                geometry.type = (shpRecords[i].shape.type == 5 ? "Polygon" : "PolygonZ");
+                //geometry.type = "Polygon";
                 geometry.coordinates = [];
+                var content = shpRecords[i].shape.content;
+                // ol.Extent: [minx, miny, maxx, maxy]
+                geometry.extent = [content.minX, content.minY, content.maxX, content.maxY];
+                geometry.parts = content.parts.length;
 
-                for (var pts = 0; pts < shpRecords[i].shape.content.parts.length; pts++) {
-                    var partsIndex = shpRecords[i].shape.content.parts[pts],
+                for (var pts = 0; pts < content.parts.length; pts++) {
+                    var partsIndex = content.parts[pts],
                         part = [],
                         dataset;
 
-                    for (var j = partsIndex*2; j < (shpRecords[i].shape.content.parts[pts+1]*2 || shpRecords[i].shape.content.points.length); j+=2) {
-                        var point = shpRecords[i].shape.content.points;
+                    for (var j = partsIndex*2; j < (content.parts[pts+1]*2 || content.points.length); j+=2) {
+                        var point = content.points;
                         var reprj = TransCoord(point[j], point[j+1]);
                         part.push([reprj.x, reprj.y]);
                     };
                     geometry.coordinates.push(part);
+
 
                 };
                 break;

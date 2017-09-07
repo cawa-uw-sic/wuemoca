@@ -39,12 +39,12 @@ Ext.define('App.service.Chart', {
 /**
  * @property stores chart store list
  * @property stores.defaults chart store for the default column or line charts
- * @property stores.cr chart store for gauge charts (crop rotation)
+ * @property stores.lur chart store for gauge charts (crop rotation)
  * @property stores.flf chart store for gauge charts (fallow land frequency) 
  */
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
-    cr  : Ext.create('Ext.data.JsonStore'),
+    lur  : Ext.create('Ext.data.JsonStore'),
     flf : Ext.create('Ext.data.JsonStore')
   },
   /**
@@ -106,20 +106,27 @@ Ext.define('App.service.Chart', {
         params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
         success: function (results) {
           if (results.features.length > 0){
+            //features with values for all available years
             self.dataResponse(results.features);
-            App.service.Highlight.display(results.features);
+            //all annual geometries are identical, for geometry (in EPSG:4326) take the first feature
+            var coordinates = results.features[0].geometry.coordinates;
+            App.service.Highlight.display(coordinates);
             self.showWindow();
-            //if (App.service.Watcher.get('UserPolygon') == 'show'){
-              //enable import button
-              var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-              App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
-              App.service.Helper.getComponentExt('polygon-btn-import').setText('Import selected<br>' + aggregation_name);
-              App.service.Polygon.importSelectedGeometry(results.features[0]);
-              //duplicate array of nested objects, don't change original data
-              var data_copy = JSON.parse(JSON.stringify(self.data));
-              App.service.Polygon.importSelectedData(data_copy, aggregation_name);
-
-            //}
+            //prepare import possibility to user polygon
+            var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+            App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
+            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button + '<br>' + aggregation_name);
+            //store multipolygon geometry, extent and wkt_geometry
+            //Geometry format for reading and writing data in the WellKnownText (WKT) format.
+            var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
+            App.service.Polygon.importSelectedGeometry(
+              coordinates, 
+              BackgroundLayers.highlight.getSource().getExtent(),
+              wkt_geometry
+            );
+            //duplicate array of nested objects, don't change original data
+            var data_copy = JSON.parse(JSON.stringify(self.data));
+            App.service.Polygon.importSelectedData(data_copy, aggregation_name);
           }
           else{
             self.window.close();
@@ -213,7 +220,7 @@ Ext.define('App.service.Chart', {
       if (self.data[i][yField] != Infinity && parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       } 
-      if ((yField == 'vir' || yField == 'v_sum') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
+      if ((yField == 'vir' || yField == 'vet') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
         self.data[i][yField] = Infinity;
       }     
     });

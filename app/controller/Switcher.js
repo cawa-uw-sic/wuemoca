@@ -138,7 +138,7 @@ Ext.define('App.controller.Switcher', {
       App.service.Watcher.set('Crop', '');
       return App.service.Helper.hideComponents(['switcher-btns-crop']);
     }
-    //y and pirf
+    //yf and pirf
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
       crops = indicator.crops;
       cropNames = indicator[__Global.lang + 'Legend'];

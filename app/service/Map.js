@@ -305,7 +305,7 @@ Ext.define('App.service.Map', {
     var indicator = App.service.Watcher.getIndicator();
     if (!!indicator.crops){
       //indicators with crop list
-      /*if (indicator.id == 'v' && typeof indicator[__Global.lang + 'Legend'] == 'object'){
+      /*if (indicator.id == 'vc' && typeof indicator[__Global.lang + 'Legend'] == 'object'){
         legend_title = indicator[__Global.lang + 'Legend'][
           App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop')).idx
         ];
@@ -318,7 +318,7 @@ Ext.define('App.service.Map', {
       legend_title = indicator[__Global.lang + 'Legend'];
     }
     if (withUnit){
-      if (indicator.id == 'fir_n' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
+      if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
         legend_title += i18n.chart._in;
         legend_title += thousand ? i18n.chart.thousand : '';
         legend_title += indicator[__Global.lang + 'Unit'];

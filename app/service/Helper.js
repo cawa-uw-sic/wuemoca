@@ -346,14 +346,14 @@ Ext.define('App.service.Helper', {
       //Generate a file name
       var fileName = '';
       var polygonName = '';
-      var totalArea = 0;
+      //var totalArea = 0;
       if (userPolygon){
         polygonName = polygon.info.name.replace(/ /g,'_'); 
         if (polygon.info.location != ''){
           polygonName += '_' + polygon.info.location.replace(/ /g,'_'); 
         }
         fileName += polygonName;
-        totalArea = polygon.totalArea;        
+        //totalArea = polygon.totalArea;        
       }
       else{
         fileName += aggregation + '_' + object_id;
@@ -367,7 +367,7 @@ Ext.define('App.service.Helper', {
       var uri  = 'data:application/vnd.ms-excel;base64,';
       var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
  
-      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, year, totalArea, polygonName) };
+      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, year, polygonName) };
 
       //this trick will generate a temp <a /> tag
       var link = document.createElement("a");    
@@ -385,7 +385,7 @@ Ext.define('App.service.Helper', {
     }
   },
 
-  indicator_table: function (data, userPolygon, year, totalArea, polygonName) {
+  indicator_table: function (data, userPolygon, year, polygonName) {
     var fieldCount = 0;
     var result = { head: '', body: '' };
    
@@ -393,8 +393,8 @@ Ext.define('App.service.Helper', {
     if (userPolygon){
       fieldCount++;
       result.head += '<th>polygon_name</th>';
-      fieldCount++;
-      result.head += '<th>area_ha</th>';    
+      //fieldCount++;
+      //result.head += '<th>area_ha</th>';    
 
     }
     //This loop will extract the label from 1st index of on array
@@ -410,12 +410,17 @@ Ext.define('App.service.Helper', {
         result.body += '<tr>';
         if (userPolygon){
           result.body += '<td>' + polygonName + '</td>';   
-          result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';     
+          //result.body += '<td style=\'mso-number-format:"#,##0"\'>' + Math.round(totalArea) + '</td>';     
         }
         //2nd loop will extract each column
         for (var index in data[i]) {
-          if (isNaN(data[i][index]) || typeof data[i][index] == 'string' || index == 'year' || index.indexOf('_id') != -1){
-            result.body += '<td>' + data[i][index] + '</td>';
+          if (isNaN(data[i][index]) || data[i][index] == null || index == 'year' || index.indexOf('_id') != -1){
+            if (data[i][index] != null){
+              result.body += '<td>' + data[i][index] + '</td>';
+            }
+            else{
+              result.body += '<td></td>';
+            }
           }
           else if (index == 'area_ha'){
             result.body += '<td style=\'mso-number-format:"#,##0"\'>' + data[i][index] + '</td>'; 
@@ -438,6 +443,11 @@ Ext.define('App.service.Helper', {
                 } 
               }
             }); 
+            if (userPolygon){
+              if (index.indexOf('wf') >= 0){
+                format = '#,##0.00';
+              }
+            }           
             if (index != 'mlu'){      
               //workaround for problem with three decimals and German or Russian delimiter  
               result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';      
@@ -522,9 +532,8 @@ Ext.define('App.service.Helper', {
         indicator_fields.push(super_filter + '_id');
         indicator_fields.push(super_filter + '_' + __Global.lang);
       }
-      indicator_fields.push('area_ha'); 
     } 
- 
+    indicator_fields.push('area_ha'); 
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
       if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true))

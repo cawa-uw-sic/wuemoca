@@ -93,7 +93,7 @@ Ext.define('App.util.ChartTypes', {
     var maximum = NaN;
     if (ind_id == 'firf'){
       ind_type = 'abs';
-      limit = App.service.Chart.data[0].fir_n;
+      limit = App.service.Chart.data[0].firn;
     }
     else{
       ind_type = 'rel';
@@ -171,13 +171,13 @@ Ext.define('App.util.ChartTypes', {
 
   Multiannual: function (data) { 
     var self = this;
-    var cr = App.service.Helper.getById( __Indicator, 'cr' );
+    var lur = App.service.Helper.getById( __Indicator, 'lur' );
     var flf = App.service.Helper.getById( __Indicator, 'flf' );
     var mlu = App.service.Helper.getById( __Indicator, 'mlu' );
     var cropNameList = mlu[__Global.lang + 'CropNames'];
     var cropList = mlu['croplist'];
     //workaround for numeric axis label bug (multiply by 10)
-    App.service.Chart.stores.cr.setData([ { data: data[0].cr * 10 } ]);
+    App.service.Chart.stores.lur.setData([ { data: data[0].lur * 10 } ]);
     App.service.Chart.stores.flf.setData([ { data: data[0].flf * 10} ]);
 
     var deltaYears = __Global.year.Max - __Global.year.Min;
@@ -185,9 +185,9 @@ Ext.define('App.util.ChartTypes', {
     if (deltaYears % 2 == 1){
       deltaYears++;
     }
-    var cr_steps = cr.maximum - cr.minimum;
-    if (cr_steps % 2 == 0){
-      cr_steps++;
+    var lur_steps = lur.maximum - lur.minimum;
+    if (lur_steps % 2 == 0){
+      lur_steps++;
     }
 
     return Ext.create('App.view.chart.VPanel', {
@@ -209,12 +209,12 @@ Ext.define('App.util.ChartTypes', {
             width: '45%',
             height: 200,
             insetPadding: 25,
-            store: App.service.Chart.stores.cr,
-            gradients:__Chart.Gauge.getGradient(cr.legendcolors[0], cr.legendcolors[1], cr.legendcolors[2], 'cr'), 
-            colors: ['url(#gradient-cr)'],           
-            axes: __Chart.Gauge.getAxes(cr.minimum, cr.maximum, cr_steps, cr[__Global.lang + 'Name']),
+            store: App.service.Chart.stores.lur,
+            gradients:__Chart.Gauge.getGradient(lur.legendcolors[0], lur.legendcolors[1], lur.legendcolors[2], 'lur'), 
+            colors: ['url(#gradient-lur)'],           
+            axes: __Chart.Gauge.getAxes(lur.minimum, lur.maximum, lur_steps, lur[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
-            sprites: __Chart.Gauge.getSprites(cr[__Global.lang + 'Legend']  + ': ' + data[0].cr.toFixed(1)),
+            sprites: __Chart.Gauge.getSprites(lur[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].lur).toFixed(1)),
             margin: '10 0 0 0'
           },{
             html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') + 
@@ -230,7 +230,7 @@ Ext.define('App.util.ChartTypes', {
             colors: ['url(#gradient-flf)'],             
             axes: __Chart.Gauge.getAxes(0, deltaYears, deltaYears/2, flf[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
-            sprites: __Chart.Gauge.getSprites(flf[__Global.lang + 'Legend']  + ': ' + data[0].flf.toFixed(1)),
+            sprites: __Chart.Gauge.getSprites(flf[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].flf).toFixed(1)),
             margin: '10 0 0 0'
           }]
        /* },{
@@ -239,8 +239,8 @@ Ext.define('App.util.ChartTypes', {
             pack: 'center'
           },
           items: [{
-            html: cr[__Global.lang + 'Name'] + '<br/>' + cr[__Global.lang + 'Legend']  + ': <b>' + 
-              data[0].cr.toFixed(1) + '</b>',
+            html: lur[__Global.lang + 'Name'] + '<br/>' + lur[__Global.lang + 'Legend']  + ': <b>' + 
+              data[0].lur.toFixed(1) + '</b>',
             cls: 't-center t-xs-bigger',
             width: '40%'
           },{
@@ -274,7 +274,7 @@ Ext.define('App.util.ChartTypes', {
     var decimals = 1;
     var maxData = App.service.Chart.maxData;
     var unit = '';
-    if (indicator.id == 'fir_n'){
+    if (indicator.id == 'firn'){
       display = 'under';
       maximum = NaN;
       decimals = 0;

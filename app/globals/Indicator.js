@@ -5,12 +5,12 @@
 */
 var __Indicator = [
   /**
-  * @property fir_n
-  * fir_n indicator
+  * @property firn
+  * firn indicator
   */
   {
-    id             : 'fir_n',
-    field          : 'fir_n',
+    id             : 'firn',
+    field          : 'firn',
     enName         : 'Net irrigated area',
     ruName         : 'Орошаемая площадь',
     //enNameShort         : 'Net irrigated area',
@@ -138,12 +138,12 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor10'
   }, 
   /**
-  * @property y
-  * y indicator
+  * @property yf
+  * yf indicator
   */
   {
-    id             : 'y',
-    field          : 'y_{crop}',
+    id             : 'yf',
+    field          : 'yf_{crop}',
     enName         : 'Crop yield',
     ruName         : 'Урожайность',
     //enNameShort         : 'Yield',
@@ -270,17 +270,17 @@ var __Indicator = [
     ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 
                     'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
-    exportUserPolygon: true,
+    exportUserPolygon: false,
         up: false,
     glossary       : 'bme00073.htm#bookme_anchor13'
   }, 
   /**
-  * @property cr
-  * cr indicator
+  * @property lur
+  * lur indicator
   */
   {
-    id             : 'cr',
-    field          : 'cr',
+    id             : 'lur',
+    field          : 'lur',
     enName         : 'Land use rotation',
     ruName         : 'Севооборот',
     //enNameShort         : 'Crop rotation',
@@ -305,7 +305,7 @@ var __Indicator = [
     minimum: 1,
     chart          : 'Multiannual',
     exportUserPolygon: false,
-    legendcolors   : [cr_dark, cr_color, cr_bright],
+    legendcolors   : [lur_dark, lur_color, lur_bright],
     decimals       : 1,  
         up: false,  
     glossary       : 'bme00073.htm#bookme_anchor8'
@@ -350,8 +350,8 @@ var __Indicator = [
   * v_water indicator
   */
   {
-    id             : 'v_sum',
-    field          : 'v_sum',
+    id             : 'vet',
+    field          : 'vet',
     enName         : 'Available Water for irrigated land',
     ruName         : 'Индекс водообеспоченности',
     enNameShort    : 'Available Water',
@@ -383,8 +383,8 @@ var __Indicator = [
   * v_water indicator
   */
   {
-    id             : 'v',
-    field          : 'v_{crop}',
+    id             : 'vc',
+    field          : 'vc_{crop}',
     enName         : 'Available Water per crop',
     ruName         : 'Индекс водообеспоченности',
     enNameShort    : 'Available Water',
@@ -450,8 +450,8 @@ var __Indicator = [
   * y indicator
   */
  /* {
-    id             : 'e_prod',
-    field          : 'e_prod',
+    id             : 'eprod',
+    field          : 'eprod',
     enName         : 'Water Productivity',
     ruName         : 'продуктивность воды',
     //enNameShort         : 'Water Productivity',

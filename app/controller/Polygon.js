@@ -28,7 +28,8 @@ Ext.define('App.controller.Polygon', {
   },
 
   onDownload: function (field){
-    App.service.Polygon.downloadOptions();
+    App.service.Helper.getComponentExt('exporter-window').show();
+    //App.service.Polygon.downloadOptions();
   },
   onImport: function(){
     App.service.Polygon.importPolygon();

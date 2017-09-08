@@ -1,4 +1,10 @@
 var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
+var server_sic = 'http://wuemoca.net';
+var server_wfs = server + ':443';
+
+//SIC server settings
+/*server = server_sic;
+server_wfs = server;*/
 
 var api = server + '/mvc-backend/';
 
@@ -80,8 +86,8 @@ __Global.api = {
 */
 __Global.urls= {
     Mapserver     : server + '/geoserver/',
-    Mapserver_WFS : server + ':443/geoserver/' + geoserver_workspace + '/ows?' +
-        'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',
+    Mapserver_WFS : server_wfs + '/geoserver/' + geoserver_workspace + '/ows?' +
+        'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',        
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
     /*insert in head section of index.htm of Glossary on Server:
     var fname="content";     //MAIN CONTENT AREA FRAME **NAME**

@@ -59,10 +59,14 @@ Ext.define('App.controller.Switcher', {
       //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
 
     var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      '" data-qtip="' + i18n.header.readmore + ' ' + indicator[__Global.lang + 'NameShort'] + 
+      '" data-qtip="' + indicator[__Global.lang + 'Name'] + 
+      ':<br> ' + indicator[__Global.lang + 'Tooltip'] + '<br>' + i18n.header.readmore +
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;  
 
     cb.setFieldLabel(label);
+    //var tip = Ext.tip.QuickTipManager.getQuickTip();
+    //var tip = App.service.Helper.getComponentExt('switcher-qtip-indicator');
+    //tip.update(indicator[__Global.lang + 'Tooltip']);
 
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
     //this.fillUnits();
@@ -134,7 +138,7 @@ Ext.define('App.controller.Switcher', {
       App.service.Watcher.set('Crop', '');
       return App.service.Helper.hideComponents(['switcher-btns-crop']);
     }
-    //y and pirf
+    //yf and pirf
     if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
       crops = indicator.crops;
       cropNames = indicator[__Global.lang + 'Legend'];

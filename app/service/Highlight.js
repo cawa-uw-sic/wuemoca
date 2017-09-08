@@ -2,20 +2,12 @@ Ext.define('App.service.Highlight', {
 
   singleton: true,
 
-  display: function (features) {
+  display: function (coordinates) {
     this.clear();
-    if (features.length > 0) {
-      features[0].geometry.coordinates.map(function (polygon) {
-        polygon[0] = polygon[0].map(function (point) {
-          point = ol.proj.transform(point, 'EPSG:4326', 'EPSG:3857');
-          return point;
-        })
-        var feature = new ol.Feature({
-          geometry: new ol.geom.Polygon([polygon[0]])
-        });
-        BackgroundLayers.highlight.getSource().addFeature(feature);
-      });
-    }
+    var feature_transform = new ol.Feature({
+      geometry: new ol.geom.MultiPolygon(coordinates).transform(__Global.projection.Geographic,__Global.projection.Mercator)
+    });      
+    BackgroundLayers.highlight.getSource().addFeature(feature_transform);
   },
 
   clear: function () {

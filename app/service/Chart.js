@@ -39,12 +39,12 @@ Ext.define('App.service.Chart', {
 /**
  * @property stores chart store list
  * @property stores.defaults chart store for the default column or line charts
- * @property stores.cr chart store for gauge charts (crop rotation)
+ * @property stores.lur chart store for gauge charts (crop rotation)
  * @property stores.flf chart store for gauge charts (fallow land frequency) 
  */
   stores: {
     defaults  : Ext.create('Ext.data.JsonStore'),
-    cr  : Ext.create('Ext.data.JsonStore'),
+    lur  : Ext.create('Ext.data.JsonStore'),
     flf : Ext.create('Ext.data.JsonStore')
   },
   /**
@@ -56,7 +56,12 @@ Ext.define('App.service.Chart', {
     self.window.on("close", function () {
       App.service.Highlight.clear();
       self.data = [];
-      App.service.Exporter.setDownloadCombotext();      
+      App.service.Exporter.setDownloadCombotext(); 
+      if (App.service.Watcher.get('UserPolygon') == 'show'){
+        App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
+        App.service.Polygon.importSelectedGeometry(false);
+        App.service.Polygon.importSelectedData(false, false);
+      }           
     });
     self.window.on("boxready", function (window) {
 
@@ -101,9 +106,27 @@ Ext.define('App.service.Chart', {
         params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
         success: function (results) {
           if (results.features.length > 0){
+            //features with values for all available years
             self.dataResponse(results.features);
-            App.service.Highlight.display(results.features);
+            //all annual geometries are identical, for geometry (in EPSG:4326) take the first feature
+            var coordinates = results.features[0].geometry.coordinates;
+            App.service.Highlight.display(coordinates);
             self.showWindow();
+            //prepare import possibility to user polygon
+            var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+            App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
+            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button + '<br>' + aggregation_name);
+            //store multipolygon geometry, extent and wkt_geometry
+            //Geometry format for reading and writing data in the WellKnownText (WKT) format.
+            var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
+            App.service.Polygon.importSelectedGeometry(
+              coordinates, 
+              BackgroundLayers.highlight.getSource().getExtent(),
+              wkt_geometry
+            );
+            //duplicate array of nested objects, don't change original data
+            var data_copy = JSON.parse(JSON.stringify(self.data));
+            App.service.Polygon.importSelectedData(data_copy, aggregation_name);
           }
           else{
             self.window.close();
@@ -133,15 +156,6 @@ Ext.define('App.service.Chart', {
     var crop = App.service.Watcher.get('Crop');
     self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
-      var first = self.data[0];
-      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
-        + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-
-      if (indicator.chart != 'Multiannual'){
-        title += ' - ' + App.service.Map.getLegendTitle(true);
-      }
-      self.window.setTitle(title);
-
       if (indicator.chart != 'crops'){
       //if (typeof indicator.chart != 'object'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
@@ -150,6 +164,14 @@ Ext.define('App.service.Chart', {
         var chart = App.service.Helper.getById(__Crop, crop).chart;
         self.window.add(App.util.ChartTypes[chart](self.data));
       }
+      var first = self.data[0];
+      var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
+        + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+
+      if (indicator.chart != 'Multiannual'){
+        title += ' - ' + App.service.Map.getLegendTitle(true, self.maxData > 1000);
+      }
+      self.window.setTitle(title);
       self.userPolygon = false;
      // return self.window.show();
     }
@@ -195,10 +217,10 @@ Ext.define('App.service.Chart', {
       yField = yField.replace('{crop}', crop);
     }    
     self.data.map(function (rec, i) {
-      if (parseFloat(self.data[i][yField]) > self.maxData){
+      if (self.data[i][yField] != Infinity && parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       } 
-      if ((yField == 'vir' || yField == 'v_water') && parseFloat(self.data[i][yField]) == 0){
+      if ((yField == 'vir' || yField == 'vet') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
         self.data[i][yField] = Infinity;
       }     
     });

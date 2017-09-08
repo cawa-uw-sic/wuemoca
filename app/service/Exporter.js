@@ -4,6 +4,12 @@
 Ext.define('App.service.Exporter', {
 
   singleton: true,
+  userPolygon: false,
+  filter_array: false,
+  filter: false,
+  outputformat: false,
+  yearfilter: false,
+  year: false,
   /**
   * @method setDownloadCombotext
   * update comboboxes of download option window, 
@@ -103,19 +109,19 @@ Ext.define('App.service.Exporter', {
 
   download: function(params){
     var userPolygon = (App.service.Watcher.get('UserPolygon') == 'show');
-    var filter = params.filter;
-    var filter_array = filter.split('=');
-    var outputformat = params.type;
-    var year = params.year;
-    var yearfilter = '';
-    if (year != ''){
+    this.filter = params.filter;
+    this.filter_array = this.filter.split('=');
+    this.outputformat = params.type;
+    this.year = params.year;
+    this.yearfilter = '';
+    if (this.year != ''){
       //array
-      if (year.length == 1){
-        yearfilter = 'year=' + year;
+      if (this.year.length == 1){
+        this.yearfilter = 'year=' + this.year;
       }
       else{
-        year = year.sort();
-        yearfilter = 'year in (' + year + ')';
+        this.year = this.year.sort();
+        this.yearfilter = 'year in (' + this.year + ')';
       }
     }
     // if the user wants to download data of a map selection in Excel format,
@@ -123,115 +129,131 @@ Ext.define('App.service.Exporter', {
     // or for an user polygon (stored also in JSON format)
     // use the JSON to HTML convertor (with explanations of DB acronyms)
     var excelHtml = false;
-    if (outputformat == 'excel'){
-      if (filter_array.length > 1 && App.service.Chart.data.length > 0){
+    if (this.outputformat == 'excel' && userPolygon){
+      /*if (this.filter_array.length > 1 && App.service.Chart.data.length > 0){
         //check if chart data is identical to download filter
-        if (App.service.Chart.data[0][filter_array[0]].toString() == filter_array[1]){
+        if (App.service.Chart.data[0][this.filter_array[0]].toString() == this.filter_array[1]){
           excelHtml = true;
         }
-      }
-      else if (userPolygon) {
+      }*/
         excelHtml = true;
-      }
+      //}
     }
     if (excelHtml){
-      App.service.Helper.JSONToHTMLConvertor(year);  
+      App.service.Helper.JSONToHTMLConvertor(this.year);  
     }
     else{
-      var aggregation = App.service.Watcher.getAggregation()['id'];
-      //propertyname = field list
-      var propertyname = '';
-      var field_array = App.service.Helper.getExportFields(userPolygon);
-      field_array.map(function (field) {
-        propertyname += field + ',';
-      });
       if (userPolygon){
-        propertyname += 'name,location,area_ha,';
-        filter = '';
-      }
-      if (outputformat != 'excel'){
-        propertyname += 'geom';
+        App.service.Polygon.writePolygon();
       }
       else{
-        //remove last comma
-        propertyname = propertyname.slice(0, -1);      
+        this.downloadWFS(false);
       }
-      //filter and filename
-      var ending = '';
-      switch (outputformat){
-        case 'excel':
-          ending = '.xls';
-          break;
-        case 'application/vnd.google-earth.kml+xml':
-          ending = '.kml';
-          break;
-        case 'SHAPE-ZIP':
-          ending = '.zip';
-          break;
-      }
-      var cql_filter = ''; 
-      // filename as clear as possible
-      var filename = '';
+    }
+  },
 
-      if (userPolygon){
-        var selectedPolygon = App.service.Polygon.getSelectedPolygons()[0];
-        filename = selectedPolygon.info.name.replace(/ /g,"_");
-        if (selectedPolygon.info.location != ''){
-          filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
-        }
+  downloadWFS: function(userPolygon){
+    var filter_array = this.filter_array;
+    var filter = this.filter;
+    var outputformat = this.outputformat;
+    var yearfilter = this.yearfilter;
+    var year = this.year;
+    var aggregation = App.service.Watcher.getAggregation()['id'];
+    //propertyname = field list
+    var propertyname = '';
+    var field_array = App.service.Helper.getExportFields(userPolygon);
+    field_array.map(function (field) {
+      propertyname += field + ',';
+    });
+    if (userPolygon){
+      propertyname += 'name,location,area_ha,';
+      filter = '';
+    }
+    if (outputformat != 'excel'){
+      propertyname += 'geom';
+    }
+    else{
+      //remove last comma
+      propertyname = propertyname.slice(0, -1);      
+    }
+    //filter and filename
+    var ending = '';
+    switch (outputformat){
+      case 'excel':
+        ending = '.xls';
+        break;
+      case 'application/vnd.google-earth.kml+xml':
+        ending = '.kml';
+        break;
+      case 'SHAPE-ZIP':
+        ending = '.zip';
+        break;
+    }
+    var cql_filter = ''; 
+    // filename as clear as possible
+    var filename = '';
+
+    if (userPolygon){
+      var selectedPolygon = App.service.Polygon.getSelectedPolygons()[0];
+      filename = selectedPolygon.info.name.replace(/ /g,"_");
+      if (!!selectedPolygon.info.location && selectedPolygon.info.location != ''){
+        filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
       }
-      else{
-        filename = aggregation;
-        //check if valid filter clause 
-        if (filter.indexOf('=') != -1){
-          cql_filter = '&CQL_FILTER=' + filter;
-          filename += '_';
-          var filter_value = filter_array[1].replace(/'/g, '');
-          //check if filter is composed of two components. If so take only the first part and ignore the second part
-          if (filter_value.indexOf(' and ') != -1){
-            filter_value = filter_value.split(' ')[0];
-          }
-          //check if aggregation level is equal to filter, to avoid redundancies
-          var filter_name = filter.split('_')[0];
-          if (aggregation == filter_name){
-            filename += filter_value;
-          }
-          //if filter is superordinated (e.g. all rayons of oblast xy), then specify filter in filename
-          else{
-            filename += filter_name + '_' + filter_value;
-          }
+      cql_filter = "&CQL_FILTER=uid='" + selectedPolygon.uid + "'";
+    }
+    else{
+      filename = aggregation;
+      //check if valid filter clause 
+      if (filter.indexOf('=') != -1){
+        cql_filter = '&CQL_FILTER=' + filter;
+        filename += '_';
+        var filter_value = filter_array[1].replace(/'/g, '');
+        //check if filter is composed of two components. If so take only the first part and ignore the second part
+        if (filter_value.indexOf(' and ') != -1){
+          filter_value = filter_value.split(' ')[0];
         }
-      }
-      if (yearfilter != ''){
-        if (cql_filter == ''){
-          cql_filter = '&CQL_FILTER=';        
+        //check if aggregation level is equal to filter, to avoid redundancies
+        var filter_name = filter.split('_')[0];
+        if (aggregation == filter_name){
+          filename += filter_value;
         }
+        //if filter is superordinated (e.g. all rayons of oblast xy), then specify filter in filename
         else{
-          cql_filter += ' and ';
+          filename += filter_name + '_' + filter_value;
         }
-        cql_filter += yearfilter;
-        filename += '_' + year;
-      }      
-      filename += ending;
-      filename = filename.replace(/,/g, '_');
-
-      var typename = __Global.geoserverWorkspace + ':';
-      if (userPolygon){
-        typename += 'mypolygon';
+      }
+    }
+    if (yearfilter != ''){
+      if (cql_filter == ''){
+        cql_filter = '&CQL_FILTER=';        
       }
       else{
-        typename += 'ca_' + aggregation;
+        cql_filter += ' and ';
       }
+      cql_filter += yearfilter;
+      filename += '_' + year;
+    }      
+    filename += ending;
+    filename = filename.replace(/,/g, '_');
 
-      var requesturl = __Global.urls.Mapserver_WFS + 
-        'outputFormat=' + outputformat +
-        '&propertyName=' + propertyname +  
-        cql_filter +  
-        '&filename=' + filename +         
-        '&typeName=' + typename;
-        
-      App.service.Helper.openDocument(requesturl, 'download');  
-    }  
-  }
+    var typename = __Global.geoserverWorkspace + ':';
+    if (userPolygon){
+      typename += 'mypolygon';
+    }
+    else{
+      typename += 'ca_' + aggregation;
+    }
+
+    var requesturl = __Global.urls.Mapserver_WFS + 
+      'outputFormat=' + outputformat +
+      '&propertyName=' + propertyname +  
+      cql_filter +  
+      '&filename=' + filename +         
+      '&typeName=' + typename; +
+      //'&id_policy=false';
+      
+    App.service.Helper.openDocument(requesturl, 'download');  
+  }      
+
 
 });

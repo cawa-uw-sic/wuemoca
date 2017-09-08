@@ -24,20 +24,20 @@ maize_color   = '#e6550d'; //  10% #FCEEE6 / #e6550d / 50% #732A06 / brownorange
 sun_color     = '#CCAA00'; //  10% #FFFAE5 / #FFD500 (middle) / 20% #CCAA00 (symbol) / 50% #7F6A00 / yellow
 veg_color     = '#6a3d9a'; //  10% #F0EBF4 / #6a3d9a / 50% #351E4D / violett
 flf_color     = '#33a02c'; //  50% #195016 / #33a02c / 10% #EAF5E9 / green inverted
-cr_color      = '#e6550d'; //  10% #FCEEE6 / #e6550d / 50% #732A06 / brownorange
+lur_color      = '#e6550d'; //  10% #FCEEE6 / #e6550d / 50% #732A06 / brownorange
 
 cd_color      = '#ffffbf'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (http://colorbrewer2.org/)
-fir_n_color   = '#de2d26'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
+firn_color   = '#de2d26'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 sum_color     = '#fc9272'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 etf_color	  = '#00CD66'; //  #FFD700 / #00CD66 / #00868B / yellow-green-blue
 vir_color     = '#2c7fb8'; // #edf8b1 / #7fcdbb / #2c7fb8 / lightyellow-blue (http://colorbrewer2.org/)
-v_water_color = '#081d58'; // #ffffd9 / #41b6c4 / #081d58 / lightyellow-blue (http://colorbrewer2.org/)
+vet_color = '#081d58'; // #ffffd9 / #41b6c4 / #081d58 / lightyellow-blue (http://colorbrewer2.org/)
 
 flf_bright    = '#EAF5E9';
 flf_dark      = '#195016';
 
-cr_bright     = '#FCEEE6';
-cr_dark       = '#732A06';
+lur_bright     = '#FCEEE6';
+lur_dark       = '#732A06';
 
 yield_color_1 = '#ffff80'; // very low  - bright yellow
 yield_color_2 = '#f8db5a'; // low

@@ -16,7 +16,8 @@ SHP = {
     NULL: 0,
     POINT: 1,
     POLYLINE: 3,
-    POLYGON: 5
+    POLYGON: 5,
+    POLYGONZ: 15    
 };
 
 SHP.getShapeName = function(id) {
@@ -104,6 +105,7 @@ SHPParser.prototype.parseShape = function(dv, idx, length) {
         };
         break;
     case SHP.POLYLINE: // Polyline (MBR, partCount, pointCount, parts, points)
+    case SHP.POLYGONZ: // PolygonZ
     case SHP.POLYGON: // Polygon (MBR, partCount, pointCount, parts, points)
         c = shape.content = {
             minX: dv.getFloat64(idx, true),
@@ -127,7 +129,7 @@ SHPParser.prototype.parseShape = function(dv, idx, length) {
     case 8: // MultiPoint (MBR, pointCount, points)
     case 11: // PointZ (X, Y, Z, M)
     case 13: // PolylineZ
-    case 15: // PolygonZ
+    //case 15: // PolygonZ
     case 18: // MultiPointZ
     case 21: // PointM (X, Y, M)
     case 23: // PolylineM

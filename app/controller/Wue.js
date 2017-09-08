@@ -42,8 +42,9 @@ Ext.define('App.controller.Wue', {
         //load water intake if stored from previous input
         for (d = 0; d < polygon.data.length; ++d) {
           if (polygon.data[d]['year'] == year){
-            if (polygon.data[d]['wf'] != undefined){
-              itemyear['value'] = polygon.data[d]['wf'];
+            var wf = polygon.data[d]['wf'];
+            if (!!wf){
+              itemyear['value'] = wf;
             }
             break;
           }
@@ -64,8 +65,9 @@ Ext.define('App.controller.Wue', {
       for (d = 0; d < polygon.data.length; ++d) {
         if (polygon.data[d]['year'] == year){
           for (var month = 3; month <= 10; month++) {
-            if (polygon.data[d]['wf_m' + month] != undefined){
-              datayear['m' + month] = polygon.data[d]['wf_m' + month];
+            var wf = polygon.data[d]['wf_m' + month];
+            if (!!wf){
+              datayear['m' + month] = wf;
             }
           }
           break;
@@ -89,8 +91,9 @@ Ext.define('App.controller.Wue', {
         for (d = 0; d < polygon.data.length; ++d) {
           if (polygon.data[d]['year'] == year){
             for (var month = 3; month <= 10; month++) {
-              if (polygon.data[d]['wf_m' + month + '_' + decade] != undefined){
-                datayear['m' + month] = polygon.data[d]['wf_m' + month + '_' + decade];
+              var wf = polygon.data[d]['wf_m' + month + '_' + decade];
+              if (!!wf){
+                datayear['m' + month] = wf;
               }
             }
             break;

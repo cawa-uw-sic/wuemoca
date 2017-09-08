@@ -28,7 +28,11 @@ Ext.define('App.controller.Polygon', {
   },
 
   onDownload: function (field){
-    App.service.Polygon.downloadOptions();
+    App.service.Helper.getComponentExt('exporter-window').show();
+    //App.service.Polygon.downloadOptions();
+  },
+  onImport: function(){
+    App.service.Polygon.importPolygon();
   },
   /*onEdit: function () {
     App.service.Polygon.updateWindowEdit();
@@ -76,6 +80,10 @@ Ext.define('App.controller.Polygon', {
   },
 
   onWUE: function () {
+    var container = App.service.Helper.getComponentExt('app-wue-container');
+    container.removeAll();
+    container.add({ xtype: 'app-wue-form-by-year' });
+    App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
     App.service.Wue.window.show();
   }
 

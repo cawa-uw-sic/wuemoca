@@ -213,7 +213,7 @@ Ext.define('App.service.Map', {
       else{
         title += indicator[__Global.lang + 'Name'];
       }
-      if (!!indicator.crops) title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
+      if (!!indicator.crops && App.service.Watcher.get('Crop') != 'sum') title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
       if (userPolygon == 'noshow'){
         if (!!indicator.years) {
           title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
@@ -275,7 +275,7 @@ Ext.define('App.service.Map', {
     App.service.Helper.getComponentExt('legend-panel').setVisible(true);
     App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(
       aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
-      self.getLegendTitle(true)
+      self.getLegendTitle(true, false)
     );
     var image_src = self.getLegendImage();
     if (image_src != ''){
@@ -300,18 +300,29 @@ Ext.define('App.service.Map', {
     return image_src;
   },
 
-  getLegendTitle: function(withUnit){
+  getLegendTitle: function(withUnit, thousand){
     var legend_title = '';
     var indicator = App.service.Watcher.getIndicator();
     if (!!indicator.crops){
       //indicators with crop list
-      legend_title = App.service.Helper.getCropName();
+      /*if (indicator.id == 'vc' && typeof indicator[__Global.lang + 'Legend'] == 'object'){
+        legend_title = indicator[__Global.lang + 'Legend'][
+          App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop')).idx
+        ];
+      }
+      else{*/
+        legend_title = App.service.Helper.getCropName();
+      //}
     }
     else{
       legend_title = indicator[__Global.lang + 'Legend'];
     }
-    if (withUnit && (indicator.chart != 'Multiannual' && indicator[__Global.lang + 'Unit'] != '-')) {
-      legend_title += i18n.chart._in + indicator[__Global.lang + 'Unit'];
+    if (withUnit){
+      if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
+        legend_title += i18n.chart._in;
+        legend_title += thousand ? i18n.chart.thousand : '';
+        legend_title += indicator[__Global.lang + 'Unit'];
+      }
     }
     return legend_title;
   },
@@ -325,6 +336,7 @@ Ext.define('App.service.Map', {
 
     var median        = 0;
     var maximum       = 0;
+    var minimum = 0;
     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
         if (!!indicator.crops){
@@ -336,12 +348,15 @@ Ext.define('App.service.Map', {
           median  = indicator.median;
           maximum = indicator.maximum;
         }
+        if (!!indicator.minimum){
+          minimum = indicator.minimum;
+        }
       }
 
       if (!!median && median != 0) {
         text = (typeof median == 'object')
               ? i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low
-              : maximum + br + median + br + '0';
+              : maximum + br + median + br + minimum;
       }
 
 
@@ -529,8 +544,6 @@ Ext.define('App.service.Map', {
       App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
       //App.service.Helper.setComponentsValue([]);
     }
-
-
   },
 
   setIndicatorFilter: function(userPolygon){
@@ -544,12 +557,6 @@ Ext.define('App.service.Map', {
       var filteredData = [];
       indicatorData.map(function (indicator) {
         if (indicator.up) {
-          indicator.enGroup = 'Land use';
-          indicator.ruGroup = 'Землепользование';
-          if (indicator.id == 'vir' || indicator.id == 'etf'){
-            indicator.enGroup = 'Water use efficiency';
-            indicator.ruGroup = 'Эффективность использования воды';           
-          }
           filteredData.push(indicator);
         }
       });

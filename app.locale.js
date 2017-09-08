@@ -37,13 +37,13 @@ var i18n = {
     contact                 : 'Contact',
     responsible             : 'persons responsible',
     imprint               : 'Imprint',
-    manual                  : 'User Manual',
+    manual                  : 'User Guide',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
-    readmore: 'Read more about',
-    uniwue                  : 'CAWa project at Department of Remote Sensing at University of Wuerzburg',
+    readmore: 'Click to read more about',
+    uniwue                  : 'Department of Remote Sensing at University of Wuerzburg',
     sic: 'SIC ICWC',
-    sicurl: 'http://sic.icwc-aral.uz/releases/eng/285.htm',
+    sicurl: 'http://sic.icwc-aral.uz/index_e.htm',
     beta: 'BETA version'
   },
 
@@ -91,7 +91,7 @@ var i18n = {
       nameUisTH                : 'Site (ISA and district)',
       nameRayonTH                : 'Site (district)',
       fir_bTH                : 'Irrigation area, gross',
-      fir_nTH                : 'Net irrigated area',
+      firnTH                : 'Net irrigated area',
       industrialTH           : 'Industrial crops',
       totalTH               : 'Total',
       cottonTH              : 'Cotton',
@@ -247,9 +247,10 @@ mapSelection:{
     allYear                 : 'all available years',
     measure                 : 't/ha',
     _in                     : ' in ',
+    thousand: 'thousand ',
     raster                  : 'Raster cell',
     shareCrops              : 'share (%)',
-    y                   : 'yield (t/ha)',
+    yf                   : 'yield (t/ha)',
     multiannualHeader1          : 'Multi-annual analysis',
     multiannualHeader2          : '(aggregated at 7.5km x 7.5km grid cells)',
     majorLandUse            : 'Major land use',
@@ -306,7 +307,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           conjunction: 's' + ' of ',
           all: 'all',
           plural: 's',
-          acronym: 'Show acronym explanations'
+          acronym: 'Show overview indicators'
   },
 
   timeSlider: {
@@ -346,7 +347,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
-    calculateWUElong            : 'Calculate Water Use Efficiency Indicators',    
+    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',    
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -358,7 +359,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           failure: 'Indicator calculation failed',
                 largearea: ' due to large area',
           alreadyCalculated: 'Indicators already calculated!',
-          partlyCalculated: 'Indicator calculation failed for some polygons.',
+          partlyCalculated: 'Indicator calculation failed or is invalid for some polygons.',
           calculation_message: 'Do you want to calculate indicators for the selected polygon?',
     exportExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
@@ -375,7 +376,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     sortDescText: 'Sort Descending',
     sortClearText: 'Clear Sort',
     selectgeodata: 'Select geodata format',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
+    drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.',
+        smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
+        smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
+        outside: 'Outside the irrigated area polygons cannot be processed.',
+        import_button: 'Import selected'
   },
 
   exportUI: {
@@ -442,6 +447,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     m10:                     'Oct',
     m11:                     'Nov',
     m12:                     'Dec'
+  },
+  decade: {
+    1:                      'First decade of month',
+    2:                      'Second decade of month',
+    3:                      'Third decade of month'
   }
 };
 
@@ -475,7 +485,7 @@ switch (locale){
       readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
     sic: 'НИЦ МКВК',
-        sicurl: 'http://sic.icwc-aral.uz/releases/rus/285.htm',
+        sicurl: 'http://sic.icwc-aral.uz/index.htm',
     beta: 'Бета-версия'
     };
 
@@ -504,7 +514,7 @@ switch (locale){
     };
 
     i18n.filter = {
-      title                 : 'Навигация по карте'
+      title                 : 'Управление картой'
     };
 
     i18n.report = {
@@ -526,7 +536,7 @@ switch (locale){
       nameUisTH                : 'Объекты (УИС и районы)',
       nameRayonTH                : 'Объекты (районы)',
       fir_bTH                : 'Орошаемая площадь, брутто',
-      fir_nTH                : 'Орошаемая площадь, нетто',
+      firnTH                : 'Орошаемая площадь, нетто',
       industrialTH           : 'Технические культуры',
       totalTH               : 'Всего',
       cottonTH              : 'в т.ч Хлопок',
@@ -580,7 +590,7 @@ switch (locale){
 
     };
 i18n.mapSelection ={
-   title       :'Опции выбора карты',
+   title       :'Слои',
       reset:'сброс<br>настроек'
 };
 
@@ -658,9 +668,10 @@ i18n.mapSelection ={
       forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
       _in                   : ' в ',
+          thousand: 'тысяча ',
       raster                : 'Растровые',
       shareCrops            : 'Доля культур (%)',
-      y                 : 'урожай (т/га)',
+      yf                 : 'урожай (т/га)',
       multiannualHeader1          : 'Многолетний анализ',
       multiannualHeader2          : '(одна ячейка = 7,5км x 7,5км)',
       majorLandUse          : 'Основная культура',
@@ -789,7 +800,11 @@ calculateWUElong          : 'Расчет водоэффективности',
     sortDescText: 'Сортировка по убыванию',
     sortClearText: 'Очистить Сортировать',
     selectgeodata: 'Выберите формат геоданных',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.'
+    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.',
+        smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
+        smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
+        outside: 'Outside the irrigated area polygons cannot be processed.',
+                import_button: 'Импортировать выбранную'
     };
 
     i18n.exportUI = {
@@ -857,6 +872,11 @@ calculateWUElong          : 'Расчет водоэффективности',
     m10:                     'Окт',
     m11:                     'Ноя',
     m12:                     'Дек'
+  }
+    i18n.decade = {
+    1:                      'First decade of month',
+    2:                      'Second decade of month',
+    3:                      'Third decade of month'
   }
   break;
 }

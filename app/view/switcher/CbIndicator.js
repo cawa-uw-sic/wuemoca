@@ -17,8 +17,8 @@ Ext.define('App.view.switcher.CbIndicator', {
     type: 'indicator'
   },
   
-  /*//http://stackoverflow.com/questions/34946014/combobox-showing-html-as-text
-  fieldSubTpl: [ // note: {id} here is really {inputId}, but {cmpId} is available
+  //http://stackoverflow.com/questions/34946014/combobox-showing-html-as-text
+  /*fieldSubTpl: [ // note: {id} here is really {inputId}, but {cmpId} is available
       '<input id="{id}" data-ref="inputEl" type="{type}" {inputAttrTpl}',
           ' size="1"', // allows inputs to fully respect CSS widths across all browsers
           '<tpl if="name"> name="{name}"</tpl>',
@@ -80,10 +80,11 @@ Ext.define('App.view.switcher.CbIndicator', {
   // template for the content inside text field
   displayTpl: Ext.create('Ext.XTemplate',
       '<tpl for=".">',
-         '{' + __Global.lang + 'Name} ({' + __Global.lang + 'Unit})',    
-          //'<a href="' + __Global.urls.GlossaryBase + '{glossary}" title="{' + __Global.lang + 'Tooltip}" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 0;"></i></a>{' + __Global.lang + 'Name} ({' + __Global.lang + 'Unit})',
+        //'<div data-qtip="{' + __Global.lang + 'Tooltip}">',
+        '{' + __Global.lang + 'Name} ({' + __Global.lang + 'Unit})',
       '</tpl>'
   ), 
+
   valueField: 'id',
   queryMode: 'local',
   editable: false,
@@ -93,6 +94,9 @@ Ext.define('App.view.switcher.CbIndicator', {
    },
   listeners: {
     change: 'onIndicator'
+    /*afterrender: function(cb){
+      Ext.tip.QuickTipManager.register({ target: cb.getEl(), itemId: 'switcher-qtip-indicator', text: 'snsebns' })
+    }*/
   }
 
 });

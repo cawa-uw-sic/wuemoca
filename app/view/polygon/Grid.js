@@ -23,7 +23,6 @@ Ext.define('App.view.polygon.Grid', {
       mode: 'MULTI'
   },*/
 
-
   columns:[
 
     {

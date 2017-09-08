@@ -38,6 +38,31 @@ Ext.define('App.view.wue.Form', {
   ],
 
   buttons: [{
+    xtype: 'button',
+    text: i18n.wue.btnImportTemplates,
+    menu: [{
+      text: i18n.wue.year,
+      itemId: 'wue-import-year',
+      handler: 'onBtnTemplate'
+    },{
+      text: i18n.wue.month,
+      itemId: 'wue-import-month',
+      handler: 'onBtnTemplate'
+    },{
+      text: i18n.wue.decade,
+      itemId: 'wue-import-decade',
+      handler: 'onBtnTemplate'
+    }]
+  },{
+    xtype: 'fileuploadfield',
+    itemId: 'wue-btn-import',
+    label: i18n.wue.btnImport,
+    buttonOnly: true,
+    hideLabel: true,
+    listeners: {
+      change: 'onFormImport'
+    }
+  },{
     itemId: 'wue-btn-submit',
     text: i18n.wue.btnSubmit,
     disabled: false,

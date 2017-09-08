@@ -327,11 +327,14 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
+    btnImport               : 'Import',
+    btnImportTemplates      : 'Import templates',
     byDecade                : 'by decade (download only)',
     byMonth                 : 'monthly (download only)',
     byYear                  : 'yearly (diagram and download)',
     year                    : 'Year',
-    decade                  : 'Decade'
+    decade                  : 'Decade',
+    month                   : 'Month'
   },
 
    polygon: {
@@ -347,7 +350,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
-    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',    
+    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -649,7 +652,7 @@ i18n.mapSelection ={
     title                   : 'Слои карт',
     extent                  : 'Орошаемая площадь',
     showLegend: 'Показать легенду',
-    hideLegend: 'Скрыть легенду'      
+    hideLegend: 'Скрыть легенду'
       //title                 : 'Условные обозначения карты',
       //extent                : 'Максимальная площадь орошения'
     };
@@ -750,11 +753,14 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Произвести расчет',
+      btnImport               : 'Импорт',
+      btnImportTemplates      : 'Шаблоны для импорта',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
       year                    : 'Год',
-      decade                  : 'Декада'
+      decade                  : 'Декада',
+      month                   : 'Месяц'
     },
 
     i18n.polygon = {

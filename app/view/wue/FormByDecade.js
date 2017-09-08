@@ -3,6 +3,8 @@ Ext.define('App.view.wue.FormByDecade', {
 
   xtype: 'app-wue-form-by-decade',
 
+  itemId: 'wue-form-by-decade',
+
   requires: [
     'Ext.selection.CellModel',
     'Ext.grid.*',

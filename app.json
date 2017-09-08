@@ -230,16 +230,22 @@
         },
         {
             "path": "${app.dir}/resources/js/4326.js"
-        },       
+        },
+        {
+            "path": "${app.dir}/resources/js/xlsx.js"
+        },
         {
             "path": "${app.dir}/resources/js/jszip.js"
+        },
+        {
+            "path": "${app.dir}/resources/js/xlsx.full.min.js"
         },
         {
             "path": "${app.dir}/resources/js/jszip-utils.js"
         },
         /*{
             "path": "${app.dir}/resources/js/jszip-utils-ie.js"
-        }, */       
+        }, */
         {
             "path": "${app.dir}/resources/js/preprocess.js"
         },

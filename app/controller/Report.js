@@ -36,7 +36,9 @@ Ext.define('App.controller.Report', {
       var vals = cb.up().up().getValues();
       if ((!!vals.oblast || !!vals.buis) && !!vals.year) {
         App.service.Helper.getComponentExt('report-btn-submit').setDisabled(false);
-        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.oblast);  
+        App.service.Helper.getComponentExt('report-btn-submit').setText(
+          i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.oblast
+        );  
       }
       else{
         App.service.Helper.getComponentExt('report-btn-submit').setDisabled(true);      
@@ -51,7 +53,9 @@ Ext.define('App.controller.Report', {
       var vals = cb.up().up().getValues();
       if ((!!vals.oblast || !!vals.buis) && !!vals.year) {
         App.service.Helper.getComponentExt('report-btn-submit').setDisabled(false);
-        App.service.Helper.getComponentExt('report-btn-submit').setText(i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.buis);  
+        App.service.Helper.getComponentExt('report-btn-submit').setText(
+          i18n.report.generate_window + ': ' + cb.rawValue + ' ' + i18n.adminFilters.buis
+        );  
       }  
       else{
         App.service.Helper.getComponentExt('report-btn-submit').setDisabled(true);   

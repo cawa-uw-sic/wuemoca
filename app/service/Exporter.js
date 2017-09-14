@@ -12,22 +12,28 @@ Ext.define('App.service.Exporter', {
   year: false,
   /**
   * @method setDownloadCombotext
-  * update comboboxes of download option window, 
-  * adapt window to regular resp. polygon download
+  * update download button and select filter combobox of the download options window, 
   */
   setDownloadCombotext: function(){
-    var button = App.service.Helper.getComponentExt('exporter-btn-download');
     var aggregation = App.service.Watcher.getAggregation();
+
+    //set download button enabled/disabled and text
+    var button = App.service.Helper.getComponentExt('exporter-btn-download');
     var no_export = false;
     if (App.service.Watcher.getIndicator().chart == 'Multiannual' ||
       App.service.Watcher.get('UserPolygon') == 'show' ||
       aggregation.id == 'grid' ||
-      (!!App.util.Layer.current && !App.util.Layer.current.getVisible())){
-      no_export = true;
-      App.service.Helper.getComponentExt('exporter-window').hide();
+      !App.util.Layer.current){
+        no_export = true;
+        App.service.Helper.getComponentExt('exporter-window').hide(); 
+    }
+    if (!!App.util.Layer.current){
+      if (!App.util.Layer.current.getVisible()){
+        no_export = true;
+        App.service.Helper.getComponentExt('exporter-window').hide(); 
+      }
     }
     button.setDisabled(no_export);
-
     button.setText(
       i18n.exp.download + ' ' + aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.exp.mapOrTable
     );
@@ -35,18 +41,18 @@ Ext.define('App.service.Exporter', {
       i18n.exp.btnTooltip1 + ' ' + aggregation[__Global.lang + 'NameShort'] + 
       ' ' + i18n.exp.btnTooltip2
     );
-
-    // first entry of download filter list: all aggregation units
+    //Download options window: select filter combobox
+    //first entry of select filter list: all aggregation units
     var aggregationlevel = aggregation[__Global.lang + 'NameShort'];
     var downloadSelectionData =  [{
       id: '0', 
       filter: 'all',
-      name: i18n.exp.all + ' ' + aggregationlevel + i18n.exp.plural
+      name: i18n.exp.all + ' ' + aggregationlevel + i18n.exp.plural + i18n.exp.ASB
     }];
-    // second entry of download selection option list: filtered aggregation unit(s) by area filter
+    //second entry of select filter list: filtered aggregation unit(s) by area filter, if applied
     var filterFilter = '';
     var nameFliter = '';
-    // check if area filter is applied
+    //check if area filter is applied
     var filter = App.service.Watcher.get('Aoi_Filter');
     var filterapplied = true;
     if (!!filter){
@@ -75,10 +81,10 @@ Ext.define('App.service.Exporter', {
       filter: filterFilter, 
       name: nameFilter
     });
-    // third entry of download selection option list: selected aggregation unit by mouse click on the map
+    //third entry of select filter list: selected aggregation unit by mouse click on the map, if applied
     var filterSelection = '';
     var nameSelection = '';
-    // check if chart class has data, means that an unit is selected by mouse click
+    //check if chart object has data, means that an unit is selected by mouse click
     if (App.service.Chart.data.length > 0){
       var selection = App.service.Chart.data[0][aggregation['id'] + '_' + __Global.lang];
       filterSelection = aggregation['id'] + '_id=' + App.service.Chart.data[0][aggregation['id'] + '_id'];
@@ -93,12 +99,13 @@ Ext.define('App.service.Exporter', {
       filter: filterSelection, 
       name: nameSelection        
     });
-    // store user selection to recover it after new data loading
+
+    //store user selection to recover it after new data loading
     var selectedIndex = App.service.Helper.getComboboxSelectedIndex('exporter-cb-downloadselection');
     var downloadSelectionStore = Ext.getStore('downloadselection');
     downloadSelectionStore.removeAll();
     downloadSelectionStore.loadData(downloadSelectionData);
-    // set combobox value to previously selected index if any
+    //set combobox value to previously selected index if any
     if (selectedIndex == -1 || App.service.Watcher.get('UserPolygon') == 'show'){
       selectedIndex = 0;
     }
@@ -106,7 +113,12 @@ Ext.define('App.service.Exporter', {
       App.service.Helper.setComboboxSelectedIndex('exporter-cb-downloadselection', selectedIndex);
     }
   },
-
+  /**
+  * @method download
+  * prepare download of tables or maps, set filter
+  * @param params
+  * parameters transferred from the download options window
+  */
   download: function(params){
     var userPolygon = (App.service.Watcher.get('UserPolygon') == 'show');
     this.filter = params.filter;
@@ -124,22 +136,9 @@ Ext.define('App.service.Exporter', {
         this.yearfilter = 'year in (' + this.year + ')';
       }
     }
-    // if the user wants to download data of a map selection in Excel format,
-    // which has been requested by WMS GetFeatureInfo and is stored with the chart (in JSON format), 
-    // or for an user polygon (stored also in JSON format)
-    // use the JSON to HTML convertor (with explanations of DB acronyms)
-    var excelHtml = false;
+    // if the user wants to download data of an user polygon (stored in JSON format)
+    // in Excel format, use the JSON to HTML convertor (with explanations of DB acronyms)
     if (this.outputformat == 'excel' && userPolygon){
-      /*if (this.filter_array.length > 1 && App.service.Chart.data.length > 0){
-        //check if chart data is identical to download filter
-        if (App.service.Chart.data[0][this.filter_array[0]].toString() == this.filter_array[1]){
-          excelHtml = true;
-        }
-      }*/
-        excelHtml = true;
-      //}
-    }
-    if (excelHtml){
       App.service.Helper.JSONToHTMLConvertor(this.year);  
     }
     else{
@@ -151,7 +150,12 @@ Ext.define('App.service.Exporter', {
       }
     }
   },
-
+  /**
+  * @method downloadWFS
+  * compose HTTP request URL of WFS download via GeoServer
+  * @param userPolygon
+  * boolean
+  */
   downloadWFS: function(userPolygon){
     var filter_array = this.filter_array;
     var filter = this.filter;

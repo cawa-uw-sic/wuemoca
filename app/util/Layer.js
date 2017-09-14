@@ -44,7 +44,6 @@ var BackgroundLayers = {
   irrigation: new ol.layer.Tile({
     opacity: 0.8,
     visible: App.service.Watcher.get('IrrigationExtent') == 'show' ? true : false,
-    //visible: false,
     source: new ol.source.TileWMS({
       url: __Global.urls.Mapserver + 'wms?',
       serverType: 'geoserver',
@@ -143,7 +142,6 @@ Ext.define('App.util.Layer', {
   overview: [
      BackgroundLayers.street
     ,BackgroundLayers.irrigation_overview
-    //,BackgroundLayers.country
   ],
 
   params: LayerParams,

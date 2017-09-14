@@ -1,7 +1,7 @@
 /**
 * @class __Aggregation
-* list of aggregation levels with id, names in English and Russian, short names, tooltips, superordnated map filters, etc. 
-* as configuration for aggregation map layer
+* list of aggregation levels with id, names in English and Russian, short names, tooltips, 
+* superordnated map filters, etc. as configuration for aggregation map layer
 */
 var __Aggregation = [
 
@@ -12,7 +12,8 @@ var __Aggregation = [
     isDefault: true,
     items: [*/
   /**
-  * @property {Object[]} [oblast={id,enName,ruName,enNameShort,ruNameShort,enTooltip,ruTooltip,super_filter,glossary}] province aggregation level
+  * @property {Object[]} [oblast={id,enName,ruName,enNameShort,ruNameShort,enTooltip,ruTooltip,super_filter,
+  * glossary}] province aggregation level
   * @property {String} oblast.id ID as it is used in the WUEMoCA DB
   * @property {String} oblast.enName English name
   * @property {String} oblast.ruName Russian name

@@ -3,6 +3,8 @@ Ext.define('App.view.wue.FormByYear', {
 
   xtype: 'app-wue-form-by-year',
 
+  itemId: 'wue-form-by-year',
+
   requires: [
     'Ext.layout.container.Column'
   ],

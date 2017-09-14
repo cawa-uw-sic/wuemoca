@@ -3,6 +3,8 @@ Ext.define('App.view.wue.FormByMonth', {
 
   xtype: 'app-wue-form-by-month',
 
+  itemId: 'wue-form-by-month',
+
   requires: [
     'Ext.selection.CellModel',
     'Ext.grid.*',

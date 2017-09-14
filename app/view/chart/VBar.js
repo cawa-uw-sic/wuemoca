@@ -11,10 +11,7 @@ Ext.define('App.view.chart.VBar', {
   xtype: 'app-chart-vbar',
 
   animate: true,
-
-  //width: ((__Global.year.Max - __Global.year.Min)+1)*40,
-
-  //height: 250,
+  store  : App.service.Chart.stores.defaults,
   reference: 'chart'
 
 });

@@ -9,11 +9,14 @@ Ext.define('App.view.yearslider.Slider', {
   
   alwaysOnTop: true,
 
+  useTips: false,
+
   width: 280,
 
   listeners: {
 
-    changecomplete: 'onChange',
+    change: 'onChange',
+    changecomplete: 'onChangeComplete',
 
     afterrender: 'onAfterRender'
 

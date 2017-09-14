@@ -170,20 +170,5 @@ Ext.define('App.view.zoom.Index', {
           { xtype: 'app-zoom-btn-pilot', ui: 'default-toolbar', margin: '0 5 5 5' }
         ]
       }
-      //{ xtype: 'app-zoom-cb-wua',  margin: '0 5 0 0' },
-      //{ xtype: 'app-zoom-btn-pilot',  margin: '5 5 0 0' }
-      //]
-   // }
-   /* //buttons
-    {
-      flex: 1,
-      items: [
-       { xtype: 'app-zoom-btn-oblast', margin: '38 0 0 0' },
-       { xtype: 'app-zoom-btn-rayon', margin: '4 0 0 0' },
-       { xtype: 'app-zoom-btn-buis', margin: '8 0 0 0' },
-       { xtype: 'app-zoom-btn-uis', margin: '4 0 0 0' },
-       { xtype: 'app-zoom-btn-wua', margin: '30 0 0 0' }
-     ]
-   }*/
   ]
 });

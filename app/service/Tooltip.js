@@ -37,7 +37,7 @@ Ext.define('App.service.Tooltip', {
   doRequest: function (e) {
     var self = this;
     var map = App.service.Map.instance;
-    var url = App.service.Map.getUrl(e, !!App.service.Watcher.getIndicator().years);
+    var url = App.service.Map.getUrl(e.coordinate, !!App.service.Watcher.getIndicator().years);
     if (url){
       Ext.data.JsonP.request({
         url: url,

@@ -12,7 +12,6 @@ Ext.define('App.view.switcher.Index', {
     'App.view.switcher.Filter',
     'App.view.switcher.CbIndicator',
     'App.view.switcher.BtnsCrop',
-    'App.view.switcher.CbUnit',
     'App.view.switcher.CbAggregation'
   ],
 
@@ -127,7 +126,7 @@ Ext.define('App.view.switcher.Index', {
           margin: '0'
         },      
         items:[
-          { xtype: 'app-switcher-cb-unit' , hidden:true },
+         // { xtype: 'app-switcher-cb-unit' , hidden:true },
           { xtype: 'app-switcher-cb-aggregation', itemId: 'switcher-cb-aggregation' }
         ]
       }]

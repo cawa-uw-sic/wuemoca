@@ -69,7 +69,6 @@ Ext.define('App.controller.Switcher', {
     //tip.update(indicator[__Global.lang + 'Tooltip']);
 
     this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
-    //this.fillUnits();
     console.log('onIndicator fillAggregations_new');
     App.service.Map.fillAggregations_new();
 
@@ -95,7 +94,8 @@ Ext.define('App.controller.Switcher', {
       App.service.Polygon.showChartWindow();
     }
     var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + button.tooltip + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.crop.label + '</span>';    
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
+      i18n.crop.label + '</span>';    
     App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
@@ -170,26 +170,12 @@ Ext.define('App.controller.Switcher', {
     App.service.Helper.showComponents(['switcher-btns-crop']);
 
     var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + 
-      App.service.Helper.getCropName() + '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
+      App.service.Helper.getCropName() + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
       i18n.crop.label + '</span>';
     App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
-  fillUnits: function () {
-    availableAggregations = App.service.Watcher.getIndicator().aggregation;
-    var unitStore = Ext.getStore('unit');
-    var unitData = __Aggregation;
-    if (typeof availableAggregations == 'object') {
-      unitData = [];
-      __Aggregation.map(function (unit) { if (availableAggregations.indexOf(unit.id) >= 0) unitData.push(unit); });
-      if (availableAggregations.indexOf(App.service.Watcher.get('Unit')) < 0) {
-        App.service.Watcher.set('Unit', availableAggregations[0]);
-        App.service.Helper.setComponentsValue([{ id: 'switcher-cb-unit', selection: 'Unit' }]);
-      }
-    }
-    unitStore.removeAll();
-    unitStore.loadData(unitData);
-  },
   /**
   * @method fillAggregations
   * fill aggregation list and set combobox value

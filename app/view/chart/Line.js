@@ -11,10 +11,7 @@ Ext.define('App.view.chart.Line', {
   xtype: 'app-chart-line',
 
   animate: true,
-
-  //width: ((__Global.year.Max - __Global.year.Min)+1)*40,
-
-  //height: 250,
+  store  : App.service.Chart.stores.defaults,
   reference: 'chart'
 
 });

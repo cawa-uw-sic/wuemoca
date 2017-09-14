@@ -6,15 +6,20 @@ Ext.define('App.controller.Yearslider', {
 
   alias: 'controller.yearslider',
   /**
-  * @method onChange
+  * @method onChangeComplete
   * store new year
   * @param el
   * yearslider
   * @param val
   * new value
   */
-  onChange: function (el, val) {
+  onChangeComplete: function (el, val) {
     App.service.Watcher.set('Year', val);
+    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+  },
+  
+  onChange: function (el, val) {
+    Ext.select('.app-yearslider .x-slider-horz .x-slider-thumb').elements[0].innerHTML = val;
   },
   /**
   * @method onAfterRender

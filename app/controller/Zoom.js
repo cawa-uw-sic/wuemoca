@@ -17,7 +17,12 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Country', val);
     App.service.Helper.resetStores(['oblast', 'buis']);
     App.service.Helper.resetComboboxes(['zoom-cb-oblast', 'zoom-cb-buis']);
-    App.service.Helper.hideComponents(['zoom-container-oblast','zoom-cb-oblast', 'zoom-container-buis', 'zoom-cb-buis']);
+    App.service.Helper.hideComponents([
+      'zoom-container-oblast',
+      'zoom-cb-oblast', 
+      'zoom-container-buis', 
+      'zoom-cb-buis'
+    ]);
     
     if (val) {
       //avoid zoom to country if other parameters are stored
@@ -27,6 +32,8 @@ Ext.define('App.controller.Zoom', {
         App.service.Map.setMapExtent(App.service.Helper.getScalar('country', val, 'extent'), true);
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('country', val);
+          App.service.Watcher.set('Oblast', 'all');
+          //App.service.Helper.setComponentsValue([{ id: 'zoom-cb-oblast', selection: 'Oblast' }]);
         }
         else{
           App.service.Map.filterAreaOfInterest('','0');
@@ -75,6 +82,7 @@ Ext.define('App.controller.Zoom', {
         if (this.setAggregationLevel('oblast')){
           if (val != 'all'){
             App.service.Map.filterAreaOfInterest('oblast', val);
+            this.selectFilteredObject();
           }
           else{
             App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
@@ -96,11 +104,17 @@ Ext.define('App.controller.Zoom', {
     if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-wua']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('rayon', val, 'extent'), true);
-      if (this.setAggregationLevel('rayon') && val != 'all'){
-        App.service.Map.filterAreaOfInterest('rayon', val, 'oblast', App.service.Watcher.get('Oblast'));
+      if (this.setAggregationLevel('rayon')){
+        if (val != 'all'){
+          App.service.Map.filterAreaOfInterest('rayon', val, 'oblast', App.service.Watcher.get('Oblast'));
+          this.selectFilteredObject();
+        }
+        else{
+          App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
+        }
       }
       else{
-        App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
+        App.service.Map.filterAreaOfInterest('','0');
       }
     }
   },
@@ -133,11 +147,19 @@ Ext.define('App.controller.Zoom', {
       var uis = App.service.Watcher.get('Uis');
       if (uis == null){
         App.service.Map.setMapExtent(App.service.Helper.getScalar('buis', val, 'extent'), true);
-        if (this.setAggregationLevel('buis') && val != 'all'){
-          App.service.Map.filterAreaOfInterest('buis', val);
+        if (this.setAggregationLevel('buis')){
+          if (val != 'all'){
+            App.service.Map.filterAreaOfInterest('buis', val);
+            this.selectFilteredObject();
+          }
+          else{
+            App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
+          }
         }
         else{
-          App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));
+          App.service.Map.filterAreaOfInterest('','0');
+         // App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country')); 
+          //App.service.Helper.resetComboboxes(['zoom-cb-buis']);       
         }
       }
     }
@@ -157,13 +179,15 @@ Ext.define('App.controller.Zoom', {
       if (this.setAggregationLevel('uis')){
         if (val != 'all'){
           App.service.Map.filterAreaOfInterest('uis', val, 'buis', App.service.Watcher.get('Buis'));
+          this.selectFilteredObject();
         }
         else{
           App.service.Map.filterAreaOfInterest('buis', App.service.Watcher.get('Buis'));
         }
       }
       else{
-        App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));        
+        App.service.Map.filterAreaOfInterest('','0');
+        //App.service.Map.filterAreaOfInterest('country', App.service.Watcher.get('Country'));  
       }
     }
   },
@@ -186,12 +210,18 @@ Ext.define('App.controller.Zoom', {
     else if (val) {
       App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-uis']);
       App.service.Map.setMapExtent(App.service.Helper.getScalar('wua', val, 'extent'), true);
-      if (this.setAggregationLevel('wua') && val != 'all'){
-        App.service.Map.filterAreaOfInterest('wua', val, 'oblast', App.service.Watcher.get('Oblast'));
+      if (this.setAggregationLevel('wua')){
+        if ( val != 'all'){
+          App.service.Map.filterAreaOfInterest('wua', val, 'oblast', App.service.Watcher.get('Oblast'));
+          this.selectFilteredObject();
+        }
+        else{
+          App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
+        } 
       }
       else{
-        App.service.Map.filterAreaOfInterest('oblast', App.service.Watcher.get('Oblast'));
-      } 
+        App.service.Map.filterAreaOfInterest('','0');
+      }
     }
   },
   /**
@@ -237,12 +267,13 @@ Ext.define('App.controller.Zoom', {
   */  
   resetFilter: function(button, e){
     App.service.Map.filterAreaOfInterest('','0');
-    //do not collapse/expand accordion panel
+    //do not collapse/expand accordion panel by clicking on the button in the header
     e.stopPropagation();
   },
   /**
   * @method onPilot
-  * when pilot area is selected, clear all stored ids, empty comboboxes, set new ids, start loading chain with country combobox
+  * when pilot area is selected, clear all stored ids, empty comboboxes, set new ids, 
+  * start loading chain with country combobox
   * @param country
   * country id
   * @param oblast
@@ -279,6 +310,20 @@ Ext.define('App.controller.Zoom', {
     App.service.Watcher.set('Wua', wua);
 
     App.service.Helper.setComponentsValue([{ id: 'zoom-cb-country', selection: 'Country' }]);
+  },
+
+  selectFilteredObject: function(){
+    if (!!App.util.Layer.current){
+      if (App.util.Layer.current.getVisible()){
+        //trigger programmatically WMS getFeature event, 
+        //show chart window only if filtered object covers the map center
+        var coordinates = App.service.Map.instance.getView().getCenter();
+        setTimeout(function(){
+            App.service.Chart.doRequest(coordinates);
+          }, 251
+        );
+      }
+    }
   }
 
 });

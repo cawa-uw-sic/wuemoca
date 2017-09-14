@@ -44,20 +44,23 @@ Ext.define('App.service.Map', {
     var self = this;
     var map = self.instance;
     console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
-    if (App.service.Watcher.get('Indicator') && App.service.Watcher.get('Aggregation')) {
-      App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
-      if (!App.util.Layer.current || !self.compareLayers()){
-        self.loadCurrentLayer();
-        self.loadAdminLayer();
-        self.setMainTitle();
-        self.setLegend();
-        App.service.Exporter.setDownloadCombotext();
-        App.service.Status.set('&#160;');
+    if (!!App.service.Watcher.get('Aggregation')){
+      self.loadAdminLayer();
+      if (!!App.service.Watcher.get('Indicator')) {
+        App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
+        if (!App.util.Layer.current || !self.compareLayers()){
+          self.loadCurrentLayer();
+          self.setMainTitle();
+          self.setLegend();
+          console.log('setDownloadCombotext loadLayer');
+          App.service.Exporter.setDownloadCombotext();
+          App.service.Status.set('&#160;');
+        }
       }
-    }
-    else{
-      self.removeCurrentLayer();
-      App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
+      else {
+        self.removeCurrentLayer();
+        App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
+      }
     }
   },
 
@@ -85,7 +88,8 @@ Ext.define('App.service.Map', {
     if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
       App.util.Layer.admin = new ol.layer.Image({
         opacity: 1,
-        visible: App.service.Watcher.get('Current') == 'show' ? true : false,
+        //visible: App.service.Watcher.get('Current') == 'show' ? true : false,
+        visible: true,
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           serverType: 'geoserver',
@@ -103,12 +107,15 @@ Ext.define('App.service.Map', {
 
   removeCurrentLayer: function(){
     var map = this.instance;
-    if (!!App.util.Layer.current && !!App.util.Layer.admin){
+    if (!!App.util.Layer.current){
+      map.removeLayer(App.util.Layer.current);
+    }    
+    /*if (!!App.util.Layer.current && !!App.util.Layer.admin){
       map.removeLayer(App.util.Layer.current);
       map.removeLayer(App.util.Layer.admin);
-    }
+    }*/
     App.util.Layer.current = null;
-    App.util.Layer.admin = null;
+    //App.util.Layer.admin = null;
     App.service.Helper.getComponentExt('map-container').setTitle('');
     App.service.Status.set('&#160;');
     App.service.Chart.window.close();
@@ -120,7 +127,8 @@ Ext.define('App.service.Map', {
   hideShowElements: function(currentLayer){
     App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
     App.service.Yearslider.didRender();
-    App.service.Exporter.setDownloadCombotext();
+    //console.log('setDownloadCombotext hideShowElements');
+    //App.service.Exporter.setDownloadCombotext();
   },
 
   getLayerSource: function (yearIncluded) {
@@ -245,11 +253,11 @@ Ext.define('App.service.Map', {
       });
   },
 
-  getUrl: function (e, allYears) {
+  getUrl: function (coordinate, allYears) {
     var view = this.instance.getView();
     var viewResolution = view.getResolution();
     return this.getLayerSource(allYears).getGetFeatureInfoUrl(
-      e.coordinate, 
+      coordinate, 
       viewResolution, 
       view.getProjection(),
       {
@@ -354,12 +362,18 @@ Ext.define('App.service.Map', {
       }
 
       if (!!median && median != 0) {
-        text = (typeof median == 'object')
-              ? i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low
-              : maximum + br + median + br + minimum;
+        if (typeof median == 'object'){
+          if (indicator.id == 'yf' || indicator.id == 'pirf'){
+            text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
+          }
+          else if (indicator.id == 'vc' || indicator.id == 'vet'){
+            text = i18n.vc_classes.more + br + i18n.vc_classes.equal + br + i18n.vc_classes.less;
+          }
+        }
+        else{
+          text = maximum + br + median + br + minimum;
+        }
       }
-
-
     }
     if (indicator.id == 'mlu') {
       indicator[__Global.lang + 'CropNames'].map(function (c) {
@@ -374,6 +388,7 @@ Ext.define('App.service.Map', {
   },
 
   onAggregation: function(cb, val){
+    //reset comboboxes
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
     if (!!aoi_filter){
       if (val == 'command'){
@@ -383,11 +398,36 @@ Ext.define('App.service.Map', {
         App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-buis']);        
       }
       else if (val == 'rayon'){
-        App.service.Helper.resetComboboxes(['zoom-cb-wua', 'zoom-cb-buis']);        
+        App.service.Helper.resetComboboxes(['zoom-cb-wua', 'zoom-cb-buis']);
+        if (App.service.Helper.getComponentValue('zoom-cb-oblast') != null){  
+          if (App.service.Helper.getComponentValue('zoom-cb-oblast') == 'all'){
+            App.service.Helper.resetComboboxes(['zoom-cb-oblast']);  
+          } 
+          else {
+            if (App.service.Watcher.get('Rayon') == null){
+              App.service.Watcher.set('Rayon', 'all');
+              App.service.Helper.setComponentsValue([{ id: 'zoom-cb-rayon', selection: 'Rayon' }]);
+            }
+          }
+        }      
       }      
       else if (val == 'buis'){
         App.service.Helper.resetComboboxes(['zoom-cb-uis', 'zoom-cb-oblast']);        
       } 
+      else if (val == 'uis'){
+        App.service.Helper.resetComboboxes(['zoom-cb-oblast']);
+        if (App.service.Helper.getComponentValue('zoom-cb-buis') != null){  
+          if (App.service.Helper.getComponentValue('zoom-cb-buis') == 'all'){
+            App.service.Helper.resetComboboxes(['zoom-cb-buis']);  
+          } 
+          else {
+            if (App.service.Watcher.get('Uis') == null){
+              App.service.Watcher.set('Uis', 'all');
+              App.service.Helper.setComponentsValue([{ id: 'zoom-cb-uis', selection: 'Uis' }]);
+            }
+          }
+        }      
+      }      
       else if (val == 'oblast'){
         App.service.Helper.resetComboboxes(['zoom-cb-rayon', 'zoom-cb-wua', 'zoom-cb-buis']);
       }       
@@ -451,10 +491,8 @@ Ext.define('App.service.Map', {
     }
     App.service.Watcher.set('Aoi_Filter', aoi_filter);
 
-        //if (App.service.Watcher.get('Aggregation') != aoi){
-                console.log('filterAreaOfInterest fillAggregations_new');
     this.fillAggregations_new();
-  //}
+
     if (aoi_filter == false){
       App.service.Helper.clearZoomCombos();
     }
@@ -491,6 +529,7 @@ Ext.define('App.service.Map', {
           .updateParams({
             'cql_filter': CQLfilter
           });
+          console.log('setDownloadCombotext filterAreaOfInterest');
         App.service.Exporter.setDownloadCombotext();
       }
     }
@@ -542,6 +581,9 @@ Ext.define('App.service.Map', {
     if (aggreg_ids.indexOf(App.service.Watcher.get('Aggregation')) < 0) {
       App.service.Watcher.set('Aggregation', aggreg_ids[0]);
       App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
+      App.service.Map.filterAreaOfInterest('','0');
+      App.service.Chart.window.close();
+
       //App.service.Helper.setComponentsValue([]);
     }
   },
@@ -561,13 +603,15 @@ Ext.define('App.service.Map', {
         }
       });
       indicatorStore.loadData(filteredData);
+      //multi-annual indicators are not visible with user polygons
+      if (App.service.Watcher.getIndicator().chart == 'Multiannual'){
+        App.service.Watcher.set('Indicator', 'uir');
+        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+      }
     }
     else{
       indicatorStore.loadData(__Indicator);
     }
-
-
-
   }
 
 });

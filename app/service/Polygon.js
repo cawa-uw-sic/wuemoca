@@ -27,8 +27,6 @@ Ext.define('App.service.Polygon', {
   importData: false,
   importNameprefix: false,
 
-  //SESSIONID: false,
-
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
   windowChart: Ext.create('App.util.Window'),
@@ -68,10 +66,6 @@ Ext.define('App.service.Polygon', {
     });
 
     self.drawControl.on('drawend', function (e) {
-     /* var coordinates = e.feature.getGeometry().clone().transform(
-        __Global.projection.Mercator,
-        __Global.projection.Geographic
-      ).getCoordinates();*/
       var geometry = e.feature.getGeometry();
       var geometry_wgs84 = geometry.clone().transform(
         __Global.projection.Mercator,
@@ -93,8 +87,6 @@ Ext.define('App.service.Polygon', {
       window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
       window.setHeight(__Global.chart.Height);
       window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
-     // window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);
-
     });
   },
 
@@ -112,16 +104,13 @@ Ext.define('App.service.Polygon', {
       this.activated = false;
       this.windowChart.close();
       this.windowEdit.close();
-      App.service.Exporter.setDownloadCombotext();
       if (!legendwindow.isHidden()){
         legendwindow.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
       }
     }
     else{
       this.cleanLocalDB();
-
       this.rerenderFeatures();
-      //App.service.Chart.window.close();
       App.service.Status.set('&#160;');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('app-zoom').collapse();
@@ -129,11 +118,10 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       legendwindow.hide();
       App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
-
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
-
+    App.service.Exporter.setDownloadCombotext();
     App.service.Map.setMainTitle();
     App.service.Map.setIndicatorFilter(val);
   },
@@ -316,13 +304,9 @@ Ext.define('App.service.Polygon', {
     var polygon = {
       uid: uniqueId,
       info: { name: uniqueId, location: '' },
-      //Array: simple geometry, no multipolygon
-      //totalArea: totalArea,
       data: [],
-      //geometry: Array.isArray(geometry) ? geometry : geometry.getCoordinates(),
       wkt_geometry: wkt_geometry,
       wkt_alt: wkt_alt,
-      //geometry: geometry.getCoordinates(),      
       extent: extent
     }
     this.all.push(polygon);
@@ -505,7 +489,6 @@ Ext.define('App.service.Polygon', {
       self.progressBar.updateProgress(index, '0 %');
       var count_success = 0;
       var removearray = [];
-      //first trial with hole = true
       self.doRequest(index, emptyPolygons, count_success, removearray);
     }
     else{
@@ -529,8 +512,6 @@ Ext.define('App.service.Polygon', {
     polygon = emptyPolygons[index];
     self.isBusy = true;
     Ext.getBody().setStyle('cursor','progress');
-    //var wkt_geometry = polygon.wkt_geometry;
-    //var geometry = self.prepareRequestGeometry(polygon.geometry, hole);
 
     Ext.Ajax.request({
       url: __Global.api.Polygon,
@@ -554,12 +535,6 @@ Ext.define('App.service.Polygon', {
           if (response.responseText.indexOf('failed') == -1){
             removearray.push(polygon);
           }
-          /*else{
-            //repeat request
-            var hole = false;
-            self.doRequest(index, emptyPolygons, count_success, removearray, hole);
-          }*/
-          //message = polygon.info.name + ' ' + i18n.polygon.outside;
         }
 
       },
@@ -576,14 +551,10 @@ Ext.define('App.service.Polygon', {
             );           
           } 
           //recursive function
-          //var hole = true;
           self.doRequest(index, emptyPolygons, count_success, removearray);
         }
         else{
           //loop finished
-
-
-
           var message = undefined;
           if (emptyPolygons.length == 1){
             if (count_success == 1){
@@ -607,15 +578,7 @@ Ext.define('App.service.Polygon', {
               message += '<br>' + i18n.polygon.smallerThan30ha_multi;
             }
           } 
-
-
-        /*if (self.progressBar){
-          self.progressBar.updateProgress(
-            index/emptyPolygons.length,
-            Math.round(100 * index/emptyPolygons.length) + ' %',
-            message
-          );
-        } */         
+       
           if (removearray.length > 0){
             if (message != undefined){
               message += '<br>';
@@ -660,55 +623,6 @@ Ext.define('App.service.Polygon', {
         }
       }
     });
-
-
-    /*Ext.data.JsonP.request({
-      url : __Global.api.Polygon + 'geometry=' + geometry,
-      callbackName: 'PolygonResponse',
-      params: {format_options: 'callback:Ext.data.JsonP.PolygonResponse'},
-      success: function (results) {
-        polygon.data = results;
-      },
-      callback: function(results){
-        self.isBusy = false;
-        index++;
-        if (results){
-          var message = undefined;
-          if (emptyPolygons.length == 1){
-            message = polygon.info.name + ': ' + i18n.polygon.success;
-            self.zoomToPolygon(polygon.extent);
-          }
-          else if (index == emptyPolygons.length) {
-            message = i18n.polygon.success;
-          }
-          if (self.progressBar){
-            self.progressBar.updateProgress(
-              index/emptyPolygons.length,
-              Math.round(100 * index/emptyPolygons.length) + ' %',
-              message
-            );
-          }
-        }
-        if (index < emptyPolygons.length){
-          //recursive function
-          self.doRequest(index, emptyPolygons);
-        }
-        else{
-          //loop finished
-          Ext.getBody().setStyle('cursor','auto');
-          self.saveAll();
-          self.rerenderFeatures();
-          if (self.progressBar){
-            self.progressBar.msgButtons.ok.enable();
-          }
-        }
-      },
-      failure: function(results){
-        if (emptyPolygons.length == 1){
-          Ext.Msg.alert('', polygon.info.name + ': ' + i18n.polygon.failure);
-        }
-      }
-    });*/
   },
 
   showChartWindow: function (polygon){
@@ -737,7 +651,7 @@ Ext.define('App.service.Polygon', {
         self.windowChart.removeAll();
         if (!!indicator.id){
           if (!!indicator.chart && indicator.chart != 'Multiannual'){
-            App.service.Chart.dataResponse(polygon.data);
+            App.service.Chart.data = App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
@@ -782,55 +696,6 @@ Ext.define('App.service.Polygon', {
     return extent;
   },
 
-  prepareRequestGeometry: function (geometry, hole) {
-    /*geometry: [
-      geometry[0]:
-      [
-        [[6768174.130437059,4465571.064543595],[6779511.011023401,4461714.801302189],[6778557.4416282745,4450685.684431511],[6766372.943801827,4453076.564045358],[6768174.130437059,4465571.064543595]],
-        [[6782654.556514026,4458054.281267275],[6787054.050678337,4456847.148502839],[6786366.629715161,4452364.719219826],[6783204.493284564,4452881.825615683],[6783204.493284564,4452881.825615683],[6782654.556514026,4458054.281267275]]
-      ]
-    ]*/
-    var multipolygon_string = '';
-    if (hole){
-      multipolygon_string = '(';
-    }
-
-    for (var i = 0; i < geometry[0].length; i++){
-      var result = [];
-      App.service.Helper.transformPoints(
-        geometry[0][i], // point collection
-        __Global.projection.Mercator,
-        __Global.projection.Geographic
-      ).map(function (g) { // g = transformed point
-        result.push(g.join(' '));
-      });
-      result.join(',');
-      //one part: result="60.79954266953961 37.189624536990905,60.9013836005891 37.16202278932316,60.892817540968 37.08302468392971,60.7833623346998 37.10015680317156,60.79954266953961 37.189624536990905"
-      
-      if (hole){
-        multipolygon_string += '(' + result + ')';
-      }
-      else{
-        multipolygon_string += '((' + result + '))';
-      }
-      if (i < geometry[0].length-1){
-        multipolygon_string += ',';
-      }
-    }
-    if (hole){
-      multipolygon_string += ')';
-    }
-    /*output:
-    ((60.79954266953961 37.189624536990905,60.9013836005891 37.16202278932316,60.892817540968 37.08302468392971,60.7833623346998 37.10015680317156,60.79954266953961 37.189624536990905)),
-    ((60.92962255019464 37.13581277320981,60.969143878696585 37.1271674826,60.96296867111815 37.095056403192174,60.934562716257375 37.098761527739256,60.934562716257375 37.098761527739256,60.92962255019464 37.13581277320981))
-    */
-    /*output hole:
-    ((60.79954266953961 37.189624536990905,60.9013836005891 37.16202278932316,60.892817540968 37.08302468392971,60.7833623346998 37.10015680317156,60.79954266953961 37.189624536990905),
-    (60.92962255019464 37.13581277320981,60.969143878696585 37.1271674826,60.96296867111815 37.095056403192174,60.934562716257375 37.098761527739256,60.934562716257375 37.098761527739256,60.92962255019464 37.13581277320981))
-    */    
-    return multipolygon_string;
-  },
-
   uploadShapefile: function (event) {
     App.service.Polygon.deselectMapAndList();
     loadshp({
@@ -841,21 +706,7 @@ Ext.define('App.service.Polygon', {
       var count = 0;
       //data.features are all polygons of the shapefile
       data.features.map(function (polygon) {
-        //if (polygon.geometry.coordinates.length > 1){
-          //Ext.Msg.alert('MultiPolygon geometries are not supported', "Upload of Multi-part or Donut Polygon failed");
-        //}
-        //else{
           count++;
-          //var totalArea = App.service.Polygon.calculateTotalArea(polygon.geometry.coordinates);
-          /*var geometry = [];
-          for (var i = 0; i < polygon.geometry.coordinates.length; i++){
-            var part = App.service.Helper.transformPoints(
-              polygon.geometry.coordinates[i],
-              __Global.projection.Geographic,
-              __Global.projection.Mercator
-            )
-            geometry.push(part);
-          }*/
           var extent = ol.proj.transformExtent(
             polygon.geometry.extent,
             __Global.projection.Geographic, 
@@ -866,7 +717,6 @@ Ext.define('App.service.Polygon', {
           var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon([polygon.geometry.coordinates]))
           var wkt_alt = wkt_geometry.split('),(').join(')),((');
           App.service.Polygon.registerPolygon(extent, wkt_geometry, wkt_alt);
-       // }
       })
       if (count > 0){
         App.service.Polygon.saveAll();
@@ -906,16 +756,7 @@ Ext.define('App.service.Polygon', {
           }
         }
       }
-     /* if ((!polygon.wkt_geometry || polygon.wkt_geometry == '') 
-        && (!!polygon.geometry && polygon.geometry.length != 0)){
-        var multipolygon = new ol.geom.MultiPolygon(polygon.geometry);
-        var wkt_geometry = new ol.format.WKT().writeGeometry(multipolygon);
-        polygon.wkt_geometry = wkt_geometry;
-        polygon.geometry = [];
-        self.saveAll();
-      }*/
       parameters['wkt_geometry'] = polygon.wkt_geometry;
-      //parameters['geom'] = self.prepareRequestGeometry(polygon.geometry, hole);
       self.isBusy = true;
       App.service.Polygon.toggleDisabledButtons(true);
 
@@ -927,8 +768,6 @@ Ext.define('App.service.Polygon', {
         params: parameters,
         success: function (response) {
           App.service.Exporter.downloadWFS(true);
-          //self.SESSIONID = Ext.decode(response.responseText)[0].SESSIONID;
-          //App.service.Helper.getComponentExt('exporter-window').show();
         },
         callback: function () {
           self.isBusy = false;
@@ -1014,38 +853,14 @@ Ext.define('App.service.Polygon', {
   },
 
   importPolygon: function (){
-    var newgeometry = null;
-    //if (this.importFeature.geometry.coordinates.length > 1){
-      //Ext.Msg.alert('MultiPolygon geometries are not supported', "Import of Multi-part or Donut Polygon failed");      
-    //}
-    //else{
-      //newgeometry = new ol.geom.MultiPolygon(this.importGeometry);
-      //var totalArea = this.calculateTotalArea(this.importGeometry);
-      /*var geometry_transform = [];
-      for (var i = 0; i < this.importGeometry.length; i++){
-        var part_transform = [];
-        for (var k = 0; k < this.importGeometry[i].length; k++){
-          var points_transform = App.service.Helper.transformPoints(
-            this.importGeometry[i][k],
-            __Global.projection.Geographic,
-            __Global.projection.Mercator
-           );
-          part_transform.push(points_transform);
-        }
-        geometry_transform.push(part_transform);    
-      }*/
-
-
-      var newpolygon = this.registerPolygon(this.importExtent, this.importWktGeometry, '');
-      newpolygon.data = this.importData;
-      newpolygon.info.name = newpolygon.info.name.replace('p', this.importNameprefix);
-      this.switchView(true);
-      App.service.Chart.window.close();
-      this.saveAll();
-      this.rerenderFeatures();
-      Ext.getStore('polygongrid').loadData(this.getGridData());
-    //}
-
+    var newpolygon = this.registerPolygon(this.importExtent, this.importWktGeometry, '');
+    newpolygon.data = this.importData;
+    newpolygon.info.name = newpolygon.info.name.replace('p', this.importNameprefix);
+    this.switchView(true);
+    App.service.Chart.window.close();
+    this.saveAll();
+    this.rerenderFeatures();
+    Ext.getStore('polygongrid').loadData(this.getGridData());
   },
   cleanLocalDB: function(){
     self = this;
@@ -1077,47 +892,9 @@ Ext.define('App.service.Polygon', {
           polygon.wkt_geometry = wkt_geometry;
           polygon.wkt_alt = '';
           polygon.geometry = [];
-          //self.saveAll(); 
         }
 
       });      
-
-
-
-        /*
-        if (polygons.indexOf('uiri') >= 0){
-          polygons = polygons.replace(/uiri/g,'uir');
-          change = true;        
-        } 
-        if (polygons.indexOf('yield') >= 0){
-          polygons = polygons.replace(/yield/g,'yf');
-          change = true;        
-        }
-        
-        if (polygons.indexOf('"fallow"') >= 0){
-          polygons = polygons.replace(/"fallow"/g,'"fp"');
-          change = true;
-        }
-        if (polygons.indexOf('majority') >= 0){
-          polygons = polygons.replace(/majority/g,'mlu');
-          change = true;  
-        } 
-        if (polygons.indexOf('rotation') >= 0){
-          polygons = polygons.replace(/rotation/g,'lur');
-          change = true;  
-        } 
-         
-        if (polygons.indexOf('diversity') >= 0){
-          polygons = polygons.replace(/diversity/g,'cd');
-          change = true;  
-        } 
-        if (polygons.indexOf('frequency') >= 0){
-          polygons = polygons.replace(/frequency/g,'flf');
-          change = true;  
-        } 
-
-       
- */    
           
       if (change){
         this.saveAll();

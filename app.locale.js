@@ -189,6 +189,11 @@ mapSelection:{
   crop: {
     label                   : 'Select crop type:'
   },
+  vc_classes: {
+    less                 : 'less water than demand',
+    equal                     : 'equalized',
+    more                  :  'more water than demand'
+  },
   yield_classes: {
     verylow                 : 'very low',
     low                     : 'low',
@@ -196,7 +201,6 @@ mapSelection:{
     high                    : 'high',
     veryhigh                : 'very high'
   },
-
   //function example
   /*layer: {
     yieldDescr              : function (crop_index, aggreg_index) {
@@ -307,6 +311,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           conjunction: 's' + ' of ',
           all: 'all',
           plural: 's',
+          ASB: ' of ASB',
           acronym: 'Show overview indicators'
   },
 
@@ -327,11 +332,20 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
+    calculateVir: 'Calculate Irrigation Effectiveness',
+        calculateVirSuccess: 'Irrigation Effectiveness calculation successful!<br>Download selected polygon to get calculated results.' ,   
+    aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
+    btnImport1               : 'Import',
+        btnImport2               : 'Excel file',
+    tooltipImport               : 'Browse for Excel file with water intake values',    
+    btnImportTemplates      : 'Excel templates for import',
+    tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally',
     byDecade                : 'by decade (download only)',
     byMonth                 : 'monthly (download only)',
     byYear                  : 'yearly (diagram and download)',
     year                    : 'Year',
-    decade                  : 'Decade'
+    decade                  : 'Decade',
+    month                   : 'Month'
   },
 
    polygon: {
@@ -347,7 +361,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
-    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',    
+    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -643,13 +657,18 @@ i18n.mapSelection ={
       high                  : 'высокая',
       veryhigh              : 'очень высокая'
     };
+      i18n.vc_classes = {
+    less                 : 'less water than demand',
+    equal                     : 'equalized',
+    more                  :  'more water than demand'
+  };
 
     i18n.settings = {
       legend                : 'Условные обозначения',
     title                   : 'Слои карт',
     extent                  : 'Орошаемая площадь',
     showLegend: 'Показать легенду',
-    hideLegend: 'Скрыть легенду'      
+    hideLegend: 'Скрыть легенду'
       //title                 : 'Условные обозначения карты',
       //extent                : 'Максимальная площадь орошения'
     };
@@ -729,6 +748,7 @@ i18n.mapSelection ={
           conjunction: ' ',
                     all: 'все',
                     plural: '',
+                              ASB: ' of ASB',
                     acronym: 'Show acronym explanations'
 
     };
@@ -750,11 +770,20 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Произвести расчет',
+    calculateVir: 'Calculate Irrigation Effectiveness',  
+    calculateVirSuccess: 'Irrigation Effectiveness calculation successful!<br>Download selected polygon to get calculated results.' ,   
+    aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
+    btnImport1               : 'Импорт',
+        btnImport2               : 'Excel file',      
+    tooltipImport               : 'Browse for Excel file with water intake values',        
+      btnImportTemplates      : 'Шаблоны для импорта',
+    tooltipImportTemplates: 'Select Excel template for value import, and store it locally',      
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
       year                    : 'Год',
-      decade                  : 'Декада'
+      decade                  : 'Декада',
+      month                   : 'Месяц'
     },
 
     i18n.polygon = {

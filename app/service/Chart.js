@@ -57,6 +57,7 @@ Ext.define('App.service.Chart', {
       App.service.Highlight.clear();
       self.data = [];
       App.service.Exporter.setDownloadCombotext(); 
+      console.log('setDownloadCombotext initialize');
       if (App.service.Watcher.get('UserPolygon') == 'show'){
         App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
         App.service.Polygon.importSelectedGeometry(false);
@@ -94,11 +95,18 @@ Ext.define('App.service.Chart', {
   * @method doRequest
   * do JSONP request with WMS getFeatureInfo and fill temporary data list
   */
-  doRequest: function () {
+  doRequest: function (mapcenter) {
     var self = this;
     if (self.isBusy) return false;
-    var url = App.service.Map.getUrl(self.e, false);
-    if (url){
+    var url = null;
+    if (!!mapcenter){
+      url = App.service.Map.getUrl(mapcenter, false);
+    }
+    else{
+      url = App.service.Map.getUrl(self.e.coordinate, false);
+    }
+    
+    if (!!url){
       self.isBusy = true;
       Ext.data.JsonP.request({
         url : url,
@@ -107,7 +115,7 @@ Ext.define('App.service.Chart', {
         success: function (results) {
           if (results.features.length > 0){
             //features with values for all available years
-            self.dataResponse(results.features);
+            self.data = self.dataResponse(results.features);
             //all annual geometries are identical, for geometry (in EPSG:4326) take the first feature
             var coordinates = results.features[0].geometry.coordinates;
             App.service.Highlight.display(coordinates);
@@ -124,9 +132,46 @@ Ext.define('App.service.Chart', {
               BackgroundLayers.highlight.getSource().getExtent(),
               wkt_geometry
             );
-            //duplicate array of nested objects, don't change original data
-            var data_copy = JSON.parse(JSON.stringify(self.data));
-            App.service.Polygon.importSelectedData(data_copy, aggregation_name);
+            if (App.service.Watcher.getIndicator().chart == 'Multiannual'){
+              var urlarray = url.replace(/ca_grid_no_years/g, 'ca_grid').split('&');
+              for (var i = 0; i < urlarray.length; i++){
+                if (urlarray[i].indexOf('STYLES') != -1){
+                  urlarray[i] = 'STYLES=';
+                  break;
+                }   
+              }  
+              var newurl = urlarray.join('&');
+              self.isBusy = true;
+              Ext.data.JsonP.request({
+                url : newurl,
+                callbackName: 'ChartResponse',
+                params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
+                success: function (results) { 
+                  var data_copy = self.dataResponse(results.features);
+                  for (var d = 0; d < data_copy.length; d++){
+                    if (!!data_copy[d]['vir']){
+                      delete data_copy[d]['vir'];
+                    }
+                  }
+                  App.service.Polygon.importSelectedData(data_copy, aggregation_name);                  
+                },
+                callback: function (results){
+                  self.isBusy = false;
+                },
+                failure: function(results){
+                }    
+              });    
+            }
+            else{
+              //duplicate array of nested objects, don't change original data
+              var data_copy = JSON.parse(JSON.stringify(self.data));
+              for (var d = 0; d < data_copy.length; d++){
+                if (!!data_copy[d]['vir']){
+                  delete data_copy[d]['vir'];
+                }
+              }
+              App.service.Polygon.importSelectedData(data_copy, aggregation_name);
+            }
           }
           else{
             self.window.close();
@@ -135,6 +180,7 @@ Ext.define('App.service.Chart', {
         },
         callback: function (results){
           self.isBusy = false;
+          console.log('setDownloadCombotext doRequest');
           App.service.Exporter.setDownloadCombotext();        
         },
         failure: function(results){
@@ -173,7 +219,7 @@ Ext.define('App.service.Chart', {
       }
       self.window.setTitle(title);
       self.userPolygon = false;
-     // return self.window.show();
+
     }
     else{
       self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name']);      
@@ -187,21 +233,23 @@ Ext.define('App.service.Chart', {
   * temporary data list to be sorted
   */
   dataResponse: function (data) {
-    this.data = [];
+    //this.data = [];
+    var properties = [];
     if (data[0].properties){
       for (var i = 0; i < data.length; i++) {
-        var index = this.data.map(function (d) { return d.year; }).indexOf(data[i].properties.year);
-        if (index < 0) this.data.push(data[i].properties);
+        var index = properties.map(function (d) { return d.year; }).indexOf(data[i].properties.year);
+        if (index < 0) properties.push(data[i].properties);
       }
-      this.data.sort(function (a, b) {
+      properties.sort(function (a, b) {
         if (a.year > b.year) return 1;
         if (a.year < b.year) return -1;
         return 0;
       });
     }
     else{
-      this.data = data;
+      properties = data;
     }
+    return properties;
   },
   /**
   * @method loadData

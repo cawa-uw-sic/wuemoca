@@ -34,24 +34,25 @@ Ext.define('App.util.ChartTypes', {
         decimals = 1;
       }
     }
+    var measure = indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : '';
 
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
           xtype  : 'app-chart-vbar',
-          store  : App.service.Chart.stores.defaults,
           axes   : __Chart.VBar.getAxes   (
             'year', 
             yField, 
             thousand,
             App.service.Map.getLegendTitle(true, thousand),
             maximum, 
-            decimals
+            decimals,
+            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.VBar.getSeries (
             'year', 
             yField,
-            (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), 
+            measure, 
             color, 
             indicator.decimals
           )
@@ -104,17 +105,6 @@ Ext.define('App.util.ChartTypes', {
       maximum = limit + (limit/5);
 
       if (ind_type == 'abs'){
-
-        /*var divisor = 1000;
-        if (maximum < 1000 && maximum >= 500){
-          divisor = 500;
-        }
-        else if (maximum < 500 && maximum >= 100){
-          divisor = 100;
-        }
-        else if (maximum < 100){
-          divisor = 10;
-        }*/
         maximum = (Math.ceil(maximum/100)) * 100;
       }
     }
@@ -130,7 +120,6 @@ Ext.define('App.util.ChartTypes', {
       items: [
         {
           xtype  : 'app-chart-stackedvbar',
-          store  : App.service.Chart.stores.defaults, 
           axes   : __Chart.StackedVBar.getAxes   (
             'year', 
             yFields,
@@ -139,7 +128,8 @@ Ext.define('App.util.ChartTypes', {
             ind_type,
             limit, 
             maximum,
-            decimals
+            decimals,
+            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.StackedVBar.getSeries (
             cropNames, 
@@ -163,7 +153,7 @@ Ext.define('App.util.ChartTypes', {
         [ 
           { xtype: 'label', text: i18n.chart.sumDoubleFallow }
           ,{ xtype: 'tbfill' }
-          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
+          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview', tooltip: 'Chart legend is not included' }
         ]
       }
     });
@@ -233,25 +223,6 @@ Ext.define('App.util.ChartTypes', {
             sprites: __Chart.Gauge.getSprites(flf[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].flf).toFixed(1)),
             margin: '10 0 0 0'
           }]
-       /* },{
-          layout: {
-            type: 'hbox',
-            pack: 'center'
-          },
-          items: [{
-            html: lur[__Global.lang + 'Name'] + '<br/>' + lur[__Global.lang + 'Legend']  + ': <b>' + 
-              data[0].lur.toFixed(1) + '</b>',
-            cls: 't-center t-xs-bigger',
-            width: '40%'
-          },{
-            html: '' ,
-            width: '50px'           
-          },{
-            html: flf[__Global.lang + 'Name'] + '<br/>' + flf[__Global.lang + 'Legend'] + ': <b>' + 
-              data[0].flf.toFixed(1) + '</b>',
-            cls: 't-center t-xs-bigger',
-            width: '40%'
-          }]*/
         }
       ]
     });
@@ -288,7 +259,7 @@ Ext.define('App.util.ChartTypes', {
     }
     else{
       if (maxData > 0.9){
-        tolerance = maxData/10;
+        tolerance = maxData/7;
         maximum = parseFloat((maxData + tolerance).toFixed(decimals));
       }
     }
@@ -299,7 +270,6 @@ Ext.define('App.util.ChartTypes', {
       items: [
         {
           xtype  : 'app-chart-line',
-          store  : App.service.Chart.stores.defaults,
           innerPadding: {
             left: 14,
             right: 11
@@ -309,7 +279,8 @@ Ext.define('App.util.ChartTypes', {
             yField, 
             thousand,
             maximum, 
-            decimals
+            decimals,
+            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.Line.getSeries(
             'year', 

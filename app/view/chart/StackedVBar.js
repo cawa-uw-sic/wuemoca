@@ -15,12 +15,9 @@ Ext.define('App.view.chart.StackedVBar', {
 
   legend: {
     docked: 'bottom',
-    width: (((__Global.year.Max - __Global.year.Min)+1) * __Global.chart.BarWidth) - 5
+    width: (((__Global.year.Max - __Global.year.Min)+1) * __Global.chart.BarWidth) - 20
   },
-
-  //width: ((__Global.year.Max - __Global.year.Min)+1)*40,
-
-  //height: 250,
+  store  : App.service.Chart.stores.defaults, 
   reference: 'chart'
 
 });

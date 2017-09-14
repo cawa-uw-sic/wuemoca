@@ -158,7 +158,7 @@ __Chart.VBar = {
   * number of decimals  for y-axis 
   * @return {Ext.chart.axis.Numeric | Ext.chart.axis.Category}
   */
-  getAxes: function (x, y, thousand, title, maximum, decimals) {
+  getAxes: function (x, y, thousand, title, maximum, decimals, currentYear) {
   /* getAxes: function (x, y, measure, maximum, decimals, yield_classes) {
     var limits = [];
     if (typeof yield_classes == 'object'){
@@ -244,7 +244,16 @@ __Chart.VBar = {
       },
       style: {
         textPadding: -10
-      }
+      },
+      renderer: function (axis, value, layoutContext, lastLabel) {
+        if (value == currentYear){
+          this._label.attr.canvasAttributes.fillStyle = 'red';
+        }
+        else{
+          this._label.attr.canvasAttributes.fillStyle = 'black';
+        }
+        return value;
+      }  
     }];
   },
   /**
@@ -270,7 +279,7 @@ __Chart.VBar = {
       yField: [ y ],
       style: {
          fill: color
-      },      
+      } ,   
       tooltip: {
         trackMouse: true,
         renderer: function(storeItem, item) {
@@ -279,7 +288,14 @@ __Chart.VBar = {
             value.toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + ' ' + measure
           );
         }
-      }/*,
+      }
+     /*listeners:{
+        itemmousemove: function (series, item, event) {
+          return false;
+          //event.stopPropagation();
+          console.log('itemmousemove', item.category, item.field);
+        }
+      }*//*,
       renderer: function(sprite, attr, record, index, store) {
         return Ext.apply(attr, {
           fill: color
@@ -293,7 +309,7 @@ __Chart.VBar = {
 */
 __Chart.StackedVBar = {
 
-  getAxes: function (x, yFields, thousand, title, ind_type, limit, maximum, decimals) {
+  getAxes: function (x, yFields, thousand, title, ind_type, limit, maximum, decimals, currentYear) {
     return [{
       type: 'numeric',
       position: 'left',
@@ -342,7 +358,16 @@ __Chart.StackedVBar = {
       },
       style: {
         textPadding: -10
-      }   
+      },
+      renderer: function (axis, value, layoutContext, lastLabel) {
+        if (value == currentYear){
+          this._label.attr.canvasAttributes.fillStyle = 'red';
+        }
+        else{
+          this._label.attr.canvasAttributes.fillStyle = 'black';
+        }
+        return value;
+      }  
     }];
   },
 
@@ -358,10 +383,12 @@ __Chart.StackedVBar = {
       tooltip: {
         trackMouse: true,
         renderer: function (tooltip, record, item) {
-            var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
-                crop = item.series.getTitle()[fieldIndex];
-            tooltip.setHtml(crop + ': ' +
-                parseFloat(record.get(item.field)).toLocaleString(__Global.lang, {maximumFractionDigits: decimals}) + ' ' + measure);
+          var fieldIndex = Ext.Array.indexOf(item.series.getYField(), item.field),
+            crop = item.series.getTitle()[fieldIndex];
+          tooltip.setHtml(crop + ': ' +
+            parseFloat(record.get(item.field)).toLocaleString(
+            __Global.lang, {maximumFractionDigits: decimals}
+          ) + ' ' + measure);
         }
       }
     });
@@ -404,7 +431,43 @@ __Chart.StackedVBar = {
 */
 __Chart.Line = {
 
-  getAxes: function (x, y, thousand, maximum, decimals) {
+  getAxes: function (x, y, thousand, maximum, decimals, currentYear) {
+    var limits = [];
+    if (y == 'vet' || y.indexOf('vc_') != -1){
+      limits.push({
+        value: 1,
+        line: {
+          strokeStyle: '#41b6c4', 
+          lineWidth: 2,
+          lineDash: [6, 3]
+          /*title: {
+            text: '',
+            fontSize: 15,
+            fontWeight : 'bold',
+            strokeStyle : 'white',
+            lineWidth: 0.5
+          }*/
+        }
+      });    
+    }  
+    else if (y == 'vir'){
+      limits.push({
+        value: 1,
+        line: {
+          strokeStyle: '#7fcdbb', 
+          lineWidth: 2,
+          lineDash: [6, 3]
+          /*title: {
+            text: '',
+            fontSize: 15,
+            fontWeight : 'bold',
+            strokeStyle : 'white',
+            lineWidth: 0.5
+          }*/
+        }
+      });       
+      
+    }  
     return [{
       type: 'numeric',
       position: 'left',
@@ -413,6 +476,7 @@ __Chart.Line = {
       maximum: maximum,
       title: false,
       grid: true,
+      limits: limits,
       renderer: function (axis, value) {
         var label = '';
         if (thousand){
@@ -428,6 +492,7 @@ __Chart.Line = {
       position: 'bottom',
       fields: [ x ],
       title: '',
+      grid: true,
       label: {
         font: {
           fontSize: '9px'              
@@ -435,7 +500,16 @@ __Chart.Line = {
       },
       style: {
         textPadding: -10
-      }
+      },
+      renderer: function (axis, value, layoutContext, lastLabel) {
+        if (value == currentYear){
+          this._label.attr.canvasAttributes.fillStyle = 'red';
+        }
+        else{
+          this._label.attr.canvasAttributes.fillStyle = 'black';
+        }
+        return value;
+      }  
     }];
   },
 

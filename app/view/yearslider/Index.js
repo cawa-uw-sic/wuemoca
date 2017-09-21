@@ -36,7 +36,8 @@ Ext.define('App.view.yearslider.Index', {
     { xtype: 'app-yearslider-slider'},
     { 
       xtype: 'label', 
-      html: '<i class="fa  fa-caret-right"></i> ' + __Global.year.Max, 
+      itemId: 'yearslider-lbl-max',
+      html: '', 
       padding: '0 10px 0 5px', 
       style: {color: '#f0f0f0', fontSize: '15px'}
     },

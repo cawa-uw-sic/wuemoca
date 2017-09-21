@@ -27,6 +27,7 @@ Ext.define('App.service.Chart', {
 /**
  * @property data data list
  */
+  click_coordinates: false,
   data: [],
 /**
  * @property maxData
@@ -56,6 +57,7 @@ Ext.define('App.service.Chart', {
     self.window.on("close", function () {
       App.service.Highlight.clear();
       self.data = [];
+      self.click_coordinates = false;
       App.service.Exporter.setDownloadCombotext(); 
       console.log('setDownloadCombotext initialize');
       if (App.service.Watcher.get('UserPolygon') == 'show'){
@@ -69,6 +71,7 @@ Ext.define('App.service.Chart', {
       window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
       window.setHeight(__Global.chart.Height);
       window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
+
       //window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);    
     });
   },
@@ -89,22 +92,23 @@ Ext.define('App.service.Chart', {
       return false;
     } 
     this.e = e;
+    this.click_coordinates = e.coordinate;
     this.doRequest();
   },
   /**
   * @method doRequest
   * do JSONP request with WMS getFeatureInfo and fill temporary data list
   */
-  doRequest: function (mapcenter) {
+  doRequest: function () {
     var self = this;
     if (self.isBusy) return false;
     var url = null;
-    if (!!mapcenter){
-      url = App.service.Map.getUrl(mapcenter, false);
-    }
+   // if (!!self.coordinates){
+      url = App.service.Map.getUrl(self.click_coordinates, false);
+   /* }
     else{
       url = App.service.Map.getUrl(self.e.coordinate, false);
-    }
+    }*/
     
     if (!!url){
       self.isBusy = true;

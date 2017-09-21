@@ -27,6 +27,11 @@ Ext.define('App.controller.Polygon', {
     el.addEventListener('change', App.service.Polygon.uploadShapefile, false);
   },
 
+  onFileSelection: function (field) {
+    var fileInputEl = field.getTrigger('filebutton').component.fileInputEl.dom;
+    fileInputEl.setAttribute('accept', '.zip');
+  },
+  
   onDownload: function (field){
     App.service.Helper.getComponentExt('exporter-window').show();
     //App.service.Polygon.downloadOptions();

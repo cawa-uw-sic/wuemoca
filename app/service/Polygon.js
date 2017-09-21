@@ -296,7 +296,7 @@ Ext.define('App.service.Polygon', {
     }
   },
 
-  registerPolygon: function (extent, wkt_geometry, wkt_alt) {
+  registerPolygon: function (extent, wkt_geometry) {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the 11 characters after the decimal.
     var uniqueId = 'p-' + Math.random().toString(36).substr(2);
@@ -306,7 +306,6 @@ Ext.define('App.service.Polygon', {
       info: { name: uniqueId, location: '' },
       data: [],
       wkt_geometry: wkt_geometry,
-      wkt_alt: wkt_alt,
       extent: extent
     }
     this.all.push(polygon);
@@ -520,23 +519,24 @@ Ext.define('App.service.Polygon', {
       method: 'POST',
       params: {
         wkt_geometry: polygon.wkt_geometry,
-        wkt_alt: polygon.wkt_alt
+        maxyear: __Global.year.Max
       },
       success: function(response) {
         polygon.data = Ext.decode(response.responseText);
         if (polygon.data[0].WKT == 'wkt_alt'){
-          polygon.wkt_geometry = polygon.wkt_alt;
+          var wkt_alt = polygon.wkt_geometry.split('),(').join(')),((');
+          polygon.wkt_geometry = wkt_alt;
+
         }
-        polygon.wkt_alt = '';
         if (response.responseText.indexOf('empty') == -1){
           count_success++;
+          delete polygon.data[0].WKT;
         }
         else{
           if (response.responseText.indexOf('failed') == -1){
             removearray.push(polygon);
           }
         }
-
       },
       callback: function(){
         self.isBusy = false;
@@ -715,8 +715,8 @@ Ext.define('App.service.Polygon', {
           //workaround for bug of uploaded shapefiles with multipart geometry (considered as donut)
           //Geometry format for reading and writing data in the WellKnownText (WKT) format.
           var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon([polygon.geometry.coordinates]))
-          var wkt_alt = wkt_geometry.split('),(').join(')),((');
-          App.service.Polygon.registerPolygon(extent, wkt_geometry, wkt_alt);
+
+          App.service.Polygon.registerPolygon(extent, wkt_geometry);
       })
       if (count > 0){
         App.service.Polygon.saveAll();
@@ -890,8 +890,11 @@ Ext.define('App.service.Polygon', {
 
           var wkt_geometry = new ol.format.WKT().writeGeometry(multipolygon.transform(__Global.projection.Mercator,__Global.projection.Geographic));
           polygon.wkt_geometry = wkt_geometry;
-          polygon.wkt_alt = '';
-          polygon.geometry = [];
+          delete polygon.geometry;
+
+        } 
+        if (!!polygon.wkt_alt){
+          delete polygon.wkt_alt;
         }
 
       });      

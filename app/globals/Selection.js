@@ -54,7 +54,7 @@ var __Selection = {
   * @property Year
   * Year user selection, default: max year
   */
-  Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
+  //Year             : __LocalDB.get('Selections.Year', __Global.year.Max),
   /**
   * @property IrrigationExtent
   * user selection: set visible maximum irrigation extent map layer, default: show

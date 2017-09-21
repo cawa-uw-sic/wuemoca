@@ -74,7 +74,7 @@ Ext.define('App.controller.Switcher', {
 
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
-    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Chart.click_coordinates && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
       App.service.Polygon.showChartWindow();
     }
@@ -89,7 +89,7 @@ Ext.define('App.controller.Switcher', {
   */
   onCrop: function (button, el) {
     App.service.Watcher.set('Crop', button.getItemId());
-    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Chart.click_coordinates && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
       App.service.Polygon.showChartWindow();
     }

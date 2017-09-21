@@ -42,7 +42,10 @@ Ext.define('App.view.polygon.Index', {
     },{
       xtype: 'filefield',
       buttonOnly: true,
-      listeners : { afterrender: 'onUpload' },
+      listeners : { 
+        afterrender: 'onUpload',
+        render: 'onFileSelection'
+      },
       itemId: 'polygon-btn-upload',
       buttonConfig: {
         text: i18n.polygon.upload,

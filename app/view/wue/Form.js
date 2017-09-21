@@ -60,7 +60,8 @@ Ext.define('App.view.wue.Form', {
     buttonOnly: true,
     buttonText: i18n.wue.btnImport1 + " '" + i18n.wue.year + "' " + i18n.wue.btnImport2,
     listeners: {
-      change: 'onFormImport'
+      change: 'onFormImport',
+      render: 'onFileSelection'
     }
   },{
     xtype: 'tbfill'

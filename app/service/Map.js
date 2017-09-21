@@ -45,7 +45,6 @@ Ext.define('App.service.Map', {
     var map = self.instance;
     console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
     if (!!App.service.Watcher.get('Aggregation')){
-      self.loadAdminLayer();
       if (!!App.service.Watcher.get('Indicator')) {
         App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
         if (!App.util.Layer.current || !self.compareLayers()){
@@ -61,6 +60,7 @@ Ext.define('App.service.Map', {
         self.removeCurrentLayer();
         App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
       }
+      self.loadAdminLayer();
     }
   },
 
@@ -86,10 +86,13 @@ Ext.define('App.service.Map', {
 
     map.removeLayer(App.util.Layer.admin);
     if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
+      var visible = true;
+      if (App.service.Watcher.get('Current') == 'noshow' && App.service.Watcher.get('UserPolygon') == 'show'){
+        visible = false;
+      }
       App.util.Layer.admin = new ol.layer.Image({
         opacity: 1,
-        //visible: App.service.Watcher.get('Current') == 'show' ? true : false,
-        visible: true,
+        visible: visible,
         source: new ol.source.ImageWMS({
           url: __Global.urls.Mapserver + 'wms?',
           serverType: 'geoserver',
@@ -127,8 +130,6 @@ Ext.define('App.service.Map', {
   hideShowElements: function(currentLayer){
     App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
     App.service.Yearslider.didRender();
-    //console.log('setDownloadCombotext hideShowElements');
-    //App.service.Exporter.setDownloadCombotext();
   },
 
   getLayerSource: function (yearIncluded) {
@@ -465,7 +466,7 @@ Ext.define('App.service.Map', {
       cb.setFieldLabel(label);
     }
 
-    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Chart.click_coordinates && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.windowChart.isHidden()) {
       App.service.Polygon.showChartWindow();
     }

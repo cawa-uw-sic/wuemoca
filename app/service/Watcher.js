@@ -102,6 +102,7 @@ Ext.define('App.service.Watcher', {
   },
 
   mergeIndicators: function (nIndicators) {
+
     var convertionExceptions = ['id'];
     __Indicator = __Indicator.map(function (indicator) {
       nIndicator = App.service.Helper.getById(nIndicators, indicator.id);
@@ -119,6 +120,15 @@ Ext.define('App.service.Watcher', {
       }
       return indicator;
     });
+    for (var i = 0; i < nIndicators.length;i++){
+      if (nIndicators[i].hasOwnProperty('maxyear')){
+        __Global.year.Max = parseInt(nIndicators[i].maxyear);
+        break;
+      }
+    }
+    var maxlabel = App.service.Helper.getComponentExt('yearslider-lbl-max');
+    maxlabel.update('<i class="fa  fa-caret-right"></i> ' + __Global.year.Max);
+    __Selection['Year'] = __LocalDB.get('Selections.Year', __Global.year.Max);
   }
 
 });

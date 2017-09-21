@@ -26,6 +26,11 @@ Ext.define('App.controller.Wue', {
     App.service.Wue.parseExcel(el.getEl().down('input[type=file]').dom.files[0]);
   },
 
+  onFileSelection: function (field) {
+    var fileInputEl = field.getTrigger('filebutton').component.fileInputEl.dom;
+    fileInputEl.setAttribute('accept', '.xls');
+  },
+
   onPeriodChange: function (el, val) {
     var container = App.service.Helper.getComponentExt('app-wue-container');
     container.removeAll();

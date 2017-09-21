@@ -176,9 +176,9 @@ Ext.define('App.util.ChartTypes', {
       deltaYears++;
     }
     var lur_steps = lur.maximum - lur.minimum;
-    if (lur_steps % 2 == 0){
+    /*if (lur_steps % 2 == 0){
       lur_steps++;
-    }
+    }*/
 
     return Ext.create('App.view.chart.VPanel', {
       items: [

@@ -15,7 +15,7 @@ Ext.define('App.controller.Yearslider', {
   */
   onChangeComplete: function (el, val) {
     App.service.Watcher.set('Year', val);
-    if (App.service.Chart.e && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
+    if (App.service.Chart.click_coordinates && !App.service.Chart.window.isHidden()) App.service.Chart.doRequest();
   },
   
   onChange: function (el, val) {

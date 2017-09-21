@@ -14,10 +14,15 @@ Ext.define('App.view.chart.StackedVBar', {
   animate: true,
 
   legend: {
-    docked: 'bottom',
-    width: (((__Global.year.Max - __Global.year.Min)+1) * __Global.chart.BarWidth) - 20
+    docked: 'bottom'
   },
   store  : App.service.Chart.stores.defaults, 
-  reference: 'chart'
+  reference: 'chart',
+
+  listeners: {
+    boxready: function(chart){
+      chart.legend.setWidth((((__Global.year.Max - __Global.year.Min)+1) * __Global.chart.BarWidth) - 20);
+    }
+  }
 
 });

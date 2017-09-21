@@ -318,8 +318,9 @@ Ext.define('App.controller.Zoom', {
         //trigger programmatically WMS getFeature event, 
         //show chart window only if filtered object covers the map center
         var coordinates = App.service.Map.instance.getView().getCenter();
+        App.service.Chart.click_coordinates = coordinates;
         setTimeout(function(){
-            App.service.Chart.doRequest(coordinates);
+            App.service.Chart.doRequest();
           }, 251
         );
       }

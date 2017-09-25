@@ -35,9 +35,9 @@ Ext.define('App.view.polygon.Form', {
       xtype: 'textfield',
       itemId: 'exportui-location',
       fieldLabel: i18n.exportUI.inputLocation,
-      afterLabelTextTpl: required,
+      //afterLabelTextTpl: required,
       name: 'location',
-      allowBlank: false
+      allowBlank: true
     },{
       xtype: 'textfield',
       itemId: 'exportui-area',

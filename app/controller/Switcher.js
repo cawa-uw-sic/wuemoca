@@ -250,7 +250,7 @@ Ext.define('App.controller.Switcher', {
   resetSelection: function(button, e){
     //App.service.Helper.resetComboboxes(['switcher-cb-indicator']);
     App.service.Watcher.set('Indicator', undefined);
-    App.service.Watcher.set('Aggregation', 'rayon');
+    App.service.Watcher.set('Aggregation', 'oblast');
     this.afterRender();
     //do not collapse/expand accordion panel
     e.stopPropagation();

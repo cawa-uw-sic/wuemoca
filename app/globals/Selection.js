@@ -47,9 +47,9 @@ var __Selection = {
   //Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   /**
   * @property Aggregation
-  * Aggregation user selection, default: rayon
+  * Aggregation user selection, default: oblast
   */  
-  Aggregation      : __LocalDB.get('Selections.Aggregation', 'rayon'),
+  Aggregation      : __LocalDB.get('Selections.Aggregation', 'oblast'),
   /**
   * @property Year
   * Year user selection, default: max year

@@ -230,7 +230,7 @@ mapSelection:{
 
   settings: {
     legend                  : 'Legend',
-    title                   : 'Map Layers',
+    title                   : 'Map Legend',
     extent                  : 'Irrigated area',
     showLegend: 'Show legend',
     hideLegend: 'Hide legend'
@@ -400,7 +400,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   exportUI: {
     title                   : 'Polygon edit',
     inputName               : 'Name',
-    inputLocation           : 'Location',
+    inputLocation           : 'Location/Description',
     totalArea: 'Total area',
     inputCrop               : 'Select crop',
     inputPeriod             : 'Select period',
@@ -839,7 +839,7 @@ calculateWUElong          : 'Расчет водоэффективности',
     i18n.exportUI = {
       title                 : 'Редактирование полигона',
       inputName             : 'Наименование',
-      inputLocation         : 'Расположение',
+      inputLocation         : 'Расположение/Описание',
       totalArea: 'Total area',
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',

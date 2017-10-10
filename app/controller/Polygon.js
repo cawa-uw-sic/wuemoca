@@ -9,13 +9,13 @@ Ext.define('App.controller.Polygon', {
   onAfterRender: function () {
     App.service.Polygon.initialize();
   },
-
+  //activate draw mode
   onActivate: function () {
     App.service.Polygon.activate();
     App.service.Helper.hideComponents(['polygon-btn-activate']);
     App.service.Helper.showComponents(['polygon-btn-deactivate']);
   },
-
+  //deactivate draw mode
   onDeactivate: function () {
     App.service.Polygon.deactivate();
     App.service.Helper.hideComponents(['polygon-btn-deactivate']);
@@ -39,10 +39,7 @@ Ext.define('App.controller.Polygon', {
   onImport: function(){
     App.service.Polygon.importPolygon();
   },
-  /*onEdit: function () {
-    App.service.Polygon.updateWindowEdit();
-    App.service.Polygon.windowEdit.show();
-  },*/
+
   onEdit: function (grid, rowIndex, colIndex) {
     var rec = grid.getStore().getAt(rowIndex);
     var uid = rec.get('uid');
@@ -51,9 +48,9 @@ Ext.define('App.controller.Polygon', {
     App.service.Polygon.windowEdit.show();
   },
 
-  onCalculate: function () {
+  /*onCalculate: function () {
     App.service.Polygon.calculate();
-  },
+  },*/
 
   onRemove: function (grid, rowIndex, colIndex) {
     var rec = grid.getStore().getAt(rowIndex);
@@ -78,7 +75,8 @@ Ext.define('App.controller.Polygon', {
   onSelect: function(rowmodel, record, index){
     App.service.Polygon.selectFeatureFromGrid(record.data.uid);
   },
-  onDblClick: function( table , record , tr , rowIndex , e){
+
+  onDblClick: function(table, record, tr, rowIndex, e){
     if (record.data.extent){
       App.service.Polygon.zoomToPolygon(record.data.extent);
     }

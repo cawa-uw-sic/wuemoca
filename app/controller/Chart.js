@@ -11,9 +11,9 @@ Ext.define('App.controller.Chart', {
     'App.service.Chart'
   ],
 
-  display: function (e) {
+  /*display: function (e) {
     console.log('from controller');
-  },
+  },*/
 
   /*onPrev: function () {
     App.service.Chart.prev();
@@ -27,9 +27,9 @@ Ext.define('App.controller.Chart', {
   * @method onExcel
   * Create Excel file with all indicators for selected object. {@link }
   */  
-  onExcel: function () {
+  /*onExcel: function () {
     App.service.Helper.JSONToHTMLConvertor('all');
-  },
+  },*/
 
   /**
   * @method onPreview

@@ -56,16 +56,16 @@ Ext.define('App.controller.Header', {
   * @method onFeedback
   * open feedback URL
   */
-  onFeedback: function () {
+  /*onFeedback: function () {
     App.service.Helper.openDocument(i18n.header.questionnaire_url, 'feedbackdoc');
-  },
+  },*/
   /**
   * @method onDetail
   * show detail window
   */
-  onDetail: function () {
+  /*onDetail: function () {
     this.DetailWindow.show();
-  },
+  },*/
   /**
   * @method onIntroWindowBtn
   * show intro window

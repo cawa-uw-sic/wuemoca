@@ -14,7 +14,7 @@ var __Aggregation = [
   /**
   * @property {Object[]} [oblast={id,enName,ruName,enNameShort,ruNameShort,enTooltip,ruTooltip,super_filter,
   * glossary}] province aggregation level
-  * @property {String} oblast.id ID as it is used in the WUEMoCA DB
+  * @property {String} oblast.id acronym as it is used in the WUEMoCA DB
   * @property {String} oblast.enName English name
   * @property {String} oblast.ruName Russian name
   * @property {String} oblast.enNameShort English short name
@@ -37,7 +37,7 @@ var __Aggregation = [
     ruTooltip      : 'Доступно для бассейна Аральского моря',        
     super_filter: 'oblast' ,        
     isDefault      : true,
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor30'
   }, 
   /**
@@ -53,7 +53,7 @@ var __Aggregation = [
     enTooltip      : 'Available for Aral Sea Basin',
     ruTooltip      : 'Доступно для бассейна Аральского моря',         
     super_filter: 'oblast' ,
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor29'
   }, 
   /**
@@ -75,7 +75,7 @@ var __Aggregation = [
         "oblast_id=1733"
     ],
     tiled: true,
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor26'
   }, 
   /**
@@ -109,7 +109,7 @@ var __Aggregation = [
         "buis_id",
         "uis_id"
     ],
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor28'
   }, 
   /**
@@ -143,7 +143,7 @@ var __Aggregation = [
         "buis_id",
         "uis_id"
     ],
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor27'
   }, 
   /*{
@@ -173,7 +173,7 @@ var __Aggregation = [
         "buis_id",
         "uis_id"
     ],
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm'
   }, 
   /**
@@ -201,7 +201,7 @@ var __Aggregation = [
         "oblast_id=3503"
     ],
     tiled: true,
-    items: false ,
+    //items: false ,
     glossary       : 'bme00017.htm#bookme_anchor25'
   }, 
   /**
@@ -218,7 +218,7 @@ var __Aggregation = [
     ruTooltip      : 'Доступно для бассейна Аральского моря',   
     super_filter: 'oblast',     
     tiled: true,
-    items: false,
+    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor24'
   }
 

@@ -42,7 +42,7 @@ Ext.define('App.view.header.CbTitle', {
           'German Water Initiative for Central Asia (\"Berlin Process\"), grant no. AA7090002.' + '<br><br>' +
           'Please note that the tool ' +
           'and all documentary presented herewith are not finished yet. ' +
-          'Thus, they are provided \"as is\" (July 2017), therefore refer to as BETA versions. ' +
+          'Thus, they are provided \"as is\" (October 2017), therefore refer to as BETA versions. ' +
           'Changes within those current beta versions are possible, even though meant to be under development. ' +
           'Since WUEMoCA is yet in the process of final developing, presented results and information provided ' +
           'must considered as preliminary.', 
@@ -63,7 +63,7 @@ Ext.define('App.view.header.CbTitle', {
           'German Water Initiative for Central Asia (\"Berlin Process\"), grant no. AA7090002.' + '<br><br>' +
           'Please note that the tool ' +
           'and all documentary presented herewith are not finished yet. ' +
-          'Thus, they are provided \"as is\" (July 2017), therefore refer to as BETA versions. ' +
+          'Thus, they are provided \"as is\" (October 2017), therefore refer to as BETA versions. ' +
           'Changes within those current beta versions are possible, even though meant to be under development. ' +
           'Since WUEMoCA is yet in the process of final developing, presented results and information provided ' +
           'must considered as preliminary.'          

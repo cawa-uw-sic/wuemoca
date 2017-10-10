@@ -263,7 +263,7 @@ Ext.define('App.util.ChartTypes', {
         maximum = parseFloat((maxData + tolerance).toFixed(decimals));
       }
     }
-    var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? 'Press "Calculate WUE" and insert Water intake' : '';
+    var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? i18n.wue.pressWUE : '';
 
 
     return Ext.create('App.view.chart.FPanel', {

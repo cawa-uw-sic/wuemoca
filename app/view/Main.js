@@ -54,7 +54,7 @@ Ext.define('App.view.Main', {
   },
 
   listener:{
-    afterrender: 'onMainAfterRender'
+    //afterrender: 'onMainAfterRender'
   },
 /**
 * @property {Ext.panel.Panel[]} items panels of viewport

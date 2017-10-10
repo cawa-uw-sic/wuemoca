@@ -27,36 +27,37 @@ Ext.define('App.service.Watcher', {
   },
 
   getAggregation: function () {
-    var items = [];
-    __Aggregation.map(function (aggregation) {
-      if (!aggregation.items) return items.push(aggregation);
-      aggregation.items.map(function (item) {
+    //var items = [];
+    //__Aggregation.map(function (aggregation) {
+      //if (!aggregation.items) 
+      //return items.push(aggregation);
+      /*aggregation.items.map(function (item) {
         items.push(item);
-      });
-    });
-    return App.service.Helper.getById(items, this.get('Aggregation'));
+      });*/
+   // });
+    return App.service.Helper.getById(__Aggregation, this.get('Aggregation'));
   },
 
   getSuperFilterAggregation: function(aggregation){
     var super_filter = '';
     __Aggregation.map(function (unit) {
-      if (unit.items) {
+      /*if (unit.items) {
         unit.items.map(function (item) {
           if (item.id == aggregation){
             super_filter = item.super_filter;
           }
         });          
       }
-      else{
+      else{*/
         if (unit.id == aggregation){
           super_filter = unit.super_filter;
         }
-      }
+      //}
     });  
     return super_filter; 
   },
 
-  activateFilters: function () {
+  /*activateFilters: function () {
     var indicators = __Indicator;
     for (var filter in __FilterSelection) {
       if ( __FilterSelection.hasOwnProperty(filter) && !!__FilterSelection[filter] && __FilterSelection[filter] !== 'empty') {
@@ -80,7 +81,7 @@ Ext.define('App.service.Watcher', {
     if (!App.service.Helper.inArrayId(indicators, selected_indicator)){
       App.service.Helper.resetComboboxes(['switcher-cb-indicator']); 
     }
-  },
+  },*/
 
   syncDB: function () {
     var self = this;
@@ -102,7 +103,7 @@ Ext.define('App.service.Watcher', {
   },
 
   mergeIndicators: function (nIndicators) {
-
+    // set median and maximum of indicators
     var convertionExceptions = ['id'];
     __Indicator = __Indicator.map(function (indicator) {
       nIndicator = App.service.Helper.getById(nIndicators, indicator.id);
@@ -120,6 +121,7 @@ Ext.define('App.service.Watcher', {
       }
       return indicator;
     });
+    // set max year
     for (var i = 0; i < nIndicators.length;i++){
       if (nIndicators[i].hasOwnProperty('maxyear')){
         __Global.year.Max = parseInt(nIndicators[i].maxyear);

@@ -44,7 +44,8 @@ var i18n = {
     uniwue                  : 'Department of Remote Sensing at University of Wuerzburg',
     sic: 'SIC ICWC',
     sicurl: 'http://sic.icwc-aral.uz/index_e.htm',
-    beta: 'BETA version'
+    beta: 'BETA version',
+    video_general: 'Instruction Video - General Information'
   },
 
   pilot: {
@@ -312,7 +313,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           all: 'all',
           plural: 's',
           ASB: ' of ASB',
-          acronym: 'Show overview indicators'
+          acronym: 'Show indicator acronyms'
   },
 
   timeSlider: {
@@ -332,8 +333,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
     btnSubmit               : 'Calculate',
-    calculateVir: 'Calculate Irrigation Effectiveness',
-        calculateVirSuccess: 'Irrigation Effectiveness calculation successful!<br>Download selected polygon to get calculated results.' ,   
+    calculateVir: 'Calculate Irrigation Efficiency',
+        calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
         btnImport2               : 'Excel file',
@@ -345,7 +346,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     byYear                  : 'yearly (diagram and download)',
     year                    : 'Year',
     decade                  : 'Decade',
-    month                   : 'Month'
+    month                   : 'Month',
+    pressWUE: 'Press "Calculate WUE" and insert Water intake'
   },
 
    polygon: {
@@ -394,7 +396,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
         smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
         smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
         outside: 'Outside the irrigated area polygons cannot be processed.',
-        import_button: 'Import selected'
+        import_button_1: 'Import selected',
+        import_button_2: 'map unit',
+        import_tooltip: "Add the selected map unit to 'My Polygons' in order to calculate WUE",
+        removed_single: 'has been removed.',
+        removed_multi: 'have been removed.'
   },
 
   exportUI: {
@@ -500,7 +506,8 @@ switch (locale){
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
     sic: 'НИЦ МКВК',
         sicurl: 'http://sic.icwc-aral.uz/index.htm',
-    beta: 'Бета-версия'
+    beta: 'Бета-версия',
+    video_general: 'Instruction Video - General Information'
     };
 
     i18n.pilot = {
@@ -575,7 +582,7 @@ switch (locale){
 
 
     i18n.adminFilters = {
-      title                 : 'Выбрать территорию (не обязательно)',
+      title                 : 'Выбрать территорию<br>(не обязательно)',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
@@ -749,7 +756,7 @@ i18n.mapSelection ={
                     all: 'все',
                     plural: '',
                               ASB: ' of ASB',
-                    acronym: 'Show acronym explanations'
+                    acronym: 'Show indicator acronyms'
 
     };
 
@@ -770,8 +777,8 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Произвести расчет',
-    calculateVir: 'Calculate Irrigation Effectiveness',  
-    calculateVirSuccess: 'Irrigation Effectiveness calculation successful!<br>Download selected polygon to get calculated results.' ,   
+    calculateVir: 'Calculate Irrigation Efficiency',  
+    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Импорт',
         btnImport2               : 'Excel file',      
@@ -783,7 +790,8 @@ i18n.mapSelection ={
       byYear                  : 'по годам',
       year                    : 'Год',
       decade                  : 'Декада',
-      month                   : 'Месяц'
+      month                   : 'Месяц',
+    pressWUE: 'Press "Calculate WUE" and insert Water intake'
     },
 
     i18n.polygon = {
@@ -833,7 +841,11 @@ calculateWUElong          : 'Расчет водоэффективности',
         smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
         smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
         outside: 'Outside the irrigated area polygons cannot be processed.',
-                import_button: 'Импортировать выбранную'
+        import_button_1: 'Импортировать выбранную',
+        import_button_2: 'map unit',
+        import_tooltip: "Add the selected map unit to 'My Polygons' in order to calculate WUE",
+        removed_single: 'был удален.',
+        removed_multi: 'были удалены.'
     };
 
     i18n.exportUI = {

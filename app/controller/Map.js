@@ -18,9 +18,10 @@ Ext.define('App.controller.Map', {
         magnification: 15
       })
     );
-
+    //mouse click for chart window
     map.on('singleclick', function(e) { App.service.Chart.display(e); });
 
+    //mouse over for status bar
     map.on('pointermove', function(e) { App.service.Tooltip.display(e); });
 
     App.service.Chart.initialize();

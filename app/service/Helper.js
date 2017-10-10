@@ -229,7 +229,7 @@ Ext.define('App.service.Helper', {
       //var totalArea = 0;
       if (userPolygon){
         polygonName = polygon.info.name.replace(/ /g,'_'); 
-        if (polygon.info.location != ''){
+        if (!!polygon.info.location && polygon.info.location != ''){
           polygonName += '_' + polygon.info.location.replace(/ /g,'_'); 
         }
         fileName += polygonName;
@@ -244,8 +244,23 @@ Ext.define('App.service.Helper', {
       //this will remove the blank-spaces from the title and replace it with an underscore
       fileName = fileName.replace(/ |,/g,'_');   
 
+      //http://jsfiddle.net/insin/cmewv/  https://gist.github.com/insin/1031969
       var uri  = 'data:application/vnd.ms-excel;base64,';
-      var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+      template  = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:x="urn:schemas-microsoft-com:office:excel" ' + 
+      'xmlns="http://www.w3.org/TR/REC-html40">' +
+      '<head><meta http-equiv="content-type" content="text/plain; charset=utf-8">' +
+        '<!--[if gte mso 9]>' +
+          '<xml>' +
+            '<x:ExcelWorkbook><x:ExcelWorksheets>' +
+              '<x:ExcelWorksheet>' +
+                '<x:Name>{worksheet}</x:Name>' +
+                '<x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>' +
+              '</x:ExcelWorksheet>' +
+              '</x:ExcelWorksheets></x:ExcelWorkbook>' +
+          '</xml>' +
+        '<![endif]-->' +
+      '</head><body><table>{table}</table></body></html>';
  
       var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, year, polygonName) };
 

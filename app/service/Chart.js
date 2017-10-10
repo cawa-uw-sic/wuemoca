@@ -25,9 +25,12 @@ Ext.define('App.service.Chart', {
  */
   e: false,
 /**
- * @property data data list
+ * @property click_coordinates coordinates of click event
  */
   click_coordinates: false,
+/**
+ * @property data data list stored with the chart
+ */
   data: [],
 /**
  * @property maxData
@@ -40,7 +43,7 @@ Ext.define('App.service.Chart', {
 /**
  * @property stores chart store list
  * @property stores.defaults chart store for the default column or line charts
- * @property stores.lur chart store for gauge charts (crop rotation)
+ * @property stores.lur chart store for gauge charts (land use rotation)
  * @property stores.flf chart store for gauge charts (fallow land frequency) 
  */
   stores: {
@@ -127,8 +130,8 @@ Ext.define('App.service.Chart', {
             //prepare import possibility to user polygon
             var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
             App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
-            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button + '<br>' + aggregation_name);
-            //store multipolygon geometry, extent and wkt_geometry
+            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + aggregation_name);
+            //store multipolygon coordinates, extent and wkt_geometry
             //Geometry format for reading and writing data in the WellKnownText (WKT) format.
             var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
             App.service.Polygon.importSelectedGeometry(
@@ -136,6 +139,8 @@ Ext.define('App.service.Chart', {
               BackgroundLayers.highlight.getSource().getExtent(),
               wkt_geometry
             );
+            //store import data
+            //in case of multi-annual indicator (ca_grid_no_years), modify URL to get data from annual ca_grid table
             if (App.service.Watcher.getIndicator().chart == 'Multiannual'){
               var urlarray = url.replace(/ca_grid_no_years/g, 'ca_grid').split('&');
               for (var i = 0; i < urlarray.length; i++){
@@ -152,6 +157,7 @@ Ext.define('App.service.Chart', {
                 params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
                 success: function (results) { 
                   var data_copy = self.dataResponse(results.features);
+                  //vir data is not copied but to be calculated with WUE tool
                   for (var d = 0; d < data_copy.length; d++){
                     if (!!data_copy[d]['vir']){
                       delete data_copy[d]['vir'];
@@ -169,6 +175,7 @@ Ext.define('App.service.Chart', {
             else{
               //duplicate array of nested objects, don't change original data
               var data_copy = JSON.parse(JSON.stringify(self.data));
+              //vir data is not copied but to be calculated with WUE tool 
               for (var d = 0; d < data_copy.length; d++){
                 if (!!data_copy[d]['vir']){
                   delete data_copy[d]['vir'];

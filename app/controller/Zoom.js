@@ -311,7 +311,10 @@ Ext.define('App.controller.Zoom', {
 
     App.service.Helper.setComponentsValue([{ id: 'zoom-cb-country', selection: 'Country' }]);
   },
-
+  /**
+  * @method selectFilteredObject
+  * set the filtered map unit selected as if the user had clicked on this unit (highlight and show chart window)
+  */ 
   selectFilteredObject: function(){
     if (!!App.util.Layer.current){
       if (App.util.Layer.current.getVisible()){

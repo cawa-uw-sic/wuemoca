@@ -14,6 +14,7 @@ Ext.define('App.service.Polygon', {
   drawControl: false,
 
   selectControl: false,
+  //draw mode
   activated: false,
 
   selected: false,
@@ -505,6 +506,8 @@ Ext.define('App.service.Polygon', {
   * list of not calculated polygons
   * @param count_success
   * number of successfully calculated polygons in the list
+  * @param removearray
+  * array with polygons to be removed
   */
   doRequest: function (index, emptyPolygons, count_success, removearray) {
     var self = this;
@@ -516,6 +519,7 @@ Ext.define('App.service.Polygon', {
       url: __Global.api.Polygon,
       //default is 30000, increased to calculate large polygons
       timeout: 1000000,
+      //HTTP method: "GET" if no parameters are being sent, and "POST" if parameters are being sent.
       method: 'POST',
       params: {
         wkt_geometry: polygon.wkt_geometry,
@@ -595,7 +599,7 @@ Ext.define('App.service.Polygon', {
               self.removeSelectedPolygons(removearray[i]);
             }
 
-            message += (removearray.length == 1) ? ' has been removed.' : ' have been removed.';
+            message += (removearray.length == 1) ? ' ' + i18n.polygon.removed_single : ' ' + i18n.polygon.removed_multi;
                       //message = polygon.info.name + ' ' + i18n.polygon.outside;
           }
           if (self.progressBar){
@@ -862,6 +866,7 @@ Ext.define('App.service.Polygon', {
     this.rerenderFeatures();
     Ext.getStore('polygongrid').loadData(this.getGridData());
   },
+
   cleanLocalDB: function(){
     self = this;
       var polygons = self.all; 
@@ -903,6 +908,7 @@ Ext.define('App.service.Polygon', {
         this.saveAll();
       }   
   },
+  
   replaceAbbr: function(polygon, oldvalue, newvalue){
     var change = false;
     for (var d = 0; d < polygon.data.length; d++){

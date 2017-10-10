@@ -170,7 +170,7 @@ Ext.define('App.service.Map', {
       }
     }
     if (CQLfilter != ''){
-      params['cql_filter'] = CQLfilter;
+      params['CQL_FILTER'] = CQLfilter;
     }
 
     var opts = {
@@ -250,7 +250,7 @@ Ext.define('App.service.Map', {
     return App.util.Layer.current
       .getSource()
       .updateParams({
-        'cql_filter': CQLfilter
+        'CQL_FILTER': CQLfilter
       });
   },
 
@@ -521,14 +521,14 @@ Ext.define('App.service.Map', {
         App.util.Layer.current
           .getSource()
           .updateParams({
-            'cql_filter': null
+            'CQL_FILTER': null
           });
       }
       else {
         App.util.Layer.current
           .getSource()
           .updateParams({
-            'cql_filter': CQLfilter
+            'CQL_FILTER': CQLfilter
           });
           console.log('setDownloadCombotext filterAreaOfInterest');
         App.service.Exporter.setDownloadCombotext();

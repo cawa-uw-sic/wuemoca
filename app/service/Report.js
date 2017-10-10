@@ -15,12 +15,13 @@ Ext.define('App.service.Report', {
       show: 'onReportWindow' },
     modal: true
   }),
-
+  //http://jsfiddle.net/insin/cmewv/  
+  //https://gist.github.com/insin/1031969
   uri       : 'data:application/vnd.ms-excel;base64,',
   template  : '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
   'xmlns:x="urn:schemas-microsoft-com:office:excel" ' + 
   'xmlns="http://www.w3.org/TR/REC-html40">' +
-  '<head><meta charset="UTF-8">' +
+  '<head><meta http-equiv="content-type" content="text/plain; charset=utf-8">' +
     '<!--[if gte mso 9]>' +
       '<xml>' +
         '<x:ExcelWorkbook><x:ExcelWorksheets>' +
@@ -293,16 +294,16 @@ Ext.define('App.service.Report', {
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firn).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_cotton).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_cotton).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_wheat).toFixed(1) + '</td>';
-      result.body += '<td></td>';
-      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_wheat).toFixed(1) + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.y_rice).toFixed(1) + '</td>';      
+      result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_rice).toFixed(1) + '</td>';      
       result.body += '</tr>';
     });
 

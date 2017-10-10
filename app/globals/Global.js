@@ -39,7 +39,7 @@ __Global.projection= {
     Mercator      : 'EPSG:3857'
 };
 /**
-* min and max year
+* min and max year, max year is read from the DB
 */
 __Global.year= {
     Max           : 0,
@@ -68,6 +68,8 @@ __Global.year= {
 * script for getting WUA list with extent from DB
 * @property api.writePolygon    
 * script for writing values and geometry to temporary DB table
+* @property api.WUE    
+* script for DB aggregation on-the-fly of monthly and decadal ET actual
 */         
 __Global.api = {
     Report        : api + 'report.jsp?',

@@ -36,7 +36,7 @@ Ext.define('App.view.header.Help', {
         click: 'onGlossary'
       }
    },{
-      text: 'Instruction Video General Information',
+      text: i18n.header.video_general,
       //tooltip: i18n.header.glossary_tooltip,
       iconCls: 'x-fa fa-youtube-play',
       listeners: {

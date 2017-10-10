@@ -8,9 +8,9 @@ Ext.define('App.controller.Main', {
 
   interval: false,
 
-  onMainAfterRender: function () {
+  /*onMainAfterRender: function () {
   //App.service.Helper.getComponentExt('app-introwindow').show();
-  },
+  },*/
   
   /**
   * @method onMapAfterRender
@@ -74,7 +74,7 @@ Ext.define('App.controller.Main', {
   },
   /**
   * @method onReportWindow
-  * open report window
+  * open report window and set year
   */
   onReportWindow: function () {
     App.service.Helper.getComponentExt('report-cb-year').getStore().setData(App.service.Report.getYearData());

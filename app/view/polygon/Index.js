@@ -56,11 +56,11 @@ Ext.define('App.view.polygon.Index', {
         baseCls: 'x-btn'
       }
     },{
-      text: 'Import selected map object',
+      text: i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2,
       iconCls: 'x-fa fa-mail-forward',
       handler: 'onImport',
       itemId: 'polygon-btn-import',
-      tooltip: "Add the selected map object to 'My Polygons' in order to calculate WUE",
+      tooltip: i18n.polygon.import_tooltip,
       disabled: true
     },{      
       text: i18n.polygon.calculateWUE,

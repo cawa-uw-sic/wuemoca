@@ -12,10 +12,9 @@ Ext.define('App.controller.Switcher', {
   afterRender: function () {
     App.service.Helper.setComponentsValue([
        { id: 'switcher-cb-indicator',   selection: 'Indicator'   }
-     // ,{ id: 'switcher-cb-unit',        selection: 'Unit'        }
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
-    this.createFilters();
+    //this.createFilters();
     Ext.getStore('indicator').sort([
       {
         property :  __Global.lang + 'Group',
@@ -201,7 +200,7 @@ Ext.define('App.controller.Switcher', {
 
   },
 
-  createFilters: function () {
+  /*createFilters: function () {
     var self = this;
     var fieldset = App.service.Helper.getComponentExt('switcher-filter');
     __Filter.map(function (filter) {
@@ -220,9 +219,9 @@ Ext.define('App.controller.Switcher', {
       });
       fieldset.add(cb);
     });
-  },
+  },*/
 
-  changeFilters: function (cb, val) {
+  /*changeFilters: function (cb, val) {
     var cFilter = cb.getItemId().replace('switcher-filter-', '');
     __LocalDB.set('FilterSelections.' + cFilter, val);
     __FilterSelection[cFilter] = val;
@@ -238,7 +237,7 @@ Ext.define('App.controller.Switcher', {
 
   loadFilters: function (fieldset, eOpts){
     App.service.Watcher.activateFilters();
-  },
+  },*/
   /**
   * @method resetSelection
   * reset original settings

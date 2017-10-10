@@ -66,7 +66,7 @@ Ext.define('App.controller.Legend', {
     App.util.Layer.currentOpaque = val;
 
   },
-    onOpacityUserPolygon: function (el, val) {
+  onOpacityUserPolygon: function (el, val) {
     App.service.Polygon.layer.setOpacity(val / 100);
     App.service.Polygon.rerenderFeatures();
   }

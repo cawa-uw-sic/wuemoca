@@ -364,7 +364,7 @@ Ext.define('App.service.Helper', {
 
     __Indicator.map(function (indicator) {
 
-      if (indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true)){
+      if (indicator.chart != 'Multiannual' || (userPolygon && indicator.up == true)){
         result.body += '<tr>';     
         result.body += '<td>' + indicator.field + '</td>'; 
         result.body += '<td></td>';       
@@ -427,7 +427,7 @@ Ext.define('App.service.Helper', {
     indicator_fields.push('area_ha'); 
     indicator_fields.push('year');
     __Indicator.map(function (indicator) {
-      if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.exportUserPolygon == true))
+      if ((indicator.chart != 'Multiannual' || (userPolygon && indicator.up == true))
         && ((indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0) || userPolygon)){
         var field = indicator.field;
         if (!!indicator.crops){

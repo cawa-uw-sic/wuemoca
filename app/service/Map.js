@@ -189,7 +189,7 @@ Ext.define('App.service.Map', {
 
   getLayerName: function () {
     var layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation');
-    if (App.service.Watcher.getIndicator().yearsPrefix) {
+    if (!App.service.Watcher.getIndicator().years) {
       layerName += '_no_years';
     }
     return layerName;
@@ -199,7 +199,7 @@ Ext.define('App.service.Map', {
     var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
     if (App.service.Watcher.get('Aggregation') == 'grid') styles += '_grid';
-    if (App.service.Watcher.getIndicator().yearsPrefix) styles += '_no_years';
+    if (!App.service.Watcher.getIndicator().years) styles += '_no_years';
     return styles;
   },
 
@@ -227,7 +227,7 @@ Ext.define('App.service.Map', {
         if (!!indicator.years) {
           title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
         }
-        else if (!!indicator.yearsPrefix) {
+        else if (!indicator.years) {
           title += ' ' + __Global.year.Min + '-' + __Global.year.Max;
         }
       }

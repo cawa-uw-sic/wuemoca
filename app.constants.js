@@ -26,7 +26,7 @@ veg_color     = '#6a3d9a'; //  10% #F0EBF4 / #6a3d9a / 50% #351E4D / violett
 flf_color     = '#33a02c'; //  50% #195016 / #33a02c / 10% #EAF5E9 / green inverted
 lur_color      = '#e6550d'; //  10% #FCEEE6 / #e6550d / 50% #732A06 / brownorange
 
-cd_color      = '#ffffbf'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (http://colorbrewer2.org/)
+cd_color      = '#989800'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (http://colorbrewer2.org/)
 firn_color   = '#de2d26'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 sum_color     = '#fc9272'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 etf_color	  = '#00CD66'; //  #FFD700 / #00CD66 / #00868B / yellow-green-blue

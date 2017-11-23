@@ -33,7 +33,13 @@ Ext.define('App.view.wue.Form', {
 
     { xtype: 'app-wue-radio'},
 
-    { xtype: 'container', itemId: 'app-wue-container', items: [{ xtype: 'app-wue-form-by-year' }] }
+    { xtype: 'container', 
+      itemId: 'app-wue-container', 
+      items: [{ xtype: 'app-wue-form-by-year' }]
+      /*listeners: {
+        beforeremove: 'onRemove'
+      }*/
+    }
 
   ],
 
@@ -67,9 +73,8 @@ Ext.define('App.view.wue.Form', {
     xtype: 'tbfill'
   },{
     itemId: 'wue-btn-submit',
-    text: i18n.wue.btnSubmit,
+    text: i18n.wue.btnSubmit1 + " '" + i18n.wue.year + "'" + i18n.wue.btnSubmit2,
     disabled: false,
     handler: 'onFormSubmit'
   }]
-
 });

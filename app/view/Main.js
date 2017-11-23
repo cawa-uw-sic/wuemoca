@@ -83,8 +83,9 @@ Ext.define('App.view.Main', {
   
     {
       region: 'north',
-      //Per WAI-ARIA, all regions should have a heading element that contains region's title.
-      title: 'blupp',
+      //Per WAI-ARIA, all regions should have a heading element that contains region's title 
+      //(is shown in the Google search results).
+      title: 'Open-Source WebGIS Water Use Efficiency in Central Asia',
       header: false,
       height: 55,
       items: [

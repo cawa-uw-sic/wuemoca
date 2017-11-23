@@ -18,11 +18,42 @@ Ext.define('App.service.Wue', {
     modal: true,
     height: 500,
     width: 750,
-    resizable: false
+    resizable: false,
+    listeners:{
+      close: function () {
+        var container = App.service.Helper.getComponentExt('app-wue-container');
+        container.removeAll();
+        if (!!Ext.getStore('wue-month')){  
+          Ext.getStore('wue-month').removeAll(); 
+        }
+        if (!!Ext.getStore('wue-decade')){     
+          Ext.getStore('wue-decade').removeAll();   
+        }
+      }
+    }
   }),
 
+  saveWfValues: function(period){
+    var items;
+    if (period == 'year'){
+      var form = App.service.Helper.getComponentExt('wue-form-by-year');
+      items = form.up().up().getValues();
+      if (Object.keys(items).length > 1){
+        this.setPolygonWfYear([items]);
+      }
+    }
+    else if (!!Ext.getStore('wue-' + period)) {
+      items = Ext.getStore('wue-' + period).getData().items;
+      if (period == 'month'){
+        this.setPolygonWfMonth(items);
+      }      
+      else if (period == 'decade'){
+        this.setPolygonWfDecade(items);
+      }
+    }
+  },
+
   calculateVir_annual: function(vals){
-    if (vals.period == 'year'){
       for (d = 0; d < this.polygon.data.length; ++d) {
         var firn = this.polygon.data[d]['firn'];
         var etf = this.polygon.data[d]['etf'];
@@ -43,22 +74,52 @@ Ext.define('App.service.Wue', {
       }
       App.service.Polygon.saveAll();
       App.service.Polygon.rerenderFeatures();
-      //switch to vir indicator so the user sees the results immediatly
-      if (App.service.Watcher.get('Indicator') != 'vir'){
-        App.service.Watcher.set('Indicator', 'vir');
-        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
-      }
-      if (!App.service.Polygon.windowChart.isHidden()){
-        App.service.Polygon.showChartWindow();
-      }
-    }
   },
 
   calculateMonthlyDecadal: function(items){
-    //check if etf monthly and decadal is already calculated for this polygon
-    if (this.polygon.data[0]['etf_m3_1'] == undefined){
+    //check for which years water intake is inserted
+    var years = [];
+    for (var i = 0; i < items.length; ++i){
+      var year = items[i].data.year;
+      var keys = Object.keys(items[i].data);
+      var values = Object.values(items[i].data);
+      for (var d = 0; d < keys.length; ++d){
+        for (var month = 3; month <= 10; month++) {
+          if (keys[d] == 'm' + month && values[d] > 0){
+            if (years.indexOf(year) == -1){
+              years.push(year);
+            }
+          }
+        }
+      }
+    }
+
+    var years_calculate = [];
+    //check for which years etf monthly and decadal is already calculated for this polygon
+    for (var d = 0; d < this.polygon.data.length; ++d){
+      for (var month = 3; month <= 10; month++) {
+        if (this.polygon.data[d]['etf_m' + month] == undefined){
+          this.polygon.data[d]['etf_m' + month] = null;
+          this.polygon.data[d]['wf_m' + month] = null;
+          this.polygon.data[d]['vir_m' + month] = null;
+        }
+        for (var decade = 1; decade <= 3; decade++) { 
+          if (this.polygon.data[d]['etf_m' + month + '_' + decade] == undefined){
+            this.polygon.data[d]['etf_m' + month + '_' + decade] = null;
+            this.polygon.data[d]['wf_m' + month + '_' + decade] = null;
+            this.polygon.data[d]['vir_m' + month + '_' + decade] = null;
+          }
+        }
+      } 
+      var year = this.polygon.data[d].year;
+      // years with input data and not yet calculated etf
+      if (years.indexOf(year) != -1 && this.polygon.data[d]['etf_m3_1'] == null){
+        years_calculate.push(year);
+      }
+    }
+    if (years_calculate.length > 0){
       var index = 0;
-      var msg = i18n.wue.aggregateETact + __Global.year.Min;
+      var msg = i18n.wue.aggregateETact + years_calculate[0];
       this.progressBar = Ext.Msg.show({
         title: i18n.wue.calculateVir,
         msg: msg,
@@ -72,7 +133,7 @@ Ext.define('App.service.Wue', {
       this.progressBar.msgButtons.ok.disable();
       this.progressBar.updateProgress(0, '0 %');
       var wkt_geometry = this.polygon.wkt_geometry;
-      this.calculateEtf(wkt_geometry, items, __Global.year.Min);
+      this.calculateEtf(wkt_geometry, items, years_calculate, 0);
     }
     else{
       this.calculateVir(items);
@@ -100,12 +161,17 @@ Ext.define('App.service.Wue', {
                 if (items[i].data['decade'] == decade){
                   if (!isNaN(parseFloat(items[i].data['m' + month]))){
                     wf = parseFloat(items[i].data['m' + month]).toFixed(2);
-                    vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+                    if (etf != null){
+                      vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+                    }
                   }
                   //Infinity = divided by zero
                   if (vir == Infinity){
                     vir = null;
-                  }                                      
+                  }      
+                  if (wf == 0){
+                    wf = null;
+                  }                                                     
                   this.polygon.data[d]['vir_m' + month + '_' + decade] = vir;
                   this.polygon.data[d]['wf_m' + month + '_' + decade] = wf;
                 }
@@ -115,7 +181,9 @@ Ext.define('App.service.Wue', {
               etf = this.polygon.data[d]['etf_m' + month];
               if (!isNaN(parseFloat(items[i].data['m' + month]))){
                 wf = parseFloat(items[i].data['m' + month]).toFixed(2);
-                vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+                if (etf != null){
+                  vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+                }
               }
               //Infinity = divided by zero
               if (vir == Infinity){
@@ -129,9 +197,10 @@ Ext.define('App.service.Wue', {
       }
     }
     App.service.Polygon.saveAll();
+    App.service.Wue.window.close();
   },
 
-  calculateEtf: function (geometry, items, year) {
+  calculateEtf: function (geometry, items, years, index) {
     var self = this;
     if (self.isBusy) return false;
 
@@ -139,7 +208,7 @@ Ext.define('App.service.Wue', {
     Ext.getBody().setStyle('cursor','progress');
     var parameters = {};
     parameters['wkt_geometry'] = geometry;
-    parameters['year'] = year;
+    parameters['year'] = years[index];
 
     Ext.Ajax.request({
       url: __Global.api.WUE,
@@ -152,7 +221,7 @@ Ext.define('App.service.Wue', {
         //append data to existing polygon data
         var result_data = Ext.decode(response.responseText);
         for (d = 0; d < self.polygon.data.length; ++d) {
-          if (self.polygon.data[d]['year'] == year){
+          if (self.polygon.data[d]['year'] ==  years[index]){
             for(var key in result_data[0]) {
               self.polygon.data[d][key] = parseFloat(result_data[0][key]).toFixed(2);
             }
@@ -160,17 +229,17 @@ Ext.define('App.service.Wue', {
         }
         App.service.Polygon.saveAll();
         App.service.Polygon.rerenderFeatures();
-        if (year < __Global.year.Max){
-          year++;
+        if (index < years.length-1){
+          index++;
           if (self.progressBar){
-            var msg = i18n.wue.aggregateETact + year;
+            var msg = i18n.wue.aggregateETact + years[index];
             self.progressBar.updateProgress(
-              (year - __Global.year.Min)/((__Global.year.Max - __Global.year.Min) + 1),
-              Math.round(((year - __Global.year.Min)/((__Global.year.Max - __Global.year.Min) + 1)) * 100) + ' %',
+              index/years.length,
+              Math.round((index/years.length) * 100) + ' %',
               msg
             );
           }
-          self.calculateEtf(geometry, items, year);
+          self.calculateEtf(geometry, items, years, index);
         }
         else{
           self.calculateVir(items);
@@ -193,6 +262,45 @@ Ext.define('App.service.Wue', {
       }
     });
   },
+
+  transferMonthSum: function(year, items)  {  
+    for (d = 0; d < this.polygon.data.length; ++d) {
+      if (this.polygon.data[d]['year'] ==  year){
+        for (var month = 3; month <= 10; month++) {
+          var monthsum = 0;
+          for (var decade = 1; decade <= 3; decade++) {
+            for (i = 0; i < items.length; ++i) {
+              if (items[i].data['year'] == year && items[i].data['decade'] == decade){
+                //this.polygon.data[d]['wf_m' + month + '_' + decade] = items[i].data['m' + month];
+                monthsum += items[i].data['m' + month];
+              }
+            }
+          }
+          if (monthsum > 0){
+            this.polygon.data[d]['wf_m' + month] = monthsum.toFixed(2);
+          }
+        }        
+      }
+    }
+    App.service.Polygon.saveAll();
+  },
+
+  transferYearSum: function(data)  {  
+    for (d = 0; d < this.polygon.data.length; ++d) {
+      if (this.polygon.data[d]['year'] == data.year){
+        var yearsum = 0;
+        for (var month = 3; month <= 10; month++) {
+          if (!!data['m' + month]){
+            yearsum += parseFloat(data['m' + month]);
+          }
+          if (yearsum > 0){
+            this.polygon.data[d]['wf'] = yearsum.toFixed(2);
+          }
+        }        
+      }
+    }
+    App.service.Polygon.saveAll();
+  },  
 
   parseExcel: function(file) {
     var reader = new FileReader();
@@ -242,44 +350,84 @@ Ext.define('App.service.Wue', {
   },
 
   setPolygonWfYear: function (data) {
-    var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    if (polygon.data.length > 0) {
-      polygon = polygon.data.map(function (d) {
-        var index = data.map(function (i) { return parseInt(i.year) }).indexOf(d.year);
-        d.wf = parseFloat(data[index].val);
-        return d;
-      });
-      App.service.Polygon.saveAll();
+    if (data.length > 0){  
+      var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      if (polygon.data.length > 0) {
+        polygon = polygon.data.map(function (d) {
+          if (!!data[0].year){
+            var index = data.map(function (i) {
+              return parseInt(i.year) 
+            }).indexOf(d.year);
+            d.wf = parseFloat(data[index].val);
+          }
+          else if (!!data[0].period){
+            d.wf = parseFloat(data[0][d.year]);
+          }
+          return d;
+        });
+        App.service.Polygon.saveAll();
+      }
     }
   },
 
   setPolygonWfMonth: function (data) {
-    var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    if (polygon.data.length > 0) {
-      polygon = polygon.data.map(function (d) {
-        var index = data.map(function (i) { return parseInt(i.year) }).indexOf(d.year);
-        for (var month = 3; month <= 10; month++) {
-          d['wf_m'+month] = parseFloat(data[index]['m'+month]);
-        }
-        return d;
-      });
-      App.service.Polygon.saveAll();
+    if (data.length > 0){
+      var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      if (polygon.data.length > 0) {
+        polygon = polygon.data.map(function (d) {
+          var index;
+          if (!data[0].data){
+            index = data.map(function (i) { return parseInt(i.year) }).indexOf(d.year);
+          }
+          else{
+            index = data.map(function (i) { return parseInt(i.data.year) }).indexOf(d.year);
+          }
+          for (var month = 3; month <= 10; month++) {
+            if (!data[0].data){
+              d['wf_m' + month] = parseFloat(data[index]['m' + month]);
+            }
+            else{
+              d['wf_m' + month] = parseFloat(data[index].data['m' + month]);
+            }
+          }
+          return d;
+        });
+        App.service.Polygon.saveAll();
+      }
     }
   },
 
   setPolygonWfDecade: function (data) {
-    var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    if (polygon.data.length > 0) {
-      polygon = polygon.data.map(function (d) {
-        var index = data.map(function (i) { return parseInt(i.year) }).indexOf(d.year);
-        for (var month = 3; month <= 10; month++) {
-          for (var decade = 1; decade <= 3; decade++) {
-            d['wf_m'+month+'_'+decade] = parseFloat(data[index]['m'+month+'_'+decade]);
+    if (data.length > 0){
+      var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      if (polygon.data.length > 0) {
+        polygon = polygon.data.map(function (d) {
+          var index;
+          var indices = [];
+          if (!data[0].data){
+            index = data.map(function (i) { return parseInt(i.year) }).indexOf(d.year);
           }
-        }
-        return d;
-      });
-      App.service.Polygon.saveAll();
+          else{
+            for (var i = 0; i < data.length; i++){
+              if (data[i].data.year == d.year){
+                indices[data[i].data.decade - 1] = i;
+              }
+            }
+          }
+          for (var month = 3; month <= 10; month++) {
+            for (var decade = 1; decade <= 3; decade++) {
+              if (!data[0].data){
+                d['wf_m' + month + '_' + decade] = parseFloat(data[index]['m' + month + '_' + decade]);
+              }
+              else{
+                d['wf_m' + month + '_' + decade] = parseFloat(data[indices[decade-1]].data['m' + month]);
+              }
+            }
+          }
+          return d;
+        });
+        App.service.Polygon.saveAll();
+      }
     }
   },
 
@@ -288,7 +436,7 @@ Ext.define('App.service.Wue', {
     var items = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
 
-    for (var year = __Global.year.Min; year <= __Global.year.Max; year++) {
+    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
       var itemyear = {};
       itemyear['fieldLabel'] = year.toString();
       itemyear['name'] = year.toString();
@@ -311,7 +459,7 @@ Ext.define('App.service.Wue', {
     el.getStore('wue-month').removeAll();
     var data = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    for (var year = __Global.year.Min; year <= __Global.year.Max; year++) {
+    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
       var datayear = {};
       datayear['year'] = year;
       //load water intake if stored from previous input
@@ -335,7 +483,7 @@ Ext.define('App.service.Wue', {
     el.getStore('wue-decade').removeAll();
     var data = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    for (var year = __Global.year.Min; year <= __Global.year.Max; year++) {
+    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
       for (var decade = 1; decade <= 3; decade++) {
         var datayear = {};
         datayear['year'] = year;

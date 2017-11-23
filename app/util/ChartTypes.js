@@ -244,12 +244,18 @@ Ext.define('App.util.ChartTypes', {
     var thousand = false;
     var decimals = 1;
     var maxData = App.service.Chart.maxData;
+    if (maxData > 10){
+      decimals = 0;
+    }
     var unit = '';
+    if (indicator.enUnit != 'Index'){
+      unit = indicator[ __Global.lang + 'Unit'];
+    }
     if (indicator.id == 'firn'){
       display = 'under';
       maximum = NaN;
       decimals = 0;
-      unit = indicator[ __Global.lang + 'Unit'];
+      //unit = indicator[ __Global.lang + 'Unit'];
       if (maxData > 1000){
         thousand = true;
         if (maxData < 5000){
@@ -278,6 +284,7 @@ Ext.define('App.util.ChartTypes', {
             'year', 
             yField, 
             thousand,
+            unit == '' ? '' : App.service.Map.getLegendTitle(true, thousand),
             maximum, 
             decimals,
             App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
@@ -285,7 +292,7 @@ Ext.define('App.util.ChartTypes', {
           series : __Chart.Line.getSeries(
             'year', 
             yField, 
-            unit, 
+            indicator.id == 'firn' ? unit : '', 
             color, 
             indicator.decimals,
             display

@@ -203,7 +203,15 @@ Ext.define('App.service.Helper', {
     var self = this;
     var userPolygon = App.service.Chart.userPolygon;
     var JSONData = App.service.Chart.data;
+    if (userPolygon){
+      var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      //with selected user polygon the chart window can be closed 
+      if (JSONData.length == 0){
+        JSONData = polygon.data;      
+      }
+    }
     if (JSONData.length > 0){
+
 
       //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
       var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
@@ -212,9 +220,6 @@ Ext.define('App.service.Helper', {
         var aggregation = App.service.Watcher.get('Aggregation');
         var aggregation_id = aggregation + '_id';
         var object_id = arrData[0][aggregation_id];
-      }  
-      else{
-        var polygon = App.service.Polygon.getSelectedPolygons()[0];
       }  
 
       var indicator_fields = self.getExportFields(userPolygon);   
@@ -233,7 +238,6 @@ Ext.define('App.service.Helper', {
           polygonName += '_' + polygon.info.location.replace(/ /g,'_'); 
         }
         fileName += polygonName;
-        //totalArea = polygon.totalArea;        
       }
       else{
         fileName += aggregation + '_' + object_id;
@@ -276,7 +280,6 @@ Ext.define('App.service.Helper', {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
     }
   },
 
@@ -333,15 +336,19 @@ Ext.define('App.service.Helper', {
                   }
                 } 
               }
-            }); 
+            });
+            //workaround for problem with three decimals and German or Russian delimiter 
+            var value = parseFloat(data[i][index]).toFixed(4);
             if (userPolygon){
               if (index.indexOf('wf') >= 0){
                 format = '#,##0.00';
+                if (value == 0){
+                  value = '';
+                }
               }
             }           
             if (index != 'mlu'){      
-              //workaround for problem with three decimals and German or Russian delimiter  
-              result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + parseFloat(data[i][index]).toFixed(4) + '</td>';      
+              result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
             }   
             else{
               result.body += '<td>' + mlu_name + '</td>';
@@ -378,14 +385,14 @@ Ext.define('App.service.Helper', {
     if (userPolygon){
       __Indicator_userPolygon.map(function (indicator) {
 
-          result.body += '<tr>';     
-          result.body += '<td>' + indicator.field + '</td>'; 
-          result.body += '<td></td>';       
-          result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
-          for (var i = 4; i <= fieldCount; i++){
-            result.body += '<td></td>';        
-          }   
-          result.body += '</tr>';          
+        result.body += '<tr>';     
+        result.body += '<td>' + indicator.field + '</td>'; 
+        result.body += '<td></td>';       
+        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
+        for (var i = 4; i <= fieldCount; i++){
+          result.body += '<td></td>';        
+        }   
+        result.body += '</tr>';          
       });         
     }
 
@@ -456,9 +463,9 @@ Ext.define('App.service.Helper', {
         indicator_fields.push('vir_m' + month);
         indicator_fields.push('wf_m' + month);
         for (var decade = 1; decade <= 3; decade++){
-            indicator_fields.push('etf_m' + month + '_' + decade);
-            indicator_fields.push('vir_m' + month + '_' + decade);
-            indicator_fields.push('wf_m' + month + '_' + decade);
+          indicator_fields.push('etf_m' + month + '_' + decade);
+          indicator_fields.push('vir_m' + month + '_' + decade);
+          indicator_fields.push('wf_m' + month + '_' + decade);
         }
       }
     }

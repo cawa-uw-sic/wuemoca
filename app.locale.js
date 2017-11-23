@@ -172,9 +172,9 @@ mapSelection:{
     subbasinShort           : 'Subbasin',
     wua                     : 'WUA (Water User Association)',
     wuaShort                : 'WUA',
-    buis                    : 'BISA (Basin Irrig. System Admin.)',
+    buis                    : 'BISA (Basin Irrig. System Auth.)',
     buisShort               : 'BISA',
-    uis                     : 'ISA (Irrigation System Admin.)',
+    uis                     : 'ISA (Irrigation System Auth.)',
     uisShort                : 'ISA',
     command                 : 'Channel Command Area',
     commandShort            : 'Comm. Area',
@@ -191,9 +191,9 @@ mapSelection:{
     label                   : 'Select crop type:'
   },
   vc_classes: {
-    less                 : 'less water than demand',
-    equal                     : 'equalized',
-    more                  :  'more water than demand'
+    less                 : 'little water',
+    equal                     : 'balanced',
+    more                  :  'much water'
   },
   yield_classes: {
     verylow                 : 'very low',
@@ -332,7 +332,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
-    btnSubmit               : 'Calculate',
+      btnSubmit1               : 'Calculate',
+      btnSubmit2: '<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
         calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
@@ -665,9 +666,10 @@ i18n.mapSelection ={
       veryhigh              : 'очень высокая'
     };
       i18n.vc_classes = {
-    less                 : 'less water than demand',
-    equal                     : 'equalized',
-    more                  :  'more water than demand'
+            less                 : 'меньше воды',
+    equal                     : 'сбалансированный',
+    more                  :  'много воды'
+
   };
 
     i18n.settings = {
@@ -776,7 +778,8 @@ i18n.mapSelection ={
 
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
-      btnSubmit               : 'Произвести расчет',
+      btnSubmit1               : 'Calculate',
+      btnSubmit2: '<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',  
     calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',

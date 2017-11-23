@@ -83,6 +83,7 @@ var __Indicator = [
     enGroup        : 'Land use',
     ruGroup        : 'Землепользование',    
     years          : 'all',
+	mapType        : 'colored',
     enLegend       : 'crops',
     ruLegend       : 'crops',
     median         : 0,
@@ -387,20 +388,20 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16'
    },
      /**
-  * @property y
-  * y indicator
+  * @property eprod
+  * eprod indicator
   */
 /*{
     id             : 'eprod',
     field          : 'eprod',
     enName         : 'Water Productivity',
     ruName         : 'продуктивность воды',
-    enTooltip      : 'Economic benefits per unit of water used',
+    enTooltip      : 'Economic revenue per unit of water used (considering cotton, rice and wheat)',
     ruTooltip      : 'Выход (деньги) по отношению к входным (водным)',
     enUnit         : '$/m³',
     ruUnit         : '$/m³',
     crops          : false,
-    //aggregation    : 'all' or ['oblast', 'rayon'],
+    aggregation    : 'all',
     enGroup        : 'Water use efficiency',
     ruGroup        : 'Эффективность использования воды', 
     years          : 'all',
@@ -409,16 +410,16 @@ var __Indicator = [
     ruLegend       : 'продуктивность воды',
     median         : 0,
     maximum        : 0,
-    //chart          : 'Defaults' or 'Line',
-    color          : '#2c7fb8',
+    chart          : 'Line',
+    color          : '#006837',
     decimals       : 1,
     up             : false,    
     glossary       : 'bme00073.htm#bookme_anchor16'
 },*/ 
 
      /**
-  * @property y
-  * y indicator
+  * @property etf
+  * etf indicator
   */
   {
     id             : 'etf',

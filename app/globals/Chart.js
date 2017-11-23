@@ -431,7 +431,7 @@ __Chart.StackedVBar = {
 */
 __Chart.Line = {
 
-  getAxes: function (x, y, thousand, maximum, decimals, currentYear) {
+  getAxes: function (x, y, thousand, title, maximum, decimals, currentYear) {
     var limits = [];
     if (y == 'vet' || y.indexOf('vc_') != -1){
       limits.push({
@@ -477,6 +477,10 @@ __Chart.Line = {
       title: false,
       grid: true,
       limits: limits,
+      title: {
+        fontSize: 12,
+        text: title
+      },      
       renderer: function (axis, value) {
         var label = '';
         if (thousand){
@@ -540,7 +544,17 @@ __Chart.Line = {
             ' ' + measure : '';
           }
           else{
-            return parseFloat(text).toFixed(decimals) + ' ' + measure;
+            var label = '';
+            var value = parseFloat(text);
+            if (value > 0){
+              if (value > 10){
+                label = value.toFixed(0) + ' ' + measure;
+              }
+              else{
+                label = value.toFixed(decimals) + ' ' + measure;
+              }
+            } 
+            return label;
           }
         }
       }/*,     

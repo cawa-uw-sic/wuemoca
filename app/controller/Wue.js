@@ -11,6 +11,15 @@ Ext.define('App.controller.Wue', {
     var vals = el.up().up().getValues();
     if (vals.period == 'year'){
       App.service.Wue.calculateVir_annual(vals);
+      App.service.Wue.window.close();
+      //switch to vir indicator so the user sees the results immediatly
+      if (App.service.Watcher.get('Indicator') != 'vir'){
+        App.service.Watcher.set('Indicator', 'vir');
+        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+      }
+     // if (!App.service.Polygon.windowChart.isHidden()){
+        App.service.Polygon.showChartWindow();
+     // }
     }
     else{
       /*
@@ -44,9 +53,30 @@ Ext.define('App.controller.Wue', {
         }
       */
       App.service.Polygon.windowChart.close();
+      App.service.Wue.saveWfValues(vals.period);
       App.service.Wue.calculateMonthlyDecadal(Ext.getStore('wue-' + vals.period).getData().items);
     }
-    App.service.Wue.window.close();
+
+  },
+
+  /*onRemove: function(container, form){
+    //App.service.Wue.polygon = App.service.Polygon.getSelectedPolygons()[0];
+    var period = form.itemId.split('-')[3];
+    App.service.Wue.saveWfValues(period, form);
+  },*/
+
+  onApply: function (grid, rowIndex, colIndex){
+    App.service.Wue.polygon = App.service.Polygon.getSelectedPolygons()[0];
+    if (!!grid.record){
+      var year = grid.record.data.year;
+      var items = grid.record.store.data.items;
+      App.service.Wue.transferMonthSum(year, items);
+    }
+    else{
+      var rec = grid.getStore().getAt(rowIndex);     
+      var year = rec.data.year; 
+      App.service.Wue.transferYearSum(rec.data);
+    }
   },
 
   onFormImport: function (el, val) {
@@ -58,12 +88,16 @@ Ext.define('App.controller.Wue', {
     fileInputEl.setAttribute('accept', '.xls');
   },
 
-  onPeriodChange: function (el, val) {
+  onPeriodChange: function (el, newval, oldvalue) {
     var container = App.service.Helper.getComponentExt('app-wue-container');
+    App.service.Wue.saveWfValues(oldvalue.period);
     container.removeAll();
-    container.add({ xtype: 'app-wue-form-by-' + val.period });
+    container.add({ xtype: 'app-wue-form-by-' + newval.period });
     App.service.Helper.getComponentExt('wue-btn-import').button.setText(
-      i18n.wue.btnImport1 + " '" + i18n.wue[val.period] + "' " + i18n.wue.btnImport2
+      i18n.wue.btnImport1 + " '" + i18n.wue[newval.period] + "' " + i18n.wue.btnImport2
+    );
+    App.service.Helper.getComponentExt('wue-btn-submit').setText(
+      i18n.wue.btnSubmit1 + " '" + i18n.wue[newval.period] + "'" + i18n.wue.btnSubmit2
     );
   },
 

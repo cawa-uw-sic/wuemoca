@@ -22,15 +22,28 @@ Ext.define('App.view.wue.FormByMonth', {
 
   initComponent: function() {
     var columns = [{
-      header: i18n.wue.year,
+      text: i18n.wue.year,
+      //custom class (no right border in header and cells)
+      tdCls: 'app-wue-form-by-month-yearcolumn',
+      cls: 'app-wue-form-by-month-yearcolumn',
       dataIndex: 'year',
-      flex: 1,
+      width: 60,
       menuDisabled: true
+    },{
+      xtype:'actioncolumn',
+      flex: 1,
+      hideable: false,
+      menuDisabled: true,
+      items: [{
+        iconCls: 'x-fa fa-save',
+        tooltip: 'Apply sum of months to yearly form',
+        handler: 'onApply'
+      }]
     }];
 
     for (var i = 3; i <= 10; i++) {
       columns.push({
-        header: i18n.month['m' + i],
+        text: i18n.month['m' + i],
         dataIndex: 'm' + i,
         width: 55,
         menuDisabled: true,

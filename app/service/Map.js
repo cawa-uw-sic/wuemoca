@@ -367,9 +367,6 @@ Ext.define('App.service.Map', {
           if (indicator.id == 'yf' || indicator.id == 'pirf'){
             text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
           }
-          else if (indicator.id == 'vc' || indicator.id == 'vet'){
-            text = i18n.vc_classes.more + br + i18n.vc_classes.equal + br + i18n.vc_classes.less;
-          }
         }
         else{
           text = maximum + br + median + br + minimum;

@@ -391,7 +391,7 @@ var __Indicator = [
   * @property eprod
   * eprod indicator
   */
-/*{
+{
     id             : 'eprod',
     field          : 'eprod',
     enName         : 'Water Productivity',
@@ -413,9 +413,9 @@ var __Indicator = [
     chart          : 'Line',
     color          : '#006837',
     decimals       : 1,
-    up             : false,    
+    up             : true,    
     glossary       : 'bme00073.htm#bookme_anchor16'
-},*/ 
+}, 
 
      /**
   * @property etf

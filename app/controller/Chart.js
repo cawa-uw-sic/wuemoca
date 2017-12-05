@@ -8,9 +8,14 @@ Ext.define('App.controller.Chart', {
   alias: 'controller.chart',
 
   requires: [
-    'App.service.Chart'
+    'App.service.Chart',
+    'App.view.chart.CropPriceWindow'
+    //'App.view.header.IntroWindow'
   ],
-
+  init: function () {
+    this.CropPriceWindow = Ext.create('App.view.chart.CropPriceWindow');
+    //this.IntroWindow = Ext.create('App.view.header.IntroWindow');
+  },
   /*display: function (e) {
     console.log('from controller');
   },*/
@@ -45,5 +50,8 @@ Ext.define('App.controller.Chart', {
     } else {
         chart.preview();
     }
+  },
+  onCropPrices: function() {
+    this.CropPriceWindow.show();
   }
 });

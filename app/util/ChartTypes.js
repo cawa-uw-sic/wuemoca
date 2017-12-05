@@ -270,6 +270,7 @@ Ext.define('App.util.ChartTypes', {
       }
     }
     var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? i18n.wue.pressWUE : '';
+    var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
 
 
     return Ext.create('App.view.chart.FPanel', {
@@ -310,6 +311,7 @@ Ext.define('App.util.ChartTypes', {
         },
         items:
         [ 
+          { xtype: 'button', text: 'Show crop prices', handler: 'onCropPrices', hidden: hideCropPrices },
           { xtype: 'label', text: vir_text },
           { xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }

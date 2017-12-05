@@ -755,7 +755,7 @@ Ext.define('App.service.Polygon', {
         //parameters['area_ha_' + d] = polygon.totalArea;
         for (f = 0; f < fieldlist.length; ++f) {
           var value = polygon.data[d][fieldlist[f]];
-          if (!!value && value != Infinity){
+          if (!!value && value != Infinity && value != 'NaN'){
             parameters[fieldlist[f] + '_' + d] = value;
           }
         }

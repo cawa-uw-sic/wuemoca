@@ -9,19 +9,7 @@ Ext.define('App.controller.Wue', {
   onFormSubmit: function (el, form, val) {
     App.service.Wue.polygon = App.service.Polygon.getSelectedPolygons()[0];
     var vals = el.up().up().getValues();
-    if (vals.period == 'year'){
-      App.service.Wue.calculateVir_annual(vals);
-      App.service.Wue.window.close();
-      //switch to vir indicator so the user sees the results immediatly
-      if (App.service.Watcher.get('Indicator') != 'vir'){
-        App.service.Watcher.set('Indicator', 'vir');
-        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
-      }
-     // if (!App.service.Polygon.windowChart.isHidden()){
-        App.service.Polygon.showChartWindow();
-     // }
-    }
-    else{
+
       /*
         items[48].data:{  //wf values of all first decades of month in 2016
           decade: 1,
@@ -52,11 +40,9 @@ Ext.define('App.controller.Wue', {
           year: 2016
         }
       */
-      App.service.Polygon.windowChart.close();
-      App.service.Wue.saveWfValues(vals.period);
-      App.service.Wue.calculateMonthlyDecadal(Ext.getStore('wue-' + vals.period).getData().items);
-    }
-
+    App.service.Polygon.windowChart.close();
+    App.service.Wue.saveWfValues(vals.period);
+    App.service.Wue.calculateMonthlyDecadal();
   },
 
   /*onRemove: function(container, form){
@@ -65,7 +51,7 @@ Ext.define('App.controller.Wue', {
     App.service.Wue.saveWfValues(period, form);
   },*/
 
-  onApply: function (grid, rowIndex, colIndex){
+  /*onApply: function (grid, rowIndex, colIndex){
     App.service.Wue.polygon = App.service.Polygon.getSelectedPolygons()[0];
     if (!!grid.record){
       var year = grid.record.data.year;
@@ -77,7 +63,7 @@ Ext.define('App.controller.Wue', {
       var year = rec.data.year; 
       App.service.Wue.transferYearSum(rec.data);
     }
-  },
+  },*/
 
   onFormImport: function (el, val) {
     App.service.Wue.parseExcel(el.getEl().down('input[type=file]').dom.files[0]);
@@ -95,9 +81,6 @@ Ext.define('App.controller.Wue', {
     container.add({ xtype: 'app-wue-form-by-' + newval.period });
     App.service.Helper.getComponentExt('wue-btn-import').button.setText(
       i18n.wue.btnImport1 + " '" + i18n.wue[newval.period] + "' " + i18n.wue.btnImport2
-    );
-    App.service.Helper.getComponentExt('wue-btn-submit').setText(
-      i18n.wue.btnSubmit1 + " '" + i18n.wue[newval.period] + "'" + i18n.wue.btnSubmit2
     );
   },
 

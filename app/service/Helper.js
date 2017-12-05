@@ -266,7 +266,7 @@ Ext.define('App.service.Helper', {
         '<![endif]-->' +
       '</head><body><table>{table}</table></body></html>';
  
-      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, userPolygon, year, polygonName) };
+      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, year, polygonName) };
 
       //this trick will generate a temp <a /> tag
       var link = document.createElement("a");    
@@ -283,15 +283,14 @@ Ext.define('App.service.Helper', {
     }
   },
 
-  indicator_table: function (data, userPolygon, year, polygonName) {
+  indicator_table: function (data, year, polygonName) {
     var fieldCount = 0;
     var result = { head: '', body: '' };
    
     result.head += '<tr>';
-    if (userPolygon){
-      fieldCount++;
-      result.head += '<th>polygon_name</th>';
-    }
+    fieldCount++;
+    result.head += '<th>polygon_name</th>';
+
     //This loop will extract the label from 1st index of on array
     for (var index in data[0]) {
       fieldCount++;
@@ -303,31 +302,27 @@ Ext.define('App.service.Helper', {
     for (var i = 0; i < data.length; i++) {
       if (year == '' || year.indexOf(data[i]['year']) != -1){
         result.body += '<tr>';
-        if (userPolygon){
-          result.body += '<td>' + polygonName + '</td>';   
-        }
+        result.body += '<td>' + polygonName + '</td>';  
+
         //2nd loop will extract each column
         for (var index in data[i]) {
+          //no number format for no numbers, year and id
           if (isNaN(data[i][index]) || data[i][index] == null || index == 'year' || index.indexOf('_id') != -1){
-            if (data[i][index] != null){
+            if (data[i][index] != null && !isNaN(data[i][index])){
               result.body += '<td>' + data[i][index] + '</td>';
             }
+            //empty if null or NaN
             else{
               result.body += '<td></td>';
             }
           }
-          else if (index == 'area_ha'){
-            result.body += '<td style=\'mso-number-format:"#,##0"\'>' + data[i][index] + '</td>'; 
-          }
+          //format with decimals and thousand separators
           else{
 
             var format = '0';
-            var mlu_name = '';
+            //read decimal places from the indicator list
             __Indicator.map(function (indicator) {
-              if (indicator.id == 'mlu'){
-                mlu_name = indicator[__Global.lang + 'CropNames'][data[i][index] - 1];
-              }
-              if (index.indexOf(indicator.id) >= 0 && indicator.decimals != undefined){
+              if (index.indexOf(indicator.id) != -1 && indicator.decimals != undefined){
                 format = '#,##0';
                 if (indicator.decimals > 0){
                   format += '.';
@@ -339,25 +334,28 @@ Ext.define('App.service.Helper', {
             });
             //workaround for problem with three decimals and German or Russian delimiter 
             var value = parseFloat(data[i][index]).toFixed(4);
-            if (userPolygon){
-              if (index.indexOf('wf') >= 0){
-                format = '#,##0.00';
-                if (value == 0){
-                  value = '';
-                }
+            //indices = table columns that are not within the indicator list
+            if (index == 'area_ha'){
+              format = '#,##0'; 
+            }
+            else if (index.indexOf('wf') != -1){
+              format = '#,##0.00';
+              if (value == 0){
+                value = '';
               }
-            }           
-            if (index != 'mlu'){      
-              result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
-            }   
-            else{
-              result.body += '<td>' + mlu_name + '</td>';
-            } 
+            }
+            //user polygon etf values are mostly lower thus get 1 decimal (different to indicator list)
+            else if (index.indexOf('etf') != -1){
+              format = '#,##0.0';
+            }              
+        
+            result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
           }
         }
         result.body += '</tr>';
       }
     }
+    
     //add column name explanation
     result.body += '<tr></tr>'; 
     result.body += '<tr>';     
@@ -371,7 +369,7 @@ Ext.define('App.service.Helper', {
 
     __Indicator.map(function (indicator) {
 
-      if (indicator.chart != 'Multiannual' || (userPolygon && indicator.up == true)){
+      if (indicator.up == true){
         result.body += '<tr>';     
         result.body += '<td>' + indicator.field + '</td>'; 
         result.body += '<td></td>';       
@@ -382,19 +380,18 @@ Ext.define('App.service.Helper', {
         result.body += '</tr>';          
       }
     });
-    if (userPolygon){
-      __Indicator_userPolygon.map(function (indicator) {
 
-        result.body += '<tr>';     
-        result.body += '<td>' + indicator.field + '</td>'; 
-        result.body += '<td></td>';       
-        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
-        for (var i = 4; i <= fieldCount; i++){
-          result.body += '<td></td>';        
-        }   
-        result.body += '</tr>';          
-      });         
-    }
+    __Indicator_userPolygon.map(function (indicator) {
+
+      result.body += '<tr>';     
+      result.body += '<td>' + indicator.field + '</td>'; 
+      result.body += '<td></td>';       
+      result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')</td>';
+      for (var i = 4; i <= fieldCount; i++){
+        result.body += '<td></td>';        
+      }   
+      result.body += '</tr>';          
+    });         
 
     result.body += '<tr></tr>'; 
     result.body += '<tr>';     

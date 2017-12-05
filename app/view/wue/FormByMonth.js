@@ -24,12 +24,12 @@ Ext.define('App.view.wue.FormByMonth', {
     var columns = [{
       text: i18n.wue.year,
       //custom class (no right border in header and cells)
-      tdCls: 'app-wue-form-by-month-yearcolumn',
-      cls: 'app-wue-form-by-month-yearcolumn',
+      //tdCls: 'app-wue-form-by-month-yearcolumn',
+      //cls: 'app-wue-form-by-month-yearcolumn',
       dataIndex: 'year',
-      width: 60,
+      flex: 1,
       menuDisabled: true
-    },{
+    /*},{
       xtype:'actioncolumn',
       flex: 1,
       hideable: false,
@@ -38,7 +38,7 @@ Ext.define('App.view.wue.FormByMonth', {
         iconCls: 'x-fa fa-save',
         tooltip: 'Apply sum of months to yearly form',
         handler: 'onApply'
-      }]
+      }]*/
     }];
 
     for (var i = 3; i <= 10; i++) {

@@ -440,17 +440,11 @@ __Chart.Line = {
           strokeStyle: '#41b6c4', 
           lineWidth: 2,
           lineDash: [6, 3]
-          /*title: {
-            text: '',
-            fontSize: 15,
-            fontWeight : 'bold',
-            strokeStyle : 'white',
-            lineWidth: 0.5
-          }*/
         }
       });    
-    }  
-    else if (y == 'vir'){
+    }
+    
+    if (y == 'vir'){
       limits.push({
         value: 1,
         line: {

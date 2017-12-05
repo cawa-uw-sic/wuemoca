@@ -276,10 +276,12 @@ Ext.define('App.service.Chart', {
       yField = yField.replace('{crop}', crop);
     }    
     self.data.map(function (rec, i) {
+      //adapt max data
       if (self.data[i][yField] != Infinity && parseFloat(self.data[i][yField]) > self.maxData){
         self.maxData = parseFloat(self.data[i][yField]);
       } 
-      if ((yField == 'vir' || yField == 'vet') && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == 0)){
+      //hide no data values in line charts
+      if (indicator.chart == 'Line' && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == -1)){
         self.data[i][yField] = Infinity;
       }     
     });

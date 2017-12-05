@@ -17,8 +17,9 @@ Ext.define('App.view.wue.FormByDecade', {
 
   features: [{
     ftype: 'grouping',
-    groupHeaderTpl: '{name} <div role="button" class="x-action-col-icon x-action-col-0 x-fa fa-save" ' +
-      'data-qtip="Apply sum of decades to monthly form" style="padding:0 20px 0 20px;"></div>',
+    groupHeaderTpl: '{name}',
+    //groupHeaderTpl: '{name} <div role="button" class="x-action-col-icon x-action-col-0 x-fa fa-save" ' +
+    //  'data-qtip="Apply all sum of decades of {name} to monthly form" style="padding:0 20px 0 20px;"></div>',
     collapsible: false,
     collapseTip: '',
     id: 'yearGrouping'
@@ -58,14 +59,14 @@ Ext.define('App.view.wue.FormByDecade', {
   },
 
   listeners: {
-    afterrender: 'onRenderFormByDecade',
+    afterrender: 'onRenderFormByDecade'
     //https://www.sencha.com/forum/showthread.php?311822-Action-in-grid-summary-row
     //click on grouping header button
-    click: {
+   /*click: {
       fn: 'onApply',
       element: 'el',
       delegate: 'div.x-action-col-icon' // some specific class on your custom element
-    }
+    }*/
   }
 
 });

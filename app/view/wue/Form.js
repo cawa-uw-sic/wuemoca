@@ -73,7 +73,7 @@ Ext.define('App.view.wue.Form', {
     xtype: 'tbfill'
   },{
     itemId: 'wue-btn-submit',
-    text: i18n.wue.btnSubmit1 + " '" + i18n.wue.year + "'" + i18n.wue.btnSubmit2,
+    text: i18n.wue.btnSubmit,
     disabled: false,
     handler: 'onFormSubmit'
   }]

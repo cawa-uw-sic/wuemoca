@@ -332,8 +332,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
-      btnSubmit1               : 'Calculate',
-      btnSubmit2: '<br>Irrigation Efficiency',
+      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
         calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
@@ -778,8 +777,7 @@ i18n.mapSelection ={
 
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
-      btnSubmit1               : 'Calculate',
-      btnSubmit2: '<br>Irrigation Efficiency',
+      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',  
     calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',

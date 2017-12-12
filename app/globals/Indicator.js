@@ -396,7 +396,7 @@ var __Indicator = [
     field          : 'eprod',
     enName         : 'Water Productivity',
     ruName         : 'продуктивность воды',
-    enTooltip      : 'Economic revenue per unit of water used (considering cotton, rice and wheat)',
+    enTooltip      : 'Economic revenue per unit of water used (considering cotton, rice and wheat harvest)',
     ruTooltip      : 'Выход (деньги) по отношению к входным (водным)',
     enUnit         : '$/m³',
     ruUnit         : '$/m³',

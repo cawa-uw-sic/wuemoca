@@ -24,7 +24,7 @@ var i18n = {
     wuemoca_long            : '<b>W</b>ater <b>U</b>se <b>E</b>fficiency <b>Mo</b>nitor in <b>C</b>entral <b>A</b>sia',
     cawa_homepage           : 'CAWa project homepage',
     introwindow             : 'Intro<br>Window',
-    cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
+    cawa_website            : 'http://www.cawa-project.net/',
     ffo_homepage            : 'Federal Foreign Office of Germany',
     ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
     wuemoca_about           : 'About WUEMoCA',
@@ -484,7 +484,7 @@ switch (locale){
     i18n.header = {
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
-      cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
+      cawa_website          : 'http://www.cawa-project.net/ru/',
       introwindow: 'Страница<br>Приветствия',
     ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
     ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',

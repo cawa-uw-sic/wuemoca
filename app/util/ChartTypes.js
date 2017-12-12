@@ -270,7 +270,9 @@ Ext.define('App.util.ChartTypes', {
       }
     }
     var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? i18n.wue.pressWUE : '';
-    var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
+    //if water productivity eprod is calculated with user input crop prices, uncomment the following line
+    //var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
+    var hideCropPrices = (indicator.id == 'eprod') ? false : true;
 
 
     return Ext.create('App.view.chart.FPanel', {

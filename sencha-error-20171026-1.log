@@ -1,0 +1,208 @@
+Sencha Cmd 6.2.2.36 - Crash report
+================================================
+An error occurred while executing the following command: --help
+
+Diagnostic information:
+=======================
+                         app.archivePath : archive                                           
+                      app.bootstrap.base : D:\hard disk\nodejs\wuemoca                       
+                       app.bootstrap.css : bootstrap.css                                     
+               app.bootstrap.microloader : bootstrap.js                                      
+                        app.cache.deltas : true                                              
+                        app.cache.enable : false                                             
+                           app.classpath : app,packages/remote/GeoExt/src/component,packages/remote/GeoExt/src/data,packages/remote/GeoExt/src/mixin,packages/remote/GeoExt/src/util
+                         app.classpath.0 : app                                               
+                         app.classpath.1 : packages/remote/GeoExt/src/component              
+                         app.classpath.2 : packages/remote/GeoExt/src/data                   
+                         app.classpath.3 : packages/remote/GeoExt/src/mixin                  
+                         app.classpath.4 : packages/remote/GeoExt/src/util                   
+                    app.classpath.length : 5                                                 
+                         app.cmd.version : 6.2.2.36                                          
+                          app.config.dir : D:\hard disk\nodejs\wuemoca\.sencha\app           
+                app.cordova.cache.enable : false                                             
+                   app.cordova.config.id : com.domain.app                                    
+                 app.cordova.config.name : app                                               
+                 app.cordova.config.path : D:\hard disk\nodejs\wuemoca/cordova               
+               app.cordova.config.target :                                                   
+              app.cordova.config.verbose : false                                             
+                   app.cordova.js.0.path : cordova.js                                        
+               app.cordova.js.0.priority : 1000                                              
+                 app.cordova.js.0.remote : true                                              
+                   app.cordova.js.length : 1                                                 
+                 app.cordova.microloader : D:\hard disk\nodejs\wuemoca\.sencha\app/Microloader.js
+      app.cordova.output.appCache.enable : false                                             
+                 app.cordova.output.base : D:\hard disk\nodejs\wuemoca/cordova/www           
+             app.cordova.output.manifest : ${build.id}.json                                  
+                 app.cordova.output.page : index.html                                        
+                    app.development.tags :                                                   
+             app.development.tags.length : 0                                                 
+                                 app.dir : D:\hard disk\nodejs\wuemoca                       
+              app.fashion.inliner.enable : false                                             
+                           app.framework : ext                                               
+                   app.framework.version : 6.0.1.250                                         
+                                  app.id : 5e7ac38a-7bb6-458f-a857-cf533ddd8469              
+                       app.indexHtmlPath : index.html                                        
+                        app.loader.cache : false                                             
+                   app.loader.cacheParam : _dc                                               
+                                app.name : app                                               
+              app.output.appCache.enable : false                                             
+                         app.output.base : D:\hard disk\nodejs\wuemoca/build/${build.environment}/app
+           app.output.microloader.enable : true                                              
+                           app.overrides : overrides                                         
+                         app.overrides.0 : overrides                                         
+                    app.overrides.length : 1                                                 
+               app.phonegap.cache.enable : false                                             
+                  app.phonegap.config.id : com.domain.app                                    
+                app.phonegap.config.name : app                                               
+                app.phonegap.config.path : D:\hard disk\nodejs\wuemoca/phonegap              
+              app.phonegap.config.remote : false                                             
+             app.phonegap.config.verbose : false                                             
+                  app.phonegap.js.0.path : cordova.js                                        
+              app.phonegap.js.0.priority : 1000                                              
+                app.phonegap.js.0.remote : true                                              
+                  app.phonegap.js.length : 1                                                 
+                app.phonegap.microloader : D:\hard disk\nodejs\wuemoca\.sencha\app/Microloader.js
+     app.phonegap.output.appCache.enable : false                                             
+                app.phonegap.output.base : D:\hard disk\nodejs\wuemoca/phonegap/www          
+            app.phonegap.output.manifest : ${build.id}.json                                  
+                app.phonegap.output.page : index.html                                        
+             app.production.cache.enable : true                                              
+          app.production.compressor.type : yui                                               
+             app.production.loader.cache : ${build.timestamp}                                
+   app.production.output.appCache.enable : true                                              
+     app.production.output.appCache.path : cache.appcache                                    
+                      app.resource.paths :                                                   
+                        app.sass.dynamic : true                                              
+                            app.sass.etc : sass/etc/all.scss                                 
+                          app.sass.etc.0 : sass/etc/all.scss                                 
+                     app.sass.etc.length : 1                                                 
+                      app.sass.namespace : app                                               
+                            app.sass.src : sass/src                                          
+                          app.sass.src.0 : sass/src                                          
+                     app.sass.src.length : 1                                                 
+                            app.sass.var : sass/var/all.scss,sass/var                        
+                          app.sass.var.0 : sass/var/all.scss                                 
+                          app.sass.var.1 : sass/var                                          
+                     app.sass.var.length : 2                                                 
+                 app.slicer.cache.enable : false                                             
+        app.slicer.js.0.isWidgetManifest : true                                              
+                    app.slicer.js.0.path : D:\hard disk\nodejs\wuemoca/sass/example/custom.js
+                    app.slicer.js.length : 1                                                 
+       app.slicer.output.appCache.enable : false                                             
+                               app.theme : theme-triton                                      
+                             app.toolkit : classic                                           
+                             app.version : 1.0.0.0                                           
+                    buildenvironment.dir : D:\hard disk\nodejs\wuemoca                       
+               buildenvironment.load.dir : D:\hard disk\nodejs\wuemoca                       
+                          cmd.config.dir : C:\Users\RT\bin\Sencha\Cmd\6.2.2.36               
+                                 cmd.dir : C:\Users\RT\bin\Sencha\Cmd\6.2.2.36               
+                    cmd.framework.minver : 5.5.0                                             
+                   cmd.framework.version : 99.99                                             
+                            cmd.jvm.args : -Xms128m -Xmx1024m -Dapple.awt.UIElement=true     
+              cmd.merge.tool.args.araxis : -wait -merge -3 -a1 {base} {user} {generated} {out}
+              cmd.merge.tool.args.kdiff3 : {base} {user} {generated} -o {out}                
+             cmd.merge.tool.args.p4merge : {base} {user} {generated} {out}                   
+           cmd.merge.tool.args.smartsync : {user} {generated} {base}                         
+          cmd.merge.tool.args.sourcegear : --merge --result={out} {user} {base} {generated}  
+            cmd.merge.tool.args.tortoise : -base:{base} -theirs:{generated} -mine:{user} -merged:{out}
+                              cmd.minver : 3.0.0.0                                           
+                            cmd.platform : windows                                           
+                     cmd.unicode.escapes : C:\Users\RT\bin\Sencha\Cmd\6.2.2.36/unicode-escapes.json
+                             cmd.version : 6.2.2.36                                          
+                            cmd.web.port : 1841                                              
+                     config.skipDownload : true                                              
+                      config.skipInherit : false                                             
+                        ext.license.name : gpl                                               
+                     framework.build.dir : ${package.output.base}                            
+                     framework.classpath : ${package.dir}/src                                
+                    framework.cmd.minver : 6.0.1.75                                          
+                   framework.cmd.version : 6.0.1.75                                          
+                 framework.compatVersion : 6.0.0                                             
+                    framework.config.dir : C:\Users\RT\bin\Sencha\Cmd\6.2.2.36\plugins\ext\current
+                       framework.creator : Sencha                                            
+           framework.detailedDescription : Sencha Ext JS JavaScript Framework                
+                           framework.dir : D:\hard disk\nodejs\wuemoca\ext                   
+                  framework.example.apps : admin-dashboard,executive-dashboard,kitchensink,classic/charts-kitchensink,classic/desktop,classic/ticket-app,classic/portal,classic/simple-tasks,classic/responsive-app,classic/aria,modern/addressbook,modern/blackberry,modern/energy,modern/stockapp,modern/states,modern/geocongress,modern/oreilly
+                framework.example.apps.0 : admin-dashboard                                   
+                framework.example.apps.1 : executive-dashboard                               
+               framework.example.apps.10 : modern/addressbook                                
+               framework.example.apps.11 : modern/blackberry                                 
+               framework.example.apps.12 : modern/energy                                     
+               framework.example.apps.13 : modern/stockapp                                   
+               framework.example.apps.14 : modern/states                                     
+               framework.example.apps.15 : modern/geocongress                                
+               framework.example.apps.16 : modern/oreilly                                    
+                framework.example.apps.2 : kitchensink                                       
+                framework.example.apps.3 : classic/charts-kitchensink                        
+                framework.example.apps.4 : classic/desktop                                   
+                framework.example.apps.5 : classic/ticket-app                                
+                framework.example.apps.6 : classic/portal                                    
+                framework.example.apps.7 : classic/simple-tasks                              
+                framework.example.apps.8 : classic/responsive-app                            
+                framework.example.apps.9 : classic/aria                                      
+           framework.example.apps.length : 17                                                
+                  framework.example.path : examples,templates                                
+                framework.example.path.0 : examples                                          
+                framework.example.path.1 : templates                                         
+           framework.example.path.length : 2                                                 
+                        framework.format : 1                                                 
+                          framework.isV5 : true                                              
+                          framework.isV6 : true                                              
+                          framework.name : ext                                               
+                     framework.namespace : Ext                                               
+                        framework.output : ${package.dir}/build                              
+                     framework.overrides : ${package.dir}/overrides                          
+                  framework.packages.dir : D:\hard disk\nodejs\wuemoca\ext/packages/,D:\hard disk\nodejs\wuemoca\ext/classic
+                framework.resource.paths : resources                                         
+              framework.resource.paths.0 : resources                                         
+         framework.resource.paths.length : 1                                                 
+                      framework.sass.etc : ${package.dir}/sass/etc/all.scss                  
+                  framework.sass.fashion : true                                              
+                framework.sass.namespace : Ext                                               
+                      framework.sass.src : ${package.dir}/sass/src                           
+                      framework.sass.var : ${package.dir}/sass/var                           
+                       framework.subpkgs : classic/classic,modern/modern,packages/charts,packages/amf,packages/soap,packages/ux,packages/legacy,packages/font-awesome,packages/font-pictos,packages/font-ext
+                     framework.subpkgs.0 : classic/classic                                   
+                     framework.subpkgs.1 : modern/modern                                     
+                     framework.subpkgs.2 : packages/charts                                   
+                     framework.subpkgs.3 : packages/amf                                      
+                     framework.subpkgs.4 : packages/soap                                     
+                     framework.subpkgs.5 : packages/ux                                       
+                     framework.subpkgs.6 : packages/legacy                                   
+                     framework.subpkgs.7 : packages/font-awesome                             
+                     framework.subpkgs.8 : packages/font-pictos                              
+                     framework.subpkgs.9 : packages/font-ext                                 
+                framework.subpkgs.length : 10                                                
+                       framework.summary : Ext JS                                            
+                          framework.type : framework                                         
+                       framework.version : 6.0.1.250                                         
+                       inspector.address : http://localhost:1839/                            
+                    package.sass.dynamic : true                                              
+                          repo.local.dir : C:\Users\RT\bin\Sencha\Cmd\repo                   
+        system.java.net.useSystemProxies : true                                              
+                              theme.name : theme-triton                                      
+                            toolkit.name : classic                                           
+                     workspace.build.dir : D:\hard disk\nodejs\wuemoca/build                 
+                    workspace.config.dir : D:\hard disk\nodejs\wuemoca\.sencha\workspace     
+                           workspace.dir : D:\hard disk\nodejs\wuemoca                       
+           workspace.frameworks.ext.path : D:\hard disk\nodejs\wuemoca\ext                   
+                  workspace.packages.dir : D:\hard disk\nodejs\wuemoca/packages/local,D:\hard disk\nodejs\wuemoca/packages
+              workspace.packages.extract : D:\hard disk\nodejs\wuemoca/packages/remote       
+                     workspace.theme.dir : D:\hard disk\nodejs\wuemoca/packages/local,D:\hard disk\nodejs\wuemoca/packages/${args.themeName}
+
+Exception information:
+=======================
+No such property : help
+     at com.sencha.cli.AbstractCommand$Properties.getProperty(AbstractCommand.java:444)
+     at com.sencha.cli.AbstractCommand.parseConfigParam(AbstractCommand.java:468)
+     at com.sencha.cli.AbstractCommand.processConfigParam(AbstractCommand.java:518)
+     at com.sencha.cli.AbstractCommand.configure(AbstractCommand.java:114)
+     at com.sencha.command.Sencha.main(Sencha.java:135)
+     at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+     at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+     at java.lang.reflect.Method.invoke(Unknown Source)
+     at com.exe4j.runtime.LauncherEngine.launch(LauncherEngine.java:65)
+     at com.exe4j.runtime.WinLauncher.main(WinLauncher.java:101)
+     at com.install4j.runtime.launcher.WinLauncher.main(WinLauncher.java:26)
+

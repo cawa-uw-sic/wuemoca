@@ -16,7 +16,12 @@ var i18n = {
 
   info : {
     title                   : 'Information',
-    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) to irrigation planning zones, and provinces (oblasts).'
+    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive ' +
+                              'downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it ' +
+                              'provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, ' +
+                              'based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data ' +
+                              'aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) ' +
+                              'to irrigation planning zones, and provinces (oblasts).'
 
   },
 
@@ -36,7 +41,7 @@ var i18n = {
 	  help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
-    imprint               : 'Imprint',
+    imprint                 : 'Imprint',
     manual                  : 'User Guide',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
@@ -225,7 +230,15 @@ mapSelection:{
       } else {
         return '';
       }
-      return '<br>The map shows the yield of ' + i18n.crop[crop_index] + ' (tons per hectare) classified in seven classes:<br>- (' + class6 + ' - ' + class7 + ' t/ha) high<br>- (' + class5 + ' - ' + class6 + ' t/ha)<br>- (' + class4 + ' - ' + class5 + ' t/ha)<br>- (' + class3 + ' - ' + class4 + ' t/ha) medium<br>- (' + class2 + ' - ' + class3 + ' t/ha)<br>- (' + class1 + ' - ' + class2 + ' t/ha)<br>- (0.01 - ' + class1 + ' t/ha) low<br>in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + ').';
+      return '<br>The map shows the yield of ' + i18n.crop[crop_index] + ' (tons per hectare) classified in seven classes:
+      <br>- (' + class6 + ' - ' + class7 + ' t/ha) high
+      <br>- (' + class5 + ' - ' + class6 + ' t/ha)
+      <br>- (' + class4 + ' - ' + class5 + ' t/ha)
+      <br>- (' + class3 + ' - ' + class4 + ' t/ha) medium
+      <br>- (' + class2 + ' - ' + class3 + ' t/ha)
+      <br>- (' + class1 + ' - ' + class2 + ' t/ha)
+      <br>- (0.01 - ' + class1 + ' t/ha) low
+      <br>in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + ').';
     }
   },*/
 
@@ -334,7 +347,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
-        calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
+    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get monthly and ' +
+                          'decadal results.' ,   
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
         btnImport2               : 'Excel file',
@@ -381,7 +395,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
     shift: 'Select a single polygon or multiple polygons with SHIFT key',
-    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84.\nIndicators are calculated automatically after uploading.',
+    uploadAlert: 'Select a zipped Polygon Shapefile with coordinate system WGS 84.\nIndicators are calculated automatically ' +
+                'after uploading.',
     list: 'Polygon list',
     doubleclick:'Doubleclick for zoom',
     name:'Name',
@@ -428,7 +443,10 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     inha                    : 'in ha',
     area                    : 'Agricultural/irrigated area within',
     ds                      : 'Data source',
-    dsDescr                 : 'e.g. “Remote Sensing products based on free-of-charge accessible data (MODIS 250m) classification, yield estimation,… The report shows the land use of Wheat, Cotton, Rice and Fallow, its percentage share of the irrigated (used) land (incl. temporarily fallow land) in the respective unit (polygon name). Permanent unused land is not considered.”',
+    dsDescr                 : 'e.g. “Remote Sensing products based on free-of-charge accessible data (MODIS 250m) ' +
+                            'classification, yield estimation,… The report shows the land use of Wheat, Cotton, Rice and ' +
+                            'Fallow, its percentage share of the irrigated (used) land (incl. temporarily fallow land) in ' +
+                            'the respective unit (polygon name). Permanent unused land is not considered.”',
     footer                  : 'Footer',
     footerContent           : '© 2015 Department of Remote Sensing, Würzburg University, Germany'
   },
@@ -530,7 +548,12 @@ switch (locale){
 
     i18n.info = {
       title                 : 'Информация',
-      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов (районы) в зонах орошения планирования и провинций (областей).'
+      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех ' +
+                              'обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе ' +
+                              'она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, ' +
+                              'риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, ' +
+                              'агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов ' +
+                              '(районы) в зонах орошения планирования и провинций (областей).'
 
     };
 
@@ -778,21 +801,22 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
-    calculateVir: 'Calculate Irrigation Efficiency',  
-    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
-    aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
-    btnImport1               : 'Импорт',
-        btnImport2               : 'Excel file',      
-    tooltipImport               : 'Browse for Excel file with water intake values',        
+      calculateVirSuccess     : 'Calculate Irrigation Efficiency',  
+      calculateVirSuccess     : 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get ' +
+                                'monthly and decadal results.' ,   
+      aggregateETact          : 'Aggregate monthly and decadal ET<sub>act</sub> for ',
+      btnImport1              : 'Импорт',
+      btnImport2              : 'Excel file',      
+      tooltipImport           : 'Browse for Excel file with water intake values',        
       btnImportTemplates      : 'Шаблоны для импорта',
-    tooltipImportTemplates: 'Select Excel template for value import, and store it locally',      
+      tooltipImportTemplates  : 'Select Excel template for value import, and store it locally',      
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
       year                    : 'Год',
       decade                  : 'Декада',
       month                   : 'Месяц',
-    pressWUE: 'Press "Calculate WUE" and insert Water intake'
+      pressWUE                : 'Press "Calculate WUE" and insert Water intake'
     },
 
     i18n.polygon = {
@@ -828,7 +852,8 @@ calculateWUElong          : 'Расчет водоэффективности',
     tooltip: 'Выбранный полигон',
     pressCalculate: 'сначала нажмите расчет индикатора!',
     shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
-    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84.\nIndicators are calculated automatically after uploading.',
+    uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84.\nIndicators are calculated ' +
+                'automatically after uploading.',
     list: 'Список Полигон',
     doubleclick:'Двойной щелчок для увеличения',
     name:'Название',
@@ -838,7 +863,8 @@ calculateWUElong          : 'Расчет водоэффективности',
     sortDescText: 'Сортировка по убыванию',
     sortClearText: 'Очистить Сортировать',
     selectgeodata: 'Выберите формат геоданных',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after drawing.',
+    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after ' +
+                  'drawing.',
         smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
         smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
         outside: 'Outside the irrigated area polygons cannot be processed.',
@@ -874,7 +900,11 @@ calculateWUElong          : 'Расчет водоэффективности',
       inha                  : 'в га',
       area                  : 'Сельскохозяйственные / площадь орошаемых земель в',
       ds                    : 'Источник данных',
-      dsDescr               : 'например "Дистанционное зондирование продукты, основанные на свободных от заряда доступных данных (MODIS 250) классификация, оценка доходности, ... Отчет показывает использование земельный участок Пшеница, хлопок, рис и пар, ее доля орошаемых (используется) Земельные участки (вкл . временно находящиеся под паром земля) в соответствующий блок (имя многоугольника). Постоянная неиспользуемые земли не считается ".',
+      dsDescr               : 'например "Дистанционное зондирование продукты, основанные на свободных от заряда доступных ' +
+                              'данных (MODIS 250) классификация, оценка доходности, ... Отчет показывает использование ' +
+                              'земельный участок Пшеница, хлопок, рис и пар, ее доля орошаемых (используется) Земельные ' +
+                              'участки (вкл . временно находящиеся под паром земля) в соответствующий блок (имя ' +
+                              'многоугольника). Постоянная неиспользуемые земли не считается ".',
       footer                : 'Hижний колонтитул',
       footerContent         : '© 2015 Отдел дистанционного зондирования, Вюрцбургский университет, Германия'
     };
@@ -898,7 +928,8 @@ calculateWUElong          : 'Расчет водоэффективности',
     label                   : 'показывать только'
   };
   i18n.alert = {
-    ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может быть увеличение)'
+    ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может ' +
+                            'быть увеличение)'
   };
 
   i18n.month = {

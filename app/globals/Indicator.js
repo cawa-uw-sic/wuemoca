@@ -305,9 +305,9 @@ var __Indicator = [
   {
     id             : 'vet',
     field          : 'vet',
-    enName         : 'Available Water for irrigated land',
+    enName         : 'Water availability for irrigated land',
     ruName         : 'Индекс водообеспоченности',
-    enNameShort    : 'Available Water',
+    enNameShort    : 'Water availability',
     ruNameShort    : 'водоснабжение', 
     enTooltip      : 'Ratio of actual to potential evapotranspiration',
     ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',     
@@ -319,7 +319,7 @@ var __Indicator = [
     ruGroup        : 'Эффективность использования воды',     
     years          : 'all',
     mapType        : 'colored',
-    enLegend       : 'Available Water',
+    enLegend       : 'Water availability',
     ruLegend       : 'Общее водоснабжение',
     median         : 0,
     maximum        : 0,
@@ -335,9 +335,9 @@ var __Indicator = [
   {
     id             : 'vc',
     field          : 'vc_{crop}',
-    enName         : 'Available Water per crop',
+    enName         : 'Water availability per crop',
     ruName         : 'Индекс водообеспоченности',
-    enNameShort    : 'Available Water',
+    enNameShort    : 'Water availability',
     ruNameShort    : 'водоснабжение', 
     enTooltip      : 'Ratio of actual evapotranspiration to crop water demand',
     ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',     
@@ -414,7 +414,7 @@ var __Indicator = [
     color          : '#006837',
     decimals       : 1,
     up             : true,    
-    glossary       : 'bme00073.htm#bookme_anchor16'
+    glossary       : 'bme00073.htm#bookme_anchor17'
 }, 
 
      /**

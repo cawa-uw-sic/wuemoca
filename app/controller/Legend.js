@@ -31,7 +31,7 @@ Ext.define('App.controller.Legend', {
       App.util.Layer.current.setVisible(val);
     }
     if (!!App.util.Layer.admin){
-      App.util.Layer.admin.setVisible(val);
+      //App.util.Layer.admin.setVisible(val);
     }
     App.service.Map.hideShowElements(val);
     App.service.Watcher.set('Current', val ? 'show' : 'noshow');

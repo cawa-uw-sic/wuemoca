@@ -84,7 +84,7 @@ var __Aggregation = [
   */    
   {
     id             : 'buis',
-    enName         : 'BISA (Basin Irrig. System Admin.)',
+    enName         : 'BISA (Basin Irrig. System Auth.)',
     ruName         : 'БУИС (Бассейновое Управление Ирригационных Систем)',
     enNameShort    : 'BISA',
     ruNameShort    : 'БУИС',
@@ -118,7 +118,7 @@ var __Aggregation = [
   */    
   {
     id             : 'uis',
-    enName         : 'ISA (Irrigation System Admin.)',
+    enName         : 'ISA (Irrigation System Auth.)',
     ruName         : 'УИС (Управление Ирригационных Систем)',
     enNameShort    : 'ISA',
     ruNameShort    : 'УИС' ,

@@ -70,9 +70,9 @@ Ext.define('App.controller.Header', {
   * @method onIntroWindowBtn
   * show intro window
   */
-  onIntroWindowBtn: function () {
+  /*onIntroWindowBtn: function () {
     this.IntroWindow.show();
-  },
+  },*/
 
   /**
   * @method onVideoHeader

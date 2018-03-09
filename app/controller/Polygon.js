@@ -31,7 +31,7 @@ Ext.define('App.controller.Polygon', {
     var fileInputEl = field.getTrigger('filebutton').component.fileInputEl.dom;
     fileInputEl.setAttribute('accept', '.zip');
   },
-  
+
   onDownload: function (field){
     App.service.Helper.getComponentExt('exporter-window').show();
     //App.service.Polygon.downloadOptions();
@@ -88,6 +88,14 @@ Ext.define('App.controller.Polygon', {
     container.add({ xtype: 'app-wue-form-by-year' });
     App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
     App.service.Wue.window.show();
+  },
+
+  onProd: function () {
+    App.service.Helper.getComponentExt('prod-radio').queryById('cotton').toggle(true);
+    App.service.Prod.renderFormByYear('cotton');
+    App.service.Prod.renderFormSecondary();
+    App.service.Prod.window.show();
   }
+
 
 });

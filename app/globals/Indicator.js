@@ -1,6 +1,6 @@
 /**
 * @class __Indicator
-* list of indicators with id, DB field, English and Russian names, short names, tooltips, units, settings of crops, 
+* list of indicators with id, DB field, English and Russian names, short names, tooltips, units, settings of crops,
 * aggregation, years, legend, chart
 */
 var __Indicator = [
@@ -20,7 +20,7 @@ var __Indicator = [
     crops          : false,
     aggregation    : 'all',
     enGroup        : 'Land use',
-    ruGroup        : 'Землепользование',    
+    ruGroup        : 'Землепользование',
     years          : 'all',
     mapType        : 'labeled',
     enLegend       : 'Irrigated area',
@@ -32,7 +32,7 @@ var __Indicator = [
     decimals       : 0,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor14'
-  }, 
+  },
   /**
   * @property firf
   * firf indicator
@@ -45,13 +45,13 @@ var __Indicator = [
     enNameShort    : 'Irrigated acreage',
     ruNameShort    : 'Орошаемые площади',
     enTooltip      : 'Crop-specific area under irrigation',
-    ruTooltip      : 'Долевое соотношение с/х культур в общей площади орошаемого земледелия',    
+    ruTooltip      : 'Долевое соотношение с/х культур в общей площади орошаемого земледелия',
     enUnit         : 'ha',
     ruUnit         : 'га',
     crops          : 'all',
     aggregation    : 'all',
     enGroup        : 'Land use',
-    ruGroup        : 'Землепользование',    
+    ruGroup        : 'Землепользование',
     years          : 'all',
     mapType        : 'labeled',
     chart          : 'crops',
@@ -62,7 +62,7 @@ var __Indicator = [
     decimals       : 0,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor11'
-  }, 
+  },
   /**
   * @property uir
   * uir indicator
@@ -75,23 +75,24 @@ var __Indicator = [
     enNameShort    : 'Irrigated land use',
     ruNameShort    : 'Использование орошаемых земель',
     enTooltip      : 'Crop-specific area share of actually irrigated land',
-    ruTooltip      : 'Долевое соотношение с/х культур в орошаемом земледелии',       
+    ruTooltip      : 'Долевое соотношение с/х культур в орошаемом земледелии',
     enUnit         : '%',
     ruUnit         : '%',
-    crops          : 'all',    
+    crops          : 'all',
     aggregation    : 'all',
     enGroup        : 'Land use',
-    ruGroup        : 'Землепользование',    
+    ruGroup        : 'Землепользование',
     years          : 'all',
+	mapType        : 'colored',
     enLegend       : 'crops',
     ruLegend       : 'crops',
     median         : 0,
-    maximum        : 0,   
-    chart          : 'crops', 
+    maximum        : 0,
+    chart          : 'crops',
     decimals       : 1,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor12'
-  }, 
+  },
   /**
   * @property pirf
   * pirf indicator
@@ -102,13 +103,13 @@ var __Indicator = [
     enName         : 'Farm gross output actual',
     ruName         : 'Фактическая валовая продукция',
     enTooltip      : 'Actual crop harvest quantities produced',
-    ruTooltip      : 'Общий объем продукции',      
+    ruTooltip      : 'Общий объем продукции',
     enUnit         : 'tons',
     ruUnit         : 'тонны',
     crops          : ['cotton', 'wheat', 'rice'],
     aggregation    : 'all',
     enGroup        : 'Productivity',
-    ruGroup        : 'Продуктивность урожая',    
+    ruGroup        : 'Продуктивность урожая',
     years          : 'all',
     mapType        : 'labeled',
     enLegend       : ['Cotton', 'Wheat', 'Rice'],
@@ -119,7 +120,7 @@ var __Indicator = [
     decimals       : 0,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor10'
-  }, 
+  },
   /**
   * @property yf
   * yf indicator
@@ -130,13 +131,13 @@ var __Indicator = [
     enName         : 'Crop yield',
     ruName         : 'Урожайность',
     enTooltip      : 'Actual crop production per unit of harvested area',
-    ruTooltip      : 'Урожайность орошаемых земель',       
+    ruTooltip      : 'Урожайность орошаемых земель',
     enUnit         : 't/ha',
     ruUnit         : 'т/га',
     crops          : ['cotton', 'wheat', 'rice'],
     aggregation    : 'all',
     enGroup        : 'Productivity',
-    ruGroup        : 'Продуктивность урожая',       
+    ruGroup        : 'Продуктивность урожая',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : ['Cotton', 'Wheat', 'Rice'],
@@ -147,7 +148,7 @@ var __Indicator = [
     decimals       : 1,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   }, 
+   },
   /**
   * @property fp
   * fp indicator
@@ -160,13 +161,13 @@ var __Indicator = [
     enNameShort    : 'Fallow land',
     ruNameShort    : 'Временно неиспользуемые орошаемые земли',
     enTooltip      : 'Area share of fallow land in total net irrigated area',
-    ruTooltip      : 'Доля паров в общей площади орошаемой земли',     
+    ruTooltip      : 'Доля паров в общей площади орошаемой земли',
     enUnit         : '%',
     ruUnit         : '%',
     crops          : false,
     aggregation    : 'all',
     enGroup        : 'Land use',
-    ruGroup        : 'Землепользование',    
+    ruGroup        : 'Землепользование',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Fallow land',
@@ -178,7 +179,7 @@ var __Indicator = [
     decimals       : 1,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor15'
-  }, 
+  },
   /**
   * @property cd
   * cd indicator
@@ -189,25 +190,25 @@ var __Indicator = [
     enName         : 'Irrigated crop type diversity',
     ruName         : 'Разнообразие с/х культур',
     enTooltip      : 'Variety of different crop types (spatially)',
-    ruTooltip      : 'Вариативность различных видов сельхоз культур (Обратный индекс разнообразия Симпсона)',       
+    ruTooltip      : 'Вариативность различных видов сельхоз культур (Обратный индекс разнообразия Симпсона)',
     enUnit         : 'Index',
     ruUnit         : 'Индекс',
     crops          : false,
     aggregation    : 'all',
     enGroup        : 'Land use',
-    ruGroup        : 'Землепользование',    
+    ruGroup        : 'Землепользование',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Crop type diversity',
     ruLegend       : 'Индекс разнообразия сельскохозяйственных культур',
     median         : 0,
-    maximum        : 0, 
+    maximum        : 0,
     chart          : 'Line',
     color          : cd_color,
     decimals       : 2,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor7'
-  }, 
+  },
   /**
   * @property mlu
   * mlu indicator
@@ -218,7 +219,7 @@ var __Indicator = [
     enName         : 'Major land use',
     ruName         : 'Основные виды землепользования',
     enTooltip      : 'Predominant land use based on average frequency',
-    ruTooltip      : 'Преобладающий тип культур в течение всего периода исследования',     
+    ruTooltip      : 'Преобладающий тип культур в течение всего периода исследования',
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -230,14 +231,14 @@ var __Indicator = [
     enLegend       : 'Predominant land use',
     ruLegend       : 'Преобладающий тип урожая',
     croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'alfa', 'orchard', 'garden', 'other'],
-    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Alfalfa', 'Orchard/Vineyard', 
+    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat/Other crop', 'Alfalfa', 'Orchard/Vineyard',
                     'Urban Garden', 'Other crop'],
-    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна', 
+    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница/другая культура', 'люцерна',
                     'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
     up             : false,
     glossary       : 'bme00073.htm#bookme_anchor13'
-  }, 
+  },
   /**
   * @property lur
   * lur indicator
@@ -248,7 +249,7 @@ var __Indicator = [
     enName         : 'Land use rotation',
     ruName         : 'Севооборот',
     enTooltip      : 'Average number of land use types including double usage and fallow land',
-    ruTooltip      : 'Среднее количество изменения типов культур в течение всего периода исследования',       
+    ruTooltip      : 'Среднее количество изменения типов культур в течение всего периода исследования',
     enUnit         : '-',
     ruUnit         : '-',
     crops          : false,
@@ -264,10 +265,10 @@ var __Indicator = [
     minimum        : 1,
     chart          : 'Multiannual',
     legendcolors   : [lur_dark, lur_color, lur_bright],
-    decimals       : 1,  
-    up             : false,  
+    decimals       : 1,
+    up             : false,
     glossary       : 'bme00073.htm#bookme_anchor8'
-  }, 
+  },
   /**
   * @property flf
   * flf indicator
@@ -293,8 +294,8 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Multiannual',
     legendcolors   : [flf_bright, flf_color, flf_dark],
-    decimals       : 1,  
-    up             : false,    
+    decimals       : 1,
+    up             : false,
     glossary       : 'bme00073.htm#bookme_anchor9'
   },
   /**
@@ -307,15 +308,15 @@ var __Indicator = [
     enName         : 'Available Water for irrigated land',
     ruName         : 'Индекс водообеспоченности',
     enNameShort    : 'Available Water',
-    ruNameShort    : 'водоснабжение', 
+    ruNameShort    : 'водоснабжение',
     enTooltip      : 'Ratio of actual to potential evapotranspiration',
-    ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',     
+    ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',
     enUnit         : 'Index',
     ruUnit         : 'Индекс',
     crops          : false,
     aggregation    : 'all',
     enGroup        : 'Water use efficiency',
-    ruGroup        : 'Эффективность использования воды',     
+    ruGroup        : 'Эффективность использования воды',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Available Water',
@@ -326,7 +327,7 @@ var __Indicator = [
     decimals       : 2,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   },  
+   },
   /**
   * @property v_water
   * v_water indicator
@@ -337,15 +338,15 @@ var __Indicator = [
     enName         : 'Available Water per crop',
     ruName         : 'Индекс водообеспоченности',
     enNameShort    : 'Available Water',
-    ruNameShort    : 'водоснабжение', 
+    ruNameShort    : 'водоснабжение',
     enTooltip      : 'Ratio of actual evapotranspiration to crop water demand',
-    ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',     
+    ruTooltip      : 'Соотношение фактической эвапотранспирации с потребностью в воде',
     enUnit         : 'Index',
     ruUnit         : 'Индекс',
     crops          : ['cotton', 'wheat', 'rice'],
     aggregation    : 'all',
     enGroup        : 'Water use efficiency',
-    ruGroup        : 'Эффективность использования воды',     
+    ruGroup        : 'Эффективность использования воды',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : ['Cotton', 'Wheat', 'Rice'],
@@ -356,7 +357,7 @@ var __Indicator = [
     decimals       : 2,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   },   
+   },
      /**
   * @property vir
   * vir indicator
@@ -373,7 +374,7 @@ var __Indicator = [
     crops          : false,
     aggregation    : ['oblast', 'rayon'],
     enGroup        : 'Water use efficiency',
-    ruGroup        : 'Эффективность использования воды',    
+    ruGroup        : 'Эффективность использования воды',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Irrigation efficiency',
@@ -387,38 +388,37 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16'
    },
      /**
-  * @property y
-  * y indicator
+  * @property eprod
+  * eprod indicator
   */
-/*{
+{
     id             : 'eprod',
     field          : 'eprod',
     enName         : 'Water Productivity',
     ruName         : 'продуктивность воды',
-    enTooltip      : 'Economic benefits per unit of water used',
+    enTooltip      : 'Economic revenue per unit of water used (considering cotton, rice and wheat harvest)',
     ruTooltip      : 'Выход (деньги) по отношению к входным (водным)',
     enUnit         : '$/m³',
     ruUnit         : '$/m³',
     crops          : false,
-    //aggregation    : 'all' or ['oblast', 'rayon'],
+    aggregation    : 'all',
     enGroup        : 'Water use efficiency',
-    ruGroup        : 'Эффективность использования воды', 
+    ruGroup        : 'Эффективность использования воды',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Water Productivity',
     ruLegend       : 'продуктивность воды',
     median         : 0,
     maximum        : 0,
-    //chart          : 'Defaults' or 'Line',
-    color          : '#2c7fb8',
+    chart          : 'Line',
+    color          : '#006837',
     decimals       : 1,
-    up             : false,    
+    up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-},*/ 
-
+},
      /**
-  * @property y
-  * y indicator
+  * @property etf
+  * etf indicator
   */
   {
     id             : 'etf',
@@ -432,7 +432,7 @@ var __Indicator = [
     crops          : false,
     aggregation    : 'all',
     enGroup        : 'Water use efficiency',
-    ruGroup        : 'Эффективность использования воды',    
+    ruGroup        : 'Эффективность использования воды',
     years          : 'all',
     mapType        : 'colored',
     enLegend       : 'Actual Evapotranspiration',
@@ -443,7 +443,209 @@ var __Indicator = [
     decimals       : 0,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
-   }
+   },
+
+
+{
+    id             : 'prod_$',
+    field          : 'prod_$_{crop}',
+    enName         : 'Productivity',
+    ruName         : 'Продуктивность',
+    enTooltip      : 'Productivity in $, G2=G1*price($/tons)',
+    ruTooltip      : 'Продуктивность в $, G2=G1*price($/tons)',
+    enUnit         : '$',
+    ruUnit         : '$',
+    crops          : 'all',
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Productivity $',
+    ruLegend       : 'Продуктивность $',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+{
+    id             : 'prod_tm3',
+    field          : 'prod_tm3_{crop}',
+    enName         : 'Water productivity',
+    ruName         : 'Продуктивность воды',
+    enTooltip      : 'Water productivity in kg/m3, Pw1=G1/Wy(m3)',
+    ruTooltip      : 'Продуктивность воды в кг/м3, Pw1=G1/Wy(m3)',
+    enUnit         : 'kg/m3',
+    ruUnit         : 'кг/м3',
+    crops          : 'all',
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Water productivity kg/m3',
+    ruLegend       : 'Продуктивность воды кг/м3',
+    median         : 0,
+    maximum        : 1,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+{
+    id             : 'prod_$m3',
+    field          : 'prod_$m3_{crop}',
+    enName         : 'Water productivity',
+    ruName         : 'Продуктивность воды',
+    enTooltip      : 'Water productivity in $/m3, Pw2=G2/Wy(m3)',
+    ruTooltip      : 'Продуктивность воды в $/м3, Pw2=G2/Wy(m3)',
+    enUnit         : '$/m3',
+    ruUnit         : '$/м3',
+    crops          : 'all',
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Water productivity $/m3',
+    ruLegend       : 'Продуктивность воды $/м3',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+/*{
+    id             : 'prod_tha',
+    field          : 'prod_tha_{crop}',
+    enName         : 'Land productivity',
+    ruName         : 'Продуктивность земли',
+    enTooltip      : 'Land productivity in tons/ha, Pg1=G1/N',
+    ruTooltip      : 'Продуктивность земли в тонны/га, Pg1=G1/N',
+    enUnit         : 'tons/ha',
+    ruUnit         : 'тонны/га',
+    crops          : 'all',
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Land productivity in tons/ha',
+    ruLegend       : 'Продуктивность земли в тонны/га',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},*/
+{
+    id             : 'prod_$ha',
+    field          : 'prod_$ha_{crop}',
+    enName         : 'Land productivity',
+    ruName         : 'Продуктивность земли',
+    enTooltip      : 'Land productivity in $/ha, Pg2=G2/N',
+    ruTooltip      : 'Продуктивность земли в $/га, Pg2=G2/N',
+    enUnit         : '$/ha',
+    ruUnit         : '$/га',
+    crops          : 'all',
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Land productivity in $/ha',
+    ruLegend       : 'Продуктивность земли в $/га',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+{
+    id             : 'prod_$ha_avg',
+    field          : 'prod_$ha_avg',
+    enName         : 'Land productivity average',
+    ruName         : 'Средне взвешенная продуктивность земли',
+    enTooltip      : 'Land productivity average in $/ha',
+    ruTooltip      : 'Средне взвешенная продуктивность земли в $/га',
+    enUnit         : '$/ha',
+    ruUnit         : '$/га',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Land productivity average in $/ha',
+    ruLegend       : 'Средне взвешенная продуктивность земли в $/га',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+{
+    id             : 'prod_$m3_avg',
+    field          : 'prod_$m3_avg',
+    enName         : 'Water productivity average',
+    ruName         : 'Средне взвешенная продуктивность воды',
+    enTooltip      : 'Water productivity average in $/m3',
+    ruTooltip      : 'Средне взвешенная продуктивность воды в $/м3',
+    enUnit         : '$/m3',
+    ruUnit         : '$/м3',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Water productivity average in $/m3',
+    ruLegend       : 'Средне взвешенная продуктивность воды в $/м3',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+},
+{
+    id             : 'prod_wf',
+    field          : 'prod_wf',
+    enName         : 'Specific water supply',
+    ruName         : 'Удельная водоподача',
+    enTooltip      : 'Specific water supply in m3/ha',
+    ruTooltip      : 'Удельная водоподача в м3/га',
+    enUnit         : 'm3/ha',
+    ruUnit         : 'м3/га',
+    crops          : false,
+    aggregation    : 'all',
+    enGroup        : 'Productivity',
+    ruGroup        : 'Продуктивность',
+    years          : 'all',
+    mapType        : 'colored',
+    enLegend       : 'Specific water supply in m3/ha',
+    ruLegend       : 'Удельная водоподача в м3/га',
+    median         : 0,
+    maximum        : 0,
+    chart          : 'Defaults',
+    color          : '#006837',
+    decimals       : 1,
+    up             : true,
+    glossary       : 'bme00073.htm#bookme_anchor16'
+}
 ];
 
 var __Indicator_userPolygon = [
@@ -488,7 +690,7 @@ var __Indicator_userPolygon = [
     decimals       : 0,
     glossary       : 'bme00073.htm#bookme_anchor16'
    } ,
- 
+
         /**
   * @property vir
   * vir indicator
@@ -499,7 +701,7 @@ var __Indicator_userPolygon = [
     enName         : 'Irrigation efficiency monthly',
     ruName         : 'Индекс эффективности ирригации',
     enNameShort    : 'Irrigation Effectiveness monthly',
-    ruNameShort    : 'Эффективность ирригации',  
+    ruNameShort    : 'Эффективность ирригации',
     enTooltip      : 'Efficiency in delivering water beneficially used to produce crop per month of vegetation ' +
     'period (March-Oct)',
     ruTooltip      : 'Индекс количества потерь воды',
@@ -518,7 +720,7 @@ var __Indicator_userPolygon = [
     enName         : 'Irrigation efficiency decadal',
     ruName         : 'Индекс эффективности ирригации',
     enNameShort    : 'Irrigation Effectiveness decadal',
-    ruNameShort    : 'Эффективность ирригации',  
+    ruNameShort    : 'Эффективность ирригации',
     enTooltip      : 'Efficiency in delivering water beneficially used to produce crop per decade of month',
     ruTooltip      : 'Индекс количества потерь воды',
     enUnit         : 'Index',
@@ -540,7 +742,7 @@ var __Indicator_userPolygon = [
     enName         : 'Water intake seasonal',
     ruName         : 'Индекс эффективности ирригации',
     enNameShort    : 'Water intake',
-    ruNameShort    : 'Эффективность ирригации',  
+    ruNameShort    : 'Эффективность ирригации',
     enTooltip      : 'Water intake',
     ruTooltip      : 'Индекс количества потерь воды',
     enUnit         : 'Mio. m³',
@@ -562,7 +764,7 @@ var __Indicator_userPolygon = [
     enName         : 'Water intake monthly',
     ruName         : 'Индекс эффективности ирригации',
     enNameShort    : 'Water intake monthly',
-    ruNameShort    : 'Эффективность ирригации',  
+    ruNameShort    : 'Эффективность ирригации',
     enTooltip      : 'Water intake per month of vegetation period (March-Oct)',
     ruTooltip      : 'Индекс количества потерь воды',
     enUnit         : 'Mio. m³',
@@ -580,7 +782,7 @@ var __Indicator_userPolygon = [
     enName         : 'Water intake decadal',
     ruName         : 'Индекс эффективности ирригации',
     enNameShort    : 'Water intake decadal',
-    ruNameShort    : 'Эффективность ирригации',  
+    ruNameShort    : 'Эффективность ирригации',
     enTooltip      : 'Water intake per decade of month',
     ruTooltip      : 'Индекс количества потерь воды',
     enUnit         : 'Mio. m³',

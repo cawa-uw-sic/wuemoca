@@ -85,7 +85,7 @@ Ext.define('App.service.Map', {
     var map = this.instance;
 
     map.removeLayer(App.util.Layer.admin);
-    if (App.service.Watcher.get('Aggregation') != 'command' && App.service.Watcher.get('Aggregation') != 'grid'){
+    if (App.service.Watcher.get('Aggregation') != 'grid'){
       var visible = true;
       if (App.service.Watcher.get('Current') == 'noshow' && App.service.Watcher.get('UserPolygon') == 'show'){
         visible = false;
@@ -198,8 +198,8 @@ Ext.define('App.service.Map', {
   getLayerStyles: function () {
     var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
-    if (App.service.Watcher.get('Aggregation') == 'grid') styles += '_grid';
-    if (!App.service.Watcher.getIndicator().years) styles += '_no_years';
+    if (App.service.Watcher.get('Aggregation') == 'grid' && App.service.Watcher.getIndicator().mapType == 'labeled') styles += '_grid';
+    if (!App.service.Watcher.getIndicator().years) styles += '_grid_no_years';
     return styles;
   },
 
@@ -327,7 +327,7 @@ Ext.define('App.service.Map', {
       legend_title = indicator[__Global.lang + 'Legend'];
     }
     if (withUnit){
-      if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.chart != 'Line')) {
+      if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.enUnit != 'Index')) {
         legend_title += i18n.chart._in;
         legend_title += thousand ? i18n.chart.thousand : '';
         legend_title += indicator[__Global.lang + 'Unit'];
@@ -366,9 +366,6 @@ Ext.define('App.service.Map', {
         if (typeof median == 'object'){
           if (indicator.id == 'yf' || indicator.id == 'pirf'){
             text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
-          }
-          else if (indicator.id == 'vc' || indicator.id == 'vet'){
-            text = i18n.vc_classes.more + br + i18n.vc_classes.equal + br + i18n.vc_classes.less;
           }
         }
         else{

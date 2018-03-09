@@ -220,6 +220,7 @@
   background-repeat: no-repeat;
   background-position:0 -1px;
 }
+
 .x-grid-cell-inner {
   padding: 3px 3px 3px 6px;
 }
@@ -255,4 +256,6 @@
   bottom: auto;
   left: 40px;
 }
+
+
 

@@ -71,9 +71,9 @@ Ext.define('App.service.Polygon', {
       var geometry_wgs84 = geometry.clone().transform(
         __Global.projection.Mercator,
         __Global.projection.Geographic
-      );  
+      );
       //Geometry format for reading and writing data in the WellKnownText (WKT) format.
-      var wkt_geometry = new ol.format.WKT().writeGeometry(geometry_wgs84);    
+      var wkt_geometry = new ol.format.WKT().writeGeometry(geometry_wgs84);
       var polygon = self.registerPolygon(geometry.getExtent(), wkt_geometry, '');
       self.saveAll();
       self.rerenderFeatures();
@@ -552,8 +552,8 @@ Ext.define('App.service.Polygon', {
             self.progressBar.updateProgress(
               index/emptyPolygons.length,
               Math.round(100 * index/emptyPolygons.length) + ' %'
-            );           
-          } 
+            );
+          }
           //recursive function
           self.doRequest(index, emptyPolygons, count_success, removearray);
         }
@@ -567,7 +567,7 @@ Ext.define('App.service.Polygon', {
               //not valid because irrigated area smaller than 30 ha
               if (polygon.data[0].valid == 'novalid'){
                 message += '<br>' + i18n.polygon.smallerThan30ha_single;
-              }            
+              }
             }
           }
           else if (index == emptyPolygons.length) {
@@ -581,8 +581,8 @@ Ext.define('App.service.Polygon', {
             if (polygon && polygon.data[0].valid == 'novalid'){
               message += '<br>' + i18n.polygon.smallerThan30ha_multi;
             }
-          } 
-       
+          }
+
           if (removearray.length > 0){
             if (message != undefined){
               message += '<br>';
@@ -608,8 +608,8 @@ Ext.define('App.service.Polygon', {
               index/emptyPolygons.length,
               Math.round(100 * index/emptyPolygons.length) + ' %',
               message
-            );           
-          } 
+            );
+          }
           Ext.getBody().setStyle('cursor','auto');
 
 
@@ -658,6 +658,7 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.data = App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
+              console.log(indicator.chart, crop);
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
             else if (indicator.crops == 'all'){
@@ -666,7 +667,7 @@ Ext.define('App.service.Polygon', {
               self.windowChart.add(App.util.ChartTypes[chart](polygon.data));
             }
             var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true, App.service.Chart.maxData > 1000);
-            self.windowChart.setTitle(title);            
+            self.windowChart.setTitle(title);
             App.service.Chart.userPolygon = true;
           }
           else{
@@ -689,7 +690,7 @@ Ext.define('App.service.Polygon', {
     var wgs84Sphere = new ol.Sphere(6378137);
     var polygons = multipolygon.getPolygons();
     for (var i = 0; i < polygons.length; i++){
-      var coordinates = polygons[0].getLinearRing(0).getCoordinates();  
+      var coordinates = polygons[0].getLinearRing(0).getCoordinates();
     }
     var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
     return (area/10000).toFixed();
@@ -713,7 +714,7 @@ Ext.define('App.service.Polygon', {
           count++;
           var extent = ol.proj.transformExtent(
             polygon.geometry.extent,
-            __Global.projection.Geographic, 
+            __Global.projection.Geographic,
             __Global.projection.Mercator
           );
           //workaround for bug of uploaded shapefiles with multipart geometry (considered as donut)
@@ -755,7 +756,7 @@ Ext.define('App.service.Polygon', {
         //parameters['area_ha_' + d] = polygon.totalArea;
         for (f = 0; f < fieldlist.length; ++f) {
           var value = polygon.data[d][fieldlist[f]];
-          if (!!value && value != Infinity){
+          if (!!value && value != Infinity && value != 'NaN'){
             parameters[fieldlist[f] + '_' + d] = value;
           }
         }
@@ -833,6 +834,7 @@ Ext.define('App.service.Polygon', {
   toggleDisabledButtons: function (disabled) {
     App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(disabled);
     App.service.Helper.getComponentExt('polygon-btn-wue').setDisabled(disabled);
+    App.service.Helper.getComponentExt('polygon-btn-prod').setDisabled(disabled);
   },
 
   importSelectedGeometry: function(coordinates, extent, wkt_geometry){
@@ -869,7 +871,7 @@ Ext.define('App.service.Polygon', {
 
   cleanLocalDB: function(){
     self = this;
-      var polygons = self.all; 
+      var polygons = self.all;
 
       var change = false;
 
@@ -879,36 +881,36 @@ Ext.define('App.service.Polygon', {
         if (self.replaceAbbr(polygon, 'v_sum', 'vet')) change = true;
         if (self.replaceAbbr(polygon, 'y_wheat', 'yf_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'y_cotton', 'yf_cotton')) change = true;
-        if (self.replaceAbbr(polygon, 'y_rice', 'yf_rice')) change = true;        
-        //if (self.replaceAbbr(polygon, 'cr', 'lur')) change = true; 
+        if (self.replaceAbbr(polygon, 'y_rice', 'yf_rice')) change = true;
+        //if (self.replaceAbbr(polygon, 'cr', 'lur')) change = true;
         if (self.replaceAbbr(polygon, 'v_wheat', 'vc_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'v_cotton', 'vc_cotton')) change = true;
-        if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;         
+        if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;
         //update wkt_geometry
         if (!polygon.wkt_geometry && !!polygon.geometry && polygon.geometry.length != 0){
           change = true;
           var old_geometry = polygon.geometry;
           if (!old_geometry[0][0][0]){
             old_geometry = [[old_geometry]];
-          } 
+          }
           var multipolygon = new ol.geom.MultiPolygon(old_geometry);
 
           var wkt_geometry = new ol.format.WKT().writeGeometry(multipolygon.transform(__Global.projection.Mercator,__Global.projection.Geographic));
           polygon.wkt_geometry = wkt_geometry;
           delete polygon.geometry;
 
-        } 
+        }
         if (!!polygon.wkt_alt){
           delete polygon.wkt_alt;
         }
 
-      });      
-          
+      });
+
       if (change){
         this.saveAll();
-      }   
+      }
   },
-  
+
   replaceAbbr: function(polygon, oldvalue, newvalue){
     var change = false;
     for (var d = 0; d < polygon.data.length; d++){

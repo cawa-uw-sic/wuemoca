@@ -5,9 +5,38 @@ Ext.define('App.store.WueDecade', {
 
   storeId: 'wue-decade',
 
-  fields: [ 'year', 'decade', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10' ],
+  fields: [ 
+  	'year', 
+  	'decade',{
+	    //type: 'float',
+	    name: 'm3'
+	},{
+	    //type: 'float',
+	    name: 'm4'
+	},{
+	    //type: 'float',
+	    name: 'm5'
+	},{
+	    //type: 'float',
+	    name: 'm6'
+	},{
+	    //type: 'float',
+	    name: 'm7'
+	},{
+	    //type: 'float',
+	    name: 'm8'
+	},{
+	    //type: 'float',
+	    name: 'm9'
+	},{
+	    //type: 'float',
+	    name: 'm10'
+	}
+  ],
 
   groupField: 'year',
+
+  groupDir: 'DESC',
 
   data: []
 

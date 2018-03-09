@@ -9,6 +9,23 @@ window.nextLocale = function () {
   return locales[locales.indexOf(locale) + 1];
 };
 var i18n = {
+  prod: {
+    btnSubmit: 'Calculate Productivity',
+    windowTitle: 'Productivity Form',
+    pirf: 'Harvest',
+    firf: 'Irrigated acreage(ga)',
+    yf: 'Yield(t/ha)',
+    wf: 'Water Intake(mln.m3)',
+    price: 'Price ($/t)',
+    tab1: 'Crop specific input',
+    tab2: 'Other parameters',
+    firn: 'Netto(ha)',
+    groundwater: 'Ground Water(mm)',
+    coefficient: 'Efficiency',
+    rains: 'Precipitation(mm)',
+    rate: 'Rate of water intake m3/ha'
+  },
+
     yesno :{
       yes: 'Yes',
       no: 'No'
@@ -24,7 +41,7 @@ var i18n = {
     wuemoca_long            : '<b>W</b>ater <b>U</b>se <b>E</b>fficiency <b>Mo</b>nitor in <b>C</b>entral <b>A</b>sia',
     cawa_homepage           : 'CAWa project homepage',
     introwindow             : 'Intro<br>Window',
-    cawa_website            : 'http://www.cawa-project.net/portal/cms/CAWa',
+    cawa_website            : 'http://www.cawa-project.net/',
     ffo_homepage            : 'Federal Foreign Office of Germany',
     ffo_website             : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
     wuemoca_about           : 'About WUEMoCA',
@@ -172,9 +189,9 @@ mapSelection:{
     subbasinShort           : 'Subbasin',
     wua                     : 'WUA (Water User Association)',
     wuaShort                : 'WUA',
-    buis                    : 'BISA (Basin Irrig. System Admin.)',
+    buis                    : 'BISA (Basin Irrig. System Auth.)',
     buisShort               : 'BISA',
-    uis                     : 'ISA (Irrigation System Admin.)',
+    uis                     : 'ISA (Irrigation System Auth.)',
     uisShort                : 'ISA',
     command                 : 'Channel Command Area',
     commandShort            : 'Comm. Area',
@@ -191,9 +208,9 @@ mapSelection:{
     label                   : 'Select crop type:'
   },
   vc_classes: {
-    less                 : 'less water than demand',
-    equal                     : 'equalized',
-    more                  :  'more water than demand'
+    less                 : 'little water',
+    equal                     : 'balanced',
+    more                  :  'much water'
   },
   yield_classes: {
     verylow                 : 'very low',
@@ -332,13 +349,13 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
-    btnSubmit               : 'Calculate',
+      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
-        calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
+        calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
         btnImport2               : 'Excel file',
-    tooltipImport               : 'Browse for Excel file with water intake values',    
+    tooltipImport               : 'Browse for Excel file with water intake values',
     btnImportTemplates      : 'Excel templates for import',
     tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally',
     byDecade                : 'by decade (download only)',
@@ -364,6 +381,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
     calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',
+    calculateProd            : 'Calculate productivity',
+    calculateProdlong            : 'Calculate Water productivity',
     download                  : 'Download<br>Selection',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
@@ -477,6 +496,23 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
 switch (locale){
   case 'ru':
+    i18n.prod = {
+      btnSubmit: 'Расчитать продуктивность',
+      windowTitle: 'Форма продуктивности',
+      pirf: 'Вал. прод.(тонн)',
+      yf: 'Урожайность (т/га)',
+      wf: 'Водоподача (млн м3)',
+      firf: 'Посев.площади (га)',
+      price: 'Цена ($/т)',
+      tab1: 'Ввод параметров по с/х культуам',
+      tab2: 'Остальные показатели',
+      firn: 'Нетто(га)',
+      groundwater: 'Подпитка(мм)',
+      coefficient: 'КПД',
+      rains: 'Осадки(мм)',
+      rate: 'Норма водоподачи м3/га'
+
+    };
     i18n.yesno = {
       yes: 'да',
       no: 'нет'
@@ -484,7 +520,7 @@ switch (locale){
     i18n.header = {
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
-      cawa_website          : 'http://www.cawa-project.net/ru/portal/cms/CAWa',
+      cawa_website          : 'http://www.cawa-project.net/ru/',
       introwindow: 'Страница<br>Приветствия',
     ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
     ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
@@ -665,9 +701,10 @@ i18n.mapSelection ={
       veryhigh              : 'очень высокая'
     };
       i18n.vc_classes = {
-    less                 : 'less water than demand',
-    equal                     : 'equalized',
-    more                  :  'more water than demand'
+            less                 : 'меньше воды',
+    equal                     : 'сбалансированный',
+    more                  :  'много воды'
+
   };
 
     i18n.settings = {
@@ -776,15 +813,15 @@ i18n.mapSelection ={
 
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
-      btnSubmit               : 'Произвести расчет',
-    calculateVir: 'Calculate Irrigation Efficiency',  
-    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,   
+      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
+    calculateVir: 'Calculate Irrigation Efficiency',
+    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get calculated results.' ,
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Импорт',
-        btnImport2               : 'Excel file',      
-    tooltipImport               : 'Browse for Excel file with water intake values',        
+        btnImport2               : 'Excel file',
+    tooltipImport               : 'Browse for Excel file with water intake values',
       btnImportTemplates      : 'Шаблоны для импорта',
-    tooltipImportTemplates: 'Select Excel template for value import, and store it locally',      
+    tooltipImportTemplates: 'Select Excel template for value import, and store it locally',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
@@ -808,6 +845,8 @@ i18n.mapSelection ={
       upload                : 'Загрузить<br>Shapefile',
       calculateWUE          : 'Расчет водоэффективности',
 calculateWUElong          : 'Расчет водоэффективности',
+      calculateProd          : 'Расчет продуктивности',
+calculateProdlong          : 'Расчет продуктивности',
               download                  : 'Скачать подборку',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',

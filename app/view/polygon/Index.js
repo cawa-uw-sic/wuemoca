@@ -42,7 +42,7 @@ Ext.define('App.view.polygon.Index', {
     },{
       xtype: 'filefield',
       buttonOnly: true,
-      listeners : { 
+      listeners : {
         afterrender: 'onUpload',
         render: 'onFileSelection'
       },
@@ -62,12 +62,20 @@ Ext.define('App.view.polygon.Index', {
       itemId: 'polygon-btn-import',
       tooltip: i18n.polygon.import_tooltip,
       disabled: true
-    },{      
+    },{
       text: i18n.polygon.calculateWUE,
       iconCls: 'x-fa fa-tint',
       handler: 'onWUE',
       itemId: 'polygon-btn-wue',
       tooltip: i18n.polygon.calculateWUElong,
+      disabled: true,
+      hidden: false
+    },{
+      text: i18n.polygon.calculateProd,
+      iconCls: 'x-fa fa-tint',
+      handler: 'onProd',
+      itemId: 'polygon-btn-prod',
+      tooltip: i18n.polygon.calculateProdlong,
       disabled: true,
       hidden: false
     },{

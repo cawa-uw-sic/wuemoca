@@ -19,10 +19,12 @@ Ext.define('App.util.ChartTypes', {
       yField = yField.replace('{crop}', crop);
       color = App.service.Helper.getById(__Crop, crop).color;
     }
+
     var maximum = NaN;
     var threshold = 6;
     var decimals = 0;
     var maxData = App.service.Chart.maxData;
+    var newMax = Math.max.apply(null, data.map(function(d) { return d[yField] || 0; }));
 
     if (maxData < threshold){
       maximum = threshold;
@@ -41,19 +43,19 @@ Ext.define('App.util.ChartTypes', {
         {
           xtype  : 'app-chart-vbar',
           axes   : __Chart.VBar.getAxes   (
-            'year', 
-            yField, 
+            'year',
+            yField,
             thousand,
             App.service.Map.getLegendTitle(true, thousand),
-            maximum, 
-            decimals,
+            newMax * 1.1 || maximum,
+            indicator.decimals || decimals,
             App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.VBar.getSeries (
-            'year', 
+            'year',
             yField,
-            measure, 
-            color, 
+            measure,
+            color,
             indicator.decimals
           )
         }
@@ -68,7 +70,7 @@ Ext.define('App.util.ChartTypes', {
           style: { padding: '0px 7px' }
         },
         items:
-        [ 
+        [
           { xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
         ]
@@ -121,21 +123,21 @@ Ext.define('App.util.ChartTypes', {
         {
           xtype  : 'app-chart-stackedvbar',
           axes   : __Chart.StackedVBar.getAxes   (
-            'year', 
+            'year',
             yFields,
             thousand,
             App.service.Map.getLegendTitle(true, thousand),
             ind_type,
-            limit, 
+            limit,
             maximum,
             decimals,
             App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.StackedVBar.getSeries (
-            cropNames, 
-            'year', 
+            cropNames,
+            'year',
             yFields,
-            (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''), 
+            (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''),
             indicator.decimals
           )
         }
@@ -148,9 +150,9 @@ Ext.define('App.util.ChartTypes', {
         defaults : {
           height : 22,
           style: { padding: '0px 7px' }
-        },        
+        },
         items:
-        [ 
+        [
           { xtype: 'label', text: i18n.chart.sumDoubleFallow }
           ,{ xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview', tooltip: 'Chart legend is not included' }
@@ -159,7 +161,7 @@ Ext.define('App.util.ChartTypes', {
     });
   },
 
-  Multiannual: function (data) { 
+  Multiannual: function (data) {
     var self = this;
     var lur = App.service.Helper.getById( __Indicator, 'lur' );
     var flf = App.service.Helper.getById( __Indicator, 'flf' );
@@ -183,7 +185,7 @@ Ext.define('App.util.ChartTypes', {
     return Ext.create('App.view.chart.VPanel', {
       items: [
         {
-          html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' + 
+          html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' +
             i18n.chart.multiannualHeader2,
           cls: 't-center t-bold t-bigger mlu-header'
         },{
@@ -200,16 +202,16 @@ Ext.define('App.util.ChartTypes', {
             height: 200,
             insetPadding: 25,
             store: App.service.Chart.stores.lur,
-            gradients:__Chart.Gauge.getGradient(lur.legendcolors[0], lur.legendcolors[1], lur.legendcolors[2], 'lur'), 
-            colors: ['url(#gradient-lur)'],           
+            gradients:__Chart.Gauge.getGradient(lur.legendcolors[0], lur.legendcolors[1], lur.legendcolors[2], 'lur'),
+            colors: ['url(#gradient-lur)'],
             axes: __Chart.Gauge.getAxes(lur.minimum, lur.maximum, lur_steps, lur[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
             sprites: __Chart.Gauge.getSprites(lur[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].lur).toFixed(1)),
             margin: '10 0 0 0'
           },{
-            html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') + 
-              '">',         
-            cls: 't-center mlu-crop-img'            
+            html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') +
+              '">',
+            cls: 't-center mlu-crop-img'
           },{
             xtype: 'app-chart-gauge',
             width: '45%',
@@ -217,7 +219,7 @@ Ext.define('App.util.ChartTypes', {
             insetPadding: 25,
             store: App.service.Chart.stores.flf,
             gradients: __Chart.Gauge.getGradient(flf.legendcolors[0],flf.legendcolors[1],flf.legendcolors[2], 'flf'),
-            colors: ['url(#gradient-flf)'],             
+            colors: ['url(#gradient-flf)'],
             axes: __Chart.Gauge.getAxes(0, deltaYears, deltaYears/2, flf[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
             sprites: __Chart.Gauge.getSprites(flf[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].flf).toFixed(1)),
@@ -244,18 +246,24 @@ Ext.define('App.util.ChartTypes', {
     var thousand = false;
     var decimals = 1;
     var maxData = App.service.Chart.maxData;
+    if (maxData > 10){
+      decimals = 0;
+    }
     var unit = '';
+    if (indicator.enUnit != 'Index'){
+      unit = indicator[ __Global.lang + 'Unit'];
+    }
     if (indicator.id == 'firn'){
       display = 'under';
       maximum = NaN;
       decimals = 0;
-      unit = indicator[ __Global.lang + 'Unit'];
+      //unit = indicator[ __Global.lang + 'Unit'];
       if (maxData > 1000){
         thousand = true;
         if (maxData < 5000){
           decimals = 1;
         }
-      }      
+      }
     }
     else{
       if (maxData > 0.9){
@@ -264,6 +272,9 @@ Ext.define('App.util.ChartTypes', {
       }
     }
     var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? i18n.wue.pressWUE : '';
+    //if water productivity eprod is calculated with user input crop prices, uncomment the following line
+    //var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
+    var hideCropPrices = (indicator.id == 'eprod') ? false : true;
 
 
     return Ext.create('App.view.chart.FPanel', {
@@ -275,18 +286,19 @@ Ext.define('App.util.ChartTypes', {
             right: 11
           },
           axes: __Chart.Line.getAxes(
-            'year', 
-            yField, 
+            'year',
+            yField,
             thousand,
-            maximum, 
+            unit == '' ? '' : App.service.Map.getLegendTitle(true, thousand),
+            maximum,
             decimals,
             App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.Line.getSeries(
-            'year', 
-            yField, 
-            unit, 
-            color, 
+            'year',
+            yField,
+            indicator.id == 'firn' ? unit : '',
+            color,
             indicator.decimals,
             display
           )
@@ -302,7 +314,8 @@ Ext.define('App.util.ChartTypes', {
           style: { padding: '0px 7px' }
         },
         items:
-        [ 
+        [
+          { xtype: 'button', text: 'Show crop prices', handler: 'onCropPrices', hidden: hideCropPrices },
           { xtype: 'label', text: vir_text },
           { xtype: 'tbfill' }
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }

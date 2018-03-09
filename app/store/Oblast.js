@@ -21,10 +21,6 @@ Ext.define('App.store.Oblast', {
         App.service.Helper.setComponentsValue([
           { id: 'zoom-cb-oblast', selection: 'Oblast' }
         ]);
-        /*if (store.count() > 0){       
-          var allOblastsCountry = store.getAt(0).get('name');
-          App.service.Helper.getComponentExt('zoom-cb-oblast').setEmptyText(allOblastsCountry);
-        }*/
       }
     }
   }

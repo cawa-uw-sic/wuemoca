@@ -327,7 +327,7 @@ Ext.define('App.service.Wue', {
       var polygon = App.service.Polygon.getSelectedPolygons()[0];
       if (polygon.data.length > 0) {
         polygon = polygon.data.map(function (d) {
-          //values from Year excel
+          //values from Year excel have priority
           if (!!data[0].year){
             var index = data.map(function (i) {
               return parseInt(i.year) 
@@ -356,7 +356,7 @@ Ext.define('App.service.Wue', {
       if (polygon.data.length > 0) {
         polygon = polygon.data.map(function (d) {
           var index;
-          //values from Month excel
+          //values from Month excel have priority
           if (!data[0].data){
             index = data.map(function (i) {
               //read rows with year only
@@ -372,13 +372,15 @@ Ext.define('App.service.Wue', {
           //calculate yearly sum of months
           var yearsum = 0;
           for (var month = 3; month <= 10; month++) {
-            //values from Month excel
-            if (!data[0].data && parseFloat(data[index]['m' + month]) > 0){
-              d['wf_m' + month] = parseFloat(data[index]['m' + month]);
-            }
-            //values from monthly form
-            else if (!!data[0].data) {
-              d['wf_m' + month] = parseFloat(data[index].data['m' + month]);
+            //values from Month excel have priority
+            if (index != -1){
+              if (!data[0].data && parseFloat(data[index]['m' + month]) > 0){
+                d['wf_m' + month] = parseFloat(data[index]['m' + month]);
+              }
+              //values from monthly form
+              else if (!!data[0].data) {
+                d['wf_m' + month] = parseFloat(data[index].data['m' + month]);
+              }
             }
             if (!!d['wf_m' + month]){
               yearsum += d['wf_m' + month];
@@ -430,12 +432,14 @@ Ext.define('App.service.Wue', {
             var monthsum = 0;
             for (var decade = 1; decade <= 3; decade++) {
               //values from Decade excel
-              if (!data[0].data && parseFloat(data[index]['m' + month + '_' + decade]) > 0){
-                d['wf_m' + month + '_' + decade] = parseFloat(data[index]['m' + month + '_' + decade]);
-              }
-              //values from decadal form
-              else if (!!data[0].data) {
-                d['wf_m' + month + '_' + decade] = parseFloat(data[indices[decade-1]].data['m' + month]);
+              if (index != -1){
+                if (!data[0].data && parseFloat(data[index]['m' + month + '_' + decade]) > 0){
+                  d['wf_m' + month + '_' + decade] = parseFloat(data[index]['m' + month + '_' + decade]);
+                }
+                //values from decadal form
+                else if (!!data[0].data) {
+                  d['wf_m' + month + '_' + decade] = parseFloat(data[indices[decade-1]].data['m' + month]);
+                }
               }
               if (!!d['wf_m' + month + '_' + decade]){              
                 monthsum += d['wf_m' + month + '_' + decade];

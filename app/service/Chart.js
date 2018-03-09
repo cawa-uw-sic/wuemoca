@@ -214,7 +214,6 @@ Ext.define('App.service.Chart', {
     self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
       if (indicator.chart != 'crops'){
-      //if (typeof indicator.chart != 'object'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
       }
       else if (indicator.crops == 'all'){
@@ -281,8 +280,10 @@ Ext.define('App.service.Chart', {
         self.maxData = parseFloat(self.data[i][yField]);
       } 
       //hide no data values in line charts
-      if (indicator.chart == 'Line' && (!self.data[i][yField] || parseFloat(self.data[i][yField]) == -1)){
-        self.data[i][yField] = Infinity;
+      if (indicator.chart == 'Line'){
+        if (parseFloat(self.data[i][yField]) == -1 || (!self.data[i][yField] && indicator.id != 'cd')){
+          self.data[i][yField] = Infinity;
+        }
       }     
     });
     self.stores.defaults.setData(self.data);

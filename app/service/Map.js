@@ -105,6 +105,7 @@ Ext.define('App.service.Map', {
         })
       });
       map.addLayer(App.util.Layer.admin);
+      BackgroundLayers.country.setZIndex(14);
     }
   },
 
@@ -128,7 +129,7 @@ Ext.define('App.service.Map', {
   },
 
   hideShowElements: function(currentLayer){
-    App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
+    //App.service.Helper.getComponentExt('switcher-container-aggreg').setVisible(currentLayer);
     App.service.Yearslider.didRender();
   },
 
@@ -314,14 +315,14 @@ Ext.define('App.service.Map', {
     var indicator = App.service.Watcher.getIndicator();
     if (!!indicator.crops){
       //indicators with crop list
-      /*if (indicator.id == 'vc' && typeof indicator[__Global.lang + 'Legend'] == 'object'){
+      if (typeof indicator[__Global.lang + 'Legend'] == 'object'){
         legend_title = indicator[__Global.lang + 'Legend'][
-          App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop')).idx
+          App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop')).idx - 1
         ];
       }
-      else{*/
+      else{
         legend_title = App.service.Helper.getCropName();
-      //}
+      }
     }
     else{
       legend_title = indicator[__Global.lang + 'Legend'];

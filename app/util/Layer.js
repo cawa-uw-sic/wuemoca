@@ -14,7 +14,9 @@ var BackgroundLayers = {
     visible: false,
     source: new ol.source.BingMaps({
       key: 'AmlVh-kGlvEqlwjR_MtTKkdwxKSDwhkzsfzcbnmCedxGE_5oBZECnZ3MRXCKH-vb',
-      imagerySet: 'AerialWithLabels'
+      //labels and borders
+      //imagerySet: 'AerialWithLabels'
+      imagerySet: 'Aerial'
     })
   }),
 

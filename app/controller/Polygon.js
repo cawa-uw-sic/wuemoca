@@ -33,6 +33,7 @@ Ext.define('App.controller.Polygon', {
   },
   
   onDownload: function (field){
+    App.service.Exporter.setDownloadCombotext();    
     App.service.Helper.getComponentExt('exporter-window').show();
     //App.service.Polygon.downloadOptions();
   },

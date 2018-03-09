@@ -277,7 +277,12 @@ mapSelection:{
     flf               : 'Fallow land frequency',
     yearsFallow             : 'Years of fallow',
           noChart    : 'No diagram available for',
-          sumDoubleFallow: 'All crops incl. double usage, without fallow land'
+          sumDoubleFallow: 'All crops incl. double usage, without fallow land',
+          calculate_indicators: 'Calculate indicators',
+          transfer: 'Transfer',
+          toMyPolygons: 'to My Polygons',
+          showCropPrices: 'Show crop prices',
+          legendNotIncluded: 'Chart legend is not included'
   },
 
   exp: {
@@ -326,7 +331,9 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
           all: 'all',
           plural: 's',
           ASB: ' of ASB',
-          acronym: 'Show indicator acronyms'
+          acronym: 'Show indicator acronyms',
+              allpolygons: 'all polygons',
+              noselectionPolygon: 'no polygon selected'
   },
 
   timeSlider: {
@@ -366,6 +373,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
    polygon: {
     showPolygon             : 'My Polygons',
+          showPolygons: 'Show My Polygons',
+      hidePolygons:    'Hide My Polygons',    
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
     exportPressed           : 'Report mode',
@@ -378,7 +387,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate WUE',
     calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',
-    download                  : 'Download<br>Selection',
+    download                  : 'Download<br>Polygon(s)',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
           progressTitle : 'Calculate Indicators',
@@ -411,9 +420,9 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
         smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
         smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
         outside: 'Outside the irrigated area polygons cannot be processed.',
-        import_button_1: 'Import selected',
+        import_button_1: 'Import',
         import_button_2: 'map unit',
-        import_tooltip: "Add the selected map unit to 'My Polygons' in order to calculate WUE",
+        import_tooltip: "Transfer the selected map unit to 'My Polygons' in order to calculate indicators",
         removed_single: 'has been removed.',
         removed_multi: 'have been removed.'
   },
@@ -730,7 +739,12 @@ i18n.mapSelection ={
       flf             : 'Частота неисп.земель',
       yearsFallow           : 'Годы неисп.земель',
       noChart    : 'Нет диаграмма для',
-                sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель'
+                sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель',
+          calculate_indicators: 'Calculate indicators',
+          transfer: 'Transfer',
+          toMyPolygons: 'to My Polygons',
+          showCropPrices: 'Show crop prices',
+          legendNotIncluded: 'Chart legend is not included'
     };
 
     i18n.exp = {
@@ -780,7 +794,9 @@ i18n.mapSelection ={
                     all: 'все',
                     plural: '',
                               ASB: ' of ASB',
-                    acronym: 'Show indicator acronyms'
+                    acronym: 'Show indicator acronyms',
+              allpolygons: 'all polygons',
+              noselectionPolygon: 'no polygon selected'
 
     };
 
@@ -821,6 +837,8 @@ i18n.mapSelection ={
 
     i18n.polygon = {
           showPolygon             : 'Мои полигоны',
+          showPolygons: 'Show My Polygons',
+      hidePolygons:    'Hide My Polygons',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -833,7 +851,7 @@ i18n.mapSelection ={
       upload                : 'Загрузить<br>Shapefile',
       calculateWUE          : 'Расчет водоэффективности',
 calculateWUElong          : 'Расчет водоэффективности',
-              download                  : 'Скачать подборку',
+              download                  : 'Скачать<br>полигон(ы)',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',
@@ -868,9 +886,9 @@ calculateWUElong          : 'Расчет водоэффективности',
         smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
         smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
         outside: 'Outside the irrigated area polygons cannot be processed.',
-        import_button_1: 'Импортировать выбранную',
+        import_button_1: 'Импортировать',
         import_button_2: 'map unit',
-        import_tooltip: "Add the selected map unit to 'My Polygons' in order to calculate WUE",
+        import_tooltip: "Transfer the selected map unit to 'My Polygons' in order to calculate indicators",
         removed_single: 'был удален.',
         removed_multi: 'были удалены.'
     };

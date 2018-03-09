@@ -366,7 +366,14 @@ Ext.define('App.service.Map', {
       if (!!median && median != 0) {
         if (typeof median == 'object'){
           if (indicator.id == 'yf' || indicator.id == 'pirf'){
-            text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
+            var from = 0.01;
+            var textblocks = [];
+            for (var m = 0; m < median.length; m++){
+              textblocks.unshift(from + ' - ' + median[m]);
+              from = median[m];
+            }
+            text = textblocks.join('<br>');
+            //text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
           }
         }
         else{

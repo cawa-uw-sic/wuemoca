@@ -65,6 +65,7 @@ Ext.define('App.service.Chart', {
       console.log('setDownloadCombotext initialize');
       if (App.service.Watcher.get('UserPolygon') == 'show'){
         App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
+        App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
         App.service.Polygon.importSelectedGeometry(false);
         App.service.Polygon.importSelectedData(false, false);
       }           
@@ -128,9 +129,12 @@ Ext.define('App.service.Chart', {
             App.service.Highlight.display(coordinates);
             self.showWindow();
             //prepare import possibility to user polygon
-            var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+            var first = self.data[0];
+            var name = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
+              + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+            //var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
             App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
-            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + aggregation_name);
+            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + name);
             //store multipolygon coordinates, extent and wkt_geometry
             //Geometry format for reading and writing data in the WellKnownText (WKT) format.
             var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
@@ -163,7 +167,7 @@ Ext.define('App.service.Chart', {
                       delete data_copy[d]['vir'];
                     }
                   }
-                  App.service.Polygon.importSelectedData(data_copy, aggregation_name);                  
+                  App.service.Polygon.importSelectedData(data_copy, name);                  
                 },
                 callback: function (results){
                   self.isBusy = false;
@@ -181,7 +185,7 @@ Ext.define('App.service.Chart', {
                   delete data_copy[d]['vir'];
                 }
               }
-              App.service.Polygon.importSelectedData(data_copy, aggregation_name);
+              App.service.Polygon.importSelectedData(data_copy, name);
             }
           }
           else{

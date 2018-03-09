@@ -35,7 +35,26 @@ Ext.define('App.controller.Chart', {
   /*onExcel: function () {
     App.service.Helper.JSONToHTMLConvertor('all');
   },*/
-
+  /**
+  * @method onTransfer
+  * import geometry and values to user polygons
+  */
+  onTransfer: function() {
+    App.service.Helper.getComponentExt('user-polygon').expand();
+    App.service.Polygon.switchView(true);
+    App.service.Polygon.importPolygon();
+  },
+  /**
+  * @method onCalculate
+  * open indicator calculation window
+  */
+  onCalculate: function() {
+    var container = App.service.Helper.getComponentExt('app-wue-container');
+    container.removeAll();
+    container.add({ xtype: 'app-wue-form-by-year' });
+    App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
+    App.service.Wue.window.show();
+  },  
   /**
   * @method onPreview
   * Show image of chart

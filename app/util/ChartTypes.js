@@ -35,7 +35,8 @@ Ext.define('App.util.ChartTypes', {
       }
     }
     var measure = indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : '';
-
+    var hideButton = (App.service.Watcher.get('UserPolygon') == 'noshow') ? false : true;
+    
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
@@ -70,6 +71,18 @@ Ext.define('App.util.ChartTypes', {
         items:
         [ 
           { xtype: 'tbfill' }
+          ,{ 
+            xtype: 'button', 
+            text: i18n.chart.transfer + ' ' + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'] + ' ' + i18n.chart.toMyPolygons, 
+            handler: 'onTransfer',
+            hidden: hideButton
+          }
+          ,{ 
+            xtype: 'button', 
+            text: i18n.polygon.calculateWUE,  
+            handler: 'onCalculate',
+            hidden: !hideButton
+          }           
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
         ]
       }
@@ -116,6 +129,8 @@ Ext.define('App.util.ChartTypes', {
         decimals = 1;
       }
     }
+    var hideButton = (App.service.Watcher.get('UserPolygon') == 'noshow') ? false : true;
+    
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
@@ -151,9 +166,21 @@ Ext.define('App.util.ChartTypes', {
         },        
         items:
         [ 
-          { xtype: 'label', text: i18n.chart.sumDoubleFallow }
-          ,{ xtype: 'tbfill' }
-          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview', tooltip: 'Chart legend is not included' }
+          //{ xtype: 'label', text: i18n.chart.sumDoubleFallow }
+          { xtype: 'tbfill' }
+          ,{ 
+            xtype: 'button', 
+            text: i18n.chart.transfer + ' ' + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'] + ' ' + i18n.chart.toMyPolygons, 
+            handler: 'onTransfer',
+            hidden: hideButton
+          }
+          ,{ 
+            xtype: 'button', 
+            text:  i18n.polygon.calculateWUE, 
+            handler: 'onCalculate',
+            hidden: !hideButton
+          }              
+          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview', tooltip: i18n.chart.legendNotIncluded }
         ]
       }
     });
@@ -273,7 +300,7 @@ Ext.define('App.util.ChartTypes', {
     //if water productivity eprod is calculated with user input crop prices, uncomment the following line
     //var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
     var hideCropPrices = (indicator.id == 'eprod') ? false : true;
-
+    var hideButton = (App.service.Watcher.get('UserPolygon') == 'noshow') ? false : true;
 
     return Ext.create('App.view.chart.FPanel', {
       items: [
@@ -313,9 +340,21 @@ Ext.define('App.util.ChartTypes', {
         },
         items:
         [ 
-          { xtype: 'button', text: 'Show crop prices', handler: 'onCropPrices', hidden: hideCropPrices },
-          { xtype: 'label', text: vir_text },
-          { xtype: 'tbfill' }
+          { xtype: 'button', text: i18n.chart.showCropPrices, handler: 'onCropPrices', hidden: hideCropPrices }
+          ,{ xtype: 'label', text: vir_text }
+          ,{ xtype: 'tbfill' }
+          ,{ 
+            xtype: 'button', 
+            text: i18n.chart.transfer + ' ' + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'] + ' ' + i18n.chart.toMyPolygons, 
+            handler: 'onTransfer',
+            hidden: hideButton
+          }
+          ,{ 
+            xtype: 'button', 
+            text:  i18n.polygon.calculateWUE, 
+            handler: 'onCalculate',
+            hidden: !hideButton
+          }     
           ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
         ]
       }

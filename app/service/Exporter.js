@@ -4,7 +4,7 @@
 Ext.define('App.service.Exporter', {
 
   singleton: true,
-  userPolygon: false,
+  //userPolygon: false,
   filter_array: false,
   filter: false,
   outputformat: false,
@@ -15,13 +15,14 @@ Ext.define('App.service.Exporter', {
   * update download button and select filter combobox of the download options window, 
   */
   setDownloadCombotext: function(){
+    var userPolygon = (App.service.Watcher.get('UserPolygon') == 'show');
     var aggregation = App.service.Watcher.getAggregation();
 
     //set download button enabled/disabled and text
     var button = App.service.Helper.getComponentExt('exporter-btn-download');
     var no_export = false;
     if (App.service.Watcher.getIndicator().chart == 'Multiannual' ||
-      App.service.Watcher.get('UserPolygon') == 'show' ||
+      //userPolygon ||
       aggregation.id == 'grid' ||
       !App.util.Layer.current){
         no_export = true;
@@ -30,7 +31,9 @@ Ext.define('App.service.Exporter', {
     if (!!App.util.Layer.current){
       if (!App.util.Layer.current.getVisible()){
         no_export = true;
-        App.service.Helper.getComponentExt('exporter-window').hide(); 
+        if (!userPolygon){
+          App.service.Helper.getComponentExt('exporter-window').hide(); 
+        }
       }
     }
     button.setDisabled(no_export);
@@ -43,38 +46,58 @@ Ext.define('App.service.Exporter', {
     );
     //Download options window: select filter combobox
     //first entry of select filter list: all aggregation units
-    var aggregationlevel = aggregation[__Global.lang + 'NameShort'];
+    var name_text = '';
+    if (userPolygon){
+      name_text = i18n.exp.allpolygons;
+    }
+    else{
+      var aggregationlevel = aggregation[__Global.lang + 'NameShort'];
+      name_text = i18n.exp.all + ' ' + aggregationlevel + i18n.exp.plural + i18n.exp.ASB;
+    }
     var downloadSelectionData =  [{
       id: '0', 
       filter: 'all',
-      name: i18n.exp.all + ' ' + aggregationlevel + i18n.exp.plural + i18n.exp.ASB
+      name: name_text
     }];
     //second entry of select filter list: filtered aggregation unit(s) by area filter, if applied
     var filterFilter = '';
-    var nameFliter = '';
-    //check if area filter is applied
-    var filter = App.service.Watcher.get('Aoi_Filter');
-    var filterapplied = true;
-    if (!!filter){
-      var filtername = App.service.Helper.getComponentExt('zoom-cb-' + filter.split('_')[0]).getRawValue();
-      if (filtername != ''){
-        var conjunction = ': ';
-        if (filter.split('_')[0] != aggregation['id']){
-          conjunction = i18n.exp.conjunction;
-        }
-        filterFilter = filter;
-        nameFilter = i18n.exp.filtered + ' ' + aggregationlevel + conjunction + filtername;
-      }  
+    var nameFilter = '';
+    if (userPolygon){
+      var selectedPolygons = App.service.Polygon.getSelectedPolygons();
+      if (selectedPolygons && selectedPolygons.length > 0){
+        filterFilter = selectedPolygons[0].uid;
+        nameFilter = selectedPolygons[0].info.name;
+      }
       else{
-        filterapplied = false;   
-      }          
+        filterFilter = 'no_filter';
+        nameFilter = '-- ' + i18n.exp.noselectionPolygon + ' --';
+      }
     }
     else{
-      filterapplied = false;       
-    }
-    if (!filterapplied){
-      filterFilter = 'no_filter';
-      nameFilter = '-- ' + i18n.exp.nofilter + ' --';
+      //check if area filter is applied
+      var filter = App.service.Watcher.get('Aoi_Filter');
+      var filterapplied = true;
+      if (!!filter){
+        var filtername = App.service.Helper.getComponentExt('zoom-cb-' + filter.split('_')[0]).getRawValue();
+        if (filtername != ''){
+          var conjunction = ': ';
+          if (filter.split('_')[0] != aggregation['id']){
+            conjunction = i18n.exp.conjunction;
+          }
+          filterFilter = filter;
+          nameFilter = i18n.exp.filtered + ' ' + aggregationlevel + conjunction + filtername;
+        }  
+        else{
+          filterapplied = false;   
+        }          
+      }
+      else{
+        filterapplied = false;       
+      }
+      if (!filterapplied){
+        filterFilter = 'no_filter';
+        nameFilter = '-- ' + i18n.exp.nofilter + ' --';
+      }
     }
     downloadSelectionData.push({
       id: '1',
@@ -82,23 +105,25 @@ Ext.define('App.service.Exporter', {
       name: nameFilter
     });
     //third entry of select filter list: selected aggregation unit by mouse click on the map, if applied
-    var filterSelection = '';
-    var nameSelection = '';
-    //check if chart object has data, means that an unit is selected by mouse click
-    if (App.service.Chart.data.length > 0){
-      var selection = App.service.Chart.data[0][aggregation['id'] + '_' + __Global.lang];
-      filterSelection = aggregation['id'] + '_id=' + App.service.Chart.data[0][aggregation['id'] + '_id'];
-      nameSelection = i18n.exp.selected + ' ' + aggregationlevel + ': ' + selection;
-    }  
-    else{
-      filterSelection = 'no_selection';
-      nameSelection = '-- ' + i18n.exp.noselection1 + ' ' + aggregationlevel + ' ' + i18n.exp.noselection2 + ' --';
+    if (!userPolygon){
+      var filterSelection = '';
+      var nameSelection = '';
+      //check if chart object has data, means that an unit is selected by mouse click
+      if (App.service.Chart.data.length > 0){
+        var selection = App.service.Chart.data[0][aggregation['id'] + '_' + __Global.lang];
+        filterSelection = aggregation['id'] + '_id=' + App.service.Chart.data[0][aggregation['id'] + '_id'];
+        nameSelection = i18n.exp.selected + ' ' + aggregationlevel + ': ' + selection;
+      }  
+      else{
+        filterSelection = 'no_selection';
+        nameSelection = '-- ' + i18n.exp.noselection1 + ' ' + aggregationlevel + ' ' + i18n.exp.noselection2 + ' --';
+      }
+      downloadSelectionData.push({
+        id: '2',
+        filter: filterSelection, 
+        name: nameSelection        
+      });
     }
-    downloadSelectionData.push({
-      id: '2',
-      filter: filterSelection, 
-      name: nameSelection        
-    });
 
     //store user selection to recover it after new data loading
     var selectedIndex = App.service.Helper.getComboboxSelectedIndex('exporter-cb-downloadselection');
@@ -106,7 +131,7 @@ Ext.define('App.service.Exporter', {
     downloadSelectionStore.removeAll();
     downloadSelectionStore.loadData(downloadSelectionData);
     //set combobox value to previously selected index if any
-    if (selectedIndex == -1 || App.service.Watcher.get('UserPolygon') == 'show'){
+    if (selectedIndex == -1){
       selectedIndex = 0;
     }
     if (downloadSelectionStore.count() > selectedIndex){
@@ -143,7 +168,7 @@ Ext.define('App.service.Exporter', {
     }
     else{
       if (userPolygon){
-        App.service.Polygon.writePolygon();
+        App.service.Polygon.writePolygon(this.filter == 'all', 0);
       }
       else{
         this.downloadWFS(false);
@@ -171,7 +196,7 @@ Ext.define('App.service.Exporter', {
     });
     if (userPolygon){
       propertyname += 'name,location,area_ha,';
-      filter = '';
+      //filter = '';
     }
     if (outputformat != 'excel'){
       propertyname += 'geom';
@@ -198,12 +223,19 @@ Ext.define('App.service.Exporter', {
     var filename = '';
 
     if (userPolygon){
-      var selectedPolygon = App.service.Polygon.getSelectedPolygons()[0];
-      filename = selectedPolygon.info.name.replace(/ /g,"_");
-      if (!!selectedPolygon.info.location && selectedPolygon.info.location != ''){
-        filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
+
+      if (filter == 'all'){
+        filename = 'userpolygons';
       }
-      cql_filter = "&CQL_FILTER=uid='" + selectedPolygon.uid + "'";
+      else{
+        var selectedPolygon = App.service.Polygon.getSelectedPolygons()[0];
+        filename = selectedPolygon.info.name.replace(/ /g,"_");
+        if (!!selectedPolygon.info.location && selectedPolygon.info.location != ''){
+          filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
+        }      
+      }
+      //cql_filter = "&CQL_FILTER=uid='" + selectedPolygon.uid + "'";
+      cql_filter = '';
     }
     else{
       filename = aggregation;

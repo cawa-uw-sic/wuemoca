@@ -26,7 +26,7 @@ Ext.define('App.service.Polygon', {
   importExtent: false,
   importWktGeometry: false,
   importData: false,
-  importNameprefix: false,
+  importName: false,
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
@@ -64,6 +64,7 @@ Ext.define('App.service.Polygon', {
       }
       var uid = e.selected[0].get('uid');
       self.selectRowInGrid(uid);
+ 
     });
 
     self.drawControl.on('drawend', function (e) {
@@ -97,7 +98,7 @@ Ext.define('App.service.Polygon', {
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
     App.service.Helper.getComponentExt('exporter-window').hide();
-    App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
+    //App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
     var legendwindow = App.service.Helper.getComponentExt('legend-window');
     if (val == false){
       this.deselectMapAndList();
@@ -295,6 +296,9 @@ Ext.define('App.service.Polygon', {
         this.windowEdit.close();
       }
     }
+    if (!App.service.Helper.getComponentExt('exporter-window').isHidden()){
+      App.service.Exporter.setDownloadCombotext(); 
+    }  
   },
 
   registerPolygon: function (extent, wkt_geometry) {
@@ -323,7 +327,6 @@ Ext.define('App.service.Polygon', {
     feature.set('data', polygon.data);
     feature.set('name', polygon.info.name);
     return feature;
-
   },
 
   removeSelectedPolygons: function (polygon) {
@@ -418,8 +421,9 @@ Ext.define('App.service.Polygon', {
 
     self.source.clear();
     self.all.map(function (polygon) {
-
-      self.source.addFeature(self.createFeature(polygon));
+      if (!!polygon.wkt_geometry){
+        self.source.addFeature(self.createFeature(polygon));
+      }
     });
   },
 
@@ -737,21 +741,38 @@ Ext.define('App.service.Polygon', {
   * to insert the values in a temporary server PostGIS table.
   * The Geoserver map layer mypolygon points to this table and provides WFS download options in three different formats
   */
-  writePolygon: function(){
+  writePolygon: function(allPolygons, index){
     var self = this;
     if (self.isBusy) return false;
 
     var fieldlist = App.service.Helper.getExportFields(true);
-    var selectedPolygons = self.getSelectedPolygons();
-    if (selectedPolygons.length > 0){
-      var polygon = selectedPolygons[0];
-      //write polygon to temporary server database table
-      var parameters = {};
+    var parameters = {};
+    var polygon = null;
+
+    if (!allPolygons){
+      var selectedPolygons = self.getSelectedPolygons();
+      if (selectedPolygons.length > 0){
+        polygon = selectedPolygons[0];
+        //first=true means that the temporary server PostGIS table will be emptied
+        parameters['first'] = 'true';
+      }
+    }
+    else if (allPolygons && self.all.length > 0){      
+      polygon = self.all[index];
+      //first=true means that the temporary server PostGIS table will be emptied, first=false data will be appended
+      if (index == 0){
+        parameters['first'] = 'true';
+      }
+      else{
+        parameters['first'] = 'false';
+      }
+    }
+    if (!!polygon){
       parameters['datasets'] = polygon.data.length;
       for (d = 0; d < polygon.data.length; ++d) {
         parameters['uid_' + d] = polygon.uid;
-        parameters['name_' + d] = polygon.info.name;
-        parameters['location_' + d] = polygon.info.location;
+        parameters['name_' + d] = polygon.info.name.replace(/'/g,"");
+        parameters['location_' + d] = !!polygon.info.location ? polygon.info.location.replace(/'/g,"") : '';
         //parameters['area_ha_' + d] = polygon.totalArea;
         for (f = 0; f < fieldlist.length; ++f) {
           var value = polygon.data[d][fieldlist[f]];
@@ -764,6 +785,7 @@ Ext.define('App.service.Polygon', {
       self.isBusy = true;
       App.service.Polygon.toggleDisabledButtons(true);
 
+      //write polygon to temporary server PostGIS table
       Ext.Ajax.request({
         url: __Global.api.writePolygon,
         //default is 30000, increased to pass large polygons
@@ -771,11 +793,20 @@ Ext.define('App.service.Polygon', {
         method: 'POST',
         params: parameters,
         success: function (response) {
-          App.service.Exporter.downloadWFS(true);
+          self.isBusy = false;
+          index++;
+
+          if (allPolygons && index < self.all.length){
+            //recursive function
+            self.writePolygon(allPolygons, index);
+          }
+          else{
+            App.service.Exporter.downloadWFS(true);
+            App.service.Polygon.toggleDisabledButtons(false);
+          }
         },
         callback: function () {
-          self.isBusy = false;
-          App.service.Polygon.toggleDisabledButtons(false);
+
         },
         failure: function(response){
           var timeout_message = '';
@@ -831,7 +862,7 @@ Ext.define('App.service.Polygon', {
   },
 
   toggleDisabledButtons: function (disabled) {
-    App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(disabled);
+    App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(this.all.length == 0);
     App.service.Helper.getComponentExt('polygon-btn-wue').setDisabled(disabled);
   },
 
@@ -841,7 +872,7 @@ Ext.define('App.service.Polygon', {
     this.importWktGeometry = wkt_geometry;
   },
 
-  importSelectedData: function(data, name_prefix){
+  importSelectedData: function(data, name){
     if (data){
       var fieldlist = App.service.Helper.getExportFields(true);
       for (var d = 0; d < data.length; d++){
@@ -853,18 +884,59 @@ Ext.define('App.service.Polygon', {
       }
     }
     this.importData = data;
-    this.importNameprefix = name_prefix;
+    this.importName = name;
   },
 
   importPolygon: function (){
-    var newpolygon = this.registerPolygon(this.importExtent, this.importWktGeometry, '');
-    newpolygon.data = this.importData;
-    newpolygon.info.name = newpolygon.info.name.replace('p', this.importNameprefix);
-    this.switchView(true);
-    App.service.Chart.window.close();
-    this.saveAll();
-    this.rerenderFeatures();
-    Ext.getStore('polygongrid').loadData(this.getGridData());
+    self = this;
+    var existingUid = '';
+    var existingName = '';
+    var polygonExist = false;
+    for (a = 0; a < self.all.length; ++a) {
+      if (self.all[a].info.name == self.importName){
+        polygonExist = true;
+        existingUid = self.all[a].uid; 
+        existingName = self.all[a].info.name;
+        break;    
+      }
+    }
+    if (!polygonExist){
+      self.newImportPolygon(self.importName);
+      App.service.Chart.window.close();
+    }
+    else{
+        var messagebox = Ext.Msg.show({
+          title: 'Name does already exist',
+          message: existingName + ' is already in the Polygon list.<br>Transfer it anyway?',
+          icon: Ext.Msg.QUESTION,
+          buttons: Ext.Msg.YESNO,
+          buttonText: {
+            yes: i18n.yesno.yes,
+            no: i18n.yesno.no
+          },
+          fn: function(btn) {
+            if (btn === 'yes') {
+              self.newImportPolygon(existingName + ' (copy)');
+            }
+            else{
+              self.selectRowInGrid(existingUid);
+            }
+            App.service.Chart.window.close();
+          }
+        });
+    }
+    
+  },
+
+  newImportPolygon: function(name){
+    self = this;
+    var newpolygon = self.registerPolygon(self.importExtent, self.importWktGeometry);
+    newpolygon.data = self.importData;
+    newpolygon.info.name = name;
+    self.saveAll();
+    self.rerenderFeatures();
+    Ext.getStore('polygongrid').loadData(self.getGridData());
+    self.selectRowInGrid(newpolygon.uid);
   },
 
   cleanLocalDB: function(){

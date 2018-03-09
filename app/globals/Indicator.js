@@ -145,7 +145,7 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     chart          : 'Defaults',
-    decimals       : 1,
+    decimals       : 2,
     up             : true,
     glossary       : 'bme00073.htm#bookme_anchor16'
    }, 
@@ -336,7 +336,7 @@ var __Indicator = [
     id             : 'vc',
     field          : 'vc_{crop}',
     enName         : 'Water availability per crop',
-    ruName         : 'Индекс водообеспоченности',
+    ruName         : 'Индекс водообеспоченности с/х культур',
     enNameShort    : 'Water availability',
     ruNameShort    : 'водоснабжение', 
     enTooltip      : 'Ratio of actual evapotranspiration to crop water demand',
@@ -412,7 +412,7 @@ var __Indicator = [
     maximum        : 0,
     chart          : 'Line',
     color          : '#006837',
-    decimals       : 1,
+    decimals       : 2,
     up             : true,    
     glossary       : 'bme00073.htm#bookme_anchor17'
 }, 

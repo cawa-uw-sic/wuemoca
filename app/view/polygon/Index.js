@@ -75,7 +75,7 @@ Ext.define('App.view.polygon.Index', {
       iconCls: 'x-fa fa fa-download',
       handler: 'onDownload',
       itemId: 'polygon-btn-download',
-      disabled: true
+      disabled: (App.service.Polygon.all.length == 0)
 
    /* },{
       xtype: 'label',

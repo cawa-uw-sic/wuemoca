@@ -14,12 +14,13 @@ Ext.define('App.service.Tooltip', {
       //App.service.Polygon.activated || 
       !App.service.Watcher.get('Indicator') //|| 
       //!App.util.Layer.current.getVisible()
-    ) { 
-      if (!App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()){
+    ) 
+    { 
+/*      if (!App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()){
 
         App.service.Status.set('&#160;');
         map.getTargetElement().style.cursor = '';           
-      }
+      }*/
       return;
     }
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.activated){
@@ -32,12 +33,16 @@ Ext.define('App.service.Tooltip', {
       this.isBusy = true;
       this.doRequest(e);
     }
+    else{
+      App.service.Status.set('&#160;');
+      map.getTargetElement().style.cursor = '';       
+    }
   },
 
   doRequest: function (e) {
     var self = this;
     var map = App.service.Map.instance;
-    var url = App.service.Map.getUrl(e.coordinate, !!App.service.Watcher.getIndicator().years);
+    var url = App.service.Map.getUrl(e.coordinate, !!App.service.Watcher.getIndicator().years, false);
     if (url){
       Ext.data.JsonP.request({
         url: url,
@@ -94,7 +99,7 @@ Ext.define('App.service.Tooltip', {
 
     var title = (properties[aggregation.id + '_' + __Global.lang] || '') + ' ' + aggregation[__Global.lang + 'NameShort'];
 
-    var content =  App.service.Map.getLegendTitle(false, false);
+    var content =  App.service.Map.getLegendTitle(false, 'no');
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));

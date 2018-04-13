@@ -10,6 +10,8 @@ Ext.define('App.service.Exporter', {
   outputformat: false,
   yearfilter: false,
   year: false,
+  indicatorfilter: false,
+  indicator: false,  
   /**
   * @method setDownloadCombotext
   * update download button and select filter combobox of the download options window, 
@@ -151,6 +153,7 @@ Ext.define('App.service.Exporter', {
     this.outputformat = params.type;
     this.year = params.year;
     this.yearfilter = '';
+    
     if (this.year != ''){
       //array
       if (this.year.length == 1){
@@ -161,10 +164,12 @@ Ext.define('App.service.Exporter', {
         this.yearfilter = 'year in (' + this.year + ')';
       }
     }
+    this.indicator = params.indicator;
+
     // if the user wants to download data of an user polygon (stored in JSON format)
     // in Excel format, use the JSON to HTML convertor (with explanations of DB acronyms)
     if (this.outputformat == 'excel' && userPolygon){
-      App.service.Helper.JSONToHTMLConvertor(this.year);  
+      App.service.Helper.JSONToHTMLConvertor();  
     }
     else{
       if (userPolygon){
@@ -187,10 +192,11 @@ Ext.define('App.service.Exporter', {
     var outputformat = this.outputformat;
     var yearfilter = this.yearfilter;
     var year = this.year;
+    var export_indicators = this.indicator;
     var aggregation = App.service.Watcher.getAggregation()['id'];
     //propertyname = field list
     var propertyname = '';
-    var field_array = App.service.Helper.getExportFields(userPolygon);
+    var field_array = App.service.Helper.getExportFields(userPolygon, export_indicators);
     field_array.map(function (field) {
       propertyname += field + ',';
     });
@@ -289,7 +295,19 @@ Ext.define('App.service.Exporter', {
       //'&id_policy=false';
       
     App.service.Helper.openDocument(requesturl, 'download');  
-  }      
+  },
+
+  getIndicators: function(userPolygon){
+    //duplicate array of nested objects
+    var indicatorData = JSON.parse(JSON.stringify(__Indicator));
+    var filteredData = [];
+    indicatorData.map(function (indicator) {
+      if (indicator.chart != 'Multiannual' && ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))) {
+        filteredData.push(indicator);
+      }
+    });
+    return filteredData;
+  }     
 
 
 });

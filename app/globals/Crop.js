@@ -10,11 +10,35 @@ var __Crop = [
   {
     idx   : 0,
     id    : 'sum',
-    enName: 'All crops',
+    enName: 'Sum of all crops',
     ruName: 'Все зерновые культуры',
     chart : 'Stacked',
     color : sum_color
   },
+  /**
+  * @property avg
+  * all crops
+  */
+  {
+    idx   : 0,
+    id    : 'avg',
+    enName: 'Weighted average',
+    ruName: 'Средне взвешенная',
+    chart : 'Defaults',
+    color : avg_color
+  },
+  /**
+  * @property avg
+  * all crops
+  */
+  {
+    idx   : 0,
+    id    : 'non',
+    enName: 'Irrigated land',
+    ruName: 'орошаемая земля',
+    chart : 'Defaults',
+    color : non_color
+  },  
   /**
     * @property cotton
   * cotton crop

@@ -49,6 +49,14 @@
   background-image:url(../images/sum_icon.png) !important;
   background-size: 100% 100%;
 }
+.avg {
+  background-image:url(../images/avg_icon.png) !important;
+  background-size: 100% 100%;
+}
+.non {
+  background-image:url(../images/non_icon.png) !important;
+  background-size: 100% 100%;
+}
 .cotton {
   background-image:url(../images/cotton_icon.png) !important;
   background-size: 100% 100%;
@@ -225,7 +233,7 @@
   padding: 3px 3px 3px 6px;
 }
 
-.x-form-type-text.x-item-disabled {
+.x-form-type-text .x-item-disabled {
     opacity: 1 !important;
 }
 .x-fieldset {
@@ -256,6 +264,15 @@
   bottom: auto;
   left: 40px;
 }
-
+#polygon-window .x-window-header-default {
+  background-color: #00589C;
+  border-color: #00589C;
+}
+#polygon-window {
+  border-color: #00589C;
+}
+#polygon-window .x-window-header-default .x-tool-img {
+  background-color: #00589C;
+}
 
 

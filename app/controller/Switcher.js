@@ -67,7 +67,7 @@ Ext.define('App.controller.Switcher', {
     //var tip = App.service.Helper.getComponentExt('switcher-qtip-indicator');
     //tip.update(indicator[__Global.lang + 'Tooltip']);
 
-    this.fillCrops(App.service.Helper.getComponentExt('switcher-btns-crop'));
+    App.service.Map.fillCrops();
     console.log('onIndicator fillAggregations_new');
     App.service.Map.fillAggregations_new();
 
@@ -120,60 +120,7 @@ Ext.define('App.controller.Switcher', {
   onAggregation: function (cb, val) {
     App.service.Map.onAggregation(cb, val);
   },
-  /**
-  * @method fillCrops
-  * create crop buttons depending from current indicator
-  * @param component
-  * button group
-  */
-  fillCrops: function (component) {
-    var indicator = App.service.Watcher.getIndicator();
-    var crops = [];
-    var cropNames = [];
 
-    component.removeAll();
-
-    if (!indicator.crops) {
-      App.service.Watcher.set('Crop', '');
-      return App.service.Helper.hideComponents(['switcher-btns-crop']);
-    }
-    //yf and pirf
-    if (typeof indicator.crops == 'object' && indicator.crops.length > 0) {
-      crops = indicator.crops;
-      cropNames = indicator[__Global.lang + 'Legend'];
-      if (indicator.crops.indexOf(App.service.Watcher.get('Crop')) < 0) {
-        App.service.Watcher.set('Crop', indicator.crops[0]);
-      }
-    }
-    //firf and uir
-    else if (indicator.crops == 'all'){
-      __Crop.map(function (crop) {
-          crops.push(crop.id);
-          cropNames.push(crop[__Global.lang + 'Name']);
-      });      
-    }
-    if (!App.service.Watcher.get('Crop') && crops.length > 0) App.service.Watcher.set('Crop', crops[0]);
-
-    for (var i = 0; i < crops.length; i++) {
-      component.add({
-        iconCls: crops[i],
-        itemId: crops[i],
-        scale: 'large',
-        tooltip: cropNames[i],
-        toggleGroup: 'map-filters-crops',
-        pressed: App.service.Watcher.get('Crop') == crops[i],
-        handler: this.onCrop
-      });
-    }
-
-    App.service.Helper.showComponents(['switcher-btns-crop']);
-
-    var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + 
-      App.service.Helper.getCropName() + 
-      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
-      i18n.crop.label + '</span>';
-    App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
-  },
 
   /**
   * @method fillAggregations
@@ -251,7 +198,7 @@ Ext.define('App.controller.Switcher', {
     App.service.Watcher.set('Indicator', undefined);
     App.service.Watcher.set('Aggregation', 'oblast');
     this.afterRender();
-    //do not collapse/expand accordion panel
+    //do not collapse/expand accordion panel by clicking on the button
     e.stopPropagation();
   }
 

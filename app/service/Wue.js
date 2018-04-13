@@ -141,10 +141,21 @@ Ext.define('App.service.Wue', {
       var firn = this.polygon.data[d]['firn'];
       var year = this.polygon.data[d]['year'];
       var vir = null;
-      var etf = this.polygon.data[d]['etf'];
+      var etf = this.polygon.data[d]['etf_non'];
       //water intake input            
-      var wf = this.polygon.data[d]['wf'];      
-      if (!isNaN(etf) && !isNaN(wf)){
+      var wf = this.polygon.data[d]['wf']; 
+      if (!wf || wf == null || isNaN(wf)) {
+        wf = null;
+      }
+      else{
+        //update water productivity indicators based on wf
+        this.polygon.data[d] = App.service.Prod.calcWf(this.polygon.data[d]);
+        this.polygon.data[d] = App.service.Prod.calcProd(this.polygon.data[d]);
+      }  
+      if (!etf || etf == null || isNaN(etf)) {
+        etf = null;
+      }           
+      if (etf != null && wf != null){
         vir = ((etf * firn) / (wf * 100000)).toFixed(2);
       }
       //Infinity = divided by zero
@@ -152,7 +163,8 @@ Ext.define('App.service.Wue', {
         vir = null;
       }      
       //save yearly vir                                                 
-      this.polygon.data[d]['vir'] = vir;       
+      this.polygon.data[d]['vir'] = vir; 
+
       //calculate monthly vir (for years with user input only)
       for (var month = 3; month <= 10; month++) {
         vir = null;

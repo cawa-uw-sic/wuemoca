@@ -43,7 +43,8 @@ Ext.define('App.view.polygon.Form', {
       itemId: 'exportui-area',
       fieldLabel: i18n.exportUI.totalArea,
       name: 'area',
-      disabled: true   
+      readOnly: true,
+      submitValue: false 
     }]
   }],
 

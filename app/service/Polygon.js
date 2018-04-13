@@ -30,7 +30,9 @@ Ext.define('App.service.Polygon', {
 
   windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
 
-  windowChart: Ext.create('App.util.Window'),
+  windowChart: Ext.create('App.util.Window',{
+    id: 'polygon-window'
+  }),
 
   initialize: function () {
 
@@ -72,9 +74,9 @@ Ext.define('App.service.Polygon', {
       var geometry_wgs84 = geometry.clone().transform(
         __Global.projection.Mercator,
         __Global.projection.Geographic
-      );  
+      );
       //Geometry format for reading and writing data in the WellKnownText (WKT) format.
-      var wkt_geometry = new ol.format.WKT().writeGeometry(geometry_wgs84);    
+      var wkt_geometry = new ol.format.WKT().writeGeometry(geometry_wgs84);
       var polygon = self.registerPolygon(geometry.getExtent(), wkt_geometry, '');
       self.saveAll();
       self.rerenderFeatures();
@@ -120,12 +122,28 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       legendwindow.hide();
       App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
+      App.service.Map.removeCurrentLayer();
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
     App.service.Exporter.setDownloadCombotext();
     App.service.Map.setMainTitle();
     App.service.Map.setIndicatorFilter(val);
+    var store_indicator_export = Ext.getStore('indicatorexport');
+    store_indicator_export.removeAll();
+    App.service.Helper.getComponentExt('exporter-tag-indicator').clearValue();
+    var indicators = App.service.Exporter.getIndicators(val);
+    store_indicator_export.setData(indicators);
+    store_indicator_export.sort([
+      {
+        property :  __Global.lang + 'Group',
+        direction: 'ASC'
+      },
+      {
+        property :  __Global.lang + 'Name',
+        direction: 'ASC'
+      }
+    ]);
   },
 
   deselectMapAndList: function(){
@@ -538,7 +556,10 @@ Ext.define('App.service.Polygon', {
         }
         if (response.responseText.indexOf('empty') == -1){
           count_success++;
-          delete polygon.data[0].WKT;
+          for (d = 0; d < polygon.data.length; ++d) {
+            delete polygon.data[d].WKT; 
+          }
+          
         }
         else{
           if (response.responseText.indexOf('failed') == -1){
@@ -556,8 +577,8 @@ Ext.define('App.service.Polygon', {
             self.progressBar.updateProgress(
               index/emptyPolygons.length,
               Math.round(100 * index/emptyPolygons.length) + ' %'
-            );           
-          } 
+            );
+          }
           //recursive function
           self.doRequest(index, emptyPolygons, count_success, removearray);
         }
@@ -571,7 +592,7 @@ Ext.define('App.service.Polygon', {
               //not valid because irrigated area smaller than 30 ha
               if (polygon.data[0].valid == 'novalid'){
                 message += '<br>' + i18n.polygon.smallerThan30ha_single;
-              }            
+              }
             }
           }
           else if (index == emptyPolygons.length) {
@@ -585,8 +606,8 @@ Ext.define('App.service.Polygon', {
             if (polygon && polygon.data[0].valid == 'novalid'){
               message += '<br>' + i18n.polygon.smallerThan30ha_multi;
             }
-          } 
-       
+          }
+
           if (removearray.length > 0){
             if (message != undefined){
               message += '<br>';
@@ -612,8 +633,8 @@ Ext.define('App.service.Polygon', {
               index/emptyPolygons.length,
               Math.round(100 * index/emptyPolygons.length) + ' %',
               message
-            );           
-          } 
+            );
+          }
           Ext.getBody().setStyle('cursor','auto');
 
 
@@ -653,7 +674,8 @@ Ext.define('App.service.Polygon', {
     }
     if (polygon){
       var indicator = App.service.Watcher.getIndicator();
-      var crop = App.service.Watcher.get('Crop');
+      //var crop = App.service.Watcher.get('Crop');
+      var crop = App.service.Watcher.getCrop();
 
       if (polygon.data.length > 0) {
         self.windowChart.removeAll();
@@ -662,15 +684,21 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.data = App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
+              console.log(indicator.chart, crop.id);
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
-            else if (indicator.crops == 'all'){
-            //else{
-              var chart = App.service.Helper.getById(__Crop, crop).chart;
-              self.windowChart.add(App.util.ChartTypes[chart](polygon.data));
+            else if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
+              self.windowChart.add(App.util.ChartTypes[crop.chart](polygon.data));
             }
-            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true, App.service.Chart.maxData > 1000);
-            self.windowChart.setTitle(title);            
+            var bigdata = 'no';
+            if (App.service.Chart.maxData > 1000){
+              bigdata = 'thousand';
+              if (App.service.Chart.maxData > 1000000){
+                bigdata = 'million';
+              }
+            }
+            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true, bigdata);
+            self.windowChart.setTitle(title);
             App.service.Chart.userPolygon = true;
           }
           else{
@@ -688,12 +716,13 @@ Ext.define('App.service.Polygon', {
       }
     }
   },
+
   calculateTotalArea: function (multipolygon){
   //calculateTotalArea: function (coordinates){
     var wgs84Sphere = new ol.Sphere(6378137);
     var polygons = multipolygon.getPolygons();
     for (var i = 0; i < polygons.length; i++){
-      var coordinates = polygons[0].getLinearRing(0).getCoordinates();  
+      var coordinates = polygons[0].getLinearRing(0).getCoordinates();
     }
     var area = Math.abs(wgs84Sphere.geodesicArea(coordinates));
     return (area/10000).toFixed();
@@ -717,7 +746,7 @@ Ext.define('App.service.Polygon', {
           count++;
           var extent = ol.proj.transformExtent(
             polygon.geometry.extent,
-            __Global.projection.Geographic, 
+            __Global.projection.Geographic,
             __Global.projection.Mercator
           );
           //workaround for bug of uploaded shapefiles with multipart geometry (considered as donut)
@@ -744,8 +773,9 @@ Ext.define('App.service.Polygon', {
   writePolygon: function(allPolygons, index){
     var self = this;
     if (self.isBusy) return false;
-
-    var fieldlist = App.service.Helper.getExportFields(true);
+    var userPolygon = true;
+    var export_indicators = App.service.Exporter.indicator;
+    var fieldlist = App.service.Helper.getExportFields(userPolygon, export_indicators);
     var parameters = {};
     var polygon = null;
 
@@ -864,6 +894,7 @@ Ext.define('App.service.Polygon', {
   toggleDisabledButtons: function (disabled) {
     App.service.Helper.getComponentExt('polygon-btn-download').setDisabled(this.all.length == 0);
     App.service.Helper.getComponentExt('polygon-btn-wue').setDisabled(disabled);
+    App.service.Helper.getComponentExt('polygon-btn-prod').setDisabled(disabled);
   },
 
   importSelectedGeometry: function(coordinates, extent, wkt_geometry){
@@ -874,11 +905,59 @@ Ext.define('App.service.Polygon', {
 
   importSelectedData: function(data, name){
     if (data){
-      var fieldlist = App.service.Helper.getExportFields(true);
+      //wf and c can be calculated backwards
+      //index indicators can be -1 in the WUEMoCA DB, if so they are set to null in the user database
       for (var d = 0; d < data.length; d++){
-        for(var key in data[0]) {
-          if (fieldlist.indexOf(key) == -1){
-            delete data[0][key];
+        if (!!data[d]['vir'] && data[d]['vir'] > 0){
+          //rule of three: vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+          etf = data[d]['etf'];
+          firn = data[d]['firn'];
+          vir = data[d]['vir'];
+          data[d]['wf'] = ((etf * firn)/(vir * 100000)).toFixed(2);
+          //delete data_copy[d]['vir'];
+        }
+        else{
+          data[d]['wf'] = null;
+          data[d]['vir'] = null;
+        }
+        if (data[d]['eprod_avg'] < 0){
+          data[d]['eprod_avg'] = null;
+        } 
+        if (data[d]['eprod_avg'] < 0){
+          data[d]['eprod_avg'] = null;
+        }         
+        if (data[d]['vc_non'] < 0){
+          data[d]['vc_non'] = null;
+        }                            
+        var crops = ['cotton', 'wheat', 'rice'];
+        crops.map(function (crop) {
+          if (!!data[d]['eprod_' + crop] && data[d]['eprod_' + crop] > 0 && data[d]['pirf_' + crop] > 0){
+            //rule of three: eprod = (pirf * c) / (etf * firf * 10)
+            var etf = data[d]['etf_' + crop];
+            var firf = data[d]['firf_' + crop];
+            var eprod = data[d]['eprod_' + crop];
+            var pirf = data[d]['pirf_' + crop];
+            data[d]['c_' + crop] = (eprod * etf * firf * 10) / pirf;
+          }
+          else{
+            data[d]['eprod_' + crop] = null;
+          }
+          if (data[d]['vc_' + crop] < 0){
+            data[d]['vc_' + crop] = null;
+          }
+        }); 
+      }
+
+      var userPolygon = true;
+      var export_indicators = '';
+      var fieldlist = App.service.Helper.getExportFields(userPolygon, export_indicators);
+      for (var d = 0; d < data.length; d++){
+        for(var key in data[d]) {
+          //_ha is to be kept, because e.g. fallow_ha is used for recalculation of fp, in case firn is modified by users (productivity calculation tool)
+          if (key.indexOf('_ha') == -1 ){
+            if (fieldlist.indexOf(key) == -1){
+              delete data[d][key];
+            }
           }
         }
       }
@@ -941,46 +1020,65 @@ Ext.define('App.service.Polygon', {
 
   cleanLocalDB: function(){
     self = this;
-      var polygons = self.all; 
+      var polygons = self.all;
 
       var change = false;
 
       self.all.map(function (polygon) {
         if (self.replaceAbbr(polygon, 'fir_n', 'firn')) change = true;
-        if (self.replaceAbbr(polygon, 'v_water', 'vet')) change = true;
-        if (self.replaceAbbr(polygon, 'v_sum', 'vet')) change = true;
+        if (self.replaceAbbr(polygon, 'v_water', 'vc_non')) change = true;
+        if (self.replaceAbbr(polygon, 'v_sum', 'vc_non')) change = true;
         if (self.replaceAbbr(polygon, 'y_wheat', 'yf_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'y_cotton', 'yf_cotton')) change = true;
-        if (self.replaceAbbr(polygon, 'y_rice', 'yf_rice')) change = true;        
-        //if (self.replaceAbbr(polygon, 'cr', 'lur')) change = true; 
+        if (self.replaceAbbr(polygon, 'y_rice', 'yf_rice')) change = true;
+        //if (self.replaceAbbr(polygon, 'cr', 'lur')) change = true;
         if (self.replaceAbbr(polygon, 'v_wheat', 'vc_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'v_cotton', 'vc_cotton')) change = true;
-        if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;         
+        if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;
+        if (self.replaceAbbr(polygon, 'vet', 'vc_non')) change = true;
+        if (self.replaceAbbr(polygon, 'etf', 'etf_non')) change = true;
+        if (self.replaceAbbr(polygon, '$_', 'doll_')) change = true;
+        if (self.replaceAbbr(polygon, '$ha', 'dollha')) change = true;
+        if (self.replaceAbbr(polygon, '$m3', 'dollm3')) change = true;
+        if (self.replaceAbbr(polygon, 'tm3', 'kgm3')) change = true;
+        if (self.replaceAbbr(polygon, 'coefficient', 'kpd')) change = true;   
+        if (self.replaceAbbr(polygon, 'groundwater', 'gwc')) change = true; 
+        if (self.replaceAbbr(polygon, 'rains', 'rain')) change = true;       
+        if (self.replaceAbbr(polygon, 'wf_sum', 'wf_rate_sum')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_wf', 'wf_m3ha')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_gwc', 'gwc_m3ha')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_rain', 'rain_m3ha')) change = true; 
+        __Crop.map(function (crop) {
+          if (crop.idx == 0) return false;
+          if (self.replaceAbbr(polygon, 'wf_' + crop.id, 'wf_rate_' + crop.id)) change = true;
+        });
+                      
+
         //update wkt_geometry
         if (!polygon.wkt_geometry && !!polygon.geometry && polygon.geometry.length != 0){
           change = true;
           var old_geometry = polygon.geometry;
           if (!old_geometry[0][0][0]){
             old_geometry = [[old_geometry]];
-          } 
+          }
           var multipolygon = new ol.geom.MultiPolygon(old_geometry);
 
           var wkt_geometry = new ol.format.WKT().writeGeometry(multipolygon.transform(__Global.projection.Mercator,__Global.projection.Geographic));
           polygon.wkt_geometry = wkt_geometry;
           delete polygon.geometry;
 
-        } 
+        }
         if (!!polygon.wkt_alt){
           delete polygon.wkt_alt;
         }
 
-      });      
-          
+      });
+
       if (change){
         this.saveAll();
-      }   
+      }
   },
-  
+
   replaceAbbr: function(polygon, oldvalue, newvalue){
     var change = false;
     for (var d = 0; d < polygon.data.length; d++){

@@ -41,20 +41,32 @@ Ext.define('App.controller.Chart', {
   */
   onTransfer: function() {
     App.service.Helper.getComponentExt('user-polygon').expand();
+
+    App.service.Polygon.importPolygon(); 
     App.service.Polygon.switchView(true);
-    App.service.Polygon.importPolygon();
   },
   /**
-  * @method onCalculate
-  * open indicator calculation window
+  * @method onCalculateWUE
+  * open WUE calculation window
   */
-  onCalculate: function() {
+  onCalculateWUE: function() {
     var container = App.service.Helper.getComponentExt('app-wue-container');
     container.removeAll();
     container.add({ xtype: 'app-wue-form-by-year' });
     App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
     App.service.Wue.window.show();
   },  
+  /**
+  * @method onCalculateProd
+  * open Prod calculation window
+  */
+  onCalculateProd: function() {
+    App.service.Helper.getComponentExt('prod-radio').queryById('cotton').toggle(true);
+    App.service.Prod.renderFormByYear('cotton');
+    App.service.Prod.renderFormSecondary();
+    App.service.Prod.window.show();
+  },    
+
   /**
   * @method onPreview
   * Show image of chart
@@ -63,7 +75,7 @@ Ext.define('App.controller.Chart', {
     var chart = this.lookupReference('chart');
     if (Ext.os.is.Desktop) {
         chart.download({
-          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ /g,"_")),
+          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ - /g,"_").replace(/ /g,"_").replace('<sub>','').replace('</sub>','')),
           scale: 1.5
         });
     } else {

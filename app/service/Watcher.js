@@ -38,6 +38,10 @@ Ext.define('App.service.Watcher', {
     return App.service.Helper.getById(__Aggregation, this.get('Aggregation'));
   },
 
+  getCrop: function () {
+    return App.service.Helper.getById(__Crop, this.get('Crop'));
+  },
+
   getSuperFilterAggregation: function(aggregation){
     var super_filter = '';
     __Aggregation.map(function (unit) {

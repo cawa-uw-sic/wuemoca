@@ -86,13 +86,21 @@ Ext.define('App.service.Chart', {
   * click event
   */
   display: function (e) {
+    //reasons for no request for getfeatureinfo: 
+    //another request is running, 
+    //an user polygon was clicked, 
+    //no indicator was selected, 
+    //respective layer is invisible
     if (
       this.isBusy || 
       App.service.Polygon.activated || 
       App.service.Map.itsPolygon(e) || 
       !App.service.Watcher.get('Indicator') || 
-      !App.util.Layer.current.getVisible()
+      (!!App.util.Layer.current && !App.util.Layer.current.getVisible()) ||
+      (!!App.util.Layer.admin && !App.util.Layer.admin.getVisible())       
+      //!App.util.Layer.current
     ){ 
+      this.window.close();
       return false;
     } 
     this.e = e;
@@ -106,13 +114,7 @@ Ext.define('App.service.Chart', {
   doRequest: function () {
     var self = this;
     if (self.isBusy) return false;
-    var url = null;
-   // if (!!self.coordinates){
-      url = App.service.Map.getUrl(self.click_coordinates, false);
-   /* }
-    else{
-      url = App.service.Map.getUrl(self.e.coordinate, false);
-    }*/
+    var url = App.service.Map.getUrl(self.click_coordinates, false, false);
     
     if (!!url){
       self.isBusy = true;
@@ -161,12 +163,6 @@ Ext.define('App.service.Chart', {
                 params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
                 success: function (results) { 
                   var data_copy = self.dataResponse(results.features);
-                  //vir data is not copied but to be calculated with WUE tool
-                  for (var d = 0; d < data_copy.length; d++){
-                    if (!!data_copy[d]['vir']){
-                      delete data_copy[d]['vir'];
-                    }
-                  }
                   App.service.Polygon.importSelectedData(data_copy, name);                  
                 },
                 callback: function (results){
@@ -179,12 +175,6 @@ Ext.define('App.service.Chart', {
             else{
               //duplicate array of nested objects, don't change original data
               var data_copy = JSON.parse(JSON.stringify(self.data));
-              //vir data is not copied but to be calculated with WUE tool 
-              for (var d = 0; d < data_copy.length; d++){
-                if (!!data_copy[d]['vir']){
-                  delete data_copy[d]['vir'];
-                }
-              }
               App.service.Polygon.importSelectedData(data_copy, name);
             }
           }
@@ -214,22 +204,27 @@ Ext.define('App.service.Chart', {
   showWindow: function () {
     var self = this;
     var indicator = App.service.Watcher.getIndicator();
-    var crop = App.service.Watcher.get('Crop');
     self.window.removeAll();
     if (!!indicator.chart && self.data.length > 0) {
       if (indicator.chart != 'crops'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
       }
-      else if (indicator.crops == 'all'){
-        var chart = App.service.Helper.getById(__Crop, crop).chart;
-        self.window.add(App.util.ChartTypes[chart](self.data));
+      else if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
+        self.window.add(App.util.ChartTypes[App.service.Watcher.getCrop().chart](self.data));
       }
       var first = self.data[0];
       var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
         + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
 
       if (indicator.chart != 'Multiannual'){
-        title += ' - ' + App.service.Map.getLegendTitle(true, self.maxData > 1000);
+        var bigdata = 'no';
+        if (self.maxData > 1000){
+          bigdata = 'thousand';
+          if (self.maxData > 1000000){
+            bigdata = 'million';
+          }
+        }
+        title += ' - ' + App.service.Map.getLegendTitle(true, bigdata);
       }
       self.window.setTitle(title);
       self.userPolygon = false;
@@ -265,6 +260,7 @@ Ext.define('App.service.Chart', {
     }
     return properties;
   },
+
   /**
   * @method loadData
   * set data to chart store

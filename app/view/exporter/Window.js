@@ -34,8 +34,8 @@ Ext.define('App.view.exporter.Window', {
   ],
   listeners: { 
     boxready: function(){
-      var data = App.service.Report.getYearData();
-      App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(data);
+      var years = App.service.Report.getYearData();
+      App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);
     }
   }
 

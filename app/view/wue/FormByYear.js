@@ -14,9 +14,13 @@ Ext.define('App.view.wue.FormByYear', {
   scrollable: true,
 
   defaults: {
-    xtype: 'textfield',
+    xtype: 'numberfield',
     columnWidth: 0.33,
-    margin: '0 20 0 0'
+    margin: '0 20 0 0',
+    // Remove spinner buttons, and arrow key and mouse wheel listeners
+    hideTrigger: true,
+    keyNavEnabled: false,
+    mouseWheelEnabled: false    
   },
 
   listeners: {

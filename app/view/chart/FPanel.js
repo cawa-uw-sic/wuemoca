@@ -15,7 +15,5 @@ Ext.define('App.view.chart.FPanel', {
 
   items: [],
 
-  bbar: {  
-    items: []
-  }
+  dockedItems: []
 });

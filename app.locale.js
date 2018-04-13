@@ -9,6 +9,23 @@ window.nextLocale = function () {
   return locales[locales.indexOf(locale) + 1];
 };
 var i18n = {
+  prod: {
+    btnSubmit: 'Calculate Productivity indicators',
+    windowTitle: 'Productivity Form',
+    pirf: 'Farm gross output actual (tons)',
+    firf: 'Acreage per crop (ha)',
+    yf: 'Crop yield (t/ha)',
+    wf: 'Water Intake (Mio. m³)',
+    c: 'Crop price ($/t)',
+    tab1: 'Crop specific input',
+    tab2: 'Other parameters',
+    firn: 'Net irrigated area (ha)',
+    gwc: 'Groundwater contribution (mm)',
+    kpd: 'Efficiency',
+    rain: 'Effective rainfall (mm)',
+    rate: 'Crop rate of water intake (m³/ha)'
+  },
+
     yesno :{
       yes: 'Yes',
       no: 'No'
@@ -193,7 +210,9 @@ mapSelection:{
   },
 
   crop: {
-    label                   : 'Select crop type:'
+    label                   : 'Select crop type:',
+    all_sum: 'Sum of all crops',
+    all_avg: 'Average of all crops'
   },
   vc_classes: {
     less                 : 'little water',
@@ -265,7 +284,9 @@ mapSelection:{
     allYear                 : 'all available years',
     measure                 : 't/ha',
     _in                     : ' in ',
-    thousand: 'thousand ',
+      no: '',
+          thousand: 'thousand ',
+          million: 'Mio. ',
     raster                  : 'Raster cell',
     shareCrops              : 'share (%)',
     yf                   : 'yield (t/ha)',
@@ -355,20 +376,20 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
     calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get monthly and ' +
-                          'decadal results.' ,   
+                          'decadal results.' ,
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
         btnImport2               : 'Excel file',
-    tooltipImport               : 'Browse for Excel file with water intake values',    
+    tooltipImport               : 'Browse for Excel file with water intake values',
     btnImportTemplates      : 'Excel templates for import',
     tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally',
-    byDecade                : 'by decade (download only)',
-    byMonth                 : 'monthly (download only)',
-    byYear                  : 'yearly (diagram and download)',
+    byDecade                : 'by decade',
+    byMonth                 : 'monthly',
+    byYear                  : 'yearly',
     year                    : 'Year',
     decade                  : 'Decade',
-    month                   : 'Month',
-    pressWUE: 'Press "Calculate WUE" and insert Water intake'
+    month                   : 'Month'
+    //pressWUE: 'Press "Calculate WUE" and insert Water intake'
   },
 
    polygon: {
@@ -385,9 +406,13 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     activate                : 'Draw Polygon',
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
-    calculateWUE            : 'Calculate WUE',
-    calculateWUElong            : 'Calculate Water use efficiency by inserting Water intake',
+    calculateWUE            : 'Calculate<br>Irrigation efficiency',
+    calculateWUE2            : 'Calculate Irrigation efficiency',    
+    calculateWUElong            : 'Calculate Irrigation efficiency by inserting Water intake',
     download                  : 'Download<br>Polygon(s)',
+    calculateProd            : 'Calculate<br>Productivity',
+    calculateProd2            : 'Calculate Productivity',
+    calculateProdlong            : 'Calculate productivity indicators',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
           progressTitle : 'Calculate Indicators',
@@ -504,6 +529,25 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
 switch (locale){
   case 'ru':
+    i18n.prod = {
+      btnSubmit: 'Расчитать продуктивность',
+      windowTitle: 'Форма продуктивности',
+      pirf: 'Фактическая валовая продукция (тонн)',
+      yf: 'Урожайность (т/га)',
+      wf: 'Водоподача (млн м³)',
+      firf: 'Посев.площади (га)',
+      c: 'Цена ($/т)',
+      tab1: 'Ввод параметров по с/х культуам',
+      tab2: 'Остальные показатели',
+      firn: 'Орошаемая площадь, нетто (га)',
+      gwc: 'Подпитка (мм)',
+      kpd: 'КПД',
+      rain: 'Осадки (мм)',
+      rate: 'Норма водоподачи м³/га'
+
+    };
+
+ 
     i18n.yesno = {
       yes: 'да',
       no: 'нет'
@@ -687,7 +731,9 @@ i18n.mapSelection ={
     };
 
     i18n.crop = {
-      label                 : 'Выбрать с/х культуру:'
+      label                 : 'Выбрать с/х культуру:',
+      all_sum: 'Sum of all crops',
+      all_avg: 'Average of all crops'
     };
     i18n.yield_classes = {
       verylow               : 'очень низкая',
@@ -727,7 +773,9 @@ i18n.mapSelection ={
       forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
       _in                   : ' в ',
+      no: '',
           thousand: 'тысяча ',
+          million: 'млн ',
       raster                : 'Растровые',
       shareCrops            : 'Доля культур (%)',
       yf                 : 'урожай (т/га)',
@@ -817,22 +865,22 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
-      calculateVirSuccess     : 'Calculate Irrigation Efficiency',  
+      calculateVirSuccess     : 'Calculate Irrigation Efficiency',
       calculateVirSuccess     : 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get ' +
-                                'monthly and decadal results.' ,   
+                                'monthly and decadal results.' ,
       aggregateETact          : 'Aggregate monthly and decadal ET<sub>act</sub> for ',
       btnImport1              : 'Импорт',
-      btnImport2              : 'Excel file',      
-      tooltipImport           : 'Browse for Excel file with water intake values',        
+      btnImport2              : 'Excel file',
+      tooltipImport           : 'Browse for Excel file with water intake values',
       btnImportTemplates      : 'Шаблоны для импорта',
-      tooltipImportTemplates  : 'Select Excel template for value import, and store it locally',      
+      tooltipImportTemplates  : 'Select Excel template for value import, and store it locally',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
       year                    : 'Год',
       decade                  : 'Декада',
-      month                   : 'Месяц',
-      pressWUE                : 'Press "Calculate WUE" and insert Water intake'
+      month                   : 'Месяц'
+      //pressWUE                : 'Press "Calculate WUE" and insert Water intake'
     },
 
     i18n.polygon = {
@@ -849,9 +897,13 @@ i18n.mapSelection ={
       activate              : 'Нарисовать полигон',
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить<br>Shapefile',
-      calculateWUE          : 'Расчет водоэффективности',
-calculateWUElong          : 'Расчет водоэффективности',
+      calculateWUE          : 'Расчет Индекс<br>эффективности ирригации',
+      calculateWUE2          : 'Расчет Индекс эффективности ирригации',      
+calculateWUElong          : 'Расчет Индекс<br>эффективности ирригации',
               download                  : 'Скачать<br>полигон(ы)',
+      calculateProd          : 'Расчет<br>продуктивности',
+      calculateProd2          : 'Расчет продуктивности',      
+      calculateProdlong          : 'Расчет продуктивности',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',

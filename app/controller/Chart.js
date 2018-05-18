@@ -16,25 +16,6 @@ Ext.define('App.controller.Chart', {
     this.CropPriceWindow = Ext.create('App.view.chart.CropPriceWindow');
     //this.IntroWindow = Ext.create('App.view.header.IntroWindow');
   },
-  /*display: function (e) {
-    console.log('from controller');
-  },*/
-
-  /*onPrev: function () {
-    App.service.Chart.prev();
-  },
-
-  onNext: function () {
-    App.service.Chart.next();
-  },*/
-
-  /**
-  * @method onExcel
-  * Create Excel file with all indicators for selected object. {@link }
-  */  
-  /*onExcel: function () {
-    App.service.Helper.JSONToHTMLConvertor('all');
-  },*/
   /**
   * @method onTransfer
   * import geometry and values to user polygons

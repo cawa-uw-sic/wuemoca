@@ -234,7 +234,7 @@
 }
 
 .x-form-type-text .x-item-disabled {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 .x-fieldset {
   padding: 0px 10px 5px 10px;
@@ -243,10 +243,15 @@
   padding: 5px !important;
 }
 .x-fieldset-header-text{
-    font-size: 13px !important;
+  color: #404040 !important;
+  font: 300 13px/17px 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif !important;
+}
+.x-window-header-title-default .x-title-text {
+  font-size: 14px;
+  line-height: 16px;
 }
 .grouped-list .x-boundlist-item {
-    padding: 1px 3px 0 10px;
+  padding: 1px 3px 0 10px;
 }
 .grouped-list .group-header {
   padding: 4px;
@@ -264,15 +269,97 @@
   bottom: auto;
   left: 40px;
 }
-#polygon-window .x-window-header-default {
-  background-color: #00589C;
-  border-color: #00589C;
+.polygon-window {
+  border-color: #970016;
 }
-#polygon-window {
-  border-color: #00589C;
+.polygon-window .x-window-header-default {
+  background-color: #970016;
+  border-color: #970016;
 }
-#polygon-window .x-window-header-default .x-tool-img {
-  background-color: #00589C;
+.polygon-window .x-window-header-default .x-tool-img {
+  background-color: #970016;
+}
+.polygon-window .x-btn-default-small {
+  background-color: #970016;
+  border-color: #8c0014;
+}
+.polygon-window .x-btn-over.x-btn-default-small {
+  border-color: #810013;
+  background-color: #8b0014;
+}
+.polygon-window .x-btn-focus.x-btn-default-small {
+    background-color: #970016;
+ }
+.polygon-window .x-btn.x-btn-disabled.x-btn-default-small {
+  background-color: #970016;
+}
+.polygon-window .x-btn.x-btn-menu-active.x-btn-default-small,
+.polygon-window .x-btn.x-btn-pressed.x-btn-default-small {
+    border-color: #970016;
+    background-color: #970016;
+}
+.polygon-window .x-progress-default .x-progress-bar-default {
+  background-color: #970016;
+}
+.polygon-window .x-boundlist-selected {
+  background: #970016;
+  border-color: #970016;
+}
+.polygon-window .x-boundlist-item-over {
+  background: #970016;
+  border-color: #970016;
+}
+.polygon-window .x-tab.x-tab-active.x-tab-default .x-tab-inner-default {
+    color: #790012;
+}
+.polygon-window .x-tab-bar-default {
+    background-color: #970016;
+}
+.polygon-window .x-menu-item-default.x-menu-item-active {
+    background-color: #970016;
+}
+
+.polygon-window .x-nlg .x-menu-item-default.x-menu-item-active {
+    background: #970016 repeat-x left top;
+}
+.polygon-window .x-menu-item-default.x-menu-item-active {
+    background-color: #970016;
+}
+
+
+.polygon-panel {
+  border-color: #970016;
+}
+.polygon-panel .x-panel-header-default {
+  background-color: #970016;
+  border-color: #970016;
+}
+.polygon-panel .x-panel-header-default .x-tool-img {
+  background-color: #970016;
+}
+
+.polygon-panel .x-btn-default-small {
+  background-color: #970016;
+  border-color: #8c0014;
+}
+.polygon-panel .x-btn-over.x-btn-default-small {
+  border-color: #810013;
+  background-color: #8b0014;
+}
+.polygon-panel .x-btn-focus.x-btn-default-small {
+    background-color: #970016;
+ }
+.polygon-panel .x-btn.x-btn-disabled.x-btn-default-small {
+  background-color: #970016;
+}
+.polygon-panel .x-accordion-hd .x-tool-img {
+    color: #970016;
+}
+.x-accordion-item .x-accordion-hd{
+  background-color: #ececec !important;
+}
+.x-accordion-hd .x-tool-img{
+  background-color: #ececec !important;
 }
 
 

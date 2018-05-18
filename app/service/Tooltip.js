@@ -99,7 +99,7 @@ Ext.define('App.service.Tooltip', {
 
     var title = (properties[aggregation.id + '_' + __Global.lang] || '') + ' ' + aggregation[__Global.lang + 'NameShort'];
 
-    var content =  App.service.Map.getLegendTitle(false, 'no');
+    var content = App.service.Map.getLegendTitle(false, 'no');
     var yField = indicator.field;
     if (!!indicator.crops) {
       yField = yField.replace('{crop}', App.service.Watcher.get('Crop'));

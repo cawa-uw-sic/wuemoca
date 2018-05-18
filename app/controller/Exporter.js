@@ -21,7 +21,7 @@ Ext.define('App.controller.Exporter', {
     App.service.Helper.getComponentExt('exporter-window').show();
   },  
   onAcronymPDF: function(){
-     App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf');
+     App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf', null);
   },
   /**
   * @method onDownloadSelection

@@ -1,7 +1,7 @@
 var LayerParams = {
   Irrigation  : __Global.geoserverWorkspace + ':irrigation_extent',
   Country     : __Global.geoserverWorkspace + ':ca_country_geom',
-  Channel     : __Global.geoserverWorkspace + ':channel_geom',
+  Channel     : __Global.geoserverWorkspace + ':ca_channel_geom',
   Aggreg      : __Global.geoserverWorkspace + ':ca_{aggreg}',
   Styles      : __Global.geoserverWorkspace + ':ca_{type}_{crop}',
   Grid        : __Global.geoserverWorkspace + ':ca_{aggreg}_{type}_{crop}'

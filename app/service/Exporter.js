@@ -12,6 +12,25 @@ Ext.define('App.service.Exporter', {
   year: false,
   indicatorfilter: false,
   indicator: false,  
+
+  //http://jsfiddle.net/insin/cmewv/  https://gist.github.com/insin/1031969
+  uri: 'data:application/vnd.ms-excel;base64,',
+  template: '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+  'xmlns:x="urn:schemas-microsoft-com:office:excel" ' + 
+  'xmlns="http://www.w3.org/TR/REC-html40">' +
+  '<head><meta http-equiv="content-type" content="text/plain; charset=utf-8">' +
+    '<!--[if gte mso 9]>' +
+      '<xml>' +
+        '<x:ExcelWorkbook><x:ExcelWorksheets>' +
+          '<x:ExcelWorksheet>' +
+            '<x:Name>{worksheet}</x:Name>' +
+            '<x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>' +
+          '</x:ExcelWorksheet>' +
+          '</x:ExcelWorksheets></x:ExcelWorkbook>' +
+      '</xml>' +
+    '<![endif]-->' +
+  '</head><body><table>{table}</table></body></html>',
+
   /**
   * @method setDownloadCombotext
   * update download button and select filter combobox of the download options window, 
@@ -133,9 +152,14 @@ Ext.define('App.service.Exporter', {
     downloadSelectionStore.removeAll();
     downloadSelectionStore.loadData(downloadSelectionData);
     //set combobox value to previously selected index if any
-    if (selectedIndex == -1){
-      selectedIndex = 0;
-    }
+    //if (selectedIndex == -1){
+      if (userPolygon && selectedPolygons.length > 0){
+        selectedIndex = 1;        
+      }
+      else{
+        selectedIndex = 0;
+      }
+    //}
     if (downloadSelectionStore.count() > selectedIndex){
       App.service.Helper.setComboboxSelectedIndex('exporter-cb-downloadselection', selectedIndex);
     }
@@ -169,7 +193,7 @@ Ext.define('App.service.Exporter', {
     // if the user wants to download data of an user polygon (stored in JSON format)
     // in Excel format, use the JSON to HTML convertor (with explanations of DB acronyms)
     if (this.outputformat == 'excel' && userPolygon){
-      App.service.Helper.JSONToHTMLConvertor();  
+      this.JSONToHTMLConvertor(this.filter == 'all');  
     }
     else{
       if (userPolygon){
@@ -196,7 +220,7 @@ Ext.define('App.service.Exporter', {
     var aggregation = App.service.Watcher.getAggregation()['id'];
     //propertyname = field list
     var propertyname = '';
-    var field_array = App.service.Helper.getExportFields(userPolygon, export_indicators);
+    var field_array = this.getExportFields(userPolygon, export_indicators);
     field_array.map(function (field) {
       propertyname += field + ',';
     });
@@ -240,7 +264,6 @@ Ext.define('App.service.Exporter', {
           filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
         }      
       }
-      //cql_filter = "&CQL_FILTER=uid='" + selectedPolygon.uid + "'";
       cql_filter = '';
     }
     else{
@@ -294,7 +317,7 @@ Ext.define('App.service.Exporter', {
       '&typeName=' + typename; +
       //'&id_policy=false';
       
-    App.service.Helper.openDocument(requesturl, 'download');  
+    App.service.Helper.openDocument(requesturl, 'download', null);  
   },
 
   getIndicators: function(userPolygon){
@@ -302,12 +325,391 @@ Ext.define('App.service.Exporter', {
     var indicatorData = JSON.parse(JSON.stringify(__Indicator));
     var filteredData = [];
     indicatorData.map(function (indicator) {
-      if (indicator.chart != 'Multiannual' && ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))) {
+      if (indicator.chart != 'Multiannual' && 
+        ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))) {
+        if (userPolygon){
+          if (!!indicator[__Global.lang + 'Group_userDB']){          
+            indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
+          }
+          if (!!indicator[__Global.lang + 'Name_userDB']){
+            indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
+          }
+        }
         filteredData.push(indicator);
       }
     });
     return filteredData;
-  }     
+  }, 
+
+  /**
+* @method base64
+*/
+  base64: function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
+/**
+* @method format
+*/
+  format: function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
+/**
+* @method JSONToHTMLConvertor 
+* the polygon indicator values, stored in user database in JSON format, are written to HTML table with MS Excel content type
+*/
+  JSONToHTMLConvertor: function (allPolygons) { 
+    var self = this;
+    var year = self.year;
+    //indicator filter for export
+    var export_indicators = self.indicator;
+    var jSONData = [];
+    var fileName = '';
+    if (!allPolygons){
+      var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      if (!!polygon){ 
+        //copy of polygon data to extent it with name       
+        jSONData = polygon.data.slice(); 
+        for (d = 0; d < jSONData.length; ++d) {         
+          jSONData[d]['name'] = polygon.info.name;
+          if (!!polygon.info.location && polygon.info.location != ''){
+            jSONData[d]['location'] = polygon.info.location; 
+          }
+        }
+        //Generate a file name
+        //this will remove the blank-spaces from the title and replace it with an underscore
+        fileName = jSONData[0]['name'].replace(/ |,/g,'_');  
+      }
+    }
+    else if (allPolygons &&  App.service.Polygon.all.length > 0){ 
+      fileName = 'my_polygons';
+     
+      App.service.Polygon.all.map(
+        function(polygon){
+          //copy of polygon data to extent it with name  
+          temp_data = polygon.data.slice(); 
+          for (d = 0; d < temp_data.length; ++d) {           
+            temp_data[d]['name'] = polygon.info.name;
+            if (!!polygon.info.location && polygon.info.location != ''){
+              temp_data[d]['location'] = polygon.info.location; 
+            }
+          }
+          jSONData = jSONData.concat(temp_data); 
+        }
+      );
+    }
+
+    if (jSONData.length > 0){
+      //If jSONData is not an object then JSON.parse will parse the JSON string in an Object
+      var arrData = typeof jSONData != 'object' ? JSON.parse(jSONData) : jSONData;
+
+      var indicator_fields = self.getExportFields(true, export_indicators);
+
+      //change order of arrData with selection of fields
+      //http://jsfiddle.net/drndW/    
+      var sortedData = JSON.parse(JSON.stringify( arrData, indicator_fields , 4));   
+
+      for (var i = 0; i < indicator_fields.length; ++i) {  
+        var key_empty = true; 
+        for (var a = sortedData.length - 1; a >= 0; a--) {  
+          //delete datasets of years which were not selected       
+          if (year != '' && year.indexOf(sortedData[a]['year']) == -1){
+            sortedData.splice(a, 1);
+          }         
+          else {
+            //fill missing keys
+            if(!sortedData[a][indicator_fields[i]]){   
+              sortedData[a][indicator_fields[i]] = null;
+            }
+            else if (sortedData[a][indicator_fields[i]] != null && sortedData[a][indicator_fields[i]] != ''){
+              key_empty = false;
+            }
+          }
+        }
+        //delete indicators which do not occur
+        if (key_empty){
+          for (var a = 0; a < sortedData.length; ++a) { 
+            delete sortedData[a][indicator_fields[i]];
+          }          
+        }           
+      }     
+
+      if (year != ''){
+        fileName += '_' + year;
+      }  
+      var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, year) };
+
+      App.service.Helper.openDocument(
+        self.uri + self.base64(self.format(self.template, ctx)), 
+        null, 
+        fileName + ".xls"
+      );
+    }
+  },
+
+  indicator_table: function (data, year) {
+    var fieldCount = 0;
+    var result = { head: '', body: '' };
+   
+    result.head += '<tr>';
+
+    //This loop will extract the label from 1st index of on array
+    for (var index in data[0]) {
+      fieldCount++;
+      result.head += '<th>' + index + '</th>';
+    }
+    result.head += '</tr>';
+
+    //1st loop is to extract each row
+    for (var i = 0; i < data.length; i++) {
+      result.body += '<tr>';
+      //2nd loop will extract each column
+      for (var index in data[i]) {
+        //empty for null value
+        if (data[i][index] == null){
+          result.body += '<td></td>';
+        }
+        //no number format for year and string
+        else if (isNaN(data[i][index]) || index == 'year'){
+          result.body += '<td>' + data[i][index] + '</td>';            
+        }
+        //format with decimals and thousand separators
+        else{
+          var format = '0';
+          //read decimal places from the indicator list
+          __Indicator.map(function (indicator) {
+            if (index.indexOf(indicator.id) != -1 && indicator.decimals != undefined){
+              format = '#,##0';
+              if (indicator.decimals > 0){
+                format += '.';
+                for (var count = 1; count <= indicator.decimals; count++){
+                  format += '0';
+                }
+              } 
+            }
+          });
+          __Indicator_userPolygon.map(function (indicator) {
+            if (index.indexOf(indicator.id) != -1 && indicator.decimals != undefined){
+              format = '#,##0';
+              if (indicator.decimals > 0){
+                format += '.';
+                for (var count = 1; count <= indicator.decimals; count++){
+                  format += '0';
+                }
+              } 
+            }
+          });            
+          //workaround for problem with three decimals and German or Russian delimiter 
+          var value = parseFloat(data[i][index]).toFixed(4);
+          //indices = table columns that are not within the indicator list
+          if (index == 'area_ha'){
+            format = '#,##0'; 
+          }
+          result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
+        }
+      }
+      result.body += '</tr>';
+    }
+    
+    //add column name explanation
+    result.body += '<tr></tr>'; 
+    result.body += '<tr>';     
+    result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
+    result.body += '<th></th>';       
+    result.body += '<th>' + i18n.exp.indicatorName + '</th>';  
+    for (var i = 4; i <= fieldCount; i++){
+      result.body += '<th></th>';        
+    }
+    result.body += '</tr>';       
+    var export_indicators = this.indicator;
+
+    __Indicator.map(function (indicator) {
+      if (export_indicators == '' || export_indicators.indexOf(indicator.id) != -1){
+        if (indicator.userDB){
+          result.body += '<tr>';     
+          result.body += '<td><b>' + indicator.field + '</b></td>'; 
+          result.body += '<td></td>';       
+          result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
+          for (var i = 4; i <= fieldCount; i++){
+            result.body += '<td></td>';        
+          }   
+          result.body += '</tr>';          
+        }
+      }
+    });
+    if (
+      export_indicators != '' 
+      && export_indicators.indexOf('vir') != -1 
+      && export_indicators.indexOf('etf') == -1
+    ){
+      result.body += '<tr>';     
+      result.body += '<td><b>' + 'etf_non' + '</b></td>'; 
+      result.body += '<td></td>';   
+      var etf_indicator = App.service.Helper.getById( __Indicator, 'etf');    
+      result.body += '<td>' + etf_indicator[__Global.lang + 'Name'] + ' [' + etf_indicator[__Global.lang + 'Unit'] + ']</td>';
+      for (var i = 4; i <= fieldCount; i++){
+        result.body += '<td></td>';        
+      }   
+      result.body += '</tr>';       
+    }
+    __Indicator_userPolygon.map(function (indicator) {
+      var add = false;  
+      if (export_indicators == ''){
+        add = true;
+      } 
+      if (!add){
+        indicator.connectedTo.map(function (conn) {  
+          if (add) return false; 
+          if (export_indicators.indexOf(conn) != -1){
+            add = true;
+          } 
+        });    
+      } 
+      if (add){
+        result.body += '<tr>';     
+        result.body += '<td><b>' + indicator.field + '</b></td>'; 
+        result.body += '<td></td>';       
+        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
+        for (var i = 4; i <= fieldCount; i++){
+          result.body += '<td></td>';        
+        }   
+        result.body += '</tr>';     
+      }     
+    });         
+
+    result.body += '<tr></tr>'; 
+    result.body += '<tr>';     
+    result.body += '<th>' + i18n.exp.cropAcronym + '</th>'; 
+    result.body += '<th></th>';       
+    result.body += '<th>' + i18n.exp.cropName + '</th>';   
+    result.body += '</tr>';  
+
+    __Crop.map(function (crop) {
+      result.body += '<tr>';     
+      result.body += '<td><b>' + crop.id + '</b></td>'; 
+      result.body += '<td></td>';       
+      result.body += '<td>' + crop[__Global.lang + 'Name'] + '</td>';   
+      result.body += '</tr>';         
+    }); 
+ 
+    return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+  },  
+
+  getExportFields: function (userPolygon, export_indicators) {
+    var indicator_fields = [];
+    var aggregation = 'grid';
+    if (!userPolygon){ 
+      var aggregation_object = App.service.Watcher.getAggregation();
+      aggregation = aggregation_object['id'];
+      var aggregation_id = aggregation + '_id';
+      indicator_fields.push(aggregation_id);
+      if (aggregation != 'grid'){
+        indicator_fields.push(aggregation + '_' + __Global.lang);
+      }
+      var super_filter = aggregation_object['super_filter'];
+      if (super_filter != aggregation){
+        indicator_fields.push(super_filter + '_id');
+        indicator_fields.push(super_filter + '_' + __Global.lang);
+      }
+    } 
+    else{
+      indicator_fields.push('name'); 
+      indicator_fields.push('location');      
+    }
+    indicator_fields.push('area_ha'); 
+    indicator_fields.push('year');
+
+    __Indicator.map(function (indicator) {
+      var crop_spec = (!!indicator.crops_userDB && userPolygon) ? indicator.crops_userDB : indicator.crops;
+
+      if (
+        ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))
+        && indicator.chart != 'Multiannual' 
+        && (userPolygon || indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)
+        && (export_indicators == '' || export_indicators.indexOf(indicator.id) != -1)
+        ) {
+        var field = indicator.field;
+        if (!!crop_spec){
+          if (typeof crop_spec == 'object'){
+            crop_spec.map(function(crop){
+              var fieldcopy = field;
+              crop_name = !isNaN(crop) ? App.service.Helper.getByAttr(__Crop, 'idx', parseInt(crop)).id : crop;
+              indicator_fields.push(fieldcopy.replace('{crop}', crop_name));
+            });
+          }
+          else{
+            __Crop.map(function(crop){
+              //crop_spec can be 'all', 'sum' or 'avg'
+              if (crop.idx == 0 && crop.id != crop_spec) return false;
+              var fieldcopy = field;
+              indicator_fields.push(fieldcopy.replace('{crop}', crop.id));
+            });            
+          }
+        }
+        else{
+          indicator_fields.push(field);
+        }
+      }        
+    });
+    if (
+      export_indicators != '' 
+      && export_indicators.indexOf('vir') != -1 
+      && export_indicators.indexOf('etf') == -1
+      ){
+      indicator_fields.push('etf_non');          
+    }
+    if (userPolygon){
+      var wf_added = false;
+      var temp_field_list = [];
+      if (export_indicators == '' || export_indicators.indexOf('vir') != -1){
+
+        temp_field_list.push('wf');
+        wf_added = true;
+        for (var month = 3; month <= 10; month++) {
+          temp_field_list.push('etf_m' + month);
+          temp_field_list.push('vir_m' + month);
+          temp_field_list.push('wf_m' + month);
+          for (var decade = 1; decade <= 3; decade++){
+            temp_field_list.push('etf_m' + month + '_' + decade);
+            temp_field_list.push('vir_m' + month + '_' + decade);
+            temp_field_list.push('wf_m' + month + '_' + decade);
+          }
+        }
+      }
+      __Indicator_userPolygon.map(function (indicator) {
+        var add = false;  
+        if (export_indicators == ''){
+          add = true;
+        } 
+        if (!add){
+          indicator.connectedTo.map(function (conn) {  
+            if (add) return false; 
+            if (conn != 'vir' && export_indicators.indexOf(conn) != -1){
+              add = true;
+            } 
+          });    
+        }
+        if (indicator.id == 'wf' && wf_added){
+          add = false;
+        } 
+        if (add){
+          if(indicator.crops){
+          __Crop.map(function (crop) {
+            var crop_id = crop.id;
+            //indicator.crops can be 'all', 'sum' or 'avg'
+            if (crop.idx == 0 && crop.id != indicator.crops) return false;
+            temp_field_list.push(indicator.id + '_' + crop_id);
+          });
+          }
+          else{
+            temp_field_list.push(indicator.id);
+          }
+        }
+      });
+
+      //temp_field_list.sort();
+
+      indicator_fields = indicator_fields.concat(temp_field_list); 
+
+    }
+    return indicator_fields;
+  }
+    
 
 
 });

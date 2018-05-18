@@ -15,7 +15,7 @@ Ext.define('App.controller.Switcher', {
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
     //this.createFilters();
-    Ext.getStore('indicator').sort([
+   /* Ext.getStore('indicator').sort([
       {
         property :  __Global.lang + 'Group',
         direction: 'ASC'
@@ -24,7 +24,7 @@ Ext.define('App.controller.Switcher', {
         property :  __Global.lang + 'Name',
         direction: 'ASC'
       }
-    ]);
+    ]);*/
 
 
    // App.service.Watcher.activateFilters();
@@ -39,7 +39,6 @@ Ext.define('App.controller.Switcher', {
   */
   onIndicator: function (cb, val) {
 
-    console.log('onIndicator: ' + val);
     if (!val){
       val == '';
       //App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
@@ -49,26 +48,19 @@ Ext.define('App.controller.Switcher', {
     }
 
     App.service.Watcher.set('Indicator', val);
-/**
-* get stored indicator object
-*/
+    /**
+    * get stored indicator object
+    */
     var indicator = App.service.Watcher.getIndicator();
-    //var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      //'" title="' + indicator[__Global.lang + 'NameShort'] + ': ' + indicator[__Global.lang + 'Tooltip'] + 
-      //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label; 
-
+ 
     var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
       '" data-qtip="' + indicator[__Global.lang + 'Name'] + 
       ':<br> ' + indicator[__Global.lang + 'Tooltip'] + '<br>' + i18n.header.readmore +
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;  
 
     cb.setFieldLabel(label);
-    //var tip = Ext.tip.QuickTipManager.getQuickTip();
-    //var tip = App.service.Helper.getComponentExt('switcher-qtip-indicator');
-    //tip.update(indicator[__Global.lang + 'Tooltip']);
 
     App.service.Map.fillCrops();
-    console.log('onIndicator fillAggregations_new');
     App.service.Map.fillAggregations_new();
 
     App.service.Yearslider.didRender();
@@ -98,17 +90,6 @@ Ext.define('App.controller.Switcher', {
     App.service.Helper.getComponentExt('switcher-btns-crop').setTitle(label);
   },
 
- /* onUnit: function (cb, val) {
-   var aoi_filter = App.service.Watcher.get('Aoi_Filter');
-    if (!!aoi_filter){
-      if ((aoi_filter.indexOf(App.service.Watcher.getSuperFilterAggregation(val)) < 0)
-        && (aoi_filter.indexOf('country') < 0)){
-        App.service.Watcher.set('Aoi_Filter', false);
-      }
-    }
-    App.service.Watcher.set('Unit', val);
-    this.fillAggregations(cb.getSelection().get('items'), val);
-  },*/
   /**
   * @method onAggregation
   * when aggregation is changed, check map filter, store new aggregation, set cb label with tooltip, update chart

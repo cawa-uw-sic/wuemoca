@@ -44,7 +44,6 @@ var __Selection = {
   * Crop user selection, default: sum
   */  
   Crop             : __LocalDB.get('Selections.Crop', 'sum'),
-  //Unit             : __LocalDB.get('Selections.Unit', 'admin'),
   /**
   * @property Aggregation
   * Aggregation user selection, default: oblast

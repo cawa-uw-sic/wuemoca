@@ -50,12 +50,10 @@ Ext.define('App.service.Map', {
         //load layer if missing or user selection change
         if (!App.util.Layer.current || !self.compareLayers()){
           if (App.service.Watcher.get('UserPolygon') == 'noshow'){
-            console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
             self.loadCurrentLayer();
           }
           self.setMainTitle();
           self.setLegend();
-          console.log('setDownloadCombotext loadLayer');
           App.service.Exporter.setDownloadCombotext();
           App.service.Status.set('&#160;');
         }
@@ -227,7 +225,7 @@ Ext.define('App.service.Map', {
       else{
         title += indicator[__Global.lang + 'Name'];
       }
-      if (!!indicator.crops && App.service.Watcher.get('Crop') != 'sum' && App.service.Watcher.get('Crop') != 'avg') {
+      if (!!indicator.crops){// && App.service.Watcher.get('Crop') != 'sum' && App.service.Watcher.get('Crop') != 'avg') {
         title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
       }
       if (!userPolygon){
@@ -326,21 +324,29 @@ Ext.define('App.service.Map', {
     var crop_spec = (!!indicator.crops_userDB && App.service.Watcher.get('UserPolygon') == 'show') ? indicator.crops_userDB : indicator.crops;
     if (!!crop_spec){
       //indicators with crop list
-      if (typeof crop_spec == 'object'){
-        legend_title = indicator[__Global.lang + 'Legend'][crop_spec.indexOf(App.service.Watcher.get('Crop'))]; 
+      if (indicator[__Global.lang + 'NameShort']){
+        legend_title += indicator[__Global.lang + 'NameShort'];
       }
       else{
-        legend_title = App.service.Helper.getCropName();
+        legend_title += indicator[__Global.lang + 'Name'];
+      }      
+      /*if (typeof crop_spec == 'object'){
+        legend_title += ' - ' + indicator[__Global.lang + 'Legend'][crop_spec.indexOf(App.service.Watcher.get('Crop'))]; 
       }
+      else{*/
+        legend_title += ' - ' + App.service.Helper.getCropName();
+      //}
     }
     else{
       legend_title = indicator[__Global.lang + 'Legend'];
     }
     if (withUnit){
       if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.enUnit != 'Index')) {
-        legend_title += i18n.chart._in;
+        //legend_title += i18n.chart._in;
+        legend_title += ' [';
         legend_title += i18n.chart[bigdata];
         legend_title += indicator[__Global.lang + 'Unit'];
+        legend_title += ']';
       }
     }
     return legend_title;
@@ -348,7 +354,6 @@ Ext.define('App.service.Map', {
 
   getLegendMedian: function () {
     var indicator     = App.service.Watcher.getIndicator();
-    //var crop          = App.service.Watcher.get('Crop');
     var crop          = App.service.Watcher.getCrop();
 
     var text          = '';
@@ -360,8 +365,11 @@ Ext.define('App.service.Map', {
     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
         if (!!indicator.crops){
-          var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop.id) : crop.idx;
-          median  = indicator.median  ? indicator.median  [index] : 0;
+          var index = crop.idx;
+          if (typeof indicator.crops == 'object' && (indicator.id == 'yf' || indicator.id == 'pirf')){    
+            index = crop.idx - 1;
+          }
+          median  = indicator.median  [index];
           maximum = indicator.maximum ? indicator.maximum [index] : 0;
         }
         else{
@@ -452,7 +460,6 @@ Ext.define('App.service.Map', {
         && (aoi_filter.indexOf('country') < 0)){
        // && (aoi_filter.indexOf(val) < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
-        console.log('onAggregation fillAggregations_new');        
         this.fillAggregations_new();
       }
       else{
@@ -488,6 +495,10 @@ Ext.define('App.service.Map', {
   },
 
   filterAreaOfInterest: function(aoi, id, super_aoi, super_id){
+    if (App.service.Watcher.get('UserPolygon') == 'show'){
+      aoi = '';
+      id = '0';
+    }
     var aoi_filter = false;
     if (id != '0'){
       if (isNaN(id)){
@@ -545,7 +556,6 @@ Ext.define('App.service.Map', {
           .updateParams({
             'CQL_FILTER': CQLfilter
           });
-          console.log('setDownloadCombotext filterAreaOfInterest');
         App.service.Exporter.setDownloadCombotext();
       }
     }
@@ -578,8 +588,6 @@ Ext.define('App.service.Map', {
         if (!aggregation.aoi_filter
           || aggregation.aoi_filter.indexOf(aoi_filter) >= 0
           || aggregation.aoi_filter.indexOf(aoi_filter.split('=')[0]) >= 0
-           /*|| aggregation.aoi_filter.join().indexOf(aoi_filter.split('=')[1].slice(0, 4)) >= 0
-          || aoi_filter.indexOf(aggregation.id) >= 0*/
           ) {
           filteredData.push(aggregation);
         }
@@ -600,7 +608,6 @@ Ext.define('App.service.Map', {
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Chart.window.close();
 
-      //App.service.Helper.setComponentsValue([]);
     }
   },
 
@@ -625,19 +632,26 @@ Ext.define('App.service.Map', {
     
     if (!crop_spec) {
       App.service.Watcher.set('Crop', '');
-      return button_group.hide();//App.service.Helper.hideComponents(['switcher-btns-crop']);
+      return button_group.hide();
     }
-   
+    // e.g. crop_spec = ['avg', '1', '2', '3']
     if (typeof crop_spec == 'object' && crop_spec.length > 0) {
-      crop_list = crop_spec;
-      cropNames = indicator[__Global.lang + 'Legend'];
+      crop_spec.map(function (crop) {      
+        var crop_id = !isNaN(crop) ? App.service.Helper.getByAttr(__Crop, 'idx', parseInt(crop)).id : crop;
+        var index = !isNaN(crop) ? 'idx' : 'id';
+        var val = !isNaN(crop) ? parseInt(crop) : crop;
+        var crop_name = App.service.Helper.getByAttr(__Crop, index, val)[__Global.lang + 'Name'];
+        crop_list.push(crop_id);
+        cropNames.push(crop_name);
+      });
+      
       //in case that the selected crop does not exist for the selected indicator
-      if (crop_spec.indexOf(crop_id) < 0) {
+      if (crop_list.indexOf(crop_id) < 0) {
         reset_crop = true;
       }
     }
     //'sum', 'avg', 'all', 'non'
-    else {//if (crop_spec == 'all'){
+    else {
       __Crop.map(function (crop) {
         if (crop.idx == 0 && crop.id != crop_spec) return false;
           crop_list.push(crop.id);
@@ -647,26 +661,6 @@ Ext.define('App.service.Map', {
         reset_crop = true;
       }  
     }
-    /*else if (crop_spec == 'sum'){
-      __Crop.map(function (crop) {
-        if (crop.idx == 0 && crop.id != crop_spec) return false;
-          crop_list.push(crop.id);
-          cropNames.push(crop[__Global.lang + 'Name']);
-      }); 
-      if (crop_object.idx == 0 && crop_id != crop_spec){//if (crop_id == 'avg'){
-        reset_crop = true;
-      }            
-    }
-    else if (crop_spec == 'avg'){
-      __Crop.map(function (crop) {
-        if (crop.idx == 0 && crop.id != crop_spec) return false;
-          crop_list.push(crop.id);
-          cropNames.push(crop[__Global.lang + 'Name']);
-      }); 
-      if (crop_id == 'sum'){
-        reset_crop = true;
-      }            
-    }*/
     if ((!crop_id && crop_list.length > 0) || reset_crop) {
       crop_id = crop_list[0];
       App.service.Watcher.set('Crop', crop_id);
@@ -700,7 +694,18 @@ Ext.define('App.service.Map', {
     var indicatorData = JSON.parse(JSON.stringify(__Indicator));
     var filteredData = [];
     indicatorData.map(function (indicator) {
+      //load either userDB or serverDB indicators
       if ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB)) {
+        //assign userDB names and groups to normal name and group
+        if (userPolygon){
+          if (!!indicator[__Global.lang + 'Group_userDB']){          
+            indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
+          }
+          if (!!indicator[__Global.lang + 'Name_userDB']){
+            indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
+          }
+        }
+        
         filteredData.push(indicator);
       }
     });
@@ -708,16 +713,15 @@ Ext.define('App.service.Map', {
     //reset current indicator to uir since some indicators are not visible with user polygons resp. outside user polygons
     if ((userPolygon && !current_indicator.userDB) || (!userPolygon && !current_indicator.serverDB)) {
       App.service.Watcher.set('Indicator', 'uir');
-      App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
     }
-    else if (!!current_indicator.crops_userDB){
-      if (current_indicator.crops.indexOf(App.service.Watcher.get('Crop')) == -1) {
+    //anyway set indicator name since name can be changed in user polygon mode
+    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    if (!!current_indicator.crops_userDB){
+     /* if (current_indicator.crops.indexOf(App.service.Watcher.get('Crop')) == -1) {
         App.service.Watcher.set('Crop', 'cotton'); 
-      }
+      }*/
       this.fillCrops();
-      
     }
-
   }
 
 });

@@ -10,7 +10,7 @@ var __Crop = [
   {
     idx   : 0,
     id    : 'sum',
-    enName: 'Sum of all crops',
+    enName: 'all crops',
     ruName: 'Все зерновые культуры',
     chart : 'Stacked',
     color : sum_color
@@ -22,7 +22,7 @@ var __Crop = [
   {
     idx   : 0,
     id    : 'avg',
-    enName: 'Weighted average',
+    enName: 'weighted average',
     ruName: 'Средне взвешенная',
     chart : 'Defaults',
     color : avg_color
@@ -34,7 +34,7 @@ var __Crop = [
   {
     idx   : 0,
     id    : 'non',
-    enName: 'Irrigated land',
+    enName: 'irrigated land',
     ruName: 'орошаемая земля',
     chart : 'Defaults',
     color : non_color

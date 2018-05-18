@@ -292,18 +292,6 @@ __Chart.VBar = {
           );
         }
       }
-     /*listeners:{
-        itemmousemove: function (series, item, event) {
-          return false;
-          //event.stopPropagation();
-          console.log('itemmousemove', item.category, item.field);
-        }
-      }*//*,
-      renderer: function(sprite, attr, record, index, store) {
-        return Ext.apply(attr, {
-          fill: color
-        });
-      }*/
     }];
   }
 };
@@ -588,7 +576,7 @@ __Chart.Annual = {
     var cropPrices = (!userPolygon && indicator_id == 'eprod') ? true : false;
     var transferButton = userPolygon ? false : true;
     var WUEButton = (userPolygon  && indicator_id == 'vir') ? true : false;
-    var prodButton = (userPolygon  && indicator_id.indexOf('prod_') != -1) ? true : false;  
+    var prodButton = (userPolygon  && (indicator_id.indexOf('prod_') != -1 || indicator_id == 'yf' || indicator_id == 'pirf')) ? true : false;  
 
     var bbarItems = [];
     
@@ -604,6 +592,7 @@ __Chart.Annual = {
       bbarItems.push({ 
         xtype: 'button', 
         text: i18n.chart.transfer + ' ' + aggregName + ' ' + i18n.chart.toMyPolygons, 
+        iconCls: 'x-fa fa-mail-forward',
         handler: 'onTransfer'
       });
     }
@@ -611,6 +600,8 @@ __Chart.Annual = {
       bbarItems.push({ 
         xtype: 'button', 
         text:  i18n.polygon.calculateWUE2, 
+        iconCls: 'x-fa fa-tint',
+        ui: 'default',
         handler: 'onCalculateWUE'
       });  
     }
@@ -618,6 +609,8 @@ __Chart.Annual = {
       bbarItems.push({ 
         xtype: 'button', 
         text:  i18n.polygon.calculateProd2, 
+        iconCls: 'x-fa fa-tint',
+        ui: 'default',        
         handler: 'onCalculateProd'
       }); 
     }

@@ -19,7 +19,23 @@ Ext.define('App.service.Chart', {
 /**
  * @property window chart window
  */
-  window: Ext.create('App.util.Window'),
+  window: Ext.create('App.util.Window',{
+    tools: [{
+      type: 'prev',
+      itemId: 'chart-tool-prev',
+      tooltip: i18n.chart.prevIndicator,
+      callback: function() {
+        App.service.Chart.changeIndicatorChart('prev');
+      }
+    }, {
+      type: 'next',
+      itemId: 'chart-tool-next',      
+      tooltip: i18n.chart.nextIndicator, 
+      callback: function() {
+        App.service.Chart.changeIndicatorChart('next');
+      }
+    }]
+  }),  
 /**
  * @property e click event
  */
@@ -62,10 +78,9 @@ Ext.define('App.service.Chart', {
       self.data = [];
       self.click_coordinates = false;
       App.service.Exporter.setDownloadCombotext(); 
-      console.log('setDownloadCombotext initialize');
       if (App.service.Watcher.get('UserPolygon') == 'show'){
-        App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
-        App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
+        //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
+        //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
         App.service.Polygon.importSelectedGeometry(false);
         App.service.Polygon.importSelectedData(false, false);
       }           
@@ -135,8 +150,8 @@ Ext.define('App.service.Chart', {
             var name = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
               + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
             //var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-            App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
-            App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + name);
+            //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
+            //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + name);
             //store multipolygon coordinates, extent and wkt_geometry
             //Geometry format for reading and writing data in the WellKnownText (WKT) format.
             var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
@@ -185,7 +200,6 @@ Ext.define('App.service.Chart', {
         },
         callback: function (results){
           self.isBusy = false;
-          console.log('setDownloadCombotext doRequest');
           App.service.Exporter.setDownloadCombotext();        
         },
         failure: function(results){
@@ -224,7 +238,11 @@ Ext.define('App.service.Chart', {
             bigdata = 'million';
           }
         }
-        title += ' - ' + App.service.Map.getLegendTitle(true, bigdata);
+        title += ': ' + App.service.Map.getLegendTitle(true, bigdata);
+        App.service.Helper.showComponents(['chart-tool-prev', 'chart-tool-next']);
+      }
+      else{
+        App.service.Helper.hideComponents(['chart-tool-prev', 'chart-tool-next']);
       }
       self.window.setTitle(title);
       self.userPolygon = false;
@@ -287,48 +305,34 @@ Ext.define('App.service.Chart', {
       }     
     });
     self.stores.defaults.setData(self.data);
+  },
+  changeIndicatorChart: function(direction){
+    var ind = App.service.Watcher.get('Indicator');
+    var crop = App.service.Watcher.get('Crop');
+    var list = App.service.Helper.getIndicators_Crops(false);
+    var index = 0;
+    list.map(function (l) {
+      if (l.ind == ind && l.crop == crop) index = l.id;
+    });
+    var new_index = (direction == 'prev') ? index - 1 : index + 1;
+    if (new_index == 0){
+      new_index = list.length;
+    }
+    else if (new_index > list.length){
+      new_index = 1;
+    }
+    var new_ind = '';
+    var new_crop = '';
+    list.map(function (l) {
+      if (l.id == new_index) {
+        new_ind = l.ind;
+        new_crop = l.crop;
+      }
+    });    
+    App.service.Watcher.set('Indicator', new_ind);
+    App.service.Watcher.set('Crop', new_crop);           
+    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    this.showWindow();
   }
-
-  /*exporter2Excel: function(){
-    var indicator = App.service.Watcher.getIndicator();
-    var aggregation = App.service.Watcher.get('Aggregation');
-    if (aggregation != 'grid'){
-      var indicator_field = '';
-      var filename = '';
-      var crop = App.service.Watcher.get('Crop');
-      var outputname = indicator[__Global.lang + 'Name'].replace(/ /g,"_");
-      if (!!indicator.crops) {
-        if (crop == 'sum'){
-          indicator.crops.map(function(c) {
-            return indicator_field += ',' + indicator.id + '_' + c;
-          });
-        }
-        else{
-          indicator_field = ',' + indicator.id + '_' + crop;
-        }
-        filename = outputname + '_' + crop;
-      }
-      else{
-        indicator_field = ',' + indicator.field;
-        filename = outputname;
-      }
-      var aggregation_id = aggregation + '_id';
-      var object_id = App.service.Chart.data[0][aggregation_id];
-      var cql_filter = aggregation_id + '=' + object_id;
-      var propertyname = aggregation_id + ',' + aggregation + '_' + __Global.lang + indicator_field;
-
-      var requesturl = __Global.urls.Mapserver + "wfs" +
-      "?request=getfeature" +
-      "&version=1.1.0" +
-      "&outputformat=excel" +
-      "&service=wfs" +
-      "&typename=" + __Global.geoserverWorkspace + ':ca_' + aggregation + 
-      "&CQL_FILTER=" + cql_filter + 
-      "&propertyname=" + propertyname + ",year" +
-      "&filename=" + object_id + '_' + aggregation + "_" + filename + ".xls"; 
-
-       window.open(requesturl, 'download_excel');
-    }    
-  }*/
 
 });

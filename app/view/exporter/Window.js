@@ -35,7 +35,11 @@ Ext.define('App.view.exporter.Window', {
   listeners: { 
     boxready: function(){
       var years = App.service.Report.getYearData();
+      years.unshift({id: 1000, name: i18n.exp.all});
       App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);
+    },
+    hide: function(window){
+      window.removeCls('polygon-window');
     }
   }
 

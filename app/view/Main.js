@@ -94,6 +94,7 @@ Ext.define('App.view.Main', {
     },
     //accordion panel
     {
+      itemId: 'map-controls',
       title: i18n.filter.title,
       region: 'west',
       margin: '0 5 0 0',
@@ -180,6 +181,7 @@ Ext.define('App.view.Main', {
       region: 'east',
       width: 170,
       collapsible: true, 
+      cls: 'polygon-panel',
       collapsed: __Selection['UserPolygon'] == 'noshow',  
       collapseToolText: i18n.polygon.hidePolygons,
       expandToolText: i18n.polygon.showPolygons,

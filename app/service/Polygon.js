@@ -21,17 +21,35 @@ Ext.define('App.service.Polygon', {
   isBusy: false,
 
   progressBar: false,
-
+  msgbox: false,
   importGeometry: false,
   importExtent: false,
   importWktGeometry: false,
   importData: false,
   importName: false,
 
-  windowEdit: Ext.create('App.util.Window', { title: i18n.exportUI.title, items: [{ xtype: 'app-polygon-form' }] }),
+  windowEdit: Ext.create('App.util.Window', { 
+    title: i18n.exportUI.title, 
+    cls: 'polygon-window',
+    items: [{ xtype: 'app-polygon-form' }] 
+  }),
 
   windowChart: Ext.create('App.util.Window',{
-    id: 'polygon-window'
+    itemId: 'polygon-chart-window',
+    cls: 'polygon-window',
+    tools: [{
+      type: 'prev',
+      tooltip: i18n.chart.prevIndicator,
+      callback: function() {
+        App.service.Polygon.changeIndicatorChart('prev');
+      }
+    }, {
+      type: 'next',
+      tooltip: i18n.chart.nextIndicator,     
+      callback: function() {
+        App.service.Polygon.changeIndicatorChart('next');
+      }
+    }]
   }),
 
   initialize: function () {
@@ -92,6 +110,12 @@ Ext.define('App.service.Polygon', {
       window.setHeight(__Global.chart.Height);
       window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
     });
+    self.windowChart.on("close", function () {
+      if (self.msgbox){
+        self.msgbox.close();
+        self.msgbox = false;
+      }      
+    });
   },
 
   switchView: function(val){
@@ -100,7 +124,6 @@ Ext.define('App.service.Polygon', {
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
     App.service.Helper.getComponentExt('exporter-window').hide();
-    //App.service.Helper.getComponentExt('exporter-cb-downloadselection').setVisible(!val);
     var legendwindow = App.service.Helper.getComponentExt('legend-window');
     if (val == false){
       this.deselectMapAndList();
@@ -110,7 +133,11 @@ Ext.define('App.service.Polygon', {
       this.windowEdit.close();
       if (!legendwindow.isHidden()){
         legendwindow.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
+        legendwindow.removeCls('polygon-window');
       }
+      App.service.Helper.getComponentExt('app-zoom').setTitle(i18n.adminFilters.title);
+      App.service.Helper.getComponentExt('map-container').removeCls('polygon-panel');
+      App.service.Helper.getComponentExt('map-controls').removeCls('polygon-panel');
     }
     else{
       this.cleanLocalDB();
@@ -118,11 +145,14 @@ Ext.define('App.service.Polygon', {
       App.service.Status.set('&#160;');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('app-zoom').collapse();
+      App.service.Helper.getComponentExt('app-zoom').setTitle(i18n.adminFilters.title_userPolygon); 
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       legendwindow.hide();
       App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
       App.service.Map.removeCurrentLayer();
+      App.service.Helper.getComponentExt('map-container').addCls('polygon-panel');
+      App.service.Helper.getComponentExt('map-controls').addCls('polygon-panel');
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
@@ -134,7 +164,7 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('exporter-tag-indicator').clearValue();
     var indicators = App.service.Exporter.getIndicators(val);
     store_indicator_export.setData(indicators);
-    store_indicator_export.sort([
+    /*store_indicator_export.sort([
       {
         property :  __Global.lang + 'Group',
         direction: 'ASC'
@@ -143,7 +173,7 @@ Ext.define('App.service.Polygon', {
         property :  __Global.lang + 'Name',
         direction: 'ASC'
       }
-    ]);
+    ]);*/
   },
 
   deselectMapAndList: function(){
@@ -285,6 +315,7 @@ Ext.define('App.service.Polygon', {
         //no data
         if (polygons[0].data.length == 0){
           Ext.Msg.show({
+            cls: 'polygon-window',
             title: i18n.polygon.progressTitle,
             message: i18n.polygon.calculation_message,
             icon: Ext.Msg.QUESTION,
@@ -498,6 +529,7 @@ Ext.define('App.service.Polygon', {
     if (count > 0){
       var index = 0;
       self.progressBar = Ext.Msg.show({
+        cls: 'polygon-window',
         title: i18n.polygon.progressTitle,
         msg: msg,
         progressText: '',
@@ -656,6 +688,7 @@ Ext.define('App.service.Polygon', {
 
   showChartWindow: function (polygon){
     var self = this;
+    self.windowChart.close();
     var changeSelection = true;
     var selectedPolygons = self.getSelectedPolygons();
     if (selectedPolygons && selectedPolygons.length == 1){
@@ -684,7 +717,6 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.data = App.service.Chart.dataResponse(polygon.data);
 
             if (indicator.chart != 'crops'){
-              console.log(indicator.chart, crop.id);
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
             else if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
@@ -697,7 +729,7 @@ Ext.define('App.service.Polygon', {
                 bigdata = 'million';
               }
             }
-            var title = polygon.info.name + ' - ' + App.service.Map.getLegendTitle(true, bigdata);
+            var title = polygon.info.name + ': ' + App.service.Map.getLegendTitle(true, bigdata);
             self.windowChart.setTitle(title);
             App.service.Chart.userPolygon = true;
           }
@@ -708,7 +740,24 @@ Ext.define('App.service.Polygon', {
         else{
           self.windowChart.setTitle(i18n.indicator.leftPanel);
         }
+       
         self.windowChart.show();
+        if (App.service.Chart.maxData == 0 && !!title){
+          setTimeout(function(){
+            self.msgbox = Ext.Msg.show({
+              cls: 'polygon-window',
+              title: i18n.chart.title_nodata, 
+              message: i18n.chart.nodata + '<br>' + App.service.Map.getLegendTitle(false),
+              //buttons: Ext.Msg.OK,
+              closeAction: 'destroy',
+              closable: true,
+              modal: false
+            });
+
+            self.msgbox.alignTo(App.service.Helper.getComponentExt('polygon-chart-window'),'c-c');
+            }, 251
+          );
+        } 
       }
       //no calculated data
       else{
@@ -775,7 +824,7 @@ Ext.define('App.service.Polygon', {
     if (self.isBusy) return false;
     var userPolygon = true;
     var export_indicators = App.service.Exporter.indicator;
-    var fieldlist = App.service.Helper.getExportFields(userPolygon, export_indicators);
+    var fieldlist = App.service.Exporter.getExportFields(userPolygon, export_indicators);
     var parameters = {};
     var polygon = null;
 
@@ -844,7 +893,6 @@ Ext.define('App.service.Polygon', {
             timeout_message = i18n.polygon.largearea;
           }
           Ext.Msg.alert('', polygon.info.name + ': ' + 'download failed ' + timeout_message + '!');
-          console.log(response.responseText);
         }
       });
     }
@@ -950,7 +998,7 @@ Ext.define('App.service.Polygon', {
 
       var userPolygon = true;
       var export_indicators = '';
-      var fieldlist = App.service.Helper.getExportFields(userPolygon, export_indicators);
+      var fieldlist = App.service.Exporter.getExportFields(userPolygon, export_indicators);
       for (var d = 0; d < data.length; d++){
         for(var key in data[d]) {
           //_ha is to be kept, because e.g. fallow_ha is used for recalculation of fp, in case firn is modified by users (productivity calculation tool)
@@ -985,6 +1033,7 @@ Ext.define('App.service.Polygon', {
     }
     else{
         var messagebox = Ext.Msg.show({
+          cls: 'polygon-window',
           title: 'Name does already exist',
           message: existingName + ' is already in the Polygon list.<br>Transfer it anyway?',
           icon: Ext.Msg.QUESTION,
@@ -1016,6 +1065,35 @@ Ext.define('App.service.Polygon', {
     self.rerenderFeatures();
     Ext.getStore('polygongrid').loadData(self.getGridData());
     self.selectRowInGrid(newpolygon.uid);
+  },
+
+  changeIndicatorChart: function(direction){
+    var ind = App.service.Watcher.get('Indicator');
+    var crop = App.service.Watcher.get('Crop');
+    var list = App.service.Helper.getIndicators_Crops(true);
+    var index = 0;
+    list.map(function (l) {
+      if (l.ind == ind && l.crop == crop) index = l.id;
+    });
+    var new_index = (direction == 'prev') ? index - 1 : index + 1;
+    if (new_index == 0){
+      new_index = list.length;
+    }
+    else if (new_index > list.length){
+      new_index = 1;
+    }
+    var new_ind = '';
+    var new_crop = '';
+    list.map(function (l) {
+      if (l.id == new_index) {
+        new_ind = l.ind;
+        new_crop = l.crop;
+      }
+    });    
+    App.service.Watcher.set('Indicator', new_ind);
+    App.service.Watcher.set('Crop', new_crop);           
+    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    this.showChartWindow();
   },
 
   cleanLocalDB: function(){

@@ -18,29 +18,22 @@ var i18n = {
     wf: 'Water Intake (Mio. m³)',
     c: 'Crop price ($/t)',
     tab1: 'Crop specific input',
-    tab2: 'Other parameters',
+    tab2: 'Crop unspecific input',
     firn: 'Net irrigated area (ha)',
     gwc: 'Groundwater contribution (mm)',
     kpd: 'Efficiency',
     rain: 'Effective rainfall (mm)',
-    rate: 'Crop rate of water intake (m³/ha)'
+    rate: 'Crop rate of water intake (m³/ha)',
+    fulldata: 'Please provide complete annual data sets for all occurring crops!',
+    userinput: 'User input is required to calculate Productivity indicators.<br>Pre-filled values are taken from the WUEMoCA database.',    
+    calculateProd: 'Calculate Productivity',
+    calculateProdSuccess: 'Productivity indicators calculated successfully!'
   },
 
     yesno :{
       yes: 'Yes',
       no: 'No'
     },
-
-  info : {
-    title                   : 'Information',
-    text                    : 'WUEMoCA is an online tool for regional assessments of water use efficiency in all extensive ' +
-                              'downstream irrigation systems of the transboundary Aral Sea Basin. In the first phase it ' +
-                              'provides information about crop yields of the major crops, i.e. cotton, rice, and wheat, ' +
-                              'based on free-of-charge accessible remote sensing (MODIS 250m) and meteorological data ' +
-                              'aggregated at different scales ranging from WUAs (Water User Associations), districts (rayons) ' +
-                              'to irrigation planning zones, and provinces (oblasts).'
-
-  },
 
   header: {
     wuemoca_long            : '<b>W</b>ater <b>U</b>se <b>E</b>fficiency <b>Mo</b>nitor in <b>C</b>entral <b>A</b>sia',
@@ -141,6 +134,7 @@ var i18n = {
 
   adminFilters: {
     title                   : 'Area filter (optional)',
+        title_userPolygon                   : 'Zoom to area',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
@@ -206,7 +200,7 @@ mapSelection:{
     label                   : 'Select indicator',
     filter                  : 'Activate filter for indicator list',
     leftPanel: 'Select indicator on the left side.',
-    _of: 'of'
+    _of: '-'
   },
 
   crop: {
@@ -285,7 +279,7 @@ mapSelection:{
     measure                 : 't/ha',
     _in                     : ' in ',
       no: '',
-          thousand: 'thousand ',
+          thousand: 'thous. ',
           million: 'Mio. ',
     raster                  : 'Raster cell',
     shareCrops              : 'share (%)',
@@ -303,7 +297,11 @@ mapSelection:{
           transfer: 'Transfer',
           toMyPolygons: 'to My Polygons',
           showCropPrices: 'Show crop prices',
-          legendNotIncluded: 'Chart legend is not included'
+          legendNotIncluded: 'Chart legend is not included',
+         title_nodata: 'User input required',
+          nodata: 'Please provide statistical data to calculate',
+          prevIndicator: 'Show previous annual indicator',
+          nextIndicator: 'Show next annual indicator'
   },
 
   exp: {
@@ -375,7 +373,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
-    calculateVirSuccess: 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get monthly and ' +
+    calculateVirSuccess: 'Irrigation Efficiency calculated successfully!<br>Download selected polygon to get monthly and ' +
                           'decadal results.' ,
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
@@ -388,14 +386,16 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     byYear                  : 'yearly',
     year                    : 'Year',
     decade                  : 'Decade',
-    month                   : 'Month'
+    month                   : 'Month',
+    resetForm: 'Clear water intake form<br>(delete all yearly, monthly and decadal values)',
+    calculateSums: 'Calculate monthly and yearly sums<br>(original values are overwritten)'
     //pressWUE: 'Press "Calculate WUE" and insert Water intake'
   },
 
    polygon: {
     showPolygon             : 'My Polygons',
-          showPolygons: 'Show My Polygons',
-      hidePolygons:    'Hide My Polygons',    
+          showPolygons: "Open 'My Polygons'",
+      hidePolygons:    "Exit 'My Polygons'", 
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
     exportPressed           : 'Report mode',
@@ -543,8 +543,11 @@ switch (locale){
       gwc: 'Подпитка (мм)',
       kpd: 'КПД',
       rain: 'Осадки (мм)',
-      rate: 'Норма водоподачи м³/га'
-
+      rate: 'Норма водоподачи м³/га',
+      fulldata: 'Просьба представить полные годовые данные для всех встречающихся культур!',
+      userinput: 'Пользовательский ввод необходим для расчета продуктивность.<br>Предварительно заполненные значения берутся из базы данных WUEMoCA.',    
+      calculateProd: 'Расчитать продуктивность',
+      calculateProdSuccess: 'Расчет продуктивность успешно!'
     };
 
  
@@ -599,17 +602,6 @@ switch (locale){
       tooltip               : 'Масштабировать до Даргом УИС'
     };
 
-    i18n.info = {
-      title                 : 'Информация',
-      text                  : 'WUEMoCA это онлайн инструмент для региональных оценок эффективности водопользования во всех ' +
-                              'обширных ниже оросительных систем в трансграничном бассейне Аральского моря. На первом этапе ' +
-                              'она обеспечивает информацию о урожайности в основных сельскохозяйственных культур, т.е. хлопка, ' +
-                              'риса и пшеницы, на основе свободного заряда доступны ДЗЗ (MODIS 250) и метеорологических данных, ' +
-                              'агрегированных в различных масштабах, начиная от АВП (водопользователей ассоциации), районов ' +
-                              '(районы) в зонах орошения планирования и провинций (областей).'
-
-    };
-
     i18n.filter = {
       title                 : 'Управление картой'
     };
@@ -659,6 +651,7 @@ switch (locale){
 
     i18n.adminFilters = {
       title                 : 'Выбрать территорию<br>(не обязательно)',
+      title_userPolygon                   : 'Масштабировать до территории',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
       oblast                : 'Область',
@@ -792,7 +785,11 @@ i18n.mapSelection ={
           transfer: 'Transfer',
           toMyPolygons: 'to My Polygons',
           showCropPrices: 'Show crop prices',
-          legendNotIncluded: 'Chart legend is not included'
+          legendNotIncluded: 'Chart legend is not included',
+         title_nodata: 'Требуется ввод пользователя',
+          nodata: 'Просьба представить статистические данные для расчета',
+                    prevIndicator: 'Показать предыдущий годовой индикатор',
+          nextIndicator: 'Показать следующий годовой индикатор'
     };
 
     i18n.exp = {
@@ -865,8 +862,8 @@ i18n.mapSelection ={
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
       btnSubmit               : 'Calculate<br>Irrigation Efficiency',
-      calculateVirSuccess     : 'Calculate Irrigation Efficiency',
-      calculateVirSuccess     : 'Irrigation Efficiency calculation successful!<br>Download selected polygon to get ' +
+      calculateVir     : 'Calculate Irrigation Efficiency',
+      calculateVirSuccess     : 'Irrigation Efficiency calculated successfully!<br>Download selected polygon to get ' +
                                 'monthly and decadal results.' ,
       aggregateETact          : 'Aggregate monthly and decadal ET<sub>act</sub> for ',
       btnImport1              : 'Импорт',
@@ -879,14 +876,16 @@ i18n.mapSelection ={
       byYear                  : 'по годам',
       year                    : 'Год',
       decade                  : 'Декада',
-      month                   : 'Месяц'
+      month                   : 'Месяц',
+          resetForm: 'Clear water intake form<br>(delete all yearly, monthly and decadal values)',
+    calculateSums: 'Calculate monthly and yearly sums<br>(original values are overwritten)'
       //pressWUE                : 'Press "Calculate WUE" and insert Water intake'
     },
 
     i18n.polygon = {
           showPolygon             : 'Мои полигоны',
-          showPolygons: 'Show My Polygons',
-      hidePolygons:    'Hide My Polygons',
+          showPolygons: "Open 'My Polygons'",
+      hidePolygons:    "Exit 'My Polygons'",
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',

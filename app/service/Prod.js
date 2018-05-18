@@ -13,6 +13,7 @@ Ext.define('App.service.Prod', {
   ],
 
   window    : Ext.create('App.util.Window', {
+    cls: 'polygon-window',
     title: i18n.prod.windowTitle,
     items: [{ xtype: 'app-prod-form' }],
     modal: true,
@@ -21,21 +22,19 @@ Ext.define('App.service.Prod', {
     resizable: false,
     listeners:{
       close: function () {
-        /*var container = App.service.Helper.getComponentExt('app-wue-container');
-        container.removeAll();
-        if (!!Ext.getStore('wue-month')){
-          Ext.getStore('wue-month').removeAll();
-        }
-        if (!!Ext.getStore('wue-decade')){
-          Ext.getStore('wue-decade').removeAll();
-        }*/
       }
     }
   }),
 
 
   renderFormByYear: function (crop) {
-    //var indicators = ['yf', 'firf', 'c'];
+    var cropname = '';
+    __Crop.map(function (crop_object) {
+      if (crop_object.id == crop){
+        cropname = crop_object[__Global.lang + 'Name'];
+      }
+    });
+    //var indicators = ['firf', 'yf', 'c'];
     var el = App.service.Helper.getComponentExt('prod-form-by-year');
     el.removeAll();
     var polygon = App.service.Polygon.getSelectedPolygons()[0]; 
@@ -54,12 +53,33 @@ Ext.define('App.service.Prod', {
 
     var formitems = [];
 
+    /*formitems.push({
+      xtype: 'label', 
+      html: i18n.prod.fulldata
+    }); */
+    var firstrow = {
+      items: []
+    };
     indicators.map(function (indicator) {
+      var newindicatorname = '';
+      if (__Global.lang == 'en'){
+        newindicatorname = indicator[__Global.lang + 'Name'].replace(/crop/gi, cropname);
+      }
+      else{
+        var indicatorname = indicator[__Global.lang + 'Name'];
+        if (indicatorname.indexOf('культур') != -1){
+          newindicatorname = indicatorname.replace(/культур/gi, cropname);
+        }
+        else{
+          newindicatorname = indicatorname + ' ' + cropname;
+        }
+      }
+      var label = '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
+          '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
+          newindicatorname + ' [' + indicator[__Global.lang + 'Unit'] + ']';
       var numberfield = {
         xtype: 'numberfield',
-        fieldLabel: '<a href="" data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
-          '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
-          indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')',
+        fieldLabel: label,
         value: polygon.data[0][indicator.id + '_' + crop] || '',
         name: indicator.id + '_' + crop + '_all_years',
         listeners: { change: 'onInputChange' },
@@ -68,9 +88,15 @@ Ext.define('App.service.Prod', {
         keyNavEnabled: false,
         mouseWheelEnabled: false        
       }
-      formitems.push(numberfield);    
+      firstrow.items.push(numberfield);    
     });
-   
+    firstrow.items.push({
+      xtype: 'label', 
+      html: i18n.prod.userinput + '<br>' + i18n.prod.fulldata,
+      padding: '8px 0 0 20px'
+
+    });    
+    formitems.push(firstrow); 
     indicators = [];    
     __Indicator.map(function (indicator) {
       if (!!indicator.prodform && indicator.prodform == '1-years'){
@@ -86,10 +112,24 @@ Ext.define('App.service.Prod', {
 
     var labels = [];
     labels.push(i18n.wue.year);
-    indicators.map(function (indicator) {    
-      labels.push('<a href="" data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
+    indicators.map(function (indicator) {  
+      var newindicatorname = '';
+      if (__Global.lang == 'en'){
+        newindicatorname = indicator[__Global.lang + 'Name'].replace(/crop/gi, cropname);
+      }
+      else{
+        var indicatorname = indicator[__Global.lang + 'Name'];
+        if (indicatorname.indexOf('культур') != -1){
+          newindicatorname = indicatorname.replace(/культур/gi, cropname);
+        }
+        else{
+          newindicatorname = indicatorname + ' ' + cropname;
+        }
+      }
+      var label = '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
         '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
-        indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')');
+        newindicatorname + ' [' + indicator[__Global.lang + 'Unit'] + ']';
+      labels.push(label);
     });
 
     var labelitems = {
@@ -181,9 +221,9 @@ Ext.define('App.service.Prod', {
       numberfields.items.push({ 
         name: indicator.id, 
         value: val, 
-        fieldLabel: '<a href="" data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
+        fieldLabel: '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
         '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
-        indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')' 
+        indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']' 
       });
     });
 
@@ -203,8 +243,8 @@ Ext.define('App.service.Prod', {
     indicators.map(function (indicator) { 
       var fieldset = {
         xtype: 'fieldset',
-        title: '<a href="" data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
-          '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + indicator[__Global.lang + 'Name'] + ' (' + indicator[__Global.lang + 'Unit'] + ')',
+        title: '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
+          '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']',
         width: 735,
         defaults: {
           xtype: 'numberfield',
@@ -232,85 +272,51 @@ Ext.define('App.service.Prod', {
     el.add(formitems);
   },
 
-  /*getYearlyForm: function(indicator) {
-    var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    var fieldset = {
-      xtype: 'fieldset',
-      title: '<a href="" data-qtip="' + i18n.prod_long[indicator] + 
-        '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + i18n.prod[indicator],
-      width: 735,
-      defaults: {
-        xtype: 'numberfield',
-        columnWidth: 0.20,
-        margin: '2 10 0 0',
-        listeners: { change: 'onInputChange' },
-        // Remove spinner buttons, and arrow key and mouse wheel listeners
-        hideTrigger: true,
-        keyNavEnabled: false,
-        mouseWheelEnabled: false        
-      },
-
-      items: []
-    };
-    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
-
-      var index = polygon.data.map(function (d) { return d.year }).indexOf(year);
-      var val = (index >= 0) ? polygon.data[index][indicator] : 0;
-      fieldset.items.push({ name: indicator + '_' + year, value: val, fieldLabel: year.toString() });
-
-    }
-    return fieldset;
-  },*/
-
   // Calculation of corrected water intake based on norms (water rates per crop)
   calcWf: function(d) {
-    //var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    //polygon.data = polygon.data.map(function(d) {
-      d['wf_rate_sum'] = 0;
-      __Crop.map(function (crop) {
-        var crop_id = crop.id;
+    d['wf_rate_sum'] = 0;
+    __Crop.map(function (crop) {
+      var crop_id = crop.id;
 
-        if (crop.idx == 0) return false;
-        //check if rate exists (crop specific, for all years equal)
-        if (!d['rate_' + crop_id] || d['rate_' + crop_id] == null || isNaN(d['rate_' + crop_id])) {
-          d['rate_' + crop_id] = null;
-        }
-        else{
-          //calculate crop specific yearly water intake only if yearly overall water intake is present
-          if (!d['wf'] || d['wf'] == null || isNaN(d['wf'])) {   
-            d['wf_rate_' + crop_id] = null;
-          }
-          else{
-            d['wf_rate_' + crop_id] = parseFloat((d['rate_' + crop_id] * d['firf_' + crop_id] * 0.000001).toFixed(2));
-            d['wf_rate_sum'] += d['wf_rate_' + crop_id];
-          }
-        }
-
-      });
-      if (!d['wf'] || d['wf'] == null || isNaN(d['wf'])) {   
-        d['wf'] = null;
-        d['wf_ratio'] = null;
+      if (crop.idx == 0) return false;
+      //check if rate exists (crop specific, for all years equal)
+      if (!d['rate_' + crop_id] || d['rate_' + crop_id] == null || isNaN(d['rate_' + crop_id])) {
+        d['rate_' + crop_id] = null;
       }
       else{
-        d['wf_ratio'] = d['wf_rate_sum'] / d['wf'];
+        //calculate crop specific yearly water intake only if yearly overall water intake is present
+        if (!d['wf'] || d['wf'] == null || isNaN(d['wf'])) {   
+          d['wf_rate_' + crop_id] = null;
+        }
+        else{
+          d['wf_rate_' + crop_id] = parseFloat((d['rate_' + crop_id] * d['firf_' + crop_id] * 0.000001).toFixed(2));
+          d['wf_rate_sum'] += d['wf_rate_' + crop_id];
+        }
       }
 
-      d['wf_rate_sum'] = 0;
+    });
+    if (!d['wf'] || d['wf'] == null || isNaN(d['wf'])) {   
+      d['wf'] = null;
+      d['wf_ratio'] = null;
+    }
+    else{
+      d['wf_ratio'] = d['wf_rate_sum'] / d['wf'];
+    }
 
-      __Crop.map(function (crop) {
-        var crop_id = crop.id;
+    d['wf_rate_sum'] = 0;
 
-        if (crop.idx == 0) return false;
-        if (d['wf_rate_' + crop_id] == null || d['wf_ratio'] == null) return false;
-        d['wf_rate_' + crop_id] = parseFloat((d['wf_rate_' + crop_id] / d['wf_ratio']).toFixed(2));
-        d['wf_rate_sum'] += d['wf_rate_' + crop_id];
-      });
-      if (d['wf_rate_sum'] == 0){
-        d['wf_rate_sum'] = null;
-      }
-      return d;
-    //});
-    //return polygon.data;
+    __Crop.map(function (crop) {
+      var crop_id = crop.id;
+
+      if (crop.idx == 0) return false;
+      if (d['wf_rate_' + crop_id] == null || d['wf_ratio'] == null) return false;
+      d['wf_rate_' + crop_id] = parseFloat((d['wf_rate_' + crop_id] / d['wf_ratio']).toFixed(2));
+      d['wf_rate_sum'] += d['wf_rate_' + crop_id];
+    });
+    if (d['wf_rate_sum'] == 0){
+      d['wf_rate_sum'] = null;
+    }
+    return d;
   },
 
   calcProd: function(d){
@@ -328,7 +334,10 @@ Ext.define('App.service.Prod', {
       if (crop.idx == 0) return false;
 
       //check if yf exists
-      if (!d['yf_' + crop_id] || d['yf_' + crop_id] == null || isNaN(d['yf_' + crop_id])) {
+      if (!d['yf_' + crop_id] 
+        || d['yf_' + crop_id] == null 
+        || isNaN(d['yf_' + crop_id])
+        || parseFloat(d['yf_' + crop_id]) == 0) {
         d['yf_' + crop_id] = null;
         d['pirf_' + crop_id] = null;
         d['prod_doll_' + crop_id] = null;
@@ -342,7 +351,10 @@ Ext.define('App.service.Prod', {
         yf = true;
       }
       //check if price exists
-      if (!d['c_' + crop_id] || d['c_' + crop_id] == null || isNaN(d['c_' + crop_id])) {
+      if (!d['c_' + crop_id] 
+        || d['c_' + crop_id] == null 
+        || isNaN(d['c_' + crop_id])
+        || parseFloat(d['c_' + crop_id]) == 0) {
         d['c_' + crop_id] = null;
         d['prod_doll_' + crop_id] = null;
         d['prod_dollha_' + crop_id] = null;
@@ -352,7 +364,10 @@ Ext.define('App.service.Prod', {
         price = true;
       }
       //check if wf_rate exists (yearly crop specific water intake)
-      if (!d['wf_rate_' + crop_id] || d['wf_rate_' + crop_id] == null || isNaN(d['wf_rate_' + crop_id])) {
+      if (!d['wf_rate_' + crop_id] 
+        || d['wf_rate_' + crop_id] == null 
+        || isNaN(d['wf_rate_' + crop_id])
+        || parseFloat(d['wf_rate_' + crop_id]) == 0) {
         d['wf_rate_' + crop_id] = null;
         d['prod_kgm3_' + crop_id] = null;
         d['prod_dollm3_' + crop_id] = null;
@@ -365,14 +380,21 @@ Ext.define('App.service.Prod', {
         // Productivity in $
         d['prod_doll_' + crop_id] = parseFloat((d['pirf_' + crop_id] * d['c_' + crop_id]).toFixed(2));
         // Land Productivity in $/ha
-        d['prod_dollha_' + crop_id] = parseFloat((d['prod_doll_' + crop_id] / d['firf_' + crop_id]).toFixed(2));
-        prod_dollha_sum += d['firf_' + crop_id] * d['prod_dollha_' + crop_id];      
+        if (parseFloat(d['firf_' + crop_id]) > 0){
+          d['prod_dollha_' + crop_id] = parseFloat((d['prod_doll_' + crop_id] / d['firf_' + crop_id]).toFixed(2));
+          prod_dollha_sum += d['firf_' + crop_id] * d['prod_dollha_' + crop_id]; 
+        }
+        else{
+          d['prod_dollha_' + crop_id] = null;
+        }     
         prod_doll_sum += d['prod_doll_' + crop_id];   
       }
       //calculations based on water intake
-      if (wf_rate && yf){
-        // Water productivity in kg/m³
-        d['prod_kgm3_' + crop_id] = parseFloat(((d['pirf_' + crop_id] / d['wf_rate_' + crop_id]) / 1000).toFixed(3));
+      if (wf_rate){
+        if (yf){
+         // Water productivity in kg/m³
+          d['prod_kgm3_' + crop_id] = parseFloat(((d['pirf_' + crop_id] / d['wf_rate_' + crop_id]) / 1000).toFixed(3));
+        }
         //calculations based on water intake and price
         if (price){
           // Water productivity in $/m³  
@@ -387,10 +409,10 @@ Ext.define('App.service.Prod', {
     
     // weighted average of water productivity
     //check if wf exists
-    if (d['wf'] == null){
+    if (d['wf'] == null || parseFloat(d['wf']) == 0){
       d['prod_dollm3_avg'] = null;
     }
-    else{      
+    else {      
       d['prod_dollm3_avg'] = parseFloat((prod_dollm3_sum / d['wf']).toFixed(2));
     }
 

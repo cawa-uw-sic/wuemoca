@@ -1,6 +1,7 @@
 var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 Ext.define('App.view.polygon.Form', {
+
   extend: 'Ext.form.Panel',
 
   requires: [

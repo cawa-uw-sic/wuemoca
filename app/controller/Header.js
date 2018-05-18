@@ -27,7 +27,7 @@ Ext.define('App.controller.Header', {
   * show imprint document
   */
   onImprint: function () {
-    App.service.Helper.openDocument(__Global.urls.Imprint, 'imprint');
+    App.service.Helper.openDocument(__Global.urls.Imprint, 'imprint', null);
   },
   /**
   * @method onFaq
@@ -35,7 +35,11 @@ Ext.define('App.controller.Header', {
   */
   onFaq: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-    App.service.Helper.openDocument(__Global.urls.GlossaryBase + __Global.urls.Faq, 'glossary');
+    App.service.Helper.openDocument(
+      __Global.urls.GlossaryBase + __Global.urls.Faq, 
+      'glossary',
+      null
+    );
   },
   /**
   * @method onGlossary
@@ -43,43 +47,26 @@ Ext.define('App.controller.Header', {
   */
   onGlossary: function () {
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-    App.service.Helper.openDocument(__Global.urls.GlossaryBase + __Global.urls.Intro, 'glossary');
+    App.service.Helper.openDocument(
+      __Global.urls.GlossaryBase + __Global.urls.Intro, 
+      'glossary',
+      null
+    );
   },
   /**
   * @method onManual
   * open manual document
   */
   onManual: function () {
-    App.service.Helper.openDocument(__Global.urls.Manual, 'manual');
+    App.service.Helper.openDocument(__Global.urls.Manual, 'manual', null);
   },
-  /**
-  * @method onFeedback
-  * open feedback URL
-  */
-  /*onFeedback: function () {
-    App.service.Helper.openDocument(i18n.header.questionnaire_url, 'feedbackdoc');
-  },*/
-  /**
-  * @method onDetail
-  * show detail window
-  */
-  /*onDetail: function () {
-    this.DetailWindow.show();
-  },*/
-  /**
-  * @method onIntroWindowBtn
-  * show intro window
-  */
-  /*onIntroWindowBtn: function () {
-    this.IntroWindow.show();
-  },*/
 
   /**
   * @method onVideoHeader
   * open video URL
   */
   onVideoHeader: function () {
-    App.service.Helper.openDocument(__Global.urls.VideoHeader, 'videoheader');
+    App.service.Helper.openDocument(__Global.urls.VideoHeader, 'videoheader', null);
     //App.service.Helper.getComponentExt('header-introwindow').hide();
   }
 

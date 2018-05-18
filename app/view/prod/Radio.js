@@ -1,5 +1,4 @@
 function getItems() {
-  console.log(__Crop, __Global);
   var items = [];
 
   __Crop.map(function (crop) {
@@ -24,8 +23,6 @@ Ext.define('App.view.prod.Radio', {
   xtype: 'app-prod-radio',
 
   itemId: 'prod-radio',
-
-//  columns: 3,
 
   items: getItems(),
 

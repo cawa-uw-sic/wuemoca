@@ -13,6 +13,7 @@ Ext.define('App.view.exporter.Form', {
 
   controller: 'exporter',
 
+
   border: false,
 
   fieldDefaults: {

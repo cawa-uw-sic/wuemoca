@@ -317,7 +317,7 @@ Ext.define('App.util.ChartTypes', {
     App.service.Chart.loadData();
     var indicator = App.service.Watcher.getIndicator();
     var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;    
-    var yFields = ['wf_m3ha', 'gwc_m3ha', 'rain_m3ha'];
+    var yFields = ['wf_rel', 'gwc_rel', 'rain_rel'];
     var names = indicator[__Global.lang + 'Names'];
     var limit = 0;
     var maximum = NaN;

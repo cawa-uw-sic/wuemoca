@@ -41,13 +41,15 @@ Ext.define('App.service.Polygon', {
       type: 'prev',
       tooltip: i18n.chart.prevIndicator,
       callback: function() {
-        App.service.Polygon.changeIndicatorChart('prev');
+        App.service.Chart.changeIndicatorChart('prev');
+        App.service.Polygon.showChartWindow();
       }
     }, {
       type: 'next',
       tooltip: i18n.chart.nextIndicator,     
       callback: function() {
-        App.service.Polygon.changeIndicatorChart('next');
+        App.service.Chart.changeIndicatorChart('next');
+        App.service.Polygon.showChartWindow();
       }
     }]
   }),
@@ -1067,35 +1069,6 @@ Ext.define('App.service.Polygon', {
     self.selectRowInGrid(newpolygon.uid);
   },
 
-  changeIndicatorChart: function(direction){
-    var ind = App.service.Watcher.get('Indicator');
-    var crop = App.service.Watcher.get('Crop');
-    var list = App.service.Helper.getIndicators_Crops(true);
-    var index = 0;
-    list.map(function (l) {
-      if (l.ind == ind && l.crop == crop) index = l.id;
-    });
-    var new_index = (direction == 'prev') ? index - 1 : index + 1;
-    if (new_index == 0){
-      new_index = list.length;
-    }
-    else if (new_index > list.length){
-      new_index = 1;
-    }
-    var new_ind = '';
-    var new_crop = '';
-    list.map(function (l) {
-      if (l.id == new_index) {
-        new_ind = l.ind;
-        new_crop = l.crop;
-      }
-    });    
-    App.service.Watcher.set('Indicator', new_ind);
-    App.service.Watcher.set('Crop', new_crop);           
-    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
-    this.showChartWindow();
-  },
-
   cleanLocalDB: function(){
     self = this;
       var polygons = self.all;
@@ -1115,20 +1088,30 @@ Ext.define('App.service.Polygon', {
         if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;
         if (self.replaceAbbr(polygon, 'vet', 'vc_non')) change = true;
         if (self.replaceAbbr(polygon, 'etf', 'etf_non')) change = true;
-        if (self.replaceAbbr(polygon, '$_', 'doll_')) change = true;
-        if (self.replaceAbbr(polygon, '$ha', 'dollha')) change = true;
-        if (self.replaceAbbr(polygon, '$m3', 'dollm3')) change = true;
-        if (self.replaceAbbr(polygon, 'tm3', 'kgm3')) change = true;
+        if (self.replaceAbbr(polygon, 'prod_$_sum', 'prod_gp_sum')) change = true;
+        if (self.replaceAbbr(polygon, 'prod_$ha_avg', 'prod_pf_avg')) change = true;
+        if (self.replaceAbbr(polygon, 'prod_$m3_avg', 'prod_pw_avg')) change = true;          
         if (self.replaceAbbr(polygon, 'coefficient', 'kpd')) change = true;   
         if (self.replaceAbbr(polygon, 'groundwater', 'gwc')) change = true; 
         if (self.replaceAbbr(polygon, 'rains', 'rain')) change = true;       
-        if (self.replaceAbbr(polygon, 'wf_sum', 'wf_rate_sum')) change = true; 
-        if (self.replaceAbbr(polygon, 'prod_wf', 'wf_m3ha')) change = true; 
-        if (self.replaceAbbr(polygon, 'prod_gwc', 'gwc_m3ha')) change = true; 
-        if (self.replaceAbbr(polygon, 'prod_rain', 'rain_m3ha')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_wf_sum', 'prod_wf')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_gwc', 'gwc_rel')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_rain', 'rain_rel')) change = true; 
+        if (self.replaceAbbr(polygon, 'prod_doll_sum', 'prod_gp_sum')) change = true;
+        if (self.replaceAbbr(polygon, 'prod_dollha_avg', 'prod_pf_avg')) change = true;
+        if (self.replaceAbbr(polygon, 'prod_dollm3_avg', 'prod_pw_avg')) change = true;        
+        if (self.replaceAbbr(polygon, 'wf_rate_sum', 'wf_calc_sum')) change = true; 
+        if (self.replaceAbbr(polygon, 'wf_m3ha', 'wf_rel')) change = true; 
+        if (self.replaceAbbr(polygon, 'gwc_m3ha', 'gwc_rel')) change = true; 
+        if (self.replaceAbbr(polygon, 'rain_m3ha', 'rain_rel')) change = true;         
         __Crop.map(function (crop) {
           if (crop.idx == 0) return false;
-          if (self.replaceAbbr(polygon, 'wf_' + crop.id, 'wf_rate_' + crop.id)) change = true;
+          if (self.replaceAbbr(polygon, 'wf_' + crop.id, 'wf_calc_' + crop.id)) change = true;
+          if (self.replaceAbbr(polygon, 'wf_rate_' + crop.id, 'wf_calc_' + crop.id)) change = true;
+          if (self.replaceAbbr(polygon, 'prod_doll_' + crop.id, 'prod_gp_' + crop.id)) change = true;          
+          if (self.replaceAbbr(polygon, 'prod_dollha_' + crop.id, 'prod_pf_' + crop.id)) change = true;
+          if (self.replaceAbbr(polygon, 'prod_dollm3_' + crop.id, 'prod_pw_' + crop.id)) change = true;
+          if (self.replaceAbbr(polygon, 'prod_kgm3_' + crop.id, 'prod_yw_' + crop.id)) change = true;
         });
                       
 
@@ -1157,13 +1140,16 @@ Ext.define('App.service.Polygon', {
       }
   },
 
-  replaceAbbr: function(polygon, oldvalue, newvalue){
+  replaceAbbr: function(polygon, oldkey, newkey){
     var change = false;
     for (var d = 0; d < polygon.data.length; d++){
-      if (!!polygon.data[d][oldvalue]){
-        change = true;
-        polygon.data[d][newvalue] = polygon.data[d][oldvalue];
-        delete polygon.data[d][oldvalue];
+      var keys = Object.keys(polygon.data[d]);  
+      for (var j=0; j < keys.length; j++) {
+        if (keys[j] == oldkey){
+          change = true;
+          polygon.data[d][newkey] = polygon.data[d][oldkey];
+          delete polygon.data[d][oldkey];
+        }
       }
     }
     return change;

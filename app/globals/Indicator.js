@@ -326,12 +326,12 @@ var __Indicator = [
    },  
 
 {
-    id             : 'prod_doll',
-    field          : 'prod_doll_{crop}',
+    id             : 'prod_gp',
+    field          : 'prod_gp_{crop}',
     enName         : 'Total productivity',
     ruName         : 'Общий Продуктивность',
     enTooltip      : 'Crop specific total economic revenue<br>Crop_gross_output * Crop_price',
-    ruTooltip      : 'G2=G1*price($/tons)',
+    ruTooltip      : 'Gp=Pirf*C',
     enUnit         : '$',
     ruUnit         : '$',
     crops          : 'sum',
@@ -349,12 +349,12 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16'
 },
 {
-    id             : 'prod_dollha',
-    field          : 'prod_dollha_{crop}',
+    id             : 'prod_pf',
+    field          : 'prod_pf_{crop}',
     enName         : 'Productivity per hectare',
     ruName         : 'Продуктивность на гектар',
     enTooltip      : 'Crop specific economic revenue per ha<br>Crop_gross_output * Crop_price / Crop_acreage',
-    ruTooltip      : 'Pg2=G2/N',
+    ruTooltip      : 'Pf=Gp/Firf',
     enUnit         : '$/ha',
     ruUnit         : '$/га',
     crops          : 'avg',
@@ -373,12 +373,12 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16'
 },
 {
-    id             : 'prod_kgm3',
-    field          : 'prod_kgm3_{crop}',
+    id             : 'prod_yw',
+    field          : 'prod_yw_{crop}',
     enName         : 'Quantity per water consumed',
     ruName         : 'Количество на потребляемую воду',
     enTooltip      : 'Crop specific harvest per m³ water consumed<br>Crop_gross_output / Crop_water_intake',
-    ruTooltip      : 'Pw1=G1/Wy(m³)',
+    ruTooltip      : 'Yw=Pirf/Wf',
     enUnit         : 'kg/m³',
     ruUnit         : 'кг/м³',
     crops          : 'all',
@@ -398,12 +398,12 @@ var __Indicator = [
 },
 
 {
-    id             : 'prod_dollm3',
-    field          : 'prod_dollm3_{crop}',
+    id             : 'prod_pw',
+    field          : 'prod_pw_{crop}',
     enName         : 'Productivity per water consumed',
     ruName         : 'Продуктивность на потребляемую воду',
     enTooltip      : 'Crop specific economic revenue per m³ water consumed<br>Crop_gross_output * Crop_price / Crop_water_intake',
-    ruTooltip      : 'Pw2=G2/Wy(m³)',
+    ruTooltip      : 'Pw=Gp/Wf',
     enUnit         : '$/m³',
     ruUnit         : '$/м³',
     crops          : 'avg',
@@ -422,8 +422,8 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16'
 },
 {
-    id             : 'prod_wf_sum',
-    field          : 'prod_wf_sum',
+    id             : 'prod_wf',
+    field          : 'prod_wf',
     enName         : 'Specific water supply',
     ruName         : 'Удельная водоподача',
     enTooltip      : 'Water intake + groundwater + rainfall per ha',
@@ -631,7 +631,7 @@ var __Indicator_userPolygon = [
     prodform       :'2-years',
     enProdTooltip  :'Used for calculation of all water productivity indicators and irrigation efficiency',
     ruProdTooltip  :'Used for calculation of all water productivity indicators and irrigation efficiency',
-    connectedTo      : ['vir', 'prod_kgm3', 'prod_dollm3', 'prod_wf_sum']
+    connectedTo      : ['vir', 'prod_yw', 'prod_pw', 'prod_wf']
 
    },
  {
@@ -655,15 +655,15 @@ var __Indicator_userPolygon = [
     connectedTo      : ['vir']
    },
    {
-    id             : 'wf_rate',
-    field          : 'wf_rate_{crop}',
+    id             : 'wf_calc',
+    field          : 'wf_calc_{crop}',
     enName         : 'Crop water intake based on multi-annual rates',
     ruName         : 'Crop water intake based on multi-annual rates',
     decimals       : 2,    
     enUnit         : 'Mio. m³',
     ruUnit         : 'Млн. М³',
     crops          : 'sum',    
-    connectedTo      : ['prod_kgm3', 'prod_dollm3', 'prod_wf_sum']
+    connectedTo      : ['prod_yw', 'prod_pw', 'prod_wf']
    },
    {
     id             : 'rate',
@@ -677,7 +677,7 @@ var __Indicator_userPolygon = [
     prodform       :'1-noyears',
     enProdTooltip  :'Used for calculation of crop water intake',
     ruProdTooltip  :'Used for calculation of crop water intake',
-    connectedTo      : ['prod_kgm3', 'prod_dollm3', 'prod_wf_sum']
+    connectedTo      : ['prod_yw', 'prod_pw', 'prod_wf']
    },  
    {
     id             : 'rain',
@@ -690,7 +690,7 @@ var __Indicator_userPolygon = [
     prodform       :'2-years',
     enProdTooltip  :'Used for calculation of specific water supply',
     ruProdTooltip  :'Used for calculation of specific water supply',
-    connectedTo      : ['prod_wf_sum']
+    connectedTo      : ['prod_wf']
    },    
    {
     id             : 'gwc',
@@ -703,7 +703,7 @@ var __Indicator_userPolygon = [
     prodform       :'2-noyears',
     enProdTooltip  :'Used for calculation of specific water supply',
     ruProdTooltip  :'Used for calculation of specific water supply',
-    connectedTo      : ['prod_wf_sum']
+    connectedTo      : ['prod_wf']
    },
    {
     id             : 'c',
@@ -717,7 +717,7 @@ var __Indicator_userPolygon = [
     prodform       :'1-years',
     enProdTooltip  :'Used for calculation of all revenue productivity indicators',
     ruProdTooltip  :'Used for calculation of all revenue productivity indicators',
-    connectedTo      : ['prod_doll', 'prod_dollm3', 'prod_dollha', 'eprod']
+    connectedTo      : ['prod_gp', 'prod_pw', 'prod_pf', 'eprod']
    },
    {
     id             : 'kpd',
@@ -730,7 +730,7 @@ var __Indicator_userPolygon = [
     prodform       :'2-noyears',
     enProdTooltip  :'Efficiency coefficient',
     ruProdTooltip  :'Efficiency coefficient',
-    connectedTo      : ['prod_kgm3', 'prod_dollm3', 'prod_wf_sum']
+    connectedTo      : ['prod_yw', 'prod_pw', 'prod_wf']
    }
 ];
 

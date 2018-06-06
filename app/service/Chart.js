@@ -26,6 +26,7 @@ Ext.define('App.service.Chart', {
       tooltip: i18n.chart.prevIndicator,
       callback: function() {
         App.service.Chart.changeIndicatorChart('prev');
+        App.service.Chart.showWindow();
       }
     }, {
       type: 'next',
@@ -33,6 +34,7 @@ Ext.define('App.service.Chart', {
       tooltip: i18n.chart.nextIndicator, 
       callback: function() {
         App.service.Chart.changeIndicatorChart('next');
+        App.service.Chart.showWindow();
       }
     }]
   }),  
@@ -306,6 +308,7 @@ Ext.define('App.service.Chart', {
     });
     self.stores.defaults.setData(self.data);
   },
+
   changeIndicatorChart: function(direction){
     var ind = App.service.Watcher.get('Indicator');
     var crop = App.service.Watcher.get('Crop');
@@ -330,9 +333,11 @@ Ext.define('App.service.Chart', {
       }
     });    
     App.service.Watcher.set('Indicator', new_ind);
-    App.service.Watcher.set('Crop', new_crop);           
-    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
-    this.showWindow();
+    App.service.Watcher.set('Crop', new_crop);    
+    if (ind != new_ind){       
+      App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    }
+    App.service.Map.fillCrops();
   }
 
 });

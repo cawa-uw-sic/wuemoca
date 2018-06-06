@@ -29,7 +29,7 @@ Ext.define('App.controller.Prod', {
       || (!!indicator.enGroup && indicator.enGroup.indexOf('Productivity') != -1)){
     }
     else{
-      App.service.Watcher.set('Indicator', 'prod_wf_sum');
+      App.service.Watcher.set('Indicator', 'prod_wf');
       App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
     }
     Ext.Msg.show({

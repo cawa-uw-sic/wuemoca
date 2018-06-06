@@ -224,10 +224,6 @@ Ext.define('App.service.Exporter', {
     field_array.map(function (field) {
       propertyname += field + ',';
     });
-    if (userPolygon){
-      propertyname += 'name,location,area_ha,';
-      //filter = '';
-    }
     if (outputformat != 'excel'){
       propertyname += 'geom';
     }
@@ -608,6 +604,7 @@ Ext.define('App.service.Exporter', {
       }
     } 
     else{
+      indicator_fields.push('uid');      
       indicator_fields.push('name'); 
       indicator_fields.push('location');      
     }
@@ -688,16 +685,19 @@ Ext.define('App.service.Exporter', {
           add = false;
         } 
         if (add){
-          if(indicator.crops){
-          __Crop.map(function (crop) {
-            var crop_id = crop.id;
-            //indicator.crops can be 'all', 'sum' or 'avg'
-            if (crop.idx == 0 && crop.id != indicator.crops) return false;
-            temp_field_list.push(indicator.id + '_' + crop_id);
-          });
-          }
-          else{
-            temp_field_list.push(indicator.id);
+          //no monthly and decadal indicators
+          if (indicator.id.indexOf('_d') == -1 && indicator.id.indexOf('_m') == -1){
+            if(indicator.crops){
+            __Crop.map(function (crop) {
+              var crop_id = crop.id;
+              //indicator.crops can be 'all', 'sum' or 'avg'
+              if (crop.idx == 0 && crop.id != indicator.crops) return false;
+              temp_field_list.push(indicator.id + '_' + crop_id);
+            });
+            }
+            else{
+              temp_field_list.push(indicator.id);
+            }
           }
         }
       });

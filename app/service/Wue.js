@@ -272,8 +272,7 @@ Ext.define('App.service.Wue', {
           if (vir == Infinity){
             vir = null;
           }      
-          //save decadal viref
-
+          //save decadal vir
           this.polygon.data[d]['vir_m' + month + '_' + decade] = vir;
         }
       }
@@ -447,6 +446,19 @@ Ext.define('App.service.Wue', {
     if (data.length > 0){
       var polygon = App.service.Polygon.getSelectedPolygons()[0];
       if (polygon.data.length > 0) {
+        var firn = polygon.data[0].firn;
+        var area_ha = polygon.data[0].area_ha;
+        var last_polygon_year = polygon.data[polygon.data.length-1].year;
+        var last_data_year = 0;
+        if (!!data[0].year){
+          last_data_year = data[0].year;
+        }
+        else if (!!data[0].data.year){
+          last_data_year = data[0].data.year;
+        }
+        if (last_data_year > last_polygon_year){
+          polygon.data.push({year: last_data_year, firn: firn, area_ha: area_ha});
+        }
         polygon = polygon.data.map(function (d) {
           var index;
           //values from Month excel have priority
@@ -476,6 +488,7 @@ Ext.define('App.service.Wue', {
           }
           return d;
         });
+
         App.service.Polygon.saveAll();
       }
     }
@@ -490,6 +503,19 @@ Ext.define('App.service.Wue', {
     if (data.length > 0){
       var polygon = App.service.Polygon.getSelectedPolygons()[0];
       if (polygon.data.length > 0) {
+        var firn = polygon.data[0].firn;
+        var area_ha = polygon.data[0].area_ha;
+        var last_polygon_year = polygon.data[polygon.data.length-1].year;
+        var last_data_year = 0;
+        if (!!data[0].year){
+          last_data_year = data[0].year;
+        }
+        else if (!!data[0].data.year){
+          last_data_year = data[0].data.year;
+        }
+        if (last_data_year > last_polygon_year){
+          polygon.data.push({year: last_data_year, firn: firn, area_ha: area_ha});
+        }        
         polygon = polygon.data.map(function (d) {
           var index;
           var indices = [];
@@ -561,13 +587,23 @@ Ext.define('App.service.Wue', {
     el.getStore('wue-month').removeAll();
     var data = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
+    var maxYear = __Global.year.Max;
+    var decadeMaxYear = parseInt(__Global.decade.Max.split('_')[0]);
+    //var decadeMaxMonth = parseInt(__Global.decade.Max.split('_')[1]);
+    if (decadeMaxYear > maxYear){
+      maxYear = decadeMaxYear;
+    }
+    for (var year = maxYear; year >= __Global.year.Min; year--) {
       var datayear = {};
       datayear['year'] = year;
       //load water intake if stored from previous input
       for (d = 0; d < polygon.data.length; ++d) {
         if (polygon.data[d]['year'] == year){
-          for (var month = 3; month <= 10; month++) {
+          var maxMonth = 10;
+          // if (year == maxYear){
+          //   maxMonth = decadeMaxMonth;
+          // }
+          for (var month = 3; month <= maxMonth; month++) {
             var wf = polygon.data[d]['wf_m' + month];
             if (!!wf){
               datayear['m' + month] = wf;
@@ -585,7 +621,13 @@ Ext.define('App.service.Wue', {
     el.getStore('wue-decade').removeAll();
     var data = [];
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
+    var maxYear = __Global.year.Max;
+    var decadeMaxYear = parseInt(__Global.decade.Max.split('_')[0]);
+    //var decadeMaxMonth = parseInt(__Global.decade.Max.split('_')[1]);
+    if (decadeMaxYear > maxYear){
+      maxYear = decadeMaxYear;
+    }    
+    for (var year = maxYear; year >= __Global.year.Min; year--) {
       for (var decade = 1; decade <= 3; decade++) {
         var datayear = {};
         datayear['year'] = year;

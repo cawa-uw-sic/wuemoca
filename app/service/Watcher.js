@@ -129,8 +129,15 @@ Ext.define('App.service.Watcher', {
     for (var i = 0; i < nIndicators.length;i++){
       if (nIndicators[i].hasOwnProperty('maxyear')){
         __Global.year.Max = parseInt(nIndicators[i].maxyear);
-        break;
+        //break;
       }
+      else if (nIndicators[i].hasOwnProperty('last_etact')){
+        //"etact_2017_10_3_8bit_wgs84"
+        var tablename_elements = nIndicators[i].last_etact.split('_');
+        var last_decade = tablename_elements[1] + '_' + tablename_elements[2] + '_' + tablename_elements[3];
+        __Global.decade.Max = last_decade;
+        //break;
+      }      
     }
     var maxlabel = App.service.Helper.getComponentExt('yearslider-lbl-max');
     maxlabel.update('<i class="fa  fa-caret-right"></i> ' + __Global.year.Max);

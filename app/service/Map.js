@@ -722,6 +722,6 @@ Ext.define('App.service.Map', {
       }*/
       this.fillCrops();
     }
-  }
+  }              
 
 });

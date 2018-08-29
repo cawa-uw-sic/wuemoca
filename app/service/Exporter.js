@@ -252,15 +252,23 @@ Ext.define('App.service.Exporter', {
 
       if (filter == 'all'){
         filename = 'userpolygons';
+        var uids = '';
+        App.service.Polygon.all.map(
+          function(polygon){
+            uids += "'" + polygon.uid + "',";
+        });        
+        //remove last comma
+        uids = uids.slice(0, -1); 
+        cql_filter = '&CQL_FILTER=' + 'uid in (' + uids + ')';
       }
       else{
         var selectedPolygon = App.service.Polygon.getSelectedPolygons()[0];
         filename = selectedPolygon.info.name.replace(/ /g,"_");
         if (!!selectedPolygon.info.location && selectedPolygon.info.location != ''){
           filename += '_' + selectedPolygon.info.location.replace(/ /g,"_");
-        }      
+        }  
+        cql_filter = '&CQL_FILTER=' + 'uid=' + "'" + selectedPolygon.uid + "'";    
       }
-      cql_filter = '';
     }
     else{
       filename = aggregation;
@@ -445,9 +453,12 @@ Ext.define('App.service.Exporter', {
     result.head += '<tr>';
 
     //This loop will extract the label from 1st index of on array
+    //keep indices in the same order 
+    var indices = [];
     for (var index in data[0]) {
       fieldCount++;
       result.head += '<th>' + index + '</th>';
+      indices.push(index);
     }
     result.head += '</tr>';
 
@@ -455,21 +466,22 @@ Ext.define('App.service.Exporter', {
     for (var i = 0; i < data.length; i++) {
       result.body += '<tr>';
       //2nd loop will extract each column
-      for (var index in data[i]) {
+      for (var idx = 0; idx < indices.length; idx++) {
+      //for (var index in data[i]) {
         //empty for null value
-        if (data[i][index] == null){
+        if (data[i][indices[idx]] == null){
           result.body += '<td></td>';
         }
         //no number format for year and string
-        else if (isNaN(data[i][index]) || index == 'year'){
-          result.body += '<td>' + data[i][index] + '</td>';            
+        else if (isNaN(data[i][indices[idx]]) || indices[idx] == 'year'){
+          result.body += '<td>' + data[i][indices[idx]] + '</td>';            
         }
         //format with decimals and thousand separators
         else{
           var format = '0';
           //read decimal places from the indicator list
           __Indicator.map(function (indicator) {
-            if (index.indexOf(indicator.id) != -1 && indicator.decimals != undefined){
+            if (indices[idx].indexOf(indicator.id) != -1 && indicator.decimals != undefined){
               format = '#,##0';
               if (indicator.decimals > 0){
                 format += '.';
@@ -480,7 +492,7 @@ Ext.define('App.service.Exporter', {
             }
           });
           __Indicator_userPolygon.map(function (indicator) {
-            if (index.indexOf(indicator.id) != -1 && indicator.decimals != undefined){
+            if (indices[idx].indexOf(indicator.id) != -1 && indicator.decimals != undefined){
               format = '#,##0';
               if (indicator.decimals > 0){
                 format += '.';
@@ -491,9 +503,9 @@ Ext.define('App.service.Exporter', {
             }
           });            
           //workaround for problem with three decimals and German or Russian delimiter 
-          var value = parseFloat(data[i][index]).toFixed(4);
+          var value = parseFloat(data[i][indices[idx]]).toFixed(4);
           //indices = table columns that are not within the indicator list
-          if (index == 'area_ha'){
+          if (indices[idx] == 'area_ha'){
             format = '#,##0'; 
           }
           result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
@@ -604,7 +616,6 @@ Ext.define('App.service.Exporter', {
       }
     } 
     else{
-      indicator_fields.push('uid');      
       indicator_fields.push('name'); 
       indicator_fields.push('location');      
     }

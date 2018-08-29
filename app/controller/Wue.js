@@ -103,8 +103,6 @@ Ext.define('App.controller.Wue', {
       'import',
       null
     );
-    //window.open(Ext.getResourcePath('templates/' + period + '.xls', null, ''));
-    //window.open("/resources/templates/" + period + '.xls');
   }
 
 });

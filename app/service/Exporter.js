@@ -39,6 +39,15 @@ Ext.define('App.service.Exporter', {
     var userPolygon = (App.service.Watcher.get('UserPolygon') == 'show');
     var aggregation = App.service.Watcher.getAggregation();
 
+    var polygon;
+    if (userPolygon){
+      var selectedPolygons = App.service.Polygon.getSelectedPolygons();
+      if (selectedPolygons && selectedPolygons.length > 0){
+        polygon = selectedPolygons[0];
+      }
+    }
+
+
     //set download button enabled/disabled and text
     var button = App.service.Helper.getComponentExt('exporter-btn-download');
     var no_export = false;
@@ -84,10 +93,9 @@ Ext.define('App.service.Exporter', {
     var filterFilter = '';
     var nameFilter = '';
     if (userPolygon){
-      var selectedPolygons = App.service.Polygon.getSelectedPolygons();
-      if (selectedPolygons && selectedPolygons.length > 0){
-        filterFilter = selectedPolygons[0].uid;
-        nameFilter = selectedPolygons[0].info.name;
+      if (!!polygon){
+        filterFilter = polygon.uid;
+        nameFilter = polygon.info.name;
       }
       else{
         filterFilter = 'no_filter';
@@ -153,7 +161,7 @@ Ext.define('App.service.Exporter', {
     downloadSelectionStore.loadData(downloadSelectionData);
     //set combobox value to previously selected index if any
     //if (selectedIndex == -1){
-      if (userPolygon && selectedPolygons.length > 0){
+      if (!!polygon){
         selectedIndex = 1;        
       }
       else{
@@ -163,7 +171,19 @@ Ext.define('App.service.Exporter', {
     if (downloadSelectionStore.count() > selectedIndex){
       App.service.Helper.setComboboxSelectedIndex('exporter-cb-downloadselection', selectedIndex);
     }
+
+    var years = App.service.Report.getYearData();
+    //add current year for user polygons if available
+    if (userPolygon && !!polygon){
+      var last_polygon_year = polygon.data[polygon.data.length-1].year;
+      if (last_polygon_year > years[years.length-1].id){
+        years.push({id: last_polygon_year, name: last_polygon_year});
+      }
+    }
+    years.unshift({id: 1000, name: i18n.exp.all});
+    App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);    
   },
+  
   /**
   * @method download
   * prepare download of tables or maps, set filter
@@ -453,7 +473,7 @@ Ext.define('App.service.Exporter', {
     result.head += '<tr>';
 
     //This loop will extract the label from 1st index of on array
-    //keep indices in the same order 
+    //keep indices in the same order for all loops
     var indices = [];
     for (var index in data[0]) {
       fieldCount++;
@@ -504,7 +524,7 @@ Ext.define('App.service.Exporter', {
           });            
           //workaround for problem with three decimals and German or Russian delimiter 
           var value = parseFloat(data[i][indices[idx]]).toFixed(4);
-          //indices = table columns that are not within the indicator list
+          //table columns that are not within the indicator list
           if (indices[idx] == 'area_ha'){
             format = '#,##0'; 
           }

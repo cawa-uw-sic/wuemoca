@@ -34,9 +34,17 @@ Ext.define('App.view.exporter.Window', {
   ],
   listeners: { 
     boxready: function(){
-      var years = App.service.Report.getYearData();
-      years.unshift({id: 1000, name: i18n.exp.all});
-      App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);
+      // var years = App.service.Report.getYearData();
+      // //add current year for user polygons if available
+      // var polygon = App.service.Polygon.getSelectedPolygons()[0];
+      // if (!!polygon){
+      //   var last_polygon_year = polygon.data[polygon.data.length-1].year;
+      //   if (last_polygon_year > years[years.length-1]){
+      //     years.push({id: last_polygon_year, name: last_polygon_year});
+      //   }
+      // }
+      // years.unshift({id: 1000, name: i18n.exp.all});
+      // App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);
     },
     hide: function(window){
       window.removeCls('polygon-window');

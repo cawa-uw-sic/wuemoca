@@ -307,6 +307,14 @@ Ext.define('App.service.Wue', {
     var parameters = {};
     parameters['wkt_geometry'] = geometry;
     parameters['year'] = years[index];
+    var decadeMaxYear = parseInt(__Global.decade.Max.split('_')[0]);
+    var decadeMaxMonth = parseInt(__Global.decade.Max.split('_')[1]);    
+    if (years[index] == decadeMaxYear){
+      parameters['max_month'] = decadeMaxMonth;
+    }
+    else{
+      parameters['max_month'] = 10;
+    }
     //aggregate decadal etf of given year and sum up to monthly etf
     Ext.Ajax.request({
       url: __Global.api.WUE,
@@ -446,16 +454,21 @@ Ext.define('App.service.Wue', {
     if (data.length > 0){
       var polygon = App.service.Polygon.getSelectedPolygons()[0];
       if (polygon.data.length > 0) {
+        //add current year entry with multi-annual firn and area_ha to polygon.data if present in data array
         var firn = polygon.data[0].firn;
         var area_ha = polygon.data[0].area_ha;
+        //max year is in the last entry of polygon.data
         var last_polygon_year = polygon.data[polygon.data.length-1].year;
         var last_data_year = 0;
         if (!!data[0].year){
+          //max year is in the first entry of data (if taken from excel)
           last_data_year = data[0].year;
         }
         else if (!!data[0].data.year){
+          //max year is in the first entry of data.data (if taken from form)
           last_data_year = data[0].data.year;
         }
+        //if data year is greater than polygon.data year, add new entry to polygon.data
         if (last_data_year > last_polygon_year){
           polygon.data.push({year: last_data_year, firn: firn, area_ha: area_ha});
         }
@@ -503,19 +516,24 @@ Ext.define('App.service.Wue', {
     if (data.length > 0){
       var polygon = App.service.Polygon.getSelectedPolygons()[0];
       if (polygon.data.length > 0) {
+        //add current year entry with multi-annual firn and area_ha to polygon.data if present in data array
         var firn = polygon.data[0].firn;
         var area_ha = polygon.data[0].area_ha;
+        //max year is in the last entry of polygon.data
         var last_polygon_year = polygon.data[polygon.data.length-1].year;
         var last_data_year = 0;
         if (!!data[0].year){
+          //max year is in the first entry of data (if taken from excel)
           last_data_year = data[0].year;
         }
         else if (!!data[0].data.year){
+          //max year is in the first entry of data.data (if taken from form)
           last_data_year = data[0].data.year;
         }
+        //if data year is greater than polygon.data year, add new entry to polygon.data
         if (last_data_year > last_polygon_year){
           polygon.data.push({year: last_data_year, firn: firn, area_ha: area_ha});
-        }        
+        }       
         polygon = polygon.data.map(function (d) {
           var index;
           var indices = [];

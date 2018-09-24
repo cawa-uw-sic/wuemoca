@@ -80,12 +80,12 @@ Ext.define('App.service.Chart', {
       self.data = [];
       self.click_coordinates = false;
       App.service.Exporter.setDownloadCombotext(); 
-      if (App.service.Watcher.get('UserPolygon') == 'show'){
-        //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
-        //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
-        App.service.Polygon.importSelectedGeometry(false);
-        App.service.Polygon.importSelectedData(false, false);
-      }           
+      // if (App.service.Watcher.get('UserPolygon') == 'show'){
+      //   //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
+      //   //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
+      //   App.service.Polygon.importSelectedGeometry(false);
+      //   App.service.Polygon.importSelectedData(false, false);
+      // }           
     });
     self.window.on("boxready", function (window) {
 

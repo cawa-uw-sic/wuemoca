@@ -430,9 +430,17 @@ Ext.define('App.service.Prod', {
     var gwc = (d['gwc']  * d['firn'] * 0.00001) || 0;
     d['prod_wf'] = null;
     d['wf_rel'] = null;
+    //if no sum of crop water intakes is available, the total water intake is used as input
+    var wf = 0;
     if (d['wf_calc_sum'] != null){
-      d['prod_wf'] = parseFloat(((d['wf_calc_sum'] + gwc + rain) / d['firn'] * 1000000).toFixed(2));
-      d['wf_rel'] = parseFloat((d['wf_calc_sum'] / d['firn'] * 1000000).toFixed(2));
+      wf = parseFloat(d['wf_calc_sum']);
+    }
+    else if (d['wf'] != null){
+      wf = parseFloat(d['wf']);
+    }
+    if (wf > 0){
+      d['prod_wf'] = parseFloat(((wf + gwc + rain) / d['firn'] * 1000000).toFixed(2));
+      d['wf_rel'] = parseFloat((wf / d['firn'] * 1000000).toFixed(2));
     }
     d['gwc_rel'] = parseFloat((gwc / d['firn'] * 1000000).toFixed(2));
     d['rain_rel'] = parseFloat((rain / d['firn'] * 1000000).toFixed(2));

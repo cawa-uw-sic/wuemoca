@@ -30,16 +30,11 @@ Ext.define('App.controller.Header', {
     App.service.Helper.openDocument(__Global.urls.Imprint, 'imprint', null);
   },
   /**
-  * @method onFaq
+  * @method onIndicatorOverview
   * open glossary URL on FAQ page
   */
-  onFaq: function () {
-    //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
-    App.service.Helper.openDocument(
-      __Global.urls.GlossaryBase + __Global.urls.Faq, 
-      'glossary',
-      null
-    );
+  onIndicatorOverview: function () {
+    App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf', null);
   },
   /**
   * @method onGlossary
@@ -57,8 +52,8 @@ Ext.define('App.controller.Header', {
   * @method onManual
   * open manual document
   */
-  onManual: function () {
-    App.service.Helper.openDocument(__Global.urls.Manual, 'manual', null);
+  onUserGuide: function () {
+    App.service.Helper.openDocument(__Global.urls.UserGuide, 'userguide', null);
   },
 
   /**

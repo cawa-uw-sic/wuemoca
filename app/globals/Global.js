@@ -111,10 +111,10 @@ __Global.urls = {
     //Faq           : 'bme00057.htm#bookme_anchor3',
     Faq           : 'bme00040.htm',    
     Intro         : 'bme00001.htm',
-    Imprint     : documents + 'Imprint.pdf',
-    Manual        : documents + 'Manual.pdf',
-    AcronymPDF      : documents + 'WUEMoCA_Overview_indicators.pdf',
-    VideoHeader        : documents + 'WUEMoCA_general_information.gif'
+    Imprint       : documents + 'Imprint_' + locale + '.pdf',
+    UserGuide     : documents + 'User_Guide.pdf',
+    AcronymPDF    : documents + 'WUEMoCA_Overview_indicators.pdf',
+    VideoHeader   : documents + 'WUEMoCA_general_information.gif'
 };
 /**
 * Geoserver workspace

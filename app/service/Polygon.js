@@ -166,16 +166,6 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('exporter-tag-indicator').clearValue();
     var indicators = App.service.Exporter.getIndicators(val);
     store_indicator_export.setData(indicators);
-    /*store_indicator_export.sort([
-      {
-        property :  __Global.lang + 'Group',
-        direction: 'ASC'
-      },
-      {
-        property :  __Global.lang + 'Name',
-        direction: 'ASC'
-      }
-    ]);*/
   },
 
   deselectMapAndList: function(){
@@ -414,7 +404,16 @@ Ext.define('App.service.Polygon', {
       Ext.getStore('polygongrid').loadData(this.getGridData());
     }
   },
-
+  removeAllPolygons: function () {
+      this.all = [];
+      this.deselectMapAndList();
+      this.saveAll();
+      this.rerenderFeatures();
+      this.windowEdit.close();
+      this.windowChart.close();
+      Ext.getStore('polygongrid').loadData(this.getGridData());
+  },
+  
   selectFeatureFromGrid: function(uid){
     this.selectControl.getFeatures().clear();
     var feature = null;
@@ -444,7 +443,9 @@ Ext.define('App.service.Polygon', {
         if (!extent){
           extent = Array.isArray(polygon.geometry) ? self.calculateExtent(polygon.geometry, true) : self.calculateExtent(polygon.geometry, false);
         }
-        griddata.push({ uid: polygon.uid, name: polygon.info.name, extent: extent});
+        if (extent.length > 0){
+          griddata.push({uid: polygon.uid, name: polygon.info.name, extent: extent});
+        }
     });
     return griddata.reverse();
   },
@@ -471,11 +472,22 @@ Ext.define('App.service.Polygon', {
     //var source = self.layer.getSource();
 
     self.source.clear();
-    self.all.map(function (polygon) {
+    var removeIndices = [];
+    self.all.map(function (polygon, index) {
       if (!!polygon.wkt_geometry){
         self.source.addFeature(self.createFeature(polygon));
       }
+      else{
+        removeIndices.push(index);
+      }
     });
+    //remove polygons without geometry
+    for (i = 0; i < removeIndices.length; ++i){
+      self.all.splice(removeIndices[i], 1);
+      if (removeIndices[i+1]){
+        removeIndices[i+1] -= i+1;
+      }
+    }
   },
 
   /*getSelectedIndex: function () {
@@ -947,7 +959,7 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('polygon-btn-prod').setDisabled(disabled);
   },
 
-  importSelectedGeometry: function(coordinates, extent, wkt_geometry){
+  importSelectedGeometry: function (coordinates, extent, wkt_geometry){
     this.importGeometry = coordinates;
     this.importExtent = extent;
     this.importWktGeometry = wkt_geometry;
@@ -955,27 +967,25 @@ Ext.define('App.service.Polygon', {
 
   importSelectedData: function(data, name){
     if (data){
-      //wf and c can be calculated backwards
+      //vir must be set to null otherwise there is confusion with not exsting wf
       //index indicators can be -1 in the WUEMoCA DB, if so they are set to null in the user database
+      //c can be calculated backwards
       for (var d = 0; d < data.length; d++){
-        if (!!data[d]['vir'] && data[d]['vir'] > 0){
-          //rule of three: vir = ((etf * firn) / (wf * 100000)).toFixed(2);
-          etf = data[d]['etf'];
-          firn = data[d]['firn'];
-          vir = data[d]['vir'];
-          data[d]['wf'] = ((etf * firn)/(vir * 100000)).toFixed(2);
-          //delete data_copy[d]['vir'];
-        }
-        else{
+        //delete data[d]['vir'];
+        // if (!!data[d]['vir'] && data[d]['vir'] > 0){
+        //   //rule of three: vir = ((etf * firn) / (wf * 100000)).toFixed(2);
+        //   etf = data[d]['etf'];
+        //   firn = data[d]['firn'];
+        //   vir = data[d]['vir'];
+        //   data[d]['wf'] = ((etf * firn)/(vir * 100000)).toFixed(2);
+        // }
+        // else{
           data[d]['wf'] = null;
           data[d]['vir'] = null;
-        }
+        //}
         if (data[d]['eprod_avg'] < 0){
           data[d]['eprod_avg'] = null;
         } 
-        if (data[d]['eprod_avg'] < 0){
-          data[d]['eprod_avg'] = null;
-        }         
         if (data[d]['vc_non'] < 0){
           data[d]['vc_non'] = null;
         }                            
@@ -1021,17 +1031,22 @@ Ext.define('App.service.Polygon', {
     var existingUid = '';
     var existingName = '';
     var polygonExist = false;
-    for (a = 0; a < self.all.length; ++a) {
-      if (self.all[a].info.name == self.importName){
+    for (a = 0; a < this.all.length; ++a) {
+      if (this.all[a].info.name == this.importName){
         polygonExist = true;
-        existingUid = self.all[a].uid; 
-        existingName = self.all[a].info.name;
+        existingUid = this.all[a].uid; 
+        existingName = this.all[a].info.name;
         break;    
       }
     }
     if (!polygonExist){
-      self.newImportPolygon(self.importName);
-      App.service.Chart.window.close();
+      this.newImportPolygon(this.importName);
+        //clean memory
+      this.importGeometry = false;
+      this.importExtent = false;
+      this.importWktGeometry = false;
+      this.importData = false;
+      this.importName = false;
     }
     else{
         var messagebox = Ext.Msg.show({
@@ -1051,22 +1066,27 @@ Ext.define('App.service.Polygon', {
             else{
               self.selectRowInGrid(existingUid);
             }
-            App.service.Chart.window.close();
+              //clean memory - does not work!!
+            self.importGeometry = false;
+            self.importExtent = false;
+            self.importWktGeometry = false;
+            self.importData = false;
+            self.importName = false;            
           }
         });
     }
+
     
   },
 
   newImportPolygon: function(name){
-    self = this;
-    var newpolygon = self.registerPolygon(self.importExtent, self.importWktGeometry);
-    newpolygon.data = self.importData;
+    var newpolygon = this.registerPolygon(this.importExtent, this.importWktGeometry);
+    newpolygon.data = this.importData;
     newpolygon.info.name = name;
-    self.saveAll();
-    self.rerenderFeatures();
-    Ext.getStore('polygongrid').loadData(self.getGridData());
-    self.selectRowInGrid(newpolygon.uid);
+    this.saveAll();
+    this.rerenderFeatures();
+    Ext.getStore('polygongrid').loadData(this.getGridData());
+    this.selectRowInGrid(newpolygon.uid);
   },
 
   cleanLocalDB: function(){

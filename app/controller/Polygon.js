@@ -59,6 +59,9 @@ Ext.define('App.controller.Polygon', {
     var polygon = App.service.Polygon.getPolygonFromUID(uid);
     App.service.Polygon.removeSelectedPolygons(polygon);
   },
+  onRemoveAll: function () {
+    App.service.Polygon.removeAllPolygons();
+  },
 
   onFormSubmit: function (el, form, val) {
     App.service.Polygon.save(el.up().up().getValues(false, true, false, false));

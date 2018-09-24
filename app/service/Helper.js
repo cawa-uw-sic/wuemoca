@@ -199,7 +199,6 @@ Ext.define('App.service.Helper', {
     var indicator_fields = [];
     var aggregation = '';
     if (!userPolygon){ 
-      //var aggregation_object = App.service.Watcher.getAggregation();
       aggregation = App.service.Watcher.get('Aggregation');
     }     
     var count = 0;
@@ -210,37 +209,39 @@ Ext.define('App.service.Helper', {
         && indicator.chart != 'Multiannual' 
         && (userPolygon || indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)
         ) {      
-      //if (indicator.userDB) {
-        //var field = indicator.field;
         if (!!crop_spec){
           if (typeof crop_spec == 'object'){
             crop_spec.map(function(crop){
-              //var fieldcopy = field;
               count++;
               crop_name = !isNaN(crop) ? App.service.Helper.getByAttr(__Crop, 'idx', parseInt(crop)).id : crop;
               indicator_fields.push({id: count, ind: indicator.id, crop: crop_name});
-              //indicator_fields.push(fieldcopy.replace('{crop}', crop_name));
-
             });
           }
           else{
             __Crop.map(function(crop){
               //crop_spec can be 'all', 'sum' or 'avg'
               if (crop.idx == 0 && crop.id != crop_spec) return false;
-              //var fieldcopy = field;
               count++;
               indicator_fields.push({id: count, ind: indicator.id, crop: crop.id});
-              //indicator_fields.push(fieldcopy.replace('{crop}', crop.id));
             });            
           }
         }
         else{
           count++;
           indicator_fields.push({id: count, ind: indicator.id, crop: ''});
-          //indicator_fields.push(field);
         }
       }
     });
     return indicator_fields;
+  },
+
+  toggleInfo: function(info){
+    var infotext = document.getElementById(info + 'Text');
+    var img_anchor = document.getElementById(info);
+    var expanded = (infotext.style.maxHeight == infotext.scrollHeight + "px");
+    infotext.style.maxHeight = (expanded) ? '15px' : infotext.scrollHeight + "px";
+    img_anchor.innerHTML = (expanded) ?
+      '<img src="' + Ext.getResourcePath('images/elbow-collapsed.gif', null, '') + '">' :
+      '<img src="' + Ext.getResourcePath('images/elbow-expanded.gif', null, '') + '">';   
   }
 });

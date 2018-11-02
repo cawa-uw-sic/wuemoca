@@ -19,14 +19,14 @@ Ext.define('App.view.header.Help', {
       //tooltip: i18n.header.faq_tooltip,
       iconCls: 'x-fa fa-lightbulb-o',
       listeners: {
-        //click: 'onManual'
+        click: 'onUserGuide'
       }     
     },{
-      text: i18n.header.faq,
+      text: 'Indicator Overview',
       //tooltip: i18n.header.faq_tooltip,
-      iconCls: 'x-fa fa-question',
+      iconCls: 'x-fa fa-info',
       listeners: {
-        click: 'onFaq'
+        click: 'onIndicatorOverview'
       }
     },{
       text: i18n.header.glossary,

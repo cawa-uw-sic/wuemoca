@@ -85,7 +85,7 @@ Ext.define('App.view.Main', {
       region: 'north',
       //Per WAI-ARIA, all regions should have a heading element that contains region's title 
       //(is shown in the Google search results).
-      title: 'Open-Source WebGIS Water Use Efficiency in Central Asia',
+      title: 'Open-Source WebGIS Water Use Efficiency Monitor in Central Asia based on Remote Sensing analysis',
       header: false,
       height: 55,
       items: [
@@ -94,6 +94,7 @@ Ext.define('App.view.Main', {
     },
     //accordion panel
     {
+      itemId: 'map-controls',
       title: i18n.filter.title,
       region: 'west',
       margin: '0 5 0 0',
@@ -180,9 +181,10 @@ Ext.define('App.view.Main', {
       region: 'east',
       width: 170,
       collapsible: true, 
+      cls: 'polygon-panel',
       collapsed: __Selection['UserPolygon'] == 'noshow',  
-      collapseToolText: 'Hide My Polygons',
-      expandToolText: 'Show My Polygons',
+      collapseToolText: i18n.polygon.hidePolygons,
+      expandToolText: i18n.polygon.showPolygons,
       titleCollapse: true,
       layout: 'fit',
       margin: '0 0 0 5',

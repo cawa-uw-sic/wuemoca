@@ -11,15 +11,14 @@ Ext.define('App.util.ChartTypes', {
     self = this;
     App.service.Chart.loadData();
     var indicator = App.service.Watcher.getIndicator();
+    var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;   
     var yField = indicator.field;
     var color = indicator.color;
-    //var yield_classes = 0;
     if (!!indicator.crops) {
-      var crop = App.service.Watcher.get('Crop');
-      yField = yField.replace('{crop}', crop);
-      color = App.service.Helper.getById(__Crop, crop).color;
+      var crop = App.service.Watcher.getCrop();
+      yField = yField.replace('{crop}', crop.id);
+      color = crop.color;
     }
-
     var maximum = NaN;
     var threshold = 6;
     var decimals = 0;
@@ -29,15 +28,22 @@ Ext.define('App.util.ChartTypes', {
     if (maxData < threshold){
       maximum = threshold;
     }
-    var thousand = false;
+    var bigdata = 'no';
     if (maxData > 1000){
-      thousand = true;
+      bigdata = 'thousand';
       if (maxData < 5000){
         decimals = 1;
       }
+      if (maxData > 1000000){
+        bigdata = 'million';
+        decimals = 0;
+        if (maxData < 5000000){
+          decimals = 1;
+        }
+      }
     }
     var measure = indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : '';
-
+    
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
@@ -45,11 +51,11 @@ Ext.define('App.util.ChartTypes', {
           axes   : __Chart.VBar.getAxes   (
             'year',
             yField,
-            thousand,
-            App.service.Map.getLegendTitle(true, thousand),
+            bigdata,
+            App.service.Map.getLegendTitle(true, bigdata).replace('<sub>','').replace('</sub>',''),
             newMax * 1.1 || maximum,
-            indicator.decimals || decimals,
-            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
+            decimals,
+            userPolygon ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.VBar.getSeries (
             'year',
@@ -60,21 +66,12 @@ Ext.define('App.util.ChartTypes', {
           )
         }
       ],
-      bbar: {
-        height: 27,
-        style: {
-          margin: '0px 0px 5px 0px'
-        },
-        defaults : {
-          height : 22,
-          style: { padding: '0px 7px' }
-        },
-        items:
-        [
-          { xtype: 'tbfill' }
-          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
-        ]
-      }
+      dockedItems: __Chart.Annual.getBbar (
+        indicator.id,
+        userPolygon,
+        App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
+        ''
+      )
     });
   },
 
@@ -82,14 +79,14 @@ Ext.define('App.util.ChartTypes', {
     self = this;
     App.service.Chart.loadData();
     var indicator = App.service.Watcher.getIndicator();
+    var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;   
     var ind_id = indicator.id;
     var yFields = [];
     var cropNames = [];
     __Crop.map(function(crop) {
-      if (crop.id != 'sum'){
-        cropNames.push(crop[__Global.lang + 'Name']);
-        yFields.push(ind_id + '_' + crop.id);
-      }
+      if (crop.idx == 0) return false;
+      cropNames.push(crop[__Global.lang + 'Name']);
+      yFields.push(ind_id + '_' + crop.id);
     });
     var ind_type = '';
     var limit = 0;
@@ -98,10 +95,11 @@ Ext.define('App.util.ChartTypes', {
       ind_type = 'abs';
       limit = App.service.Chart.data[0].firn;
     }
-    else{
+    else if (ind_id == 'uir'){
       ind_type = 'rel';
       limit = 100;
     }
+
     var maxData = App.service.Chart.maxData;
     if (limit > maxData){
       maximum = limit + (limit/5);
@@ -110,14 +108,22 @@ Ext.define('App.util.ChartTypes', {
         maximum = (Math.ceil(maximum/100)) * 100;
       }
     }
-    var thousand = false;
     var decimals = 0;
+    var bigdata = 'no';
     if (maxData > 1000){
-      thousand = true;
+      bigdata = 'thousand';
       if (maxData < 5000){
         decimals = 1;
       }
+      if (maxData > 1000000){
+        bigdata = 'million';
+        decimals = 0;
+        if (maxData < 5000000){
+          decimals = 1;
+        }
+      }
     }
+    
     return Ext.create('App.view.chart.FPanel', {
       items: [
         {
@@ -125,13 +131,12 @@ Ext.define('App.util.ChartTypes', {
           axes   : __Chart.StackedVBar.getAxes   (
             'year',
             yFields,
-            thousand,
-            App.service.Map.getLegendTitle(true, thousand),
-            ind_type,
+            bigdata,
+            App.service.Map.getLegendTitle(true, bigdata).replace('<sub>','').replace('</sub>',''),
             limit,
             maximum,
             decimals,
-            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
+            userPolygon ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.StackedVBar.getSeries (
             cropNames,
@@ -139,25 +144,16 @@ Ext.define('App.util.ChartTypes', {
             yFields,
             (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''),
             indicator.decimals
-          )
+          ),
+          theme: 'croptheme'
         }
       ],
-      bbar: {
-        height: 27,
-        style: {
-          margin: '0px 0px 5px 0px'
-        },
-        defaults : {
-          height : 22,
-          style: { padding: '0px 7px' }
-        },
-        items:
-        [
-          { xtype: 'label', text: i18n.chart.sumDoubleFallow }
-          ,{ xtype: 'tbfill' }
-          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview', tooltip: 'Chart legend is not included' }
-        ]
-      }
+      dockedItems: __Chart.Annual.getBbar (
+        indicator.id,
+        userPolygon,
+        App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
+        i18n.chart.legendNotIncluded
+      )
     });
   },
 
@@ -234,16 +230,17 @@ Ext.define('App.util.ChartTypes', {
     self = this;
     App.service.Chart.loadData();
     var indicator = App.service.Watcher.getIndicator();
+    var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;
     var yField = indicator.field;
     var color = indicator.color;
     if (!!indicator.crops) {
-      var crop = App.service.Watcher.get('Crop');
-      yField = yField.replace('{crop}', crop);
-      color = App.service.Helper.getById(__Crop, crop).color;
+      var crop = App.service.Watcher.getCrop();
+      yField = yField.replace('{crop}', crop.id);
+      color = crop.color;
     }
     var display = 'over';
+    var bigdata = 'no';
     var maximum = 1;
-    var thousand = false;
     var decimals = 1;
     var maxData = App.service.Chart.maxData;
     if (maxData > 10){
@@ -257,11 +254,18 @@ Ext.define('App.util.ChartTypes', {
       display = 'under';
       maximum = NaN;
       decimals = 0;
-      //unit = indicator[ __Global.lang + 'Unit'];
+
       if (maxData > 1000){
-        thousand = true;
+        bigdata = 'thousand';
         if (maxData < 5000){
           decimals = 1;
+        }
+        if (maxData > 1000000){
+          bigdata = 'million';
+          decimals = 0;
+          if (maxData < 5000000){
+            decimals = 1;
+          }
         }
       }
     }
@@ -271,11 +275,6 @@ Ext.define('App.util.ChartTypes', {
         maximum = parseFloat((maxData + tolerance).toFixed(decimals));
       }
     }
-    var vir_text = (App.service.Watcher.get('UserPolygon') == 'show' && indicator.id == 'vir') ? i18n.wue.pressWUE : '';
-    //if water productivity eprod is calculated with user input crop prices, uncomment the following line
-    //var hideCropPrices = (App.service.Watcher.get('UserPolygon') == 'noshow' && indicator.id == 'eprod') ? false : true;
-    var hideCropPrices = (indicator.id == 'eprod') ? false : true;
-
 
     return Ext.create('App.view.chart.FPanel', {
       items: [
@@ -288,11 +287,11 @@ Ext.define('App.util.ChartTypes', {
           axes: __Chart.Line.getAxes(
             'year',
             yField,
-            thousand,
-            unit == '' ? '' : App.service.Map.getLegendTitle(true, thousand),
+            bigdata,
+            unit == '' ? '' : App.service.Map.getLegendTitle(true, bigdata).replace('<sub>','').replace('</sub>',''),
             maximum,
             decimals,
-            App.service.Watcher.get('UserPolygon') == 'show' ? 0 : App.service.Watcher.get('Year')
+            userPolygon ? 0 : App.service.Watcher.get('Year')
           ),
           series : __Chart.Line.getSeries(
             'year',
@@ -304,23 +303,71 @@ Ext.define('App.util.ChartTypes', {
           )
         }
       ],
-      bbar: {
-        height: 27,
-        style: {
-          margin: '0px 0px 5px 0px'
-        },
-        defaults : {
-          height : 22,
-          style: { padding: '0px 7px' }
-        },
-        items:
-        [
-          { xtype: 'button', text: 'Show crop prices', handler: 'onCropPrices', hidden: hideCropPrices },
-          { xtype: 'label', text: vir_text },
-          { xtype: 'tbfill' }
-          ,{ xtype: 'button', text: i18n.chart.png, handler: 'onPreview' }
-        ]
+      dockedItems: __Chart.Annual.getBbar (
+        indicator.id,
+        userPolygon,
+        App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
+        ''
+      )
+    });
+  },
+
+  Stacked_watersupply: function (data) {
+    self = this;
+    App.service.Chart.loadData();
+    var indicator = App.service.Watcher.getIndicator();
+    var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;    
+    var yFields = ['wf_rel', 'gwc_rel', 'rain_rel'];
+    var names = indicator[__Global.lang + 'Names'];
+    var limit = 0;
+    var maximum = NaN;
+    var maxData = App.service.Chart.maxData;
+    var decimals = 0;
+    var bigdata = 'no';
+    if (maxData > 1000){
+      bigdata = 'thousand';
+      if (maxData < 5000){
+        decimals = 1;
       }
+      if (maxData > 1000000){
+        bigdata = 'million';
+        decimals = 0;
+        if (maxData < 5000000){
+          decimals = 1;
+        }
+      }
+    }
+    
+    return Ext.create('App.view.chart.FPanel', {
+      items: [
+        {
+          xtype  : 'app-chart-stackedvbar',
+          axes   : __Chart.StackedVBar.getAxes   (
+            'year',
+            yFields,
+            bigdata,
+            App.service.Map.getLegendTitle(true, bigdata).replace('<sub>','').replace('</sub>',''),
+            limit,
+            maximum,
+            decimals,
+            userPolygon ? 0 : App.service.Watcher.get('Year')
+          ),
+          series : __Chart.StackedVBar.getSeries (
+            names,
+            'year',
+            yFields,
+            (indicator[ __Global.lang + 'Unit' ] != '-' ? indicator[ __Global.lang + 'Unit' ] : ''),
+            indicator.decimals
+          ),
+          theme: 'watertheme'
+        }
+      ],
+      dockedItems: __Chart.Annual.getBbar (
+        indicator.id,
+        userPolygon,
+        App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
+        i18n.chart.legendNotIncluded
+      )
     });
   }
 });

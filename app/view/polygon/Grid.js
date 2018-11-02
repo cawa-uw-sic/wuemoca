@@ -37,6 +37,9 @@ Ext.define('App.view.polygon.Grid', {
         //text: i18n.polygon.tools,
         width: 45,
         hideable: false,
+        sortable: false,
+        headerWrap: true,
+        text: '<a data-qtip="' + i18n.polygon.removeAll + '"><i class="fa fa-remove" style="font-size: 20px;"></i></a>',
         items: [{
             iconCls: 'x-fa fa-cog',
             tooltip: i18n.polygon.edit,
@@ -49,7 +52,10 @@ Ext.define('App.view.polygon.Grid', {
             iconCls: 'x-fa fa-remove',
             tooltip: i18n.polygon.remove,
             handler: 'onRemove'
-        }]
+        }],
+        listeners: {
+            headerclick: 'onRemoveAll'
+        }
     }
   ],
   listeners:{

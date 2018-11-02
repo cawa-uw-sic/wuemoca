@@ -88,7 +88,7 @@ Ext.define('App.controller.Main', {
   * open video URL
   */
   onVideoHeader: function () {
-    App.service.Helper.openDocument(__Global.urls.VideoHeader, 'videoheader');
+    App.service.Helper.openDocument(__Global.urls.VideoHeader, 'videoheader', null);
     App.service.Helper.getComponentExt('header-introwindow').hide();
   }
 

@@ -1,9 +1,8 @@
 function getItems() {
-  console.log(__Crop, __Global);
   var items = [];
 
   __Crop.map(function (crop) {
-    if (crop.id == 'sum') return false;
+    if (crop.idx == 0) return false;
     items.push({
       iconCls: crop.id,
       itemId: crop.id,
@@ -24,8 +23,6 @@ Ext.define('App.view.prod.Radio', {
   xtype: 'app-prod-radio',
 
   itemId: 'prod-radio',
-
-//  columns: 3,
 
   items: getItems(),
 

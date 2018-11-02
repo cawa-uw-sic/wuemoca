@@ -43,15 +43,17 @@ Ext.define('App.service.Map', {
   loadLayer: function () {
     var self = this;
     var map = self.instance;
-    console.log('loadLayer - indicator: ' + App.service.Watcher.get('Indicator'));
+
     if (!!App.service.Watcher.get('Aggregation')){
       if (!!App.service.Watcher.get('Indicator')) {
         App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
+        //load layer if missing or user selection change
         if (!App.util.Layer.current || !self.compareLayers()){
-          self.loadCurrentLayer();
+          if (App.service.Watcher.get('UserPolygon') == 'noshow'){
+            self.loadCurrentLayer();
+          }
           self.setMainTitle();
           self.setLegend();
-          console.log('setDownloadCombotext loadLayer');
           App.service.Exporter.setDownloadCombotext();
           App.service.Status.set('&#160;');
         }
@@ -72,7 +74,7 @@ Ext.define('App.service.Map', {
     var opts = {
       opacity: App.util.Layer.currentOpaque / 100,
       visible: App.service.Watcher.get('Current') == 'show' ? true : false,
-      source: self.getLayerSource(!!App.service.Watcher.getIndicator().years)
+      source: self.getLayerSource(!!App.service.Watcher.getIndicator().years, true)
     };
 
     map.removeLayer(App.util.Layer.current);
@@ -133,7 +135,7 @@ Ext.define('App.service.Map', {
     App.service.Yearslider.didRender();
   },
 
-  getLayerSource: function (yearIncluded) {
+  getLayerSource: function (yearIncluded, style) {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
 
@@ -143,7 +145,7 @@ Ext.define('App.service.Map', {
       LAYERS: self.getLayerName(),
       TRANSPARENT: true,
       FORMAT: 'image/png',
-      STYLES: self.getLayerStyles(),
+      STYLES: style ? self.getLayerStyles() : '',
       TILED: aggregation.tiled
     };
 
@@ -205,13 +207,13 @@ Ext.define('App.service.Map', {
   },
 
   setMainTitle: function () {
-    var userPolygon = App.service.Watcher.get('UserPolygon');
+    var userPolygon = App.service.Watcher.get('UserPolygon') == 'show';
     var panel = App.service.Helper.getComponentExt('map-container');
     if (panel.isVisible()) {
       var indicator = App.service.Watcher.getIndicator();
       var aggregation = App.service.Watcher.getAggregation();
       var title = '';
-      if (userPolygon == 'noshow'){
+      if (!userPolygon){
         title += aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ':<br>';
       }
       else{
@@ -223,8 +225,10 @@ Ext.define('App.service.Map', {
       else{
         title += indicator[__Global.lang + 'Name'];
       }
-      if (!!indicator.crops && App.service.Watcher.get('Crop') != 'sum') title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
-      if (userPolygon == 'noshow'){
+      if (!!indicator.crops){// && App.service.Watcher.get('Crop') != 'sum' && App.service.Watcher.get('Crop') != 'avg') {
+        title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
+      }
+      if (!userPolygon){
         if (!!indicator.years) {
           title += ' <b>' + App.service.Watcher.get('Year') + '</b>';
         }
@@ -255,10 +259,10 @@ Ext.define('App.service.Map', {
       });
   },
 
-  getUrl: function (coordinate, allYears) {
+  getUrl: function (coordinate, allYears, style) {
     var view = this.instance.getView();
     var viewResolution = view.getResolution();
-    return this.getLayerSource(allYears).getGetFeatureInfoUrl(
+    return this.getLayerSource(allYears, style).getGetFeatureInfoUrl(
       coordinate, 
       viewResolution, 
       view.getProjection(),
@@ -283,10 +287,12 @@ Ext.define('App.service.Map', {
     var aggregation = App.service.Watcher.getAggregation();
     App.service.Helper.getComponentExt('legend-current').setVisible(true);
     App.service.Helper.getComponentExt('legend-panel').setVisible(true);
-    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(
-      aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ': ' +
-      self.getLegendTitle(true, false)
-    );
+    var boxlabel = aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map;
+    if (App.service.Watcher.get('UserPolygon') == 'noshow'){
+      boxlabel += ': ' + self.getLegendTitle(true, 'no');
+    }
+
+    App.service.Helper.getComponentExt('legend-cx-current').setBoxLabel(boxlabel);
     var image_src = self.getLegendImage();
     if (image_src != ''){
       App.service.Helper.getComponentExt('legend-panel').setVisible(true);
@@ -302,36 +308,45 @@ Ext.define('App.service.Map', {
 
   getLegendImage: function () {
     var image_src = '';
-    if (App.service.Watcher.getIndicator().mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
-      var img = App.service.Watcher.get('Indicator');
-      img += !App.service.Watcher.get('Crop') ? '_nocrops' : '_' + App.service.Watcher.get('Crop');
-      image_src = 'resources/images/' + img + '.png';
+    if (App.service.Watcher.get('UserPolygon') == 'noshow'){
+      if (App.service.Watcher.getIndicator().mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
+        var img = App.service.Watcher.get('Indicator');
+        img += !App.service.Watcher.get('Crop') ? '_nocrops' : '_' + App.service.Watcher.get('Crop');
+        image_src = 'resources/images/' + img + '.png';
+      }
     }
     return image_src;
   },
 
-  getLegendTitle: function(withUnit, thousand){
+  getLegendTitle: function(withUnit, bigdata){
     var legend_title = '';
     var indicator = App.service.Watcher.getIndicator();
-    if (!!indicator.crops){
+    var crop_spec = (!!indicator.crops_userDB && App.service.Watcher.get('UserPolygon') == 'show') ? indicator.crops_userDB : indicator.crops;
+    if (!!crop_spec){
       //indicators with crop list
-      if (typeof indicator[__Global.lang + 'Legend'] == 'object'){
-        legend_title = indicator[__Global.lang + 'Legend'][
-          App.service.Helper.getById(__Crop, App.service.Watcher.get('Crop')).idx - 1
-        ];
+      if (indicator[__Global.lang + 'NameShort']){
+        legend_title += indicator[__Global.lang + 'NameShort'];
       }
       else{
-        legend_title = App.service.Helper.getCropName();
+        legend_title += indicator[__Global.lang + 'Name'];
+      }      
+      /*if (typeof crop_spec == 'object'){
+        legend_title += ' - ' + indicator[__Global.lang + 'Legend'][crop_spec.indexOf(App.service.Watcher.get('Crop'))]; 
       }
+      else{*/
+        legend_title += ' - ' + App.service.Helper.getCropName();
+      //}
     }
     else{
       legend_title = indicator[__Global.lang + 'Legend'];
     }
     if (withUnit){
       if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.enUnit != 'Index')) {
-        legend_title += i18n.chart._in;
-        legend_title += thousand ? i18n.chart.thousand : '';
+        //legend_title += i18n.chart._in;
+        legend_title += ' [';
+        legend_title += i18n.chart[bigdata];
         legend_title += indicator[__Global.lang + 'Unit'];
+        legend_title += ']';
       }
     }
     return legend_title;
@@ -339,7 +354,7 @@ Ext.define('App.service.Map', {
 
   getLegendMedian: function () {
     var indicator     = App.service.Watcher.getIndicator();
-    var crop          = App.service.Watcher.get('Crop');
+    var crop          = App.service.Watcher.getCrop();
 
     var text          = '';
     var br            = '<br><br><br>';
@@ -350,8 +365,11 @@ Ext.define('App.service.Map', {
     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
         if (!!indicator.crops){
-          var index = (typeof indicator.crops == 'object') ? indicator.crops.indexOf(crop) : App.service.Helper.getById(__Crop, crop).idx;
-          median  = indicator.median  ? indicator.median  [index] : 0;
+          var index = crop.idx;
+          if (typeof indicator.crops == 'object' && (indicator.id == 'yf' || indicator.id == 'pirf')){    
+            index = crop.idx - 1;
+          }
+          median  = indicator.median  [index];
           maximum = indicator.maximum ? indicator.maximum [index] : 0;
         }
         else{
@@ -366,7 +384,14 @@ Ext.define('App.service.Map', {
       if (!!median && median != 0) {
         if (typeof median == 'object'){
           if (indicator.id == 'yf' || indicator.id == 'pirf'){
-            text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
+            var from = 0.01;
+            var textblocks = [];
+            for (var m = 0; m < median.length; m++){
+              textblocks.unshift(from + ' - ' + median[m]);
+              from = median[m];
+            }
+            text = textblocks.join('<br>');
+            //text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
           }
         }
         else{
@@ -435,7 +460,6 @@ Ext.define('App.service.Map', {
         && (aoi_filter.indexOf('country') < 0)){
        // && (aoi_filter.indexOf(val) < 0)){
         App.service.Watcher.set('Aoi_Filter', false);
-        console.log('onAggregation fillAggregations_new');        
         this.fillAggregations_new();
       }
       else{
@@ -471,6 +495,10 @@ Ext.define('App.service.Map', {
   },
 
   filterAreaOfInterest: function(aoi, id, super_aoi, super_id){
+    if (App.service.Watcher.get('UserPolygon') == 'show'){
+      aoi = '';
+      id = '0';
+    }
     var aoi_filter = false;
     if (id != '0'){
       if (isNaN(id)){
@@ -528,7 +556,6 @@ Ext.define('App.service.Map', {
           .updateParams({
             'CQL_FILTER': CQLfilter
           });
-          console.log('setDownloadCombotext filterAreaOfInterest');
         App.service.Exporter.setDownloadCombotext();
       }
     }
@@ -561,8 +588,6 @@ Ext.define('App.service.Map', {
         if (!aggregation.aoi_filter
           || aggregation.aoi_filter.indexOf(aoi_filter) >= 0
           || aggregation.aoi_filter.indexOf(aoi_filter.split('=')[0]) >= 0
-           /*|| aggregation.aoi_filter.join().indexOf(aoi_filter.split('=')[1].slice(0, 4)) >= 0
-          || aoi_filter.indexOf(aggregation.id) >= 0*/
           ) {
           filteredData.push(aggregation);
         }
@@ -583,34 +608,120 @@ Ext.define('App.service.Map', {
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Chart.window.close();
 
-      //App.service.Helper.setComponentsValue([]);
     }
+  },
+
+  /**
+  * @method fillCrops
+  * create crop buttons depending on current indicator
+  * @param button_group
+  * button group
+  */
+  fillCrops: function () {
+    var button_group = App.service.Helper.getComponentExt('switcher-btns-crop');
+    var indicator = App.service.Watcher.getIndicator();
+    var crop_obj = App.service.Watcher.getCrop();
+    var crop_id = crop_obj.id;
+    var crop_list = [];
+    var cropNames = [];
+    var reset_crop = false;
+
+    button_group.removeAll();
+
+    var crop_spec = (!!indicator.crops_userDB && App.service.Watcher.get('UserPolygon') == 'show') ? indicator.crops_userDB : indicator.crops;
+    
+    if (!crop_spec) {
+      App.service.Watcher.set('Crop', '');
+      return button_group.hide();
+    }
+    // e.g. crop_spec = ['avg', '1', '2', '3']
+    if (typeof crop_spec == 'object' && crop_spec.length > 0) {
+      crop_spec.map(function (crop) {      
+        var crop_id = !isNaN(crop) ? App.service.Helper.getByAttr(__Crop, 'idx', parseInt(crop)).id : crop;
+        var index = !isNaN(crop) ? 'idx' : 'id';
+        var val = !isNaN(crop) ? parseInt(crop) : crop;
+        var crop_name = App.service.Helper.getByAttr(__Crop, index, val)[__Global.lang + 'Name'];
+        crop_list.push(crop_id);
+        cropNames.push(crop_name);
+      });
+      
+      //in case that the selected crop does not exist for the selected indicator
+      if (crop_list.indexOf(crop_id) < 0) {
+        reset_crop = true;
+      }
+    }
+    //'sum', 'avg', 'all', 'non'
+    else {
+      __Crop.map(function (crop) {
+        if (crop.idx == 0 && crop.id != crop_spec) return false;
+          crop_list.push(crop.id);
+          cropNames.push(crop[__Global.lang + 'Name']);
+      }); 
+      if (crop_obj.idx == 0 && crop_id != crop_spec){//crop_id == 'sum' || crop_id == 'avg'|| crop_id == 'non'){
+        reset_crop = true;
+      }  
+    }
+    if ((!crop_id && crop_list.length > 0) || reset_crop) {
+      crop_id = crop_list[0];
+      App.service.Watcher.set('Crop', crop_id);
+    }
+
+    for (var i = 0; i < crop_list.length; i++) {
+      button_group.add({
+        iconCls: crop_list[i],
+        itemId: crop_list[i],
+        tooltip: cropNames[i],
+        pressed: crop_id == crop_list[i]
+      });
+    }
+
+    button_group.setVisible(true);
+
+    var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + 
+      crop_obj[__Global.lang + 'Name'] + 
+      '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
+      i18n.crop.label + '</span>';
+    button_group.setTitle(label);
   },
 
   setIndicatorFilter: function(userPolygon){
     var indicatorStore = Ext.getStore('indicator');
+    var current_indicator = App.service.Watcher.getIndicator();
 
     indicatorStore.removeAll();
 
-    if (userPolygon){
-      //duplicate array of nested objects
-      var indicatorData = JSON.parse(JSON.stringify(__Indicator));
-      var filteredData = [];
-      indicatorData.map(function (indicator) {
-        if (indicator.up) {
-          filteredData.push(indicator);
+    //duplicate array of nested objects
+    var indicatorData = JSON.parse(JSON.stringify(__Indicator));
+    var filteredData = [];
+    indicatorData.map(function (indicator) {
+      //load either userDB or serverDB indicators
+      if ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB)) {
+        //assign userDB names and groups to normal name and group
+        if (userPolygon){
+          if (!!indicator[__Global.lang + 'Group_userDB']){          
+            indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
+          }
+          if (!!indicator[__Global.lang + 'Name_userDB']){
+            indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
+          }
         }
-      });
-      indicatorStore.loadData(filteredData);
-      //multi-annual indicators are not visible with user polygons
-      if (App.service.Watcher.getIndicator().chart == 'Multiannual'){
-        App.service.Watcher.set('Indicator', 'uir');
-        App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+        
+        filteredData.push(indicator);
       }
+    });
+    indicatorStore.loadData(filteredData);
+    //reset current indicator to uir since some indicators are not visible with user polygons resp. outside user polygons
+    if ((userPolygon && !current_indicator.userDB) || (!userPolygon && !current_indicator.serverDB)) {
+      App.service.Watcher.set('Indicator', 'uir');
     }
-    else{
-      indicatorStore.loadData(__Indicator);
+    //anyway set indicator name since name can be changed in user polygon mode
+    App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    if (!!current_indicator.crops_userDB){
+     /* if (current_indicator.crops.indexOf(App.service.Watcher.get('Crop')) == -1) {
+        App.service.Watcher.set('Crop', 'cotton'); 
+      }*/
+      this.fillCrops();
     }
-  }
+  }              
 
 });

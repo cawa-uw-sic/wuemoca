@@ -39,7 +39,9 @@ Ext.define('App.controller.Legend', {
 
   onUserPolygon: function (el, val) {
     App.service.Polygon.layer.setVisible(val);
-    //App.service.Polygon.deselectMapAndList();
+    if (!val){
+      App.service.Polygon.deselectMapAndList();
+    }
     App.service.Polygon.rerenderFeatures();
   },
   /**

@@ -98,9 +98,11 @@ Ext.define('App.controller.Wue', {
 
   onBtnTemplate: function (el) {
     var period = el.itemId.replace('wue-import-', '');
-    App.service.Helper.openDocument(Ext.getResourcePath('templates/' + period + '.xls', null, ''), 'import');
-    //window.open(Ext.getResourcePath('templates/' + period + '.xls', null, ''));
-    //window.open("/resources/templates/" + period + '.xls');
+    App.service.Helper.openDocument(
+      Ext.getResourcePath('templates/' + period + '.xls', null, ''), 
+      'import',
+      null
+    );
   }
 
 });

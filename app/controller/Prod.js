@@ -8,42 +8,42 @@ Ext.define('App.controller.Prod', {
 
   onFormSubmit: function (el, form, val) {
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
-    polygon.data = App.service.Prod.calcWf();
+    //polygon.data = 
     polygon.data = polygon.data.map(function(d) {
-      var prod_ha_sum = 0;
-      var prod_m3_sum = 0;
-      __Crop.map(function (crop) {
-        crop = crop.id;
-
-        if (crop == 'sum') return false;
-        if (!d['yf_' + crop] || !d['firf_' + crop] || !d['price_' + crop] || !d['wf_' + crop]) return false;
-
-        // Валовая продукция
-        d['pirf_' + crop] = d['yf_' + crop] * d['firf_' + crop];
-        // Продуктивность
-        d['prod_$_' + crop] = d['pirf_' + crop] * d['price_' + crop];
-        // Продуктивность воды
-        d['prod_tm3_' + crop] = (d['pirf_' + crop] / d['wf_' + crop]) / 1000;
-        d['prod_$m3_' + crop] = (d['prod_$_' + crop] / d['wf_' + crop]) / 1000000;
-        // Продуктивность земли
-        d['prod_tha_' + crop] = d['pirf_' + crop] / d['firf_' + crop];
-        d['prod_$ha_' + crop] = d['prod_$_' + crop] / d['firf_' + crop];
-
-        prod_ha_sum += d['firf_' + crop] * d['prod_$ha_' + crop];
-        prod_m3_sum += d['wf_' + crop] * d['prod_$m3_' + crop];
-      });
-      // Средне взвешенная продуктивность земли
-      d['prod_$ha_avg'] = prod_ha_sum / d['firn'];
-      // Средне взвешенная продуктивность воды
-      d['prod_$m3_avg'] = prod_m3_sum / d['wf'];
-      // Удельная водоподача
-      var rains = (d['rains'] * d['firn'] * 0.00001) || 0 ;
-      var groundwater = (d['groundwater']  * d['firn'] * 0.00001) || 0;
-      d['prod_wf'] = (d['wf_sum'] + groundwater + rains) / d['firn'] * 1000000;
+      d = App.service.Prod.calcWf(d);
+      d = App.service.Prod.calcProd(d);
+      d = App.service.Prod.updateOtherIndicators(d);
+      //d = App.service.Prod.updateVir(d);
       return d;
     });
+
+    App.service.Polygon.windowChart.close();
     App.service.Polygon.saveAll();
-    console.log(polygon);
+    App.service.Polygon.rerenderFeatures();
+
+    App.service.Prod.window.close();
+
+    //switch to vir indicator so the user sees the results immediatly
+    var indicator = App.service.Watcher.getIndicator();
+    if ((!!indicator.enGroup_userDB && indicator.enGroup_userDB.indexOf('Productivity') != -1)
+      || (!!indicator.enGroup && indicator.enGroup.indexOf('Productivity') != -1)){
+    }
+    else{
+      App.service.Watcher.set('Indicator', 'prod_wf');
+      App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
+    }
+    Ext.Msg.show({
+      cls: 'polygon-window',
+      title: i18n.prod.calculateProd,
+      message: i18n.prod.calculateProdSuccess,
+      buttons: Ext.Msg.OK,
+      fn: function(btn) {
+        if (btn === 'ok') {
+          App.service.Polygon.showChartWindow();
+        }
+      }
+    });   
+    
   },
 
   onCropChange: function (el) {

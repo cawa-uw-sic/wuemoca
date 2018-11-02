@@ -55,13 +55,13 @@ Ext.define('App.view.polygon.Index', {
         handler: function(){alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
-    },{
+    /*},{
       text: i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2,
       iconCls: 'x-fa fa-mail-forward',
       handler: 'onImport',
       itemId: 'polygon-btn-import',
       tooltip: i18n.polygon.import_tooltip,
-      disabled: true
+      disabled: true*/
     },{
       text: i18n.polygon.calculateWUE,
       iconCls: 'x-fa fa-tint',
@@ -83,7 +83,7 @@ Ext.define('App.view.polygon.Index', {
       iconCls: 'x-fa fa fa-download',
       handler: 'onDownload',
       itemId: 'polygon-btn-download',
-      disabled: true
+      disabled: (App.service.Polygon.all.length == 0)
 
    /* },{
       xtype: 'label',
@@ -112,6 +112,15 @@ Ext.define('App.view.polygon.Index', {
       html: '<b>' + i18n.polygon.list + '</b><br>(' + i18n.polygon.doubleclick + ')'
     },{
       xtype: 'app-polygon-grid'
+    },{
+      text: i18n.polygon.hidePolygons,
+      iconCls: 'x-fa fa-close',
+      handler: 'onClose',
+      itemId: 'polygon-btn-close',
+      ui: 'default'
+      //cls: 'polygon-window'
+      //tooltip: i18n.polygon.import_tooltip,
+      //disabled: true
     }
   ]
 });

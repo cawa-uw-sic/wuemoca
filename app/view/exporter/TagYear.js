@@ -6,8 +6,6 @@ Ext.define('App.view.exporter.TagYear', {
   ],
 
   xtype: 'app-exporter-tag-year',
-
-
   
   fieldLabel: i18n.report.year,
 
@@ -24,6 +22,14 @@ Ext.define('App.view.exporter.TagYear', {
   filterPickList: true,
 
   editable: false,
-  selectOnFocus: false
+  selectOnFocus: false,
+
+  listeners: {
+    change: function(cb, val){
+      if (val.indexOf(1000) != -1){
+        cb.clearValue();
+      }
+    }
+  }
   
 });

@@ -16,25 +16,37 @@ Ext.define('App.controller.Chart', {
     this.CropPriceWindow = Ext.create('App.view.chart.CropPriceWindow');
     //this.IntroWindow = Ext.create('App.view.header.IntroWindow');
   },
-  /*display: function (e) {
-    console.log('from controller');
-  },*/
-
-  /*onPrev: function () {
-    App.service.Chart.prev();
-  },
-
-  onNext: function () {
-    App.service.Chart.next();
-  },*/
-
   /**
-  * @method onExcel
-  * Create Excel file with all indicators for selected object. {@link }
-  */  
-  /*onExcel: function () {
-    App.service.Helper.JSONToHTMLConvertor('all');
-  },*/
+  * @method onTransfer
+  * import geometry and values to user polygons
+  */
+  onTransfer: function() {
+    App.service.Helper.getComponentExt('user-polygon').expand();
+
+    App.service.Polygon.importPolygon(); 
+    App.service.Polygon.switchView(true);
+  },
+  /**
+  * @method onCalculateWUE
+  * open WUE calculation window
+  */
+  onCalculateWUE: function() {
+    var container = App.service.Helper.getComponentExt('app-wue-container');
+    container.removeAll();
+    container.add({ xtype: 'app-wue-form-by-year' });
+    App.service.Helper.getComponentExt('wue-radio').setValue({period: "year"});
+    App.service.Wue.window.show();
+  },  
+  /**
+  * @method onCalculateProd
+  * open Prod calculation window
+  */
+  onCalculateProd: function() {
+    App.service.Helper.getComponentExt('prod-radio').queryById('cotton').toggle(true);
+    App.service.Prod.renderFormByYear('cotton');
+    App.service.Prod.renderFormSecondary();
+    App.service.Prod.window.show();
+  },    
 
   /**
   * @method onPreview
@@ -44,7 +56,7 @@ Ext.define('App.controller.Chart', {
     var chart = this.lookupReference('chart');
     if (Ext.os.is.Desktop) {
         chart.download({
-          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ /g,"_")),
+          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ - /g,"_").replace(/ /g,"_").replace('<sub>','').replace('</sub>','')),
           scale: 1.5
         });
     } else {

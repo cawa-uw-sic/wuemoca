@@ -33,8 +33,9 @@ Ext.define('App.controller.Polygon', {
   },
 
   onDownload: function (field){
+    App.service.Exporter.setDownloadCombotext();    
     App.service.Helper.getComponentExt('exporter-window').show();
-    //App.service.Polygon.downloadOptions();
+    App.service.Helper.getComponentExt('exporter-window').addCls('polygon-window');
   },
   onImport: function(){
     App.service.Polygon.importPolygon();
@@ -58,6 +59,9 @@ Ext.define('App.controller.Polygon', {
     var polygon = App.service.Polygon.getPolygonFromUID(uid);
     App.service.Polygon.removeSelectedPolygons(polygon);
   },
+  onRemoveAll: function () {
+    App.service.Polygon.removeAllPolygons();
+  },
 
   onFormSubmit: function (el, form, val) {
     App.service.Polygon.save(el.up().up().getValues(false, true, false, false));
@@ -80,6 +84,10 @@ Ext.define('App.controller.Polygon', {
     if (record.data.extent){
       App.service.Polygon.zoomToPolygon(record.data.extent);
     }
+  },
+
+  onClose: function () {
+    App.service.Helper.getComponentExt('user-polygon').collapse();
   },
 
   onWUE: function () {

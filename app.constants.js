@@ -29,9 +29,16 @@ lur_color      = '#e6550d'; //  10% #FCEEE6 / #e6550d / 50% #732A06 / brownorang
 cd_color      = '#989800'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (http://colorbrewer2.org/)
 firn_color   = '#de2d26'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
 sum_color     = '#fc9272'; //  #fee0d2 / #fc9272 / #de2d26 / red             (http://colorbrewer2.org/)
+avg_color     = '#989800'; //  #d7191c / #ffffbf / #2c7bb6 / red-yellow-blue (http://colorbrewer2.org/)
 etf_color	  = '#00CD66'; //  #FFD700 / #00CD66 / #00868B / yellow-green-blue
 vir_color     = '#2c7fb8'; // #edf8b1 / #7fcdbb / #2c7fb8 / lightyellow-blue (http://colorbrewer2.org/)
 vet_color = '#081d58'; // #ffffd9 / #41b6c4 / #081d58 / lightyellow-blue (http://colorbrewer2.org/)
+eprod_color = '#006837';
+non_color     = '#989800';
+
+wf_color      = '#2171b5';
+gwc_color     = '#6baed6';
+rain_color    = '#bdd7e7';
 
 flf_bright    = '#EAF5E9';
 flf_dark      = '#195016';

@@ -104,14 +104,20 @@ Ext.define('App.view.legend.Window', {
     }
   }],
   listeners:{
-    hide: function () {App.service.Watcher.set('Legend', 'noshow');},
-    show: function (win) {
-      win.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
-      App.service.Watcher.set('Legend', 'show');
+    hide: function(window){
+      window.removeCls('polygon-window');
+      App.service.Watcher.set('Legend', 'noshow');
     },
-    boxready: function (win){
+    show: function (window) {
+      window.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
+      App.service.Watcher.set('Legend', 'show');
+      if (App.service.Watcher.get('UserPolygon') == 'show'){
+        window.addCls('polygon-window');
+      }
+    },
+    boxready: function (window){
       //if (!win.isHidden()){
-        win.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
+        window.alignTo(App.service.Helper.getComponentExt('legend-button'), 'tr-tr', [0, 0]);
       //}
     }
   }

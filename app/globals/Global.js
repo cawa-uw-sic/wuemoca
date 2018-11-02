@@ -4,8 +4,8 @@ var server_wfs = server + ':443';
 
 //SIC server settings
 //disable google analytics scripts in index.html
-server = server_sic;
-server_wfs = server;
+//server = server_sic;
+//server_wfs = server;
 
 var api = server + '/mvc-backend/';
 
@@ -25,7 +25,7 @@ var __Global = {};
 /**
 * proxy settings
 */
-__Global.proxy= {
+__Global.proxy = {
     Type          : 'jsonp',
     Reader        : 'json'
 };
@@ -34,16 +34,22 @@ __Global.lang            = locale;
 /**
 * projection collection
 */
-__Global.projection= {
+__Global.projection = {
     Geographic    : 'EPSG:4326',
     Mercator      : 'EPSG:3857'
 };
 /**
 * min and max year, max year is read from the DB
 */
-__Global.year= {
+__Global.year = {
     Max           : 0,
     Min           : 2000
+};
+/**
+* max decade is read from the DB
+*/
+__Global.decade = {
+    Max           : ''
 };
 /**
 * @property api
@@ -87,7 +93,7 @@ __Global.api = {
 /**
 *  collection of URLs of backend documents
 */
-__Global.urls= {
+__Global.urls = {
     Mapserver     : server + '/geoserver/',
     Mapserver_WFS : server_wfs + '/geoserver/' + geoserver_workspace + '/ows?' +
         'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',        
@@ -105,10 +111,10 @@ __Global.urls= {
     //Faq           : 'bme00057.htm#bookme_anchor3',
     Faq           : 'bme00040.htm',    
     Intro         : 'bme00001.htm',
-    Imprint     : documents + 'Imprint.pdf',
-    Manual        : documents + 'Manual.pdf',
-    AcronymPDF      : documents + 'WUEMoCA_Overview_indicators.pdf',
-    VideoHeader        : documents + 'WUEMoCA_general_information.gif'
+    Imprint       : documents + 'Imprint_' + locale + '.pdf',
+    UserGuide     : documents + 'User_Guide.pdf',
+    AcronymPDF    : documents + 'WUEMoCA_Overview_indicators.pdf',
+    VideoHeader   : documents + 'WUEMoCA_general_information.gif'
 };
 /**
 * Geoserver workspace
@@ -117,7 +123,7 @@ __Global.geoserverWorkspace = geoserver_workspace;
 /**
 * chart settings
 */
-__Global.chart= {
+__Global.chart = {
     Height: 330,
     BarWidth: 32
 };

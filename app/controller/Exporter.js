@@ -21,7 +21,7 @@ Ext.define('App.controller.Exporter', {
     App.service.Helper.getComponentExt('exporter-window').show();
   },  
   onAcronymPDF: function(){
-     App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf');
+     App.service.Helper.openDocument(__Global.urls.AcronymPDF, 'acronympdf', null);
   },
   /**
   * @method onDownloadSelection
@@ -39,7 +39,7 @@ Ext.define('App.controller.Exporter', {
     var vals = el.up().up().getValues();
     App.service.Exporter.download(vals);
     App.service.Helper.getComponentExt('exporter-window').hide();
-  },
+  }
 
   /**
   * @method onAggregation
@@ -49,9 +49,9 @@ Ext.define('App.controller.Exporter', {
   * @param val
   * new value
   */
-  onAggregation: function (cb, val) {
+  /*onAggregation: function (cb, val) {
     App.service.Map.onAggregation(cb, val);
     //App.service.Helper.getComponentExt('switcher-cb-aggregation').setValue(val);
-  }
+  }*/
 
 });

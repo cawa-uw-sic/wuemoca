@@ -158,7 +158,7 @@ __Chart.VBar = {
   * number of decimals  for y-axis 
   * @return {Ext.chart.axis.Numeric | Ext.chart.axis.Category}
   */
-  getAxes: function (x, y, thousand, title, maximum, decimals, currentYear) {
+  getAxes: function (x, y, bigdata, title, maximum, decimals, currentYear) {
   /* getAxes: function (x, y, measure, maximum, decimals, yield_classes) {
     var limits = [];
     if (typeof yield_classes == 'object'){
@@ -224,9 +224,12 @@ __Chart.VBar = {
       //limits: limits,      
       renderer: function (axis, value) {
         var label = '';
-        if (thousand){
+        if (bigdata == 'thousand'){
           label = (parseFloat(value)/1000).toFixed(decimals);
         }
+        else if (bigdata == 'million'){
+          label = (parseFloat(value)/1000000).toFixed(decimals);
+        }        
         else{
           label = parseFloat(value).toFixed(decimals);
         }
@@ -289,18 +292,6 @@ __Chart.VBar = {
           );
         }
       }
-     /*listeners:{
-        itemmousemove: function (series, item, event) {
-          return false;
-          //event.stopPropagation();
-          console.log('itemmousemove', item.category, item.field);
-        }
-      }*//*,
-      renderer: function(sprite, attr, record, index, store) {
-        return Ext.apply(attr, {
-          fill: color
-        });
-      }*/
     }];
   }
 };
@@ -309,19 +300,10 @@ __Chart.VBar = {
 */
 __Chart.StackedVBar = {
 
-  getAxes: function (x, yFields, thousand, title, ind_type, limit, maximum, decimals, currentYear) {
-    return [{
-      type: 'numeric',
-      position: 'left',
-      fields: yFields,
-      minimum: 0,
-      maximum: maximum,
-      title: {
-        fontSize: 12,
-        text: title
-      },
-      grid: true,
-      limits: [{
+  getAxes: function (x, yFields, bigdata, title, limit, maximum, decimals, currentYear) {
+    var limits = [];
+    if (limit > 0){
+      limits.push({
         value: limit,
         line: {
           strokeStyle: 'black',
@@ -335,12 +317,28 @@ __Chart.StackedVBar = {
             lineWidth: 0.5
           }
         }
-      }],
+      });
+    }
+    return [{
+      type: 'numeric',
+      position: 'left',
+      fields: yFields,
+      minimum: 0,
+      maximum: maximum,
+      title: {
+        fontSize: 12,
+        text: title
+      },
+      grid: true,
+      limits: limits,
       renderer: function (axis, value) {
         var label = '';
-        if (thousand){
+        if (bigdata == 'thousand'){
           label = (parseFloat(value)/1000).toFixed(decimals);
         }
+        else if (bigdata == 'million'){
+          label = (parseFloat(value)/1000000).toFixed(decimals);
+        }        
         else{
           label = parseFloat(value).toFixed(decimals);
         }
@@ -431,7 +429,7 @@ __Chart.StackedVBar = {
 */
 __Chart.Line = {
 
-  getAxes: function (x, y, thousand, title, maximum, decimals, currentYear) {
+  getAxes: function (x, y, bigdata, title, maximum, decimals, currentYear) {
     var limits = [];
     if (y == 'vet' || y.indexOf('vc_') != -1){
       limits.push({
@@ -468,7 +466,6 @@ __Chart.Line = {
       fields: y,
       minimum: 0,
       maximum: maximum,
-      title: false,
       grid: true,
       limits: limits,
       title: {
@@ -477,9 +474,12 @@ __Chart.Line = {
       },      
       renderer: function (axis, value) {
         var label = '';
-        if (thousand){
+        if (bigdata == 'thousand'){
           label = (parseFloat(value)/1000).toFixed(decimals);
         }
+        else if (bigdata == 'million'){
+          label = (parseFloat(value)/1000000).toFixed(decimals);
+        }        
         else{
           label = parseFloat(value).toFixed(decimals);
         }
@@ -566,5 +566,74 @@ __Chart.Line = {
         });
       }*/
     }];
+  }
+};
+
+__Chart.Annual = {
+
+  getBbar: function (indicator_id, userPolygon, aggregName, PreviewTooltip) {
+
+    var cropPrices = (!userPolygon && indicator_id == 'eprod') ? true : false;
+    var transferButton = userPolygon ? false : true;
+    var WUEButton = (userPolygon  && indicator_id == 'vir') ? true : false;
+    var prodButton = (userPolygon  && (indicator_id.indexOf('prod_') != -1 || indicator_id == 'yf' || indicator_id == 'pirf')) ? true : false;  
+
+    var bbarItems = [];
+    
+    if (cropPrices){
+      bbarItems.push({ 
+        xtype: 'button', 
+        text: i18n.chart.showCropPrices, 
+        handler: 'onCropPrices'
+      });
+    }
+    bbarItems.push({xtype: 'tbfill'});
+    if (transferButton){
+      bbarItems.push({ 
+        xtype: 'button', 
+        text: i18n.chart.transfer + ' ' + aggregName + ' ' + i18n.chart.toMyPolygons, 
+        iconCls: 'x-fa fa-mail-forward',
+        handler: 'onTransfer'
+      });
+    }
+    if (WUEButton){    
+      bbarItems.push({ 
+        xtype: 'button', 
+        text:  i18n.polygon.calculateWUE2, 
+        iconCls: 'x-fa fa-tint',
+        ui: 'default',
+        handler: 'onCalculateWUE'
+      });  
+    }
+    if (prodButton){      
+      bbarItems.push({ 
+        xtype: 'button', 
+        text:  i18n.polygon.calculateProd2, 
+        iconCls: 'x-fa fa-tint',
+        ui: 'default',        
+        handler: 'onCalculateProd'
+      }); 
+    }
+    bbarItems.push({ 
+      xtype: 'button', 
+      text: i18n.chart.png, 
+      handler: 'onPreview', 
+      tooltip: PreviewTooltip
+    }); 
+    var bbar = [{
+      xtype: 'toolbar',
+      dock: 'bottom',
+      height: 27,
+      style: {
+        margin: '0px 0px 5px 0px'
+      },
+      defaults : {
+        height : 22,
+        style: { padding: '0px 7px' }
+      },            
+      items: bbarItems
+    }];
+
+    return bbar;
   }
 };

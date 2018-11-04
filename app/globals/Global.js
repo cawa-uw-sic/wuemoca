@@ -4,8 +4,8 @@ var server_wfs = server + ':443';
 
 //SIC server settings
 //disable google analytics scripts in index.html
-//server = server_sic;
-//server_wfs = server;
+server = server_sic;
+server_wfs = server;
 
 var api = server + '/mvc-backend/';
 
@@ -56,27 +56,27 @@ __Global.decade = {
 * backend JSP script collection
 * @property api.Report
 * script for request of DB values for report
-* @property api.Indicator    
+* @property api.Indicator
 * script for getting indicator specific values from DB (e.g. median)
-* @property api.Polygon   
+* @property api.Polygon
 * script for DB aggregation on-the-fly with indicator calculation for user polygon
-* @property api.Country    
+* @property api.Country
 * script for getting country list with extent from DB
-* @property api.Oblast    
+* @property api.Oblast
 * script for getting oblast list with extent from DB
-* @property api.Rayon   
+* @property api.Rayon
 * script for getting rayon list with extent from DB
-* @property api.Buis    
+* @property api.Buis
 * script for getting BUIS list with extent from DB
-* @property api.Uis    
+* @property api.Uis
 * script for getting UIS list with extent from DB
-* @property api.Wua    
+* @property api.Wua
 * script for getting WUA list with extent from DB
-* @property api.writePolygon    
+* @property api.writePolygon
 * script for writing values and geometry to temporary DB table
-* @property api.WUE    
+* @property api.WUE
 * script for DB aggregation on-the-fly of monthly and decadal ET actual
-*/         
+*/
 __Global.api = {
     Report        : api + 'report.jsp?',
     Indicator     : api + 'indicator.jsp?',
@@ -88,7 +88,8 @@ __Global.api = {
     Uis           : api + 'refreshUIS.jsp?' + langParam,
     Wua           : api + 'searchWUAs.jsp?' + langParam,
     writePolygon  : api + 'writePolygon_multi.jsp?',
-    WUE           : api + 'calculateWUE_multi.jsp?'
+    WUE           : api + 'calculateWUE_multi.jsp?',
+    ET            : api + 'calculateET.jsp?'
 };
 /**
 *  collection of URLs of backend documents
@@ -96,7 +97,7 @@ __Global.api = {
 __Global.urls = {
     Mapserver     : server + '/geoserver/',
     Mapserver_WFS : server_wfs + '/geoserver/' + geoserver_workspace + '/ows?' +
-        'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',        
+        'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html
     /*insert in head section of index.htm of Glossary on Server:
     var fname="content";     //MAIN CONTENT AREA FRAME **NAME**
@@ -105,11 +106,11 @@ __Global.urls = {
       var h=document.location.hash; //anchor
       if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length) + h;
     }
-    */  
+    */
     Glossary      : documents + glossaryName + '.htm',
     GlossaryBase  : documents + glossaryName + '.htm?' + glossaryName + '/',
     //Faq           : 'bme00057.htm#bookme_anchor3',
-    Faq           : 'bme00040.htm',    
+    Faq           : 'bme00040.htm',
     Intro         : 'bme00001.htm',
     Imprint       : documents + 'Imprint_' + locale + '.pdf',
     UserGuide     : documents + 'User_Guide.pdf',

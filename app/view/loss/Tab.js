@@ -21,17 +21,6 @@ Ext.define('App.view.loss.Tab', {
       items: [
         { xtype: 'app-loss-grid'}
       ]
-    }, {
-      title: i18n.loss.tab2,
-
-      layout: {
-        type: 'vbox',
-        pack: 'start',
-        align: 'stretch'
-      },
-      items: [
-        { xtype: 'app-loss-grid-result' }
-      ]
     }
   ]
 

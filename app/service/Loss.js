@@ -17,12 +17,12 @@ Ext.define('App.service.Loss', {
     maximizable: true
   }),
 
-  loadData: function () {
+  loadData: function (data) {
     var polygon = App.service.Polygon.getSelectedPolygons()[0];
     var store = Ext.getStore('loss');
     store.removeAll();
 
-    store.loadData(App.service.Loss.initData(polygon.loss, 'input'));
+    store.loadData(data || App.service.Loss.initData(polygon.loss, 'input'));
   },
 
   saveInputData: function () {
@@ -204,15 +204,28 @@ Ext.define('App.service.Loss', {
 
   showResults: function (results) {
     var data = App.service.Loss.initData(results, 'calc');
-    var store = Ext.getStore('lossresult');
-    store.removeAll();
-    store.loadData(data);
-    App.service.Helper.getComponentExt('loss-form-tab').setActiveTab(1)
+    var store = Ext.create('App.store.LossResult', { data: data });
+    var grid = Ext.create('App.view.loss.GridResult', { store: store })
+    var crop = App.service.Helper.getComponentValue('loss-crop');
+    var cropTitle = crop ? App.service.Helper.getById(__Crop, crop)[__Global.lang + 'Name'] : '';
+    var tab = App.service.Helper.getComponentExt('loss-form-tab');
+
+    tab.add({
+      title: crop ? i18n.loss.tab2 + ' "' + cropTitle + '"' : i18n.loss.tab2,
+      closable: true,
+      layout: {
+        type: 'vbox',
+        pack: 'start',
+        align: 'stretch'
+      },
+      items: [ grid ]
+    });
+    tab.setActiveTab(tab.items.length - 1);
   },
 
   showWindow: function () {
-    var store = Ext.getStore('lossresult');
-    store.removeAll();
+    // var store = Ext.getStore('lossresult');
+    // store.removeAll();
     App.service.Loss.loadData();
     App.service.Loss.window.show();
     App.service.Helper.getComponentExt('loss-form-tab').setActiveTab(0);
@@ -266,5 +279,48 @@ Ext.define('App.service.Loss', {
       maxYear = decadeMaxYear;
     }
     return maxYear;
+  },
+
+  prepareExportData: function (store) {
+    var data = [];
+    store.getData().each(function (rec) {
+      var row = rec.getData();
+      delete row.id;
+      data.push(row);
+    });
+    return data;
+  },
+
+  exportData: function (data) {
+    var wb = XLSX.utils.book_new();
+    wb.SheetNames.push('Export');
+    var ws = XLSX.utils.json_to_sheet(data);
+    wb.Sheets['Export'] = ws;
+    var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'});
+    function s2ab (s) {
+      var buff = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buff);
+      for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+      return buff;
+    }
+    saveAs(new Blob([s2ab(wbout)], {type: 'application/octet-stream'}), 'export.xlsx');
+  },
+
+  importData: function (file) {
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = function(e) {
+      var data = new Uint8Array(reader.result);
+      var wb = XLSX.read(data, { type: 'array' });
+      wb.SheetNames.forEach(function(sheetName) {
+        var results = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
+        App.service.Loss.loadData(results);
+      });
+    };
+
+    reader.onerror = function(ex) {
+      console.log(ex);
+    };
+
   }
 });

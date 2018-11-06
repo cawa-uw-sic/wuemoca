@@ -5,7 +5,8 @@ Ext.define('App.view.loss.Grid', {
     'Ext.selection.CellModel',
     'Ext.grid.*',
     'App.controller.Loss',
-    'App.store.Loss'
+    'App.store.Loss',
+    'App.view.loss.Crop'
   ],
 
   xtype: 'app-loss-grid',
@@ -19,6 +20,22 @@ Ext.define('App.view.loss.Grid', {
   store: {
     type: 'loss'
   },
+
+  tbar: [
+    { xtype: 'app-loss-crop' },
+    { text: i18n.loss.export, handler: 'onExportInput' },
+    {
+      xtype: 'fileuploadfield',
+      itemId: 'loss-btn-import',
+      buttonOnly: true,
+      buttonText: i18n.loss.import,
+      width: 65,
+      listeners: {
+        change: 'onImportInput',
+        render: 'onFileSelection'
+      }
+    }
+  ],
 
   plugins: [ new Ext.grid.plugin.CellEditing({
     listeners: {

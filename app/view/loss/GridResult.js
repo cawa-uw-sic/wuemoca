@@ -16,9 +16,9 @@ Ext.define('App.view.loss.GridResult', {
 
   flex: 1,
 
-  store: {
-    type: 'lossresult'
-  },
+  tbar: [
+    { text: i18n.loss.export, handler: 'onExportResult' }
+  ],
 
   plugins: [ new Ext.grid.plugin.CellEditing() ],
 
@@ -58,7 +58,13 @@ Ext.define('App.view.loss.GridResult', {
       flex: 1,
       minWidth: 320,
       sortable: false
-    }, {
+    },{
+      header: i18n.loss.unit,
+      dataIndex: 'unit',
+      flex: 1,
+      minWidth: 50,
+      menuDisabled: true
+    },{
       header: i18n.loss.formula,
       dataIndex: 'formula',
       flex: 1,

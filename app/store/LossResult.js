@@ -9,7 +9,7 @@ Ext.define('App.store.LossResult', {
     'alias',
     'name',
     'formula',
-    'log',
+    'unit',
     'year',
     'm_04_1',
     'm_04_2',

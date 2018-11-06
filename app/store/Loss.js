@@ -8,6 +8,7 @@ Ext.define('App.store.Loss', {
   fields: [
     'alias',
     'name',
+    'unit',
     'year',
     'm_04_1',
     'm_04_2',

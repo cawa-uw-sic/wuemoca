@@ -23,12 +23,12 @@ Ext.define('App.view.loss.Grid', {
 
   tbar: [
     { xtype: 'app-loss-crop' },
-    { text: i18n.loss.export, handler: 'onExportInput' },
+    { text: i18n.loss.exportXls, handler: 'onExportInput' },
     {
       xtype: 'fileuploadfield',
       itemId: 'loss-btn-import',
       buttonOnly: true,
-      buttonText: i18n.loss.import,
+      buttonText: i18n.loss.importXls,
       width: 65,
       listeners: {
         change: 'onImportInput',

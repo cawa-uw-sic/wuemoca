@@ -542,8 +542,8 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     status: 'Saving user input, calculating ETa and other data...',
     fromServerTitle: 'Warning',
     fromServerText: 'Please fill in other indicators.<br/>ETa calculated on the WUEMoCA server, user input is not provided.',
-    export: 'Export',
-    import: 'Import'
+    exportXls: 'Export',
+    importXls: 'Import'
   }
 };
 
@@ -1057,8 +1057,8 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
     status: 'Идет сохранение пользовательского ввода, расчет ETa и других данных...',
     fromServerTitle: 'Предупреждение',
     fromServerText: 'Пожалуйста заполните другие показатели.<br/>ETa рассчитывается на сервере WUEMoCA, пользовательский ввод не предусмотрен.',
-    export: 'Экспорт',
-    import: 'Импорт'
+    exportXls: 'Экспорт',
+    importXls: 'Импорт'
   }
   break;
 }

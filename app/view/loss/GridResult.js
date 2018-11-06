@@ -17,7 +17,7 @@ Ext.define('App.view.loss.GridResult', {
   flex: 1,
 
   tbar: [
-    { text: i18n.loss.export, handler: 'onExportResult' }
+    { text: i18n.loss.exportXls, handler: 'onExportResult' }
   ],
 
   plugins: [ new Ext.grid.plugin.CellEditing() ],

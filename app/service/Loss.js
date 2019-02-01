@@ -116,6 +116,8 @@ Ext.define('App.service.Loss', {
                 if (data[year][el.slice(1, -1)][App.service.Loss.getKey(month, decade)]) {
                   dataFound = true;
                   formula = formula.replace(el, data[year][el.slice(1, -1)][App.service.Loss.getKey(month, decade)]);
+                } else {
+                  formula = formula.replace(el, "''");
                 }
               });
 

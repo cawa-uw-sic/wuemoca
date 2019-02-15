@@ -33,7 +33,7 @@ Ext.define('App.controller.Polygon', {
   },
 
   onDownload: function (field){
-    App.service.Exporter.setDownloadCombotext();    
+    App.service.Exporter.setDownloadCombotext();
     App.service.Helper.getComponentExt('exporter-window').show();
     App.service.Helper.getComponentExt('exporter-window').addCls('polygon-window');
   },
@@ -103,6 +103,10 @@ Ext.define('App.controller.Polygon', {
     App.service.Prod.renderFormByYear('cotton');
     App.service.Prod.renderFormSecondary();
     App.service.Prod.window.show();
+  },
+
+  onLoss: function () {
+    App.service.Loss.showWindow();
   }
 
 

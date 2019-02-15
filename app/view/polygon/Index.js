@@ -79,6 +79,14 @@ Ext.define('App.view.polygon.Index', {
       disabled: true,
       hidden: false
     },{
+      text: i18n.polygon.calculateLoss,
+      iconCls: 'x-fa fa-tint',
+      handler: 'onLoss',
+      itemId: 'polygon-btn-loss',
+      tooltip: i18n.polygon.calculateLosslong,
+      disabled: true,
+      hidden: false
+    },{
       text: i18n.polygon.download,
       iconCls: 'x-fa fa fa-download',
       handler: 'onDownload',

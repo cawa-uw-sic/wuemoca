@@ -34,7 +34,7 @@ Ext.define('App.service.Helper', {
         return cmp.getValue();
       }
       else{
-        return '';        
+        return '';
       }
   },
 
@@ -42,12 +42,12 @@ Ext.define('App.service.Helper', {
     var combobox = this.getComponentExt(itemId);
     var store = combobox.getStore();
     return store.indexOf(combobox.findRecord(combobox.valueField, combobox.getValue()));
-  }, 
+  },
 
   setComboboxSelectedIndex: function (itemId, index){
     var combobox = this.getComponentExt(itemId);
     combobox.setValue(combobox.getStore().getAt(index).get(combobox.valueField));
-  }, 
+  },
 
   hideComponents: function (components) {
     for (var i = components.length - 1; i >= 0; i--) {
@@ -146,21 +146,21 @@ Ext.define('App.service.Helper', {
         return parseFloat(x);
       });
     }
-    return n;    
+    return n;
   },
 
   getCropName: function(){
     var cropName = App.service.Watcher.getCrop()[__Global.lang + 'Name'];
     return cropName;
   },
-  
+
   clearZoomCombos: function(){
     this.setComponentsValue([{ id: 'zoom-cb-country', value: null }]);
   },
-  
+
   openDocument: function (href, target, download){
     //this trick will generate a temp <a /> tag
-    var link = document.createElement("a");    
+    var link = document.createElement("a");
     //set the visibility hidden so it will not effect on your web-layout
     link.style = "visibility:hidden";
     link.href = href;
@@ -186,29 +186,29 @@ Ext.define('App.service.Helper', {
       if(d!='')top.frames[fname].document.location.href=d.substring(d.lastIndexOf('?')+1,d.length) + h;
     }
     */
-    var link = document.createElement("a");    
+    var link = document.createElement("a");
     link.style = "visibility:hidden";
     link.href = __Global.urls.GlossaryBase + frame;
     link.target = 'glossary';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);    
+    document.body.removeChild(link);
   },
 
   getIndicators_Crops: function(userPolygon){
     var indicator_fields = [];
     var aggregation = '';
-    if (!userPolygon){ 
+    if (!userPolygon){
       aggregation = App.service.Watcher.get('Aggregation');
-    }     
+    }
     var count = 0;
     __Indicator.map(function (indicator) {
       var crop_spec = (!!indicator.crops_userDB && userPolygon) ? indicator.crops_userDB : indicator.crops;
       if (
         ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))
-        && indicator.chart != 'Multiannual' 
+        && indicator.chart != 'Multiannual'
         && (userPolygon || indicator.aggregation == 'all' || indicator.aggregation.indexOf(aggregation) >= 0)
-        ) {      
+        ) {
         if (!!crop_spec){
           if (typeof crop_spec == 'object'){
             crop_spec.map(function(crop){
@@ -223,7 +223,7 @@ Ext.define('App.service.Helper', {
               if (crop.idx == 0 && crop.id != crop_spec) return false;
               count++;
               indicator_fields.push({id: count, ind: indicator.id, crop: crop.id});
-            });            
+            });
           }
         }
         else{
@@ -242,6 +242,19 @@ Ext.define('App.service.Helper', {
     infotext.style.maxHeight = (expanded) ? '15px' : infotext.scrollHeight + "px";
     img_anchor.innerHTML = (expanded) ?
       '<img src="' + Ext.getResourcePath('images/elbow-collapsed.gif', null, '') + '">' :
-      '<img src="' + Ext.getResourcePath('images/elbow-expanded.gif', null, '') + '">';   
+      '<img src="' + Ext.getResourcePath('images/elbow-expanded.gif', null, '') + '">';
+  },
+
+  arrayMax: function (array) {
+    return array.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+  },
+
+  arrayMin: function (array) {
+    return array.reduce(function(a, b) {
+      return Math.min(a, b);
+    });
   }
+
 });

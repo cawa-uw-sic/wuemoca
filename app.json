@@ -253,6 +253,9 @@
             "path": "${app.dir}/resources/js/preview.js"
         },
         {
+            "path": "${app.dir}/resources/js/FileSaver.min.js"
+        },
+        {
             "path": "${app.dir}/app.constants.js"
         },
         {
@@ -266,6 +269,9 @@
         },
         {
             "path": "${app.dir}/app/globals/Indicator.js"
+        },
+        {
+            "path": "${app.dir}/app/globals/LossIndicators.js"
         },
         {
             "path": "${app.dir}/app/globals/Crop.js"

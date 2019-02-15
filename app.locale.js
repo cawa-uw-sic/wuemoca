@@ -15,7 +15,7 @@ var i18n = {
     tab1: 'Crop specific input',
     tab2: 'Crop unspecific input',
     fulldata: 'Please provide complete annual data sets for all occurring crops!',
-    userinput: 'User input is required to calculate Productivity indicators.<br>Pre-filled values are taken from the WUEMoCA database.',    
+    userinput: 'User input is required to calculate Productivity indicators.<br>Pre-filled values are taken from the WUEMoCA database.',
     calculateProd: 'Calculate Productivity',
     calculateProdSuccess: 'Productivity indicators calculated successfully!'
   },
@@ -393,12 +393,15 @@ var i18n = {
     deactivate              : 'Stop drawing',
     upload                  : 'Upload Shapefile',
     calculateWUE            : 'Calculate<br>Irrigation efficiency',
-    calculateWUE2            : 'Calculate Irrigation efficiency',    
+    calculateWUE2            : 'Calculate Irrigation efficiency',
     calculateWUElong            : 'Calculate Irrigation efficiency by inserting Water intake',
     download                  : 'Download<br>Polygon(s)',
     calculateProd            : 'Calculate<br>Productivity',
     calculateProd2            : 'Calculate Productivity',
     calculateProdlong            : 'Calculate productivity indicators',
+    calculateLoss         : 'Calculate<br>Yield Loss',
+    calculateLosslong     : 'Calculate Yield Loss',
+
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
     progressTitle : 'Calculate Indicators',
@@ -489,6 +492,23 @@ var i18n = {
     1:                      'First decade of month',
     2:                      'Second decade of month',
     3:                      'Third decade of month'
+  },
+
+  loss: {
+    title: 'Yield loss calculation',
+    btnSubmit: 'Calculate Yield loss',
+    indicator: 'Indicator',
+    tab1: 'Input Data',
+    tab2: 'Results',
+    unit: 'Unit',
+    formula: 'Formula',
+    log: 'Log',
+    alias: 'Variable',
+    status: 'Saving user input, calculating ETa and other data...',
+    fromServerTitle: 'Warning',
+    fromServerText: 'Please fill in other indicators.<br/>ETa calculated on the WUEMoCA server, user input is not provided.',
+    exportXls: 'Export',
+    importXls: 'Import'
   }
 };
 
@@ -500,7 +520,7 @@ switch (locale){
       tab1: 'Ввод параметров по с/х культуам',
       tab2: 'Ввод других параметров',
       fulldata: 'Просьба представить полные годовые данные для всех встречающихся культур!',
-      userinput: 'Пользовательский ввод необходим для расчета продуктивность.<br>Предварительно заполненные значения берутся из базы данных WUEMoCA.',    
+      userinput: 'Пользовательский ввод необходим для расчета продуктивность.<br>Предварительно заполненные значения берутся из базы данных WUEMoCA.',
       calculateProd: 'Расчитать продуктивность',
       calculateProdSuccess: 'Расчет продуктивность успешно!'
     };
@@ -845,12 +865,14 @@ i18n.mapSelection ={
       deactivate            : 'Прекратить рисование',
       upload                : 'Загрузить<br>Shapefile',
       calculateWUE          : 'Расчет Индекс<br>эффективности ирригации',
-      calculateWUE2          : 'Расчет Индекс эффективности ирригации',      
+      calculateWUE2          : 'Расчет Индекс эффективности ирригации',
 calculateWUElong          : 'Расчет Индекс<br>эффективности ирригации',
               download                  : 'Скачать<br>полигон(ы)',
-      calculateProd          : 'Расчет<br>продуктивности',
-      calculateProd2          : 'Расчет продуктивности',      
-      calculateProdlong          : 'Расчет продуктивности',
+      calculateProd         : 'Расчет<br>продуктивности',
+      calculateProd2        : 'Расчет продуктивности',
+      calculateProdlong     : 'Расчет продуктивности',
+      calculateLoss         : 'Расчет<br>потерь урожайности',
+      calculateLosslong     : 'Расчет потерь урожайности',
       edit                  : 'Редактировать',
       calculate             : 'расчет<br>индикатора',
       progressTitle : 'расчет индикатора',
@@ -938,11 +960,29 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
     m10:                     'Окт',
     m11:                     'Ноя',
     m12:                     'Дек'
-  }
-    i18n.decade = {
+  };
+
+  i18n.decade = {
     1:                      'First decade of month',
     2:                      'Second decade of month',
     3:                      'Third decade of month'
+  };
+
+  i18n.loss = {
+    title: 'Расчет потери урожайности',
+    btnSubmit: 'Расчитать потери урожайности',
+    indicator: 'Индикатор',
+    tab1: 'Входные данные',
+    tab2: 'Результаты',
+    unit: 'Ед.изм.',
+    formula: 'Формула',
+    log: 'Ход выполнения',
+    alias: 'Переменная',
+    status: 'Идет сохранение пользовательского ввода, расчет ETa и других данных...',
+    fromServerTitle: 'Предупреждение',
+    fromServerText: 'Пожалуйста заполните другие показатели.<br/>ETa рассчитывается на сервере WUEMoCA, пользовательский ввод не предусмотрен.',
+    exportXls: 'Экспорт',
+    importXls: 'Импорт'
   }
   break;
 }

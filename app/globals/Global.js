@@ -113,7 +113,8 @@ __Global.urls = {
     Intro         : 'bme00001.htm',
     Imprint       : documents + 'Imprint_' + locale + '.pdf',
     UserGuide     : documents + 'User_Guide.pdf',
-    AcronymPDF    : documents + 'WUEMoCA_Overview_indicators.pdf',
+    CawaReport    : documents + 'CAWa-report_phase-III_2015-2017_WP3_' + locale + '.pdf',
+    AcronymPDF    : documents + 'WUEMoCA_Overview_indicators_' + locale + '.pdf',
     VideoHeader   : documents + 'WUEMoCA_general_information.gif'
 };
 /**

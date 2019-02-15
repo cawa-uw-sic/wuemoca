@@ -21,7 +21,7 @@ Ext.define('App.service.Wue', {
         var polygon = App.service.Polygon.getSelectedPolygons()[0];
         for (d = 0; d < polygon.data.length; ++d) {
           polygon.data[d]['wf'] = 0;
-          for (var month = 3; month <= 10; month++) {
+          for (var month = 4; month <= 9; month++) {
             polygon.data[d]['wf_m' + month] = 0;;                  
             for (var decade = 1; decade <= 3; decade++) {
               polygon.data[d]['wf_m' + month + '_' + decade] = 0;
@@ -45,7 +45,6 @@ Ext.define('App.service.Wue', {
             break;
         }
       }
-
     },{ 
       type: 'refresh',
       tooltip: i18n.wue.calculateSums,
@@ -54,7 +53,7 @@ Ext.define('App.service.Wue', {
         for (d = 0; d < polygon.data.length; ++d) {
           //calculate yearly sum of months
           var yearsum = 0;          
-          for (var month = 3; month <= 10; month++) {
+          for (var month = 4; month <= 9; month++) {
             //calculate monthly sum of decades
             var monthsum = 0;
             for (var decade = 1; decade <= 3; decade++) {
@@ -156,7 +155,7 @@ Ext.define('App.service.Wue', {
     for (var d = 0; d < this.polygon.data.length; ++d){
       // search years with input data and not yet calculated etf
       var year = this.polygon.data[d].year;
-      for (var month = 3; month <= 10; month++) {
+      for (var month = 4; month <= 9; month++) {
         //water intake > 0
         if (!!this.polygon.data[d]['wf_m' + month] && this.polygon.data[d]['wf_m' + month] > 0){
           //check if etf is aggregated for this year (check of first month is sufficient)
@@ -235,7 +234,7 @@ Ext.define('App.service.Wue', {
       this.polygon.data[d]['vir'] = vir; 
 
       //calculate monthly vir (for years with user input only)
-      for (var month = 3; month <= 10; month++) {
+      for (var month = 4; month <= 9; month++) {
         vir = null;
         etf = this.polygon.data[d]['etf_m' + month];
         if (etf == undefined){
@@ -313,7 +312,7 @@ Ext.define('App.service.Wue', {
       parameters['max_month'] = decadeMaxMonth;
     }
     else{
-      parameters['max_month'] = 10;
+      parameters['max_month'] = 9;
     }
     //aggregate decadal etf of given year and sum up to monthly etf
     Ext.Ajax.request({
@@ -487,7 +486,7 @@ Ext.define('App.service.Wue', {
           else{
             index = data.map(function (i) { return parseInt(i.data.year) }).indexOf(d.year);
           }
-          for (var month = 3; month <= 10; month++) {
+          for (var month = 4; month <= 9; month++) {
             //values from Month excel have priority
             if (index != -1){
               if (!data[0].data && parseFloat(data[index]['m' + month]) > 0){
@@ -555,7 +554,7 @@ Ext.define('App.service.Wue', {
             }
           }
    
-          for (var month = 3; month <= 10; month++) {
+          for (var month = 4; month <= 9; month++) {
             for (var decade = 1; decade <= 3; decade++) {
               //values from Decade excel
               if (index != -1){
@@ -617,11 +616,11 @@ Ext.define('App.service.Wue', {
       //load water intake if stored from previous input
       for (d = 0; d < polygon.data.length; ++d) {
         if (polygon.data[d]['year'] == year){
-          var maxMonth = 10;
+          var maxMonth = 9;
           // if (year == maxYear){
           //   maxMonth = decadeMaxMonth;
           // }
-          for (var month = 3; month <= maxMonth; month++) {
+          for (var month = 4; month <= maxMonth; month++) {
             var wf = polygon.data[d]['wf_m' + month];
             if (!!wf){
               datayear['m' + month] = wf;
@@ -653,7 +652,7 @@ Ext.define('App.service.Wue', {
         //load water intake if stored from previous input
         for (d = 0; d < polygon.data.length; ++d) {
           if (polygon.data[d]['year'] == year){
-            for (var month = 3; month <= 10; month++) {
+            for (var month = 4; month <= 9; month++) {
               var wf = polygon.data[d]['wf_m' + month + '_' + decade];
               if (!!wf){
                 datayear['m' + month] = wf;

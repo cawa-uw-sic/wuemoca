@@ -29,7 +29,8 @@ Ext.define('App.view.yearslider.Index', {
   items: [
     { 
       xtype: 'label', 
-      html: __Global.year.Min + ' <i class="fa  fa-caret-left"></i>', 
+      //html: __Global.year.Min + ' <i class="fa  fa-caret-left"></i>', 
+      html: __Global.year.Min,       
       padding: '0 5px 0 10px', 
       style: {color: '#f0f0f0', fontSize: '15px'}
     },

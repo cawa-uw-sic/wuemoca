@@ -56,7 +56,20 @@ Ext.define('App.controller.Chart', {
     var chart = this.lookupReference('chart');
     if (Ext.os.is.Desktop) {
         chart.download({
-          filename: encodeURIComponent(chart.up().up().getTitle().replace(/ - /g,"_").replace(/ /g,"_").replace('<sub>','').replace('</sub>','')),
+          filename: encodeURIComponent(chart.up().up().getTitle()
+            .replace(/ - /g,'_')
+            .replace(/ /g,'_')
+            .replace(/<sub>/g,'')
+            .replace(/<\/sub>/g,'')
+            .replace(/\[/g,'')
+            .replace(/\]/g,'')
+            .replace(/\(/g,'')
+            .replace(/\)/g,'')            
+            .replace(/:/g,'')
+            .replace(/\//g,'_')
+            .replace(/\$/g,'USD')
+            .replace(/%/g,'perc')
+            .replace(/³/g,'3')),
           scale: 1.5
         });
     } else {

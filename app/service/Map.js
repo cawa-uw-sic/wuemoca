@@ -80,7 +80,8 @@ Ext.define('App.service.Map', {
     map.removeLayer(App.util.Layer.current);
     App.util.Layer.current = aggregation.tiled ? new ol.layer.Tile(opts) : new ol.layer.Image(opts);
     map.addLayer(App.util.Layer.current);
-    self.hideShowElements(App.util.Layer.current.getVisible());
+    App.service.Yearslider.didRender();
+    //self.hideShowElements(App.util.Layer.current.getVisible());
   },
 
   loadAdminLayer: function () {
@@ -127,7 +128,8 @@ Ext.define('App.service.Map', {
     App.service.Chart.window.close();
     App.service.Helper.getComponentExt('legend-current').setVisible(false);
     App.service.Helper.getComponentExt('legend-panel').setVisible(false);
-    this.hideShowElements(false);
+    App.service.Yearslider.didRender();
+    //this.hideShowElements(false);
   },
 
   hideShowElements: function(currentLayer){
@@ -217,13 +219,13 @@ Ext.define('App.service.Map', {
         title += aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ':<br>';
       }
       else{
-        title += i18n.polygon.showPolygon + ':<br>';
+        title += i18n.polygon.userPolygons + ':<br>';
       }
       if (indicator[__Global.lang + 'NameShort']){
-        title += indicator[__Global.lang + 'NameShort'];
+        title += indicator[__Global.lang + 'NameShort'] + ' ' + (indicator[__Global.lang + 'Affix'] || '');
       }
       else{
-        title += indicator[__Global.lang + 'Name'];
+        title += indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '');
       }
       if (!!indicator.crops){// && App.service.Watcher.get('Crop') != 'sum' && App.service.Watcher.get('Crop') != 'avg') {
         title += ' ' + i18n.indicator._of + ' ' + App.service.Helper.getCropName();
@@ -325,24 +327,18 @@ Ext.define('App.service.Map', {
     if (!!crop_spec){
       //indicators with crop list
       if (indicator[__Global.lang + 'NameShort']){
-        legend_title += indicator[__Global.lang + 'NameShort'];
+        legend_title += indicator[__Global.lang + 'NameShort'] + ' ' + (indicator[__Global.lang + 'Affix'] || '');
       }
       else{
-        legend_title += indicator[__Global.lang + 'Name'];
+        legend_title += indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '');
       }      
-      /*if (typeof crop_spec == 'object'){
-        legend_title += ' - ' + indicator[__Global.lang + 'Legend'][crop_spec.indexOf(App.service.Watcher.get('Crop'))]; 
-      }
-      else{*/
-        legend_title += ' - ' + App.service.Helper.getCropName();
-      //}
+      legend_title += ' - ' + App.service.Helper.getCropName();
     }
     else{
-      legend_title = indicator[__Global.lang + 'Legend'];
+      legend_title = indicator[__Global.lang + 'Legend'] + ' ' + (indicator[__Global.lang + 'Affix'] || '');
     }
     if (withUnit){
       if (indicator.id == 'firn' || (indicator.chart != 'Multiannual' && indicator.enUnit != 'Index')) {
-        //legend_title += i18n.chart._in;
         legend_title += ' [';
         legend_title += i18n.chart[bigdata];
         legend_title += indicator[__Global.lang + 'Unit'];
@@ -353,14 +349,14 @@ Ext.define('App.service.Map', {
   },
 
   getLegendMedian: function () {
-    var indicator     = App.service.Watcher.getIndicator();
-    var crop          = App.service.Watcher.getCrop();
+    var indicator = App.service.Watcher.getIndicator();
+    var crop = App.service.Watcher.getCrop();
 
-    var text          = '';
-    var br            = '<br><br><br>';
+    var text = '';
+    var br = '<br><br><br>';
 
-    var median        = 0;
-    var maximum       = 0;
+    var median = 0;
+    var maximum = 0;
     var minimum = 0;
     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
       if (!!indicator.median) {
@@ -387,15 +383,26 @@ Ext.define('App.service.Map', {
             var from = 0.01;
             var textblocks = [];
             for (var m = 0; m < median.length; m++){
-              textblocks.unshift(from + ' - ' + median[m]);
-              from = median[m];
+              var medianNumber = parseFloat(median[m]).toLocaleString(
+                __Global.lang, 
+                {maximumFractionDigits: indicator.decimals}
+              )                 
+              textblocks.unshift(from + ' - ' + medianNumber);
+              from = medianNumber;
             }
             text = textblocks.join('<br>');
-            //text = i18n.yield_classes.high + br + i18n.yield_classes.medium + br + i18n.yield_classes.low;
           }
         }
         else{
-          text = maximum + br + median + br + minimum;
+          var maximumNumber = parseFloat(maximum).toLocaleString(
+            __Global.lang, 
+            {maximumFractionDigits: indicator.decimals}
+          )     
+          var medianNumber = parseFloat(median).toLocaleString(
+            __Global.lang, 
+            {maximumFractionDigits: indicator.decimals}
+          )                 
+          text = maximumNumber + br + medianNumber + br + minimum;
         }
       }
     }
@@ -483,8 +490,12 @@ Ext.define('App.service.Map', {
       //'" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;
     if (cb.getItemId() == 'switcher-cb-aggregation'){
       var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-        '" data-qtip="' + i18n.header.readmore + ' ' + aggregation[__Global.lang + 'NameShort'] + 
-        '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label;      
+        '" data-qtip="' + aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.label2 + '<br>' +
+        aggregation[__Global.lang + 'Tooltip'] + '<br>' +
+        i18n.header.readmore + 
+        '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label1 + ' ' + i18n.aggreg.label2;  
+
+
       cb.setFieldLabel(label);
     }
 
@@ -620,8 +631,8 @@ Ext.define('App.service.Map', {
   fillCrops: function () {
     var button_group = App.service.Helper.getComponentExt('switcher-btns-crop');
     var indicator = App.service.Watcher.getIndicator();
-    var crop_obj = App.service.Watcher.getCrop();
-    var crop_id = crop_obj.id;
+    var crop_obj = {};
+    var crop_id = '';
     var crop_list = [];
     var cropNames = [];
     var reset_crop = false;
@@ -657,6 +668,8 @@ Ext.define('App.service.Map', {
           crop_list.push(crop.id);
           cropNames.push(crop[__Global.lang + 'Name']);
       }); 
+      crop_obj = App.service.Watcher.getCrop();
+      crop_id = crop_obj.id;
       if (crop_obj.idx == 0 && crop_id != crop_spec){//crop_id == 'sum' || crop_id == 'avg'|| crop_id == 'non'){
         reset_crop = true;
       }  
@@ -676,7 +689,7 @@ Ext.define('App.service.Map', {
     }
 
     button_group.setVisible(true);
-
+    crop_obj = App.service.Watcher.getCrop();
     var label = '<span style="font-size:13px;"><a data-qtip="' + i18n.header.readmore + ' ' + 
       crop_obj[__Global.lang + 'Name'] + 
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + 
@@ -697,14 +710,14 @@ Ext.define('App.service.Map', {
       //load either userDB or serverDB indicators
       if ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB)) {
         //assign userDB names and groups to normal name and group
-        if (userPolygon){
-          if (!!indicator[__Global.lang + 'Group_userDB']){          
-            indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
-          }
-          if (!!indicator[__Global.lang + 'Name_userDB']){
-            indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
-          }
-        }
+        // if (userPolygon){
+        //   if (!!indicator[__Global.lang + 'Group_userDB']){          
+        //     indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
+        //   }
+        //   if (!!indicator[__Global.lang + 'Name_userDB']){
+        //     indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
+        //   }
+        // }
         
         filteredData.push(indicator);
       }

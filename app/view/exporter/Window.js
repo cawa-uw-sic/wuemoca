@@ -28,23 +28,18 @@ Ext.define('App.view.exporter.Window', {
   closeAction: 'hide',
   shadow: true,
   bodyBorder: false,
-
+  /*tools: [{ 
+    type: 'help',
+    tooltip: 'Overview indicators and acronyms',
+    callback: function() {
+      App.service.Exporter.window.show();
+    }
+  }], */
   items: [
     { xtype: 'app-exporter-form' }
   ],
   listeners: { 
     boxready: function(){
-      // var years = App.service.Report.getYearData();
-      // //add current year for user polygons if available
-      // var polygon = App.service.Polygon.getSelectedPolygons()[0];
-      // if (!!polygon){
-      //   var last_polygon_year = polygon.data[polygon.data.length-1].year;
-      //   if (last_polygon_year > years[years.length-1]){
-      //     years.push({id: last_polygon_year, name: last_polygon_year});
-      //   }
-      // }
-      // years.unshift({id: 1000, name: i18n.exp.all});
-      // App.service.Helper.getComponentExt('exporter-tag-year').getStore().setData(years);
     },
     hide: function(window){
       window.removeCls('polygon-window');

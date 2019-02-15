@@ -126,6 +126,7 @@ Ext.define('App.service.Polygon', {
     this.layer.setVisible(val);
     this.selectControl.setActive(val);
     App.service.Helper.getComponentExt('exporter-window').hide();
+    App.service.Exporter.window.hide();
     var legendwindow = App.service.Helper.getComponentExt('legend-window');
     if (val == false){
       this.deselectMapAndList();
@@ -138,8 +139,10 @@ Ext.define('App.service.Polygon', {
         legendwindow.removeCls('polygon-window');
       }
       App.service.Helper.getComponentExt('app-zoom').setTitle(i18n.adminFilters.title);
+      App.service.Helper.getComponentExt('user-polygon').setTitle(i18n.polygon.showPolygonLong);
       App.service.Helper.getComponentExt('map-container').removeCls('polygon-panel');
       App.service.Helper.getComponentExt('map-controls').removeCls('polygon-panel');
+      App.service.Helper.getComponentExt('acronym-window').removeCls('polygon-window');
     }
     else{
       this.cleanLocalDB();
@@ -147,7 +150,9 @@ Ext.define('App.service.Polygon', {
       App.service.Status.set('&#160;');
       App.service.Helper.getComponentExt('app-switcher').expand();
       App.service.Helper.getComponentExt('app-zoom').collapse();
+      App.service.Helper.getComponentExt('app-exporter').collapse();
       App.service.Helper.getComponentExt('app-zoom').setTitle(i18n.adminFilters.title_userPolygon); 
+      App.service.Helper.getComponentExt('user-polygon').setTitle(i18n.polygon.showPolygon);
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       legendwindow.hide();
@@ -155,9 +160,11 @@ Ext.define('App.service.Polygon', {
       App.service.Map.removeCurrentLayer();
       App.service.Helper.getComponentExt('map-container').addCls('polygon-panel');
       App.service.Helper.getComponentExt('map-controls').addCls('polygon-panel');
+      App.service.Helper.getComponentExt('acronym-window').addCls('polygon-window');
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
+    App.service.Helper.getComponentExt('exporter-btn-report').setDisabled(val);
     App.service.Exporter.setDownloadCombotext();
     App.service.Map.setMainTitle();
     App.service.Map.setIndicatorFilter(val);
@@ -166,6 +173,7 @@ Ext.define('App.service.Polygon', {
     App.service.Helper.getComponentExt('exporter-tag-indicator').clearValue();
     var indicators = App.service.Exporter.getIndicators(val);
     store_indicator_export.setData(indicators);
+
   },
 
   deselectMapAndList: function(){
@@ -605,7 +613,6 @@ Ext.define('App.service.Polygon', {
           for (d = 0; d < polygon.data.length; ++d) {
             delete polygon.data[d].WKT; 
           }
-          
         }
         else{
           if (response.responseText.indexOf('failed') == -1){
@@ -733,7 +740,7 @@ Ext.define('App.service.Polygon', {
             if (indicator.chart != 'crops'){
               self.windowChart.add(App.util.ChartTypes[indicator.chart](polygon.data));
             }
-            else if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
+            else {//if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
               self.windowChart.add(App.util.ChartTypes[crop.chart](polygon.data));
             }
             var bigdata = 'no';
@@ -748,7 +755,7 @@ Ext.define('App.service.Polygon', {
             App.service.Chart.userPolygon = true;
           }
           else{
-            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name']);
+            self.windowChart.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || ''));
           }
         }
         else{
@@ -756,19 +763,28 @@ Ext.define('App.service.Polygon', {
         }
        
         self.windowChart.show();
-        if (App.service.Chart.maxData == 0 && !!title){
+        if (App.service.Chart.maxData == 0 && indicator.userInput && !!title){
+          var message = i18n.chart.nodata + '<br>(';
+          var input_ind = App.service.Helper.getById(__Indicator_userPolygon, indicator.userInput);
+          if (!!input_ind[__Global.lang + 'Name']){
+            message += input_ind[__Global.lang + 'Name'];
+          }
+          else{
+            message += 'input and output values';
+          }
+          message += ') ' + i18n.chart.nodata2 + '<br>' + App.service.Map.getLegendTitle(false);
           setTimeout(function(){
             self.msgbox = Ext.Msg.show({
               cls: 'polygon-window',
               title: i18n.chart.title_nodata, 
-              message: i18n.chart.nodata + '<br>' + App.service.Map.getLegendTitle(false),
+              message: message,
               //buttons: Ext.Msg.OK,
               closeAction: 'destroy',
               closable: true,
               modal: false
             });
 
-            self.msgbox.alignTo(App.service.Helper.getComponentExt('polygon-chart-window'),'c-c');
+            self.msgbox.alignTo(App.service.Helper.getComponentExt('polygon-chart-window'), 'c-c');
             }, 251
           );
         } 

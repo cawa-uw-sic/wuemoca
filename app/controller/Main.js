@@ -82,7 +82,16 @@ Ext.define('App.controller.Main', {
       App.service.Helper.getComponentExt('report-cb-year').setValue(__Global.year.Max);
     }
   },
-
+  /**
+  * @method onReportWindow
+  * open report window and set year
+  */
+  onExporterWindow: function (window) {
+    window.add({ xtype: 'app-exporter-grid' });
+    var userPolygon = App.service.Watcher.get('UserPolygon') == 'show';
+    userPolygon ? App.service.Helper.getComponentExt('exporter-grid').addCls('polygon-panel') : App.service.Helper.getComponentExt('exporter-grid').removeCls('polygon-panel');
+    Ext.getStore('exportergrid').setData(App.service.Exporter.getGridData(userPolygon));
+  },
   /**
   * @method onVideoHeader
   * open video URL

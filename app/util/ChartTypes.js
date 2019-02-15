@@ -27,6 +27,7 @@ Ext.define('App.util.ChartTypes', {
 
     if (maxData < threshold){
       maximum = threshold;
+      decimals = 1;
     }
     var bigdata = 'no';
     if (maxData > 1000){
@@ -68,6 +69,8 @@ Ext.define('App.util.ChartTypes', {
       ],
       dockedItems: __Chart.Annual.getBbar (
         indicator.id,
+        indicator.userInput,
+        indicator.enTooltip.indexOf('Crop_price') > 0,
         userPolygon,
         App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
         ''
@@ -84,7 +87,8 @@ Ext.define('App.util.ChartTypes', {
     var yFields = [];
     var cropNames = [];
     __Crop.map(function(crop) {
-      if (crop.idx == 0) return false;
+      // add all crops to the stack except of idx=0 (sum, avg, non), check idx if reduced crop list 
+      if (crop.idx == 0 || (typeof indicator.crops == 'object' && indicator.crops.indexOf(crop.idx.toString()) == -1)) return false;
       cropNames.push(crop[__Global.lang + 'Name']);
       yFields.push(ind_id + '_' + crop.id);
     });
@@ -150,6 +154,8 @@ Ext.define('App.util.ChartTypes', {
       ],
       dockedItems: __Chart.Annual.getBbar (
         indicator.id,
+        indicator.userInput,
+        indicator.enTooltip.indexOf('Crop_price') > 0,
         userPolygon,
         App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
         i18n.chart.legendNotIncluded
@@ -305,6 +311,8 @@ Ext.define('App.util.ChartTypes', {
       ],
       dockedItems: __Chart.Annual.getBbar (
         indicator.id,
+        indicator.userInput,
+        indicator.enTooltip.indexOf('Crop_price') > 0,
         userPolygon,
         App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
         ''
@@ -364,6 +372,8 @@ Ext.define('App.util.ChartTypes', {
       ],
       dockedItems: __Chart.Annual.getBbar (
         indicator.id,
+        indicator.userInput,
+        indicator.enTooltip.indexOf('Crop_price') > 0,
         userPolygon,
         App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'], 
         i18n.chart.legendNotIncluded

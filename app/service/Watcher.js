@@ -111,36 +111,38 @@ Ext.define('App.service.Watcher', {
     var convertionExceptions = ['id'];
     __Indicator = __Indicator.map(function (indicator) {
       nIndicator = App.service.Helper.getById(nIndicators, indicator.id);
-      for (var key in nIndicator) {
-        if (nIndicator.hasOwnProperty(key)) {
-          
-          nIndicator[key] = App.service.Helper.splitCommaToArray(nIndicator[key]);
-          nIndicator[key] = App.service.Helper.splitCommaToFloat(nIndicator[key]);
+      if (!!nIndicator){
+        for (var key in nIndicator) {
+          if (nIndicator.hasOwnProperty(key)) {
+            
+            nIndicator[key] = App.service.Helper.splitCommaToArray(nIndicator[key]);
+            nIndicator[key] = App.service.Helper.splitCommaToFloat(nIndicator[key]);
 
-          if (nIndicator[key] && typeof nIndicator[key] != 'object' && convertionExceptions.indexOf(key) < 0) {
-            nIndicator[key] = parseFloat(nIndicator[key]);
+            if (nIndicator[key] && typeof nIndicator[key] != 'object' && convertionExceptions.indexOf(key) < 0) {
+              nIndicator[key] = parseFloat(nIndicator[key]);
+            }
+            indicator[key] = nIndicator[key];
           }
-          indicator[key] = nIndicator[key];
         }
+        return indicator;
       }
-      return indicator;
     });
+
     // set max year
     for (var i = 0; i < nIndicators.length;i++){
       if (nIndicators[i].hasOwnProperty('maxyear')){
         __Global.year.Max = parseInt(nIndicators[i].maxyear);
-        //break;
       }
       else if (nIndicators[i].hasOwnProperty('last_etact')){
         //"etact_2017_10_3_8bit_wgs84"
         var tablename_elements = nIndicators[i].last_etact.split('_');
         var last_decade = tablename_elements[1] + '_' + tablename_elements[2] + '_' + tablename_elements[3];
         __Global.decade.Max = last_decade;
-        //break;
       }      
     }
     var maxlabel = App.service.Helper.getComponentExt('yearslider-lbl-max');
-    maxlabel.update('<i class="fa  fa-caret-right"></i> ' + __Global.year.Max);
+    //maxlabel.update('<i class="fa  fa-caret-right"></i> ' + __Global.year.Max);    
+    maxlabel.update(__Global.year.Max);
     __Selection['Year'] = __LocalDB.get('Selections.Year', __Global.year.Max);
   }
 

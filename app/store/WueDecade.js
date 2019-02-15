@@ -9,9 +9,6 @@ Ext.define('App.store.WueDecade', {
   	'year', 
   	'decade',{
 	    //type: 'float',
-	    name: 'm3'
-	},{
-	    //type: 'float',
 	    name: 'm4'
 	},{
 	    //type: 'float',
@@ -28,9 +25,6 @@ Ext.define('App.store.WueDecade', {
 	},{
 	    //type: 'float',
 	    name: 'm9'
-	},{
-	    //type: 'float',
-	    name: 'm10'
 	}
   ],
 

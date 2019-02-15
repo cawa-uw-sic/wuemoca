@@ -23,12 +23,8 @@ Ext.define('App.controller.Prod', {
 
     App.service.Prod.window.close();
 
-    //switch to vir indicator so the user sees the results immediatly
     var indicator = App.service.Watcher.getIndicator();
-    if ((!!indicator.enGroup_userDB && indicator.enGroup_userDB.indexOf('Productivity') != -1)
-      || (!!indicator.enGroup && indicator.enGroup.indexOf('Productivity') != -1)){
-    }
-    else{
+    if (!indicator.userInput){
       App.service.Watcher.set('Indicator', 'prod_wf');
       App.service.Helper.setComponentsValue([{id: 'switcher-cb-indicator', selection: 'Indicator'}]);
     }
@@ -74,18 +70,28 @@ Ext.define('App.controller.Prod', {
 
     switch(query.length) {
       case 4:
-        polygon.data = polygon.data.map(function(d) {
-          d[query[0] + '_' + query[1]] = val;
-          return d;
-        });
+        //e.g. rate_cotton_all_years
+        if (isNaN(query[3])){
+          polygon.data = polygon.data.map(function(d) {
+            d[query[0] + '_' + query[1]] = val;
+            return d;
+          });
+        }
+        //e.g. prod_yf_cotton_2017
+        else{
+          polygon.data[getIndex(query[3])][query[0] + '_' + query[1] + '_' + query[2]] = val;
+        }
         break;
       case 3:
+        //e.g. c_cotton_2014
         polygon.data[getIndex(query[2])][query[0] + '_' + query[1]] = val;
         break;
       case 2:
+        //e.g. wf_2017
         polygon.data[getIndex(query[1])][query[0]] = val;
         break;
       case 1:
+        //e.g. firn
         polygon.data = polygon.data.map(function(d) {
           d[query[0]] = val;
           return d;

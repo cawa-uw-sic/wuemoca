@@ -167,7 +167,8 @@ Ext.define('App.view.Main', {
         defaultText: '&#160;',
         itemId: 'app-status',
         cls: 'app-status',
-        statusAlign: 'left'
+        statusAlign: 'left',
+        height: 24
       }),
 
       listeners: {
@@ -181,7 +182,10 @@ Ext.define('App.view.Main', {
       region: 'east',
       width: 170,
       collapsible: true, 
-      cls: 'polygon-panel',
+      cls: ['polygon-panel', 'toolbox'],
+      header: {
+        height: 44
+      },      
       collapsed: __Selection['UserPolygon'] == 'noshow',  
       collapseToolText: i18n.polygon.hidePolygons,
       expandToolText: i18n.polygon.showPolygons,

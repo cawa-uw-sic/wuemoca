@@ -65,10 +65,11 @@ Ext.define('App.service.Chart', {
  * @property stores.flf chart store for gauge charts (fallow land frequency) 
  */
   stores: {
-    defaults  : Ext.create('Ext.data.JsonStore'),
-    lur  : Ext.create('Ext.data.JsonStore'),
-    flf : Ext.create('Ext.data.JsonStore')
+    defaults: Ext.create('Ext.data.JsonStore'),
+    lur     : Ext.create('Ext.data.JsonStore'),
+    flf     : Ext.create('Ext.data.JsonStore')
   },
+
   /**
   * @method initialize
   * apply close and boxready events to chart window
@@ -80,22 +81,15 @@ Ext.define('App.service.Chart', {
       self.data = [];
       self.click_coordinates = false;
       App.service.Exporter.setDownloadCombotext(); 
-      // if (App.service.Watcher.get('UserPolygon') == 'show'){
-      //   //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(true);
-      //   //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + i18n.polygon.import_button_2);
-      //   App.service.Polygon.importSelectedGeometry(false);
-      //   App.service.Polygon.importSelectedData(false, false);
-      // }           
+        
     });
     self.window.on("boxready", function (window) {
-
       window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
       window.setHeight(__Global.chart.Height);
       window.alignTo(App.service.Helper.getComponentExt('map-container'), 'bl-bl', [0, -25]);
-
-      //window.alignTo(Ext.getBody(), 'bl-bl', [305, -25]);    
     });
   },
+
   /**
   * @method display
   * load requested data and show chart window
@@ -104,7 +98,7 @@ Ext.define('App.service.Chart', {
   */
   display: function (e) {
     //reasons for no request for getfeatureinfo: 
-    //another request is running, 
+    //isBusy: another request is running, 
     //an user polygon was clicked, 
     //no indicator was selected, 
     //respective layer is invisible
@@ -115,7 +109,6 @@ Ext.define('App.service.Chart', {
       !App.service.Watcher.get('Indicator') || 
       (!!App.util.Layer.current && !App.util.Layer.current.getVisible()) ||
       (!!App.util.Layer.admin && !App.util.Layer.admin.getVisible())       
-      //!App.util.Layer.current
     ){ 
       this.window.close();
       return false;
@@ -124,6 +117,7 @@ Ext.define('App.service.Chart', {
     this.click_coordinates = e.coordinate;
     this.doRequest();
   },
+
   /**
   * @method doRequest
   * do JSONP request with WMS getFeatureInfo and fill temporary data list
@@ -148,48 +142,18 @@ Ext.define('App.service.Chart', {
             App.service.Highlight.display(coordinates);
             self.showWindow();
             //prepare import possibility to user polygon
-            var first = self.data[0];
-            var name = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
-              + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-            //var aggregation_name = App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
-            //App.service.Helper.getComponentExt('polygon-btn-import').setDisabled(false);
-            //App.service.Helper.getComponentExt('polygon-btn-import').setText(i18n.polygon.import_button_1 + '<br>' + name);
-            //store multipolygon coordinates, extent and wkt_geometry
-            //Geometry format for reading and writing data in the WellKnownText (WKT) format.
-            var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
-            App.service.Polygon.importSelectedGeometry(
-              coordinates, 
-              BackgroundLayers.highlight.getSource().getExtent(),
-              wkt_geometry
-            );
-            //store import data
-            //in case of multi-annual indicator (ca_grid_no_years), modify URL to get data from annual ca_grid table
-            if (App.service.Watcher.getIndicator().chart == 'Multiannual'){
-              var urlarray = url.replace(/ca_grid_no_years/g, 'ca_grid').split('&');
-              for (var i = 0; i < urlarray.length; i++){
-                if (urlarray[i].indexOf('STYLES') != -1){
-                  urlarray[i] = 'STYLES=';
-                  break;
-                }   
-              }  
-              var newurl = urlarray.join('&');
-              self.isBusy = true;
-              Ext.data.JsonP.request({
-                url : newurl,
-                callbackName: 'ChartResponse',
-                params: {format_options: 'callback:Ext.data.JsonP.ChartResponse'},
-                success: function (results) { 
-                  var data_copy = self.dataResponse(results.features);
-                  App.service.Polygon.importSelectedData(data_copy, name);                  
-                },
-                callback: function (results){
-                  self.isBusy = false;
-                },
-                failure: function(results){
-                }    
-              });    
-            }
-            else{
+            if (App.service.Watcher.getIndicator().chart != 'Multiannual'){
+              var first = self.data[0];
+              var name = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
+                + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
+              //store multipolygon coordinates, extent and wkt_geometry
+              //Geometry format for reading and writing data in the WellKnownText (WKT) format.
+              var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
+              App.service.Polygon.importSelectedGeometry(
+                coordinates, 
+                BackgroundLayers.highlight.getSource().getExtent(),
+                wkt_geometry
+              );
               //duplicate array of nested objects, don't change original data
               var data_copy = JSON.parse(JSON.stringify(self.data));
               App.service.Polygon.importSelectedData(data_copy, name);
@@ -213,6 +177,7 @@ Ext.define('App.service.Chart', {
       self.window.close();
     }
   },
+
   /**
   * @method showWindow
   * add data list to chart, chart to window, set window title and show chart window
@@ -225,9 +190,10 @@ Ext.define('App.service.Chart', {
       if (indicator.chart != 'crops'){
         self.window.add(App.util.ChartTypes[indicator.chart](self.data));
       }
-      else if (indicator.crops == 'sum' || indicator.crops == 'avg' || indicator.crops == 'all'){
+      else {
         self.window.add(App.util.ChartTypes[App.service.Watcher.getCrop().chart](self.data));
       }
+
       var first = self.data[0];
       var title = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
         + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
@@ -251,10 +217,11 @@ Ext.define('App.service.Chart', {
 
     }
     else{
-      self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name']);      
+      self.window.setTitle(i18n.chart.noChart + ' ' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || ''));      
     }
     self.window.show();
   },
+
   /**
   * @method dataResponse
   * sort data response per year
@@ -262,22 +229,30 @@ Ext.define('App.service.Chart', {
   * temporary data list to be sorted
   */
   dataResponse: function (data) {
-    //this.data = [];
     var properties = [];
     if (data[0].properties){
+      var gid = data[0].properties.gid;
       for (var i = 0; i < data.length; i++) {
-        var index = properties.map(function (d) { return d.year; }).indexOf(data[i].properties.year);
-        if (index < 0) properties.push(data[i].properties);
+        //take only data with the same gid and not from current year
+        if ((data[i].properties.gid == gid) && (!data[i].properties.year || data[i].properties.year <= __Global.year.Max))  {
+          properties.push(data[i].properties);
+        }
       }
-      properties.sort(function (a, b) {
-        if (a.year > b.year) return 1;
-        if (a.year < b.year) return -1;
-        return 0;
-      });
     }
     else{
-      properties = data;
+      var gid = data[0].gid;
+      for (var i = 0; i < data.length; i++) {
+        //take only data with the same gid and not from current year
+        if ((data[i].gid == gid) && (!data[i].year || data[i].year <= __Global.year.Max))  {
+          properties.push(data[i]);
+        }
+      }      
     }
+    properties.sort(function (a, b) {
+      if (a.year > b.year) return 1;
+      if (a.year < b.year) return -1;
+      return 0;
+    });
     return properties;
   },
 
@@ -312,7 +287,7 @@ Ext.define('App.service.Chart', {
   changeIndicatorChart: function(direction){
     var ind = App.service.Watcher.get('Indicator');
     var crop = App.service.Watcher.get('Crop');
-    var list = App.service.Helper.getIndicators_Crops(false);
+    var list = App.service.Helper.getIndicators_Crops(this.userPolygon);
     var index = 0;
     list.map(function (l) {
       if (l.ind == ind && l.crop == crop) index = l.id;

@@ -55,8 +55,13 @@ Ext.define('App.controller.Header', {
   onUserGuide: function () {
     App.service.Helper.openDocument(__Global.urls.UserGuide, 'userguide', null);
   },
-
   /**
+  * @method onCawaReport
+  * open CAWa report
+  */
+  onCawaReport: function () {
+    App.service.Helper.openDocument(__Global.urls.CawaReport, 'cawareport', null);
+  },  /**
   * @method onVideoHeader
   * open video URL
   */

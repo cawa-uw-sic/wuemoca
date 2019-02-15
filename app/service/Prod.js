@@ -34,10 +34,38 @@ Ext.define('App.service.Prod', {
         cropname = crop_object[__Global.lang + 'Name'];
       }
     });
-    //var indicators = ['firf', 'yf', 'c'];
+    //var indicators = ['firf', 'prod_yf', 'c'];
     var el = App.service.Helper.getComponentExt('prod-form-by-year');
     el.removeAll();
     var polygon = App.service.Polygon.getSelectedPolygons()[0]; 
+
+    //copy pirf and yf (RS-based) to prod_pirf and prod_yf (statistics) if not yet existent
+    polygon.data = polygon.data.map(function(d) {
+      var prod_pirf = true;
+      var pirf = false;
+      if (!d['prod_pirf_' + crop] || d['prod_pirf_' + crop] == null || isNaN(d['prod_pirf_' + crop])) { 
+        prod_pirf = false;
+      }
+      if (d['pirf_' + crop] && d['pirf_' + crop] != null && !isNaN(d['pirf_' + crop])) { 
+        pirf = true;
+      }
+      if (pirf && !prod_pirf){
+        d['prod_pirf_' + crop] = d['pirf_' + crop];
+      }
+      var prod_yf = true;
+      var yf = false;
+      if (!d['prod_yf_' + crop] || d['prod_yf_' + crop] == null || isNaN(d['prod_yf_' + crop])) { 
+        prod_yf = false;
+      }
+      if (d['yf_' + crop] && d['yf_' + crop] != null && !isNaN(d['yf_' + crop])) { 
+        yf = true;
+      }
+      if (yf && !prod_yf){
+        d['prod_yf_' + crop] = d['yf_' + crop];
+      }      
+      return d;
+    });
+
 
     var indicators = [];    
     __Indicator.map(function (indicator) {
@@ -127,8 +155,10 @@ Ext.define('App.service.Prod', {
         }
       }
       var label = '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
-        '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
-        newindicatorname + ' [' + indicator[__Global.lang + 'Unit'] + ']';
+        '"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
+        newindicatorname + ' [' + indicator[__Global.lang + 'Unit'] + ']'  +
+        '<a id="' + indicator.id + '_' + crop + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="delete all ' + newindicatorname + ' values' +
+        '"><i class="fa fa-times-circle" style="padding:0 5px 0 10px;"></i></a>';
       labels.push(label);
     });
 
@@ -180,6 +210,23 @@ Ext.define('App.service.Prod', {
     el.add(formitems);
   },
 
+  deleteValues: function(ind){
+    var polygon = App.service.Polygon.getSelectedPolygons()[0];
+    for (d = 0; d < polygon.data.length; ++d) {
+      polygon.data[d][ind] = 0;
+    }
+    App.service.Polygon.saveAll();
+    if (!!ind.split('_')[2]){
+      App.service.Prod.renderFormByYear(ind.split('_')[2]);
+    }    
+    else if (!!ind.split('_')[1]){
+      App.service.Prod.renderFormByYear(ind.split('_')[1]);
+    }
+    else{
+      App.service.Prod.renderFormSecondary();
+    }
+  },
+
   renderFormSecondary: function () {
     var self = this;
     var el = App.service.Helper.getComponentExt('prod-form-secondary');
@@ -222,7 +269,7 @@ Ext.define('App.service.Prod', {
         name: indicator.id, 
         value: val, 
         fieldLabel: '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
-        '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
+        '""><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
         indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']' 
       });
     });
@@ -244,7 +291,9 @@ Ext.define('App.service.Prod', {
       var fieldset = {
         xtype: 'fieldset',
         title: '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
-          '" target="glossary"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']',
+          '"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']'  +
+          '<a id="' + indicator.id + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="delete all ' + indicator[__Global.lang + 'Name'] + ' values' +
+         '"><i class="fa fa-times-circle" style="padding:0 5px 0 10px;"></i></a>',
         width: 735,
         defaults: {
           xtype: 'numberfield',
@@ -320,14 +369,22 @@ Ext.define('App.service.Prod', {
   },
 
   calcProd: function(d){
-    var prod_pf_sum = 0;
+    //var prod_pf_sum = 0;
     var prod_pw_sum = 0;
     var prod_gp_sum = 0;
+    var firf_sum_prod_yf = 0;
+    var wf_sum_prod_yf = 0;      
+    //var pf_sum = 0;
+    var pw_sum = 0;
+    var gp_sum = 0;   
+    var firf_sum_yf = 0;  
+    var wf_sum_yf = 0;        
 
     //loop through all crops
     __Crop.map(function (crop) {
       var crop_id = crop.id;
       var yf = false;
+      var prod_yf = false;      
       var price = false;
       var wf_calc = false;
 
@@ -340,16 +397,33 @@ Ext.define('App.service.Prod', {
         || parseFloat(d['yf_' + crop_id]) == 0) {
         d['yf_' + crop_id] = null;
         d['pirf_' + crop_id] = null;
+        d['gp_' + crop_id] = null;
+        d['pf_' + crop_id] = null;
+        d['pw_' + crop_id] = null;
+        d['yw_' + crop_id] = null;
+      }
+      else{
+        // Crop output
+        d['pirf_' + crop_id] = parseFloat((d['yf_' + crop_id] * d['firf_' + crop_id]).toFixed(1));
+        yf = true;
+      }
+      // check if prod_yf exists
+      if (!d['prod_yf_' + crop_id] 
+        || d['prod_yf_' + crop_id] == null 
+        || isNaN(d['prod_yf_' + crop_id])
+        || parseFloat(d['prod_yf_' + crop_id]) == 0) {
+        d['prod_yf_' + crop_id] = null;
+        d['prod_pirf_' + crop_id] = null;
         d['prod_gp_' + crop_id] = null;
         d['prod_pf_' + crop_id] = null;
         d['prod_pw_' + crop_id] = null;
         d['prod_yw_' + crop_id] = null;
       }
       else{
-        // Gross output
-        d['pirf_' + crop_id] = parseFloat((d['yf_' + crop_id] * d['firf_' + crop_id]).toFixed(1));
-        yf = true;
-      }
+        // Crop output
+        d['prod_pirf_' + crop_id] = parseFloat((d['prod_yf_' + crop_id] * d['firf_' + crop_id]).toFixed(1));
+        prod_yf = true;
+      }      
       //check if price exists
       if (!d['c_' + crop_id] 
         || d['c_' + crop_id] == null 
@@ -359,6 +433,9 @@ Ext.define('App.service.Prod', {
         d['prod_gp_' + crop_id] = null;
         d['prod_pf_' + crop_id] = null;
         d['prod_pw_' + crop_id] = null;
+        d['gp_' + crop_id] = null;
+        d['pf_' + crop_id] = null;
+        d['pw_' + crop_id] = null;        
       }
       else {
         price = true;
@@ -371,53 +448,88 @@ Ext.define('App.service.Prod', {
         d['wf_calc_' + crop_id] = null;
         d['prod_yw_' + crop_id] = null;
         d['prod_pw_' + crop_id] = null;
+        d['yw_' + crop_id] = null;
+        d['pw_' + crop_id] = null;        
       }
       else{
         wf_calc = true;
       }
+
       //calculations based on price
-      if (price && yf) {
-        // Productivity in $
-        d['prod_gp_' + crop_id] = parseFloat((d['pirf_' + crop_id] * d['c_' + crop_id]).toFixed(2));
-        // Land Productivity in $/ha
-        if (parseFloat(d['firf_' + crop_id]) > 0){
-          d['prod_pf_' + crop_id] = parseFloat((d['prod_gp_' + crop_id] / d['firf_' + crop_id]).toFixed(2));
-          prod_pf_sum += d['firf_' + crop_id] * d['prod_pf_' + crop_id]; 
-        }
-        else{
-          d['prod_pf_' + crop_id] = null;
-        }     
-        prod_gp_sum += d['prod_gp_' + crop_id];   
+      if (price){
+        if (yf) {
+          // Productivity in $
+          d['gp_' + crop_id] = parseFloat((d['pirf_' + crop_id] * d['c_' + crop_id]).toFixed(2));        
+          // Land Productivity in $/ha
+          if (parseFloat(d['firf_' + crop_id]) > 0){
+            d['pf_' + crop_id] = parseFloat((d['gp_' + crop_id] / d['firf_' + crop_id]).toFixed(2));
+            //pf_sum += d['firf_' + crop_id] * d['pf_' + crop_id];  
+            firf_sum_yf += d['firf_' + crop_id];         
+          }
+          else{
+            d['pf_' + crop_id] = null;
+          }     
+          gp_sum += d['gp_' + crop_id]; 
+        } 
+        if (prod_yf) {
+          // Productivity in $
+          d['prod_gp_' + crop_id] = parseFloat((d['prod_pirf_' + crop_id] * d['c_' + crop_id]).toFixed(2));
+          // Land Productivity in $/ha
+          if (parseFloat(d['firf_' + crop_id]) > 0){
+            d['prod_pf_' + crop_id] = parseFloat((d['prod_gp_' + crop_id] / d['firf_' + crop_id]).toFixed(2));
+            //prod_pf_sum += d['firf_' + crop_id] * d['prod_pf_' + crop_id]; 
+            firf_sum_prod_yf += d['firf_' + crop_id];
+          }
+          else{
+            d['prod_pf_' + crop_id] = null;
+          }     
+          prod_gp_sum += d['prod_gp_' + crop_id]; 
+        }         
       }
       //calculations based on water intake
       if (wf_calc){
+        if (prod_yf){
+         // Water productivity in kg/m³
+          d['prod_yw_' + crop_id] = parseFloat(((d['prod_pirf_' + crop_id] / d['wf_calc_' + crop_id]) / 1000).toFixed(3));
+          //calculations based on water intake and price
+          if (price){
+            // Water productivity in $/m³  
+            d['prod_pw_' + crop_id] = parseFloat(((d['prod_gp_' + crop_id] / d['wf_calc_' + crop_id]) / 1000000).toFixed(3));
+            //prod_pw_sum += d['wf_calc_' + crop_id] * d['prod_pw_' + crop_id];
+            wf_sum_prod_yf += d['wf_calc_' + crop_id];              
+          } 
+        }
         if (yf){
          // Water productivity in kg/m³
-          d['prod_yw_' + crop_id] = parseFloat(((d['pirf_' + crop_id] / d['wf_calc_' + crop_id]) / 1000).toFixed(3));
-        }
-        //calculations based on water intake and price
-        if (price){
-          // Water productivity in $/m³  
-          d['prod_pw_' + crop_id] = parseFloat(((d['prod_gp_' + crop_id] / d['wf_calc_' + crop_id]) / 1000000).toFixed(3));
-          prod_pw_sum += d['wf_calc_' + crop_id] * d['prod_pw_' + crop_id];
-        }
+          d['yw_' + crop_id] = parseFloat(((d['pirf_' + crop_id] / d['wf_calc_' + crop_id]) / 1000).toFixed(3));
+          //calculations based on water intake and price
+          if (price){
+            // Water productivity in $/m³  
+            d['pw_' + crop_id] = parseFloat(((d['gp_' + crop_id] / d['wf_calc_' + crop_id]) / 1000000).toFixed(3));
+            //pw_sum += d['wf_calc_' + crop_id] * d['pw_' + crop_id];  
+            wf_sum_yf += d['wf_calc_' + crop_id];                    
+          }          
+        }        
       }
     });
-
     // weighted average of land productivity
-    d['prod_pf_avg'] = parseFloat((prod_pf_sum / d['firn']).toFixed(2));
+    d['prod_pf_avg'] = parseFloat((prod_gp_sum / firf_sum_prod_yf).toFixed(2));
+    d['pf_avg'] = parseFloat((gp_sum / firf_sum_yf).toFixed(2));
     
-    // weighted average of water productivity
-    //check if wf exists
-    if (d['wf'] == null || parseFloat(d['wf']) == 0){
-      d['prod_pw_avg'] = null;
+    //weighted average of water productivity
+    d['prod_pw_avg'] = null;
+    d['pw_avg'] = null;
+
+    if (wf_sum_prod_yf > 0){
+      d['prod_pw_avg'] = parseFloat(((prod_gp_sum / wf_sum_prod_yf) / 1000000).toFixed(2));
     }
-    else {      
-      d['prod_pw_avg'] = parseFloat((prod_pw_sum / d['wf']).toFixed(2));
-    }
+    if (wf_sum_yf > 0){
+      d['pw_avg'] = parseFloat(((gp_sum / wf_sum_yf) / 1000000).toFixed(2));
+    }    
 
     // Sum of productivity in $
     d['prod_gp_sum'] = parseFloat((prod_gp_sum).toFixed(2));
+    d['gp_sum'] = parseFloat((gp_sum).toFixed(2));
 
     // Specific water supply
     if (!d['rain'] || d['rain'] == null || isNaN(d['rain'])) {
@@ -428,17 +540,21 @@ Ext.define('App.service.Prod', {
     }
     var rain = (d['rain'] * d['firn'] * 0.00001) || 0 ;
     var gwc = (d['gwc']  * d['firn'] * 0.00001) || 0;
+
     d['prod_wf'] = null;
     d['wf_rel'] = null;
-    //if no sum of crop water intakes is available, the total water intake is used as input
+
+    //check if wf exists
     var wf = 0;
-    if (d['wf_calc_sum'] != null){
-      wf = parseFloat(d['wf_calc_sum']);
-    }
-    else if (d['wf'] != null){
+    if (d['wf'] != null){
       wf = parseFloat(d['wf']);
     }
-    if (wf > 0){
+    //if no sum of crop water intakes is available, the total water intake wf is used as input
+    if (wf_sum_prod_yf > 0){
+      d['prod_wf'] = parseFloat(((wf_sum_prod_yf + gwc + rain) / d['firn'] * 1000000).toFixed(2));
+      d['wf_rel'] = parseFloat((wf_sum_prod_yf / d['firn'] * 1000000).toFixed(2));
+    }
+    else if (wf > 0){
       d['prod_wf'] = parseFloat(((wf + gwc + rain) / d['firn'] * 1000000).toFixed(2));
       d['wf_rel'] = parseFloat((wf / d['firn'] * 1000000).toFixed(2));
     }
@@ -450,6 +566,8 @@ Ext.define('App.service.Prod', {
 
   updateOtherIndicators: function(d){
     var firf_sum = 0;
+    //firf of cotton, wheat and rice
+    var firf_sum_cwr = 0;
     //loop through all crops
     __Crop.map(function (crop) {
       var crop_id = crop.id;
@@ -459,7 +577,7 @@ Ext.define('App.service.Prod', {
       firf_sum += d['firf_' + crop_id];
     });
     //update indicators depending on firf and firn
-    d['firf_sum'] = firf_sum;
+    d['firf_sum'] = parseFloat(firf_sum.toFixed(1));
     d['uir_sum'] = parseFloat((firf_sum * 100 / d['firn']).toFixed(2));
     d['fp'] = parseFloat((d['fallow_ha'] * 100 / d['firn']).toFixed(2));
 
@@ -480,32 +598,46 @@ Ext.define('App.service.Prod', {
       d['cd'] = parseFloat(cd.toFixed(3));
     }
 
-    // eprod_crop and eprod_avg depending on pirf, firf and c  
+    // eprod_crop, eprod_avg and vc_avg depending on pirf, firf and c  
     var crops = ['cotton', 'wheat', 'rice'];
-    eprod_avg_numerator = 0;
-    eprod_avg_denominator = 0;      
+    var eprod_avg_numerator = 0;
+    var eprod_avg_denominator = 0;  
+    var vc_avg_numerator = 0;        
     for (var i = 0; i < crops.length; i++) {
       d['eprod_' + crops[i]] = null;
       var c = d['c_' + crops[i]];
+      var pirf = d['pirf_' + crops[i]];
+      var etf = d['etf_' + crops[i]];
+      var firf = d['firf_' + crops[i]];   
+      var vc = d['vc_' + crops[i]];  
       if (c != null && c > 0) { 
         var pirf = d['pirf_' + crops[i]];
         var etf = d['etf_' + crops[i]];
         var firf = d['firf_' + crops[i]];
-        if (pirf > 0 && etf > 0 && firf > 0){   
+        if (pirf > 0 && etf > 5 && firf > 0){   
           var eprod = (pirf * c) / (etf * firf * 10);
-          d['eprod_' + crops[i]] = parseFloat((eprod).toFixed(3));
+          d['eprod_' + crops[i]] = parseFloat(eprod.toFixed(3));
           eprod_avg_numerator += (eprod * etf * firf);
           eprod_avg_denominator += (etf * firf);
         }
       }
+      vc_avg_numerator += vc * firf;
+      firf_sum_cwr += firf;
     }
 
     // eprod_avg (weighted average)
     d['eprod_avg'] = null;
     if (eprod_avg_numerator > 0 && eprod_avg_denominator > 0){    
       var eprod_avg = eprod_avg_numerator / eprod_avg_denominator;
-      d['eprod_avg'] = parseFloat((eprod_avg).toFixed(3));
+      d['eprod_avg'] = parseFloat(eprod_avg.toFixed(3));
     }
+    // vc_avg (weighted average)
+    d['vc_avg'] = null;
+    if (vc_avg_numerator > 0){    
+      var vc_avg = vc_avg_numerator / firf_sum_cwr;
+      d['vc_avg'] = parseFloat(vc_avg.toFixed(3));
+    }    
+
     return d;
   },
 

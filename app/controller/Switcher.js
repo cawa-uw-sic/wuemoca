@@ -14,20 +14,6 @@ Ext.define('App.controller.Switcher', {
        { id: 'switcher-cb-indicator',   selection: 'Indicator'   }
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
-    //this.createFilters();
-   /* Ext.getStore('indicator').sort([
-      {
-        property :  __Global.lang + 'Group',
-        direction: 'ASC'
-      },
-      {
-        property :  __Global.lang + 'Name',
-        direction: 'ASC'
-      }
-    ]);*/
-
-
-   // App.service.Watcher.activateFilters();
   },
   /**
   * @method onIndicator
@@ -54,7 +40,7 @@ Ext.define('App.controller.Switcher', {
     var indicator = App.service.Watcher.getIndicator();
  
     var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      '" data-qtip="' + indicator[__Global.lang + 'Name'] + 
+      '" data-qtip="' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + 
       ':<br> ' + indicator[__Global.lang + 'Tooltip'] + '<br>' + i18n.header.readmore +
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;  
 
@@ -128,44 +114,6 @@ Ext.define('App.controller.Switcher', {
 
   },
 
-  /*createFilters: function () {
-    var self = this;
-    var fieldset = App.service.Helper.getComponentExt('switcher-filter');
-    __Filter.map(function (filter) {
-      var store = Ext.create('Ext.data.Store', {
-        fields: ['id', 'enName', 'ruName'],
-        data: [ __EmptyFilter ].concat(filter.items)
-      });
-      var cb = Ext.create('Ext.form.field.ComboBox', {
-        store: store,
-        displayField: __Global.lang + 'Name',
-        valueField: 'id',
-        itemId: 'switcher-filter-' + filter.id,
-        value: __FilterSelection[filter.id],
-        emptyText: __EmptyFilter[__Global.lang + 'Name'],
-        listeners: { change: self.changeFilters }
-      });
-      fieldset.add(cb);
-    });
-  },*/
-
-  /*changeFilters: function (cb, val) {
-    var cFilter = cb.getItemId().replace('switcher-filter-', '');
-    __LocalDB.set('FilterSelections.' + cFilter, val);
-    __FilterSelection[cFilter] = val;
-    App.service.Watcher.activateFilters();
-  },
-
-  resetFilters: function (fieldset, eOpts){
-    //load entire list, but keep filters stored in LocalDB
-    var indicators = __Indicator;     
-    Ext.getStore('indicator').removeAll();
-    Ext.getStore('indicator').loadData(indicators);
-  },
-
-  loadFilters: function (fieldset, eOpts){
-    App.service.Watcher.activateFilters();
-  },*/
   /**
   * @method resetSelection
   * reset original settings

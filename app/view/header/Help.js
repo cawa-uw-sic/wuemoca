@@ -36,12 +36,19 @@ Ext.define('App.view.header.Help', {
         click: 'onGlossary'
       }
    },{
-      text: i18n.header.video_general,
-      //tooltip: i18n.header.glossary_tooltip,
-      iconCls: 'x-fa fa-youtube-play',
+      text: 'Project report on WUEMoCA',
+      tooltip: 'CAWa project phase III 2015-2017 work package 3',
+      iconCls: 'x-fa fa-file-text',
       listeners: {
-        click: 'onVideoHeader'
-      }    
+        click: 'onCawaReport'
+      }
+   // },{    
+   //    text: i18n.header.video_general,
+   //    //tooltip: i18n.header.glossary_tooltip,
+   //    iconCls: 'x-fa fa-youtube-play',
+   //    listeners: {
+   //      click: 'onVideoHeader'
+   //    }    
     }]
   })
 });

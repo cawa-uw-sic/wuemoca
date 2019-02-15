@@ -571,12 +571,12 @@ __Chart.Line = {
 
 __Chart.Annual = {
 
-  getBbar: function (indicator_id, userPolygon, aggregName, PreviewTooltip) {
+  getBbar: function (indicator_id, userInput, cropPrice, userPolygon, aggregName, PreviewTooltip) {
 
-    var cropPrices = (!userPolygon && indicator_id == 'eprod') ? true : false;
-    var transferButton = userPolygon ? false : true;
-    var WUEButton = (userPolygon  && indicator_id == 'vir') ? true : false;
-    var prodButton = (userPolygon  && (indicator_id.indexOf('prod_') != -1 || indicator_id == 'yf' || indicator_id == 'pirf')) ? true : false;  
+    var cropPrices = cropPrice;
+    var transferButton = !userPolygon;
+    var WUEButton = (userPolygon && indicator_id == 'vir');
+    var prodButton = (userPolygon && userInput && indicator_id != 'vir');  
 
     var bbarItems = [];
     

@@ -12,6 +12,111 @@ Ext.define('App.service.Exporter', {
   year: false,
   indicatorfilter: false,
   indicator: false,  
+  requires: [
+    'App.util.Window'
+  ],
+
+  //acronym window
+  window    : Ext.create('App.util.Window', { 
+    itemId: 'acronym-window',
+    title: i18n.acronyms.windowtitle, 
+    tools: [{ 
+      type: 'help',
+      tooltip: i18n.acronyms.RS + '<br>' + i18n.acronyms.stats + '<br>' + i18n.acronyms.ET
+    },{
+      type: 'print',
+      tooltip: 'Opens a new window',
+      callback: function(){
+        var group = '';
+        var htmlTable = '<!DOCTYPE HTML><html><head><meta charset="utf-8">' +
+          '<title>' + i18n.acronyms.printtitle + '</title>' +
+          '<link rel="stylesheet" type="text/css" href="' + Ext.getResourcePath('css/print_acronym.css', null, '') + '">' +
+          '</head><body>' +
+          '<table class="table-bordered"><tr><th>' +  i18n.acronyms.acronym + '</th><th>' +  i18n.acronyms.name + '</th><th>' +  i18n.acronyms.crops + '</th><th>' +  i18n.acronyms.description + '</th></tr>';
+        Ext.getStore('exportergrid').each(function(record){
+          if (group != record.get('group')){
+            group = record.get('group');
+            htmlTable += '<tr><td colspan="4"><b>' + group + '</b></td></tr>';            
+          }
+          htmlTable += '<tr><td>' + record.get('field') + '</td><td>' + record.get('name') + '</td><td>' + record.get('crops') + '</td><td>' + record.get('tooltip') + '</td></tr>';
+        });
+        htmlTable += '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        htmlTable += '<tr><td>&nbsp;</td><td>' + i18n.acronyms.RS + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        htmlTable += '<tr><td>&nbsp;</td><td>' + i18n.acronyms.stats + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        htmlTable += '<tr><td>&nbsp;</td><td>' + i18n.acronyms.ET + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        htmlTable += '</table></body></html>';
+        var x = window.open('', 'acronym');
+        x.document.open().write(htmlTable);
+        x.document.close();        
+      }
+
+    }],    
+    items: [],    
+    listeners: { 
+      show: 'onExporterWindow'
+    }
+  }),
+
+  getGridData: function(userPolygon){
+    var griddata = [];
+    __Indicator.map(function (indicator) {
+      if ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB)) {
+        var croptext = '';
+        if (!!indicator.crops){
+          if (typeof indicator.crops == 'object'){
+            if (isNaN(indicator.crops[0])){
+              croptext = indicator.crops[0] + ', ';
+            }
+            croptext += 'cotton, wheat, rice';
+          }
+          else{
+            croptext = i18n.acronyms.allcroptypes;
+            if (indicator.crops != 'all'){
+              croptext += ' ' + i18n.acronyms._and + ' ' + indicator.crops;
+            }
+          }     
+        }
+        else {
+          croptext = '-';
+        }
+        griddata.push({
+          field: indicator.field, 
+          name: indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']',
+          //'<span style="color:#970016">Productivity (stats.)</span>'
+          group: i18n.acronyms.indicators + ': ' + indicator[__Global.lang + 'Group'].replace('<span style="color:#970016">','').replace('</span>',''),
+          groupsort: indicator.groupsort,
+          crops: croptext,
+          tooltip: indicator[__Global.lang + 'Tooltip']
+        }); 
+      }       
+    });
+
+    if (userPolygon){
+      __Indicator_userPolygon.map(function (indicator) {
+        var croptext = indicator.field.indexOf('{crop}') != -1 ? i18n.acronyms.allcroptypes : '-';
+        griddata.push({
+          field: indicator.field, 
+          name: indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']',
+          group: i18n.acronyms.additional,
+          groupsort: '6',
+          crops: croptext,
+          tooltip: indicator[__Global.lang + 'ProdTooltip'] || ''
+        });         
+      });
+    }
+    __Crop.map(function(crop){
+        griddata.push({
+          field: crop.id, 
+          name: crop[__Global.lang + 'Name'],
+          group: i18n.acronyms.croptypes,
+          groupsort: '7',
+          crops: '',
+          tooltip: ''
+        });        
+    });
+    return griddata;
+  },
+
 
   //http://jsfiddle.net/insin/cmewv/  https://gist.github.com/insin/1031969
   uri: 'data:application/vnd.ms-excel;base64,',
@@ -344,6 +449,12 @@ Ext.define('App.service.Exporter', {
     App.service.Helper.openDocument(requesturl, 'download', null);  
   },
 
+  /**
+  * @method getIndicators 
+  * filter indicator list by user DB or server DB properties
+  * @param userPolygon
+  * boolean
+  */
   getIndicators: function(userPolygon){
     //duplicate array of nested objects
     var indicatorData = JSON.parse(JSON.stringify(__Indicator));
@@ -351,14 +462,6 @@ Ext.define('App.service.Exporter', {
     indicatorData.map(function (indicator) {
       if (indicator.chart != 'Multiannual' && 
         ((userPolygon && indicator.userDB) || (!userPolygon && indicator.serverDB))) {
-        if (userPolygon){
-          if (!!indicator[__Global.lang + 'Group_userDB']){          
-            indicator[__Global.lang + 'Group'] = indicator[__Global.lang + 'Group' + '_userDB'];
-          }
-          if (!!indicator[__Global.lang + 'Name_userDB']){
-            indicator[__Global.lang + 'Name'] = indicator[__Global.lang + 'Name' + '_userDB'];            
-          }
-        }
         filteredData.push(indicator);
       }
     });
@@ -366,17 +469,20 @@ Ext.define('App.service.Exporter', {
   }, 
 
   /**
-* @method base64
-*/
+  * @method base64
+  * window.btoa() function creates a base-64 encoded ASCII string from string data.
+  * encodeURIComponent() function encodes a Uniform Resource Identifier (URI) component by replacing each instance of certain characters 
+  * by one, two, three, or four escape sequences representing the UTF-8 encoding of the character.
+  */
   base64: function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
-/**
-* @method format
-*/
+  /**
+  * @method format
+  */
   format: function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
-/**
-* @method JSONToHTMLConvertor 
-* the polygon indicator values, stored in user database in JSON format, are written to HTML table with MS Excel content type
-*/
+  /**
+  * @method JSONToHTMLConvertor 
+  * the polygon indicator values, stored in user database in JSON format, are written to HTML table with MS Excel content type
+  */
   JSONToHTMLConvertor: function (allPolygons) { 
     var self = this;
     var year = self.year;
@@ -401,7 +507,7 @@ Ext.define('App.service.Exporter', {
       }
     }
     else if (allPolygons &&  App.service.Polygon.all.length > 0){ 
-      fileName = 'my_polygons';
+      fileName = 'user_polygon';
      
       App.service.Polygon.all.map(
         function(polygon){
@@ -487,7 +593,6 @@ Ext.define('App.service.Exporter', {
       result.body += '<tr>';
       //2nd loop will extract each column
       for (var idx = 0; idx < indices.length; idx++) {
-      //for (var index in data[i]) {
         //empty for null value
         if (data[i][indices[idx]] == null){
           result.body += '<td></td>';
@@ -552,7 +657,7 @@ Ext.define('App.service.Exporter', {
           result.body += '<tr>';     
           result.body += '<td><b>' + indicator.field + '</b></td>'; 
           result.body += '<td></td>';       
-          result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
+          result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
           for (var i = 4; i <= fieldCount; i++){
             result.body += '<td></td>';        
           }   
@@ -592,7 +697,7 @@ Ext.define('App.service.Exporter', {
         result.body += '<tr>';     
         result.body += '<td><b>' + indicator.field + '</b></td>'; 
         result.body += '<td></td>';       
-        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
+        result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
         for (var i = 4; i <= fieldCount; i++){
           result.body += '<td></td>';        
         }   
@@ -732,9 +837,6 @@ Ext.define('App.service.Exporter', {
           }
         }
       });
-
-      //temp_field_list.sort();
-
       indicator_fields = indicator_fields.concat(temp_field_list); 
 
     }

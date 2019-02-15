@@ -19,6 +19,9 @@ Ext.define('App.view.wue.FormByMonth', {
   },
   columnLines: true,
   height: 350,
+  viewConfig:{
+    markDirty:false
+},
 
   initComponent: function() {
     var columns = [{
@@ -29,23 +32,14 @@ Ext.define('App.view.wue.FormByMonth', {
       dataIndex: 'year',
       flex: 1,
       menuDisabled: true
-    /*},{
-      xtype:'actioncolumn',
-      flex: 1,
-      hideable: false,
-      menuDisabled: true,
-      items: [{
-        iconCls: 'x-fa fa-save',
-        tooltip: 'Apply sum of months to yearly form',
-        handler: 'onApply'
-      }]*/
     }];
 
-    for (var i = 3; i <= 10; i++) {
+    for (var i = 4; i <= 9; i++) {
       columns.push({
         text: i18n.month['m' + i],
+        xtype: 'numbercolumn',
         dataIndex: 'm' + i,
-        width: 55,
+        width: 70,
         menuDisabled: true,
         editor: { allowBlank: true }
       });

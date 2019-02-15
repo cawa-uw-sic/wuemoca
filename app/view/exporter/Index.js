@@ -49,17 +49,17 @@ Ext.define('App.view.exporter.Index', {
       xtype: 'button', 
       itemId: 'exporter-btn-report',
       text: i18n.report.generate_button,
-      tooltip: i18n.report.btnTooltip,      
+      tooltip: i18n.report.btnTooltip1 + '<br>' + i18n.report.btnTooltip2,      
       iconCls: 'x-fa fa-file-excel-o',
       //ui: 'default-toolbar',
       handler: 'onReport'
-    },{ 
-      xtype: 'button', 
-      itemId: 'exporter-btn-pdf',
-      text: i18n.exp.acronym,
-      iconCls: 'x-fa fa-file-pdf-o',
-      ui: 'default-toolbar',
-      handler: 'onAcronymPDF'
+    // },{ 
+    //   xtype: 'button', 
+    //   itemId: 'exporter-btn-pdf',
+    //   text: i18n.exp.acronym,
+    //   iconCls: 'x-fa fa-file-pdf-o',
+    //   ui: 'default-toolbar',
+    //   handler: 'onAcronymPDF'
     }   
   ]
 });

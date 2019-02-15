@@ -34,7 +34,7 @@ var __Crop = [
   {
     idx   : 0,
     id    : 'non',
-    enName: 'irrigated land',
+    enName: 'irrigated cropland',
     ruName: 'орошаемая земля',
     chart : 'Defaults',
     color : non_color
@@ -49,6 +49,7 @@ var __Crop = [
     enName: 'Cotton',
     ruName: 'хлопок',
     chart : 'Defaults',
+    yield : 1,
     color : cotton_color
   },
   /**
@@ -61,6 +62,7 @@ var __Crop = [
     enName: 'Wheat',
     ruName: 'пшеница',
     chart : 'Defaults',
+    yield : 1,    
     color : wheat_color
   },
   /**
@@ -73,6 +75,7 @@ var __Crop = [
     enName: 'Rice',
     ruName: 'рис',
     chart : 'Defaults',
+    yield : 1,    
     color : rice_color
   },
   /**
@@ -94,7 +97,7 @@ var __Crop = [
   {
     idx   : 5,
     id    : 'orchard',
-    enName: 'Orchard/Vineyard',
+    enName: 'Orchards/Vineyards',
     ruName: 'фруктовый сад/Виноградник',
     chart : 'Defaults',
     color : orchard_color
@@ -106,7 +109,7 @@ var __Crop = [
   {
     idx   : 6,
     id    : 'garden',
-    enName: 'Urban Garden',
+    enName: 'Urban Gardens',
     ruName: 'Городской сад',
     chart : 'Defaults',
     color : garden_color
@@ -118,7 +121,7 @@ var __Crop = [
   {
     idx   : 7,
     id    : 'other',
-    enName: 'Other Crop',
+    enName: 'Other Crops',
     ruName: 'другая культура',
     chart : 'Defaults',
     color : other_color
@@ -142,7 +145,7 @@ var __Crop = [
   {
     idx   : 9,
     id    : 'sun',
-    enName: 'Sunflower',
+    enName: 'Sunflowers',
     ruName: 'подсолнух',
     chart : 'Defaults',
     color : sun_color
@@ -154,7 +157,7 @@ var __Crop = [
   {
     idx   : 10,
     id    : 'veg',
-    enName: 'Vegetable',
+    enName: 'Vegetables',
     ruName: 'овощной',
     chart : 'Defaults',
     color : veg_color

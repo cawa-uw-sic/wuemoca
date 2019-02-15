@@ -10,6 +10,10 @@ Ext.define('App.service.Report', {
 
   window    : Ext.create('App.util.Window', { 
     title: i18n.report.generate_window, 
+    tools: [{ 
+      type: 'help',
+      tooltip: i18n.report.btnTooltip2
+    }],    
     items: [{ xtype: 'app-report-form' }], 
     listeners: { 
       show: 'onReportWindow' },
@@ -294,16 +298,16 @@ Ext.define('App.service.Report', {
       result.body += '<td></td>';
       result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.firn).toFixed(1) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_cotton).toFixed(1) + '</td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.00"\'>' + parseFloat(rec.yf_cotton).toFixed(2) + '</td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_wheat).toFixed(1) + '</td>';
-      result.body += '<td></td>';
-      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.00"\'>' + parseFloat(rec.yf_wheat).toFixed(2) + '</td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
       result.body += '<td></td>';
-      result.body += '<td style=\'mso-number-format:"#,##0.0"\'>' + parseFloat(rec.yc_rice).toFixed(1) + '</td>';      
+      result.body += '<td></td>';
+      result.body += '<td></td>';
+      result.body += '<td style=\'mso-number-format:"#,##0.00"\'>' + parseFloat(rec.yf_rice).toFixed(2) + '</td>';      
       result.body += '</tr>';
     });
 

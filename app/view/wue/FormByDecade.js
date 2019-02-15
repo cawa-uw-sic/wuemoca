@@ -18,8 +18,6 @@ Ext.define('App.view.wue.FormByDecade', {
   features: [{
     ftype: 'grouping',
     groupHeaderTpl: '{name}',
-    //groupHeaderTpl: '{name} <div role="button" class="x-action-col-icon x-action-col-0 x-fa fa-save" ' +
-    //  'data-qtip="Apply all sum of decades of {name} to monthly form" style="padding:0 20px 0 20px;"></div>',
     collapsible: false,
     collapseTip: '',
     id: 'yearGrouping'
@@ -30,6 +28,9 @@ Ext.define('App.view.wue.FormByDecade', {
   },
   columnLines: true,
   height: 350,
+  viewConfig:{
+    markDirty:false
+},
 
   initComponent: function() {
     var columns = [{
@@ -39,11 +40,12 @@ Ext.define('App.view.wue.FormByDecade', {
       menuDisabled: true
     }];
 
-    for (var i = 3; i <= 10; i++) {
+    for (var i = 4; i <= 9; i++) {
       columns.push({
         header: i18n.month['m' + i],
         dataIndex: 'm' + i,
-        width: 54,
+        xtype: 'numbercolumn',
+        width: 70,
         menuDisabled: true,
         editor: { allowBlank: true }
       });

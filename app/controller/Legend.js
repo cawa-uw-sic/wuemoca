@@ -30,10 +30,11 @@ Ext.define('App.controller.Legend', {
     if (!!App.util.Layer.current){
       App.util.Layer.current.setVisible(val);
     }
-    if (!!App.util.Layer.admin){
+    //if (!!App.util.Layer.admin){
       //App.util.Layer.admin.setVisible(val);
-    }
-    App.service.Map.hideShowElements(val);
+    //}
+    App.service.Yearslider.didRender();
+    //App.service.Map.hideShowElements(val);
     App.service.Watcher.set('Current', val ? 'show' : 'noshow');
   },
 

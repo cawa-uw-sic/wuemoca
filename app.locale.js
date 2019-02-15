@@ -12,28 +12,18 @@ var i18n = {
   prod: {
     btnSubmit: 'Calculate Productivity indicators',
     windowTitle: 'Productivity Form',
-    pirf: 'Farm gross output actual (tons)',
-    firf: 'Acreage per crop (ha)',
-    yf: 'Crop yield (t/ha)',
-    wf: 'Water Intake (Mio. m³)',
-    c: 'Crop price ($/t)',
     tab1: 'Crop specific input',
     tab2: 'Crop unspecific input',
-    firn: 'Net irrigated area (ha)',
-    gwc: 'Groundwater contribution (mm)',
-    kpd: 'Efficiency',
-    rain: 'Effective rainfall (mm)',
-    rate: 'Crop rate of water intake (m³/ha)',
     fulldata: 'Please provide complete annual data sets for all occurring crops!',
     userinput: 'User input is required to calculate Productivity indicators.<br>Pre-filled values are taken from the WUEMoCA database.',    
     calculateProd: 'Calculate Productivity',
     calculateProdSuccess: 'Productivity indicators calculated successfully!'
   },
 
-    yesno :{
-      yes: 'Yes',
-      no: 'No'
-    },
+  yesno :{
+    yes: 'Yes',
+    no: 'No'
+  },
 
   header: {
     wuemoca_long            : '<b>W</b>ater <b>U</b>se <b>E</b>fficiency <b>Mo</b>nitor in <b>C</b>entral <b>A</b>sia',
@@ -51,12 +41,12 @@ var i18n = {
 	  help                    : 'Help and Info',
     contact                 : 'Contact',
     responsible             : 'persons responsible',
-    imprint                 : 'Imprint',
+    imprint                 : 'Imprint and Data sources',
     manual                  : 'User Guide',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
     readmore: 'Click to read more about',
-    uniwue                  : 'Department of Remote Sensing at University of Wuerzburg',
+    uniwue                  : 'Department of Remote Sensing at Wuerzburg University',
     sic: 'SIC ICWC',
     sicurl: 'http://sic.icwc-aral.uz/index_e.htm',
     beta: 'BETA version',
@@ -85,14 +75,14 @@ var i18n = {
   },
 
   report: {
-
-      generate_button              : 'Generate Report',
-            generate_window              : 'Generate Report',
-            btnTooltip:'Report format according to statistics',
+    generate_button              : 'Generate Report',
+    generate_window              : 'Generate Report',
+    btnTooltip1:'Show a selection of indicators as report in statistics format',
+    btnTooltip2:'description',              
     year                    : 'Select year',
-      selectCountry: 'Select country',
-      selectOblast: 'Select province',
-      selectBUIS: 'Select BISA',
+    selectCountry: 'Select country',
+    selectOblast: 'Select province',
+    selectBUIS: 'Select BISA',
 
     btnSubmit               : 'Generate',
     cropPattern             : 'Irrigation crop patterns',
@@ -104,37 +94,37 @@ var i18n = {
     titleYield              : 'Irrigation crop yields in {object} {year}',
     alert: 'Select province or BISA!',
 
-      nameUisTH                : 'Site (ISA and district)',
-      nameRayonTH                : 'Site (district)',
-      fir_bTH                : 'Irrigation area, gross',
-      firnTH                : 'Net irrigated area',
-      industrialTH           : 'Industrial crops',
-      totalTH               : 'Total',
-      cottonTH              : 'Cotton',
-      grainTH               : 'Grain',
-      wheatTH               : 'Wheat',
-      vegTH                 : 'Vegetables and cucurbits',
-      fodderTH              : 'Fodder crops',
-      perennialTH           : 'Perennial crops',
-      orchardTH             : 'Orchards',
-      grapesTH              : 'Grapes',
-      homesteadTH           : 'Homestead plots',
-      otherTH               : 'Other',
-      riceTH                : 'Rice',
-      fallowTH              : 'Fallow land',
-      haTH                  : 'ha',
-      tnTH                  : 'tn',
-      thaTH                 : 't/ha',
+    nameUisTH                : 'Site (ISA and district)',
+    nameRayonTH                : 'Site (district)',
+    fir_bTH                : 'Irrigation area, gross',
+    firnTH                : 'Net irrigated area',
+    industrialTH           : 'Industrial crops',
+    totalTH               : 'Total',
+    cottonTH              : 'Cotton',
+    grainTH               : 'Grain',
+    wheatTH               : 'Wheat',
+    vegTH                 : 'Vegetables and cucurbits',
+    fodderTH              : 'Fodder crops',
+    perennialTH           : 'Perennial crops',
+    orchardTH             : 'Orchards',
+    grapesTH              : 'Grapes',
+    homesteadTH           : 'Homestead plots',
+    otherTH               : 'Other',
+    riceTH                : 'Rice',
+    fallowTH              : 'Fallow land',
+    haTH                  : 'ha',
+    tnTH                  : 'tn',
+    thaTH                 : 't/ha',
 
-      footer1               : '*Cotton, oil crops, tobacco',
-      footer2               : '**Wheat, corn'
+    footer1               : '*Cotton, oil crops, tobacco',
+    footer2               : '**Wheat, corn'
 
 
   },
 
   adminFilters: {
     title                   : 'Area filter (optional)',
-        title_userPolygon                   : 'Zoom to area',
+    title_userPolygon                   : 'Zoom to area',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
@@ -158,12 +148,13 @@ var i18n = {
     buisBtnTooltip          : 'Aggregations to BISA',
     wuaBtnTooltip           : 'Aggregations to WUA',
     _or: 'OR',
-          reset:'reset<br>filter'
+    reset:'reset<br>filter'
   },
-mapSelection:{
-   title       :'Maps',
-          reset:'reset<br>selections'
-},
+
+  mapSelection:{
+    title       :'Maps',
+    reset:'reset<br>selections'
+  },
 
   unit: {
     label                   : 'Select unit type',
@@ -173,29 +164,13 @@ mapSelection:{
     grid                    : 'regular Raster',
     polygon                 : 'User polygon'
   },
+
   aggreg: {
-    label                   : 'Select aggregation level',
-    grid                    : 'regular Raster',
-    gridShort               : 'reg. Raster',
-    segment                 : 'Elevation Zone',
-    segmentShort            : 'Elev. Zone',
-    rayon                   : 'District (rayon)',
-    rayonShort              : 'District',
-    rayon4name              : 'District ',
-    oblast                  : 'Province (oblast)',
-    oblastShort             : 'Province',
-    subbasin                : 'River Subbasin',
-    subbasinShort           : 'Subbasin',
-    wua                     : 'WUA (Water User Association)',
-    wuaShort                : 'WUA',
-    buis                    : 'BISA (Basin Irrig. System Auth.)',
-    buisShort               : 'BISA',
-    uis                     : 'ISA (Irrigation System Auth.)',
-    uisShort                : 'ISA',
-    command                 : 'Channel Command Area',
-    commandShort            : 'Comm. Area',
+    label1                   : 'Select',
+    label2                   : 'aggregation level',
     map                     : 'Map'
   },
+
   indicator: {
     label                   : 'Select indicator',
     filter                  : 'Activate filter for indicator list',
@@ -204,15 +179,15 @@ mapSelection:{
   },
 
   crop: {
-    label                   : 'Select crop type:',
-    all_sum: 'Sum of all crops',
-    all_avg: 'Average of all crops'
+    label                   : 'Select crop type:'
   },
+
   vc_classes: {
     less                 : 'little water',
     equal                     : 'balanced',
     more                  :  'much water'
   },
+
   yield_classes: {
     verylow                 : 'very low',
     low                     : 'low',
@@ -273,35 +248,25 @@ mapSelection:{
   chart: {
     title                   : 'Chart',
     png                     : 'Chart as PNG',
-    backbtn                 : 'back (year)',
-    forwardbtn              : 'forward (year)',
     allYear                 : 'all available years',
-    measure                 : 't/ha',
     _in                     : ' in ',
-      no: '',
-          thousand: 'thous. ',
-          million: 'Mio. ',
-    raster                  : 'Raster cell',
-    shareCrops              : 'share (%)',
-    yf                   : 'yield (t/ha)',
+    no: '',
+    thousand: 'thous. ',
+    million: 'Mio. ',
     multiannualHeader1          : 'Multi-annual analysis',
-    multiannualHeader2          : '(aggregated at 7.5km x 7.5km grid cells)',
-    majorLandUse            : 'Major land use',
-    cropRotation            : 'Crop rotation',
-    numCrops                : 'Number of crop types',
-    flf               : 'Fallow land frequency',
-    yearsFallow             : 'Years of fallow',
-          noChart    : 'No diagram available for',
-          sumDoubleFallow: 'All crops incl. double usage, without fallow land',
-          calculate_indicators: 'Calculate indicators',
-          transfer: 'Transfer',
-          toMyPolygons: 'to My Polygons',
-          showCropPrices: 'Show crop prices',
-          legendNotIncluded: 'Chart legend is not included',
-         title_nodata: 'User input required',
-          nodata: 'Please provide statistical data to calculate',
-          prevIndicator: 'Show previous annual indicator',
-          nextIndicator: 'Show next annual indicator'
+    multiannualHeader2          : '(aggregated at 5km x 5km grid cells)',
+    noChart    : 'No diagram available for',
+    sumDoubleFallow: 'All crops incl. double usage, without fallow land',
+    calculate_indicators: 'Calculate indicators',
+    transfer: 'Transfer',
+    toMyPolygons: "to 'User polygon Toolbox'",
+    showCropPrices: 'Show crop prices',
+    legendNotIncluded: 'Chart legend is not included',
+    title_nodata: 'User input required',
+    nodata: 'Please provide statistical data',
+    nodata2: 'to calculate',         
+    prevIndicator: 'Show previous annual indicator',
+    nextIndicator: 'Show next annual indicator'
   },
 
   exp: {
@@ -336,23 +301,42 @@ mapSelection:{
     map: 'map',
     table: 'table',
     mapOrTable : 'map or table',
-btnTooltip1: 'Download all indicators on',
-btnTooltip2: 'level. Select filter, download format and year(s).',
+    btnTooltip1: 'Download indicator map or table on',
+    btnTooltip2: 'aggregation level. Select filter, format, year(s), and indicator(s).',
 
     selectFilter: 'Select filter',
     selectOutput: 'Select download format',
     download: 'Download',
-          nofilter: 'Area filter not activated',
-          noselection1: 'No',
-          noselection2: 'selected (on the map)',
-          selected: 'selected',
-          conjunction: 's' + ' of ',
-          all: 'all',
-          plural: 's',
-          ASB: ' of ASB',
-          acronym: 'Show indicator acronyms',
-              allpolygons: 'all polygons',
-              noselectionPolygon: 'no polygon selected'
+    nofilter: 'Area filter not activated',
+    noselection1: 'No',
+    noselection2: 'selected (on the map)',
+    selected: 'selected',
+    conjunction: 's' + ' of ',
+    all: 'all',
+    plural: 's',
+    ASB: ' of ASB',
+    acronym: 'Acronym<br>explanations',
+          
+    allpolygons: 'all polygons',
+    noselectionPolygon: 'no polygon selected'
+  },
+
+  acronyms: {
+    windowtitle:'Explanation of Acronyms as used in export tables',
+    printtitle: 'WUEMoCA Acronym Explanations',
+    acronym: 'Acronym',
+    name: 'Name',
+    crops: 'Crop information',
+    additional : 'Additional parameters',
+    croptypes : 'Crop types {crop}',
+    allcroptypes : 'each crop',
+    cwr: 'cotton, wheat, rice',
+    indicators : 'Indicator group',
+    description: 'Description',
+    _and: 'and',
+    RS:  'RS = based on remote sensing data',
+    stats:  'stats. = based on statistical data',
+    ET:  'ET = based on evapotranspiration'
   },
 
   timeSlider: {
@@ -371,13 +355,13 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
 
   wue: {
     windowTitle             : 'Water Intake Form (insert values in Mio. m³)',
-      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
+    btnSubmit               : 'Calculate<br>Irrigation Efficiency',
     calculateVir: 'Calculate Irrigation Efficiency',
     calculateVirSuccess: 'Irrigation Efficiency calculated successfully!<br>Download selected polygon to get monthly and ' +
                           'decadal results.' ,
     aggregateETact: 'Aggregate monthly and decadal ET<sub>act</sub> for ',
     btnImport1               : 'Import',
-        btnImport2               : 'Excel file',
+    btnImport2               : 'Excel file',
     tooltipImport               : 'Browse for Excel file with water intake values',
     btnImportTemplates      : 'Excel templates for import',
     tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally',
@@ -393,9 +377,11 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   },
 
    polygon: {
-    showPolygon             : 'My Polygons',
-          showPolygons: "Open 'My Polygons'",
-      hidePolygons:    "Exit 'My Polygons'", 
+    showPolygon             : 'User polygon<br>Toolbox',
+    showPolygonLong             : 'User polygon Toolbox',    
+    showPolygons: "Open 'User polygon Toolbox'",
+    hidePolygons:    "Exit 'Toolbox'", 
+    userPolygons: 'User polygons',
     notPressed              : 'Polygon drawing mode',
     pressed                 : 'Exit polygon drawing mode',
     exportPressed           : 'Report mode',
@@ -415,16 +401,16 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     calculateProdlong            : 'Calculate productivity indicators',
     edit                    : 'Edit Name',
     calculate               : 'Calculate<br>Indicators',
-          progressTitle : 'Calculate Indicators',
-          progressMsg1: 'Aggregate values to',
-          progressMsg2single: 'polygon...',
-          progressMsg2multi: 'polygons...',
-          success : 'Indicators calculated successfully!',
-          failure: 'Indicator calculation failed',
-                largearea: ' due to large area',
-          alreadyCalculated: 'Indicators already calculated!',
-          partlyCalculated: 'Indicator calculation failed or is invalid for some polygons.',
-          calculation_message: 'Do you want to calculate indicators for the selected polygon?',
+    progressTitle : 'Calculate Indicators',
+    progressMsg1: 'Aggregate values to',
+    progressMsg2single: 'polygon...',
+    progressMsg2multi: 'polygons...',
+    success : 'Indicators calculated successfully!',
+    failure: 'Indicator calculation failed',
+    largearea: ' due to large area',
+    alreadyCalculated: 'Indicators already calculated!',
+    partlyCalculated: 'Indicator calculation failed or is invalid for some polygons.',
+    calculation_message: 'Do you want to calculate indicators for the selected polygon?',
     exportExcel: 'Export to EXCEL',
     tooltip: 'Selected polygon',
     pressCalculate: 'First press Calculate Indicators!',
@@ -442,14 +428,14 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     sortClearText: 'Clear Sort',
     selectgeodata: 'Select geodata format',
     drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.',
-        smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
-        smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
-        outside: 'Outside the irrigated area polygons cannot be processed.',
-        import_button_1: 'Import',
-        import_button_2: 'map unit',
-        import_tooltip: "Transfer the selected map unit to 'My Polygons' in order to calculate indicators",
-        removed_single: 'has been removed.',
-        removed_multi: 'have been removed.'
+    smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
+    smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
+    outside: 'Outside the irrigated area polygons cannot be processed.',
+    import_button_1: 'Import',
+    import_button_2: 'map unit',
+    import_tooltip: "Transfer the selected map unit to 'Toolbox' in order to calculate indicators",
+    removed_single: 'has been removed.',
+    removed_multi: 'have been removed.'
   },
 
   exportUI: {
@@ -464,25 +450,6 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
     inputOutput             : 'Select output',
     btnCancel               : 'Cancel',
     btnSubmit               : 'Save'
-  },
-
-  exportTemplate: {
-    landuseTable            : 'Landuse Table',
-    landuseChart            : 'Landuse Chart',
-    yieldTable              : 'Yield Table',
-    yieldChart              : 'Yield Chart',
-    name                    : 'Title: Document showing the information about the selected area',
-    location                : 'Located in',
-    sizeof                  : 'Size of',
-    inha                    : 'in ha',
-    area                    : 'Agricultural/irrigated area within',
-    ds                      : 'Data source',
-    dsDescr                 : 'e.g. “Remote Sensing products based on free-of-charge accessible data (MODIS 250m) ' +
-                            'classification, yield estimation,… The report shows the land use of Wheat, Cotton, Rice and ' +
-                            'Fallow, its percentage share of the irrigated (used) land (incl. temporarily fallow land) in ' +
-                            'the respective unit (polygon name). Permanent unused land is not considered.”',
-    footer                  : 'Footer',
-    footerContent           : '© 2015 Department of Remote Sensing, Würzburg University, Germany'
   },
 
   period: {
@@ -503,9 +470,7 @@ btnTooltip2: 'level. Select filter, download format and year(s).',
   filter_checkbox : {
     label                   : 'show only'
   },
-  alert: {
-    ambiguous               : 'The clicked point is ambiguous, please click one unit only (maybe zoom in).'
-  },
+
   month: {
     m1:                      'Jan',
     m2:                      'Feb',
@@ -532,36 +497,26 @@ switch (locale){
     i18n.prod = {
       btnSubmit: 'Расчитать продуктивность',
       windowTitle: 'Форма продуктивности',
-      pirf: 'Фактическая валовая продукция (тонн)',
-      yf: 'Урожайность (т/га)',
-      wf: 'Водоподача (млн м³)',
-      firf: 'Посев.площади (га)',
-      c: 'Цена ($/т)',
       tab1: 'Ввод параметров по с/х культуам',
-      tab2: 'Остальные показатели',
-      firn: 'Орошаемая площадь, нетто (га)',
-      gwc: 'Подпитка (мм)',
-      kpd: 'КПД',
-      rain: 'Осадки (мм)',
-      rate: 'Норма водоподачи м³/га',
+      tab2: 'Ввод других параметров',
       fulldata: 'Просьба представить полные годовые данные для всех встречающихся культур!',
       userinput: 'Пользовательский ввод необходим для расчета продуктивность.<br>Предварительно заполненные значения берутся из базы данных WUEMoCA.',    
       calculateProd: 'Расчитать продуктивность',
       calculateProdSuccess: 'Расчет продуктивность успешно!'
     };
 
- 
     i18n.yesno = {
       yes: 'да',
       no: 'нет'
     };
+
     i18n.header = {
       wuemoca_long          : 'Мониторинг эффективности водопользования в Центральной Азии',
       cawa_homepage         : 'Домашняя страница проекта CAWa',
       cawa_website          : 'http://www.cawa-project.net/ru/',
       introwindow: 'Страница<br>Приветствия',
-    ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
-    ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
+      ffo_homepage           : 'Федеральное министерство иностранных дел Германии',
+      ffo_website            : 'http://www.auswaertiges-amt.de/EN/Startseite_node.html',
       wuemoca_about         : 'О WUEMoCA',
       details               : 'Детали',
       questionnaire         : 'Анкета для пользователя',
@@ -571,17 +526,17 @@ switch (locale){
       contact               : 'Контакты',
       responsible           : 'ответственные лица',
       faq                   : 'Часто задаваемые вопросы',
-	  help                    : 'Помощь и информация',
-	imprint               : 'выходные данные',
-	manual                  : 'Руководство пользователя',
-	faq                     : 'Часто задаваемые вопросы',
-	glossary                : 'Глоссарий',
+	    help                    : 'Помощь и информация',
+	    imprint               : 'Выходные данные и Источники данных',
+	    manual                  : 'Руководство пользователя',
+	    faq                     : 'Часто задаваемые вопросы',
+	    glossary                : 'Глоссарий',
       readmore: 'Подробнее о',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
-    sic: 'НИЦ МКВК',
-        sicurl: 'http://sic.icwc-aral.uz/index.htm',
-    beta: 'Бета-версия',
-    video_general: 'Instruction Video - General Information'
+      sic: 'НИЦ МКВК',
+      sicurl: 'http://sic.icwc-aral.uz/index.htm',
+      beta: 'Бета-версия',
+      video_general: 'Instruction Video - General Information'
     };
 
     i18n.pilot = {
@@ -609,7 +564,8 @@ switch (locale){
     i18n.report = {
       generate_button              : 'Получить отчет',
       generate_window              : 'Получить отчет',
-      btnTooltip: 'Report format according to statistics',
+            btnTooltip1:'Show a selection of indicators as report in statistics format',
+            btnTooltip2:'Attention: WUEMoCA does not provide exactly the same indicators,<br>that are usually included in statistics,<br>thus not all fields are filled in.',   
       year                  : 'Выберать год',
       selectCountry: 'Выбрать страну',
       selectOblast: 'Выбрать область',
@@ -694,26 +650,8 @@ i18n.mapSelection ={
     };
 
     i18n.aggreg = {
-      label                 : 'Выбрать уровень аггрегирования',
-      grid                  : 'Регулярный растр',
-      gridShort             : 'Рег. растр',
-      segment               : 'Высота зоны',
-      segmentShort          : 'Выс. зоны',
-      rayon                 : 'Район',
-      rayonShort            : 'Район',
-      rayon4name            : ' ',
-      oblast                : 'Область',
-      oblastShort           : 'Область',
-      subbasin              : 'Река подбассейна',
-      subbasinShort         : 'Подбассейны',
-      wua                   : 'АВП (Ассоциация водопользователей)',
-      wuaShort              : 'АВП',
-      buis                  : 'БУИС (Бассейновое Управление Ирригационных Систем)',
-      buisShort             : 'БУИС',
-      uis                   : 'УИС (Управление Ирригационных Систем)',
-      uisShort              : 'УИС',
-      command               : 'Подкомандная зона канала',
-      commandShort          : 'Подкомандная зона канала',
+    label1                   : 'Выбрать',
+    label2                   : 'уровень аггрегирования',      
       map: 'карту'
     };
     i18n.indicator = {
@@ -724,9 +662,7 @@ i18n.mapSelection ={
     };
 
     i18n.crop = {
-      label                 : 'Выбрать с/х культуру:',
-      all_sum: 'Sum of all crops',
-      all_avg: 'Average of all crops'
+      label                 : 'Выбрать с/х культуру:'
     };
     i18n.yield_classes = {
       verylow               : 'очень низкая',
@@ -762,34 +698,25 @@ i18n.mapSelection ={
     i18n.chart = {
       title                 : 'График',
       png                   : 'График как PNG',
-      backbtn               : 'назад (год)',
-      forwardbtn            : 'вперед (год)',
       allYear               : 'все доступные года',
       _in                   : ' в ',
       no: '',
-          thousand: 'тысяча ',
-          million: 'млн ',
-      raster                : 'Растровые',
-      shareCrops            : 'Доля культур (%)',
-      yf                 : 'урожай (т/га)',
+      thousand: 'тысяча ',
+      million: 'млн ',
       multiannualHeader1          : 'Многолетний анализ',
-      multiannualHeader2          : '(одна ячейка = 7,5км x 7,5км)',
-      majorLandUse          : 'Основная культура',
-      cropRotation          : 'Севооборот',
-      numCrops              : 'Кол-во типов культур',
-      flf             : 'Частота неисп.земель',
-      yearsFallow           : 'Годы неисп.земель',
+      multiannualHeader2          : '(одна ячейка = 5км x 5км)',
       noChart    : 'Нет диаграмма для',
-                sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель',
-          calculate_indicators: 'Calculate indicators',
-          transfer: 'Transfer',
-          toMyPolygons: 'to My Polygons',
-          showCropPrices: 'Show crop prices',
-          legendNotIncluded: 'Chart legend is not included',
-         title_nodata: 'Требуется ввод пользователя',
-          nodata: 'Просьба представить статистические данные для расчета',
-                    prevIndicator: 'Показать предыдущий годовой индикатор',
-          nextIndicator: 'Показать следующий годовой индикатор'
+      sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель',
+      calculate_indicators: 'Calculate indicators',
+      transfer: 'Transfer',
+      toMyPolygons: "to 'User polygon Toolbox'",
+      showCropPrices: 'Show crop prices',
+      legendNotIncluded: 'Chart legend is not included',
+      title_nodata: 'Требуется ввод пользователя',
+      nodata: 'Просьба представить статистические данные',
+      nodata2: 'для расчета',
+      prevIndicator: 'Показать предыдущий годовой индикатор',
+      nextIndicator: 'Показать следующий годовой индикатор'
     };
 
     i18n.exp = {
@@ -826,8 +753,8 @@ i18n.mapSelection ={
           map: 'карту',
           table: 'таблица',
           mapOrTable : 'карту или таблица',
-          btnTooltip1: 'Download all indicators on',
-          btnTooltip2: 'level. Select filter, download format and year(s).',
+          btnTooltip1: 'Download indicator map or table on',
+          btnTooltip2: 'aggregation level. Select filter, format, year(s), and indicator(s).',
           selectFilter: 'Выбрать фильтр',
           selectOutput: 'Выберите формат вывод',
           download: 'Скачать',
@@ -839,9 +766,28 @@ i18n.mapSelection ={
                     all: 'все',
                     plural: '',
                               ASB: ' of ASB',
-                    acronym: 'Show indicator acronyms',
+                    acronym: 'Акроним<br>объяснения',
+
               allpolygons: 'all polygons',
               noselectionPolygon: 'no polygon selected'
+
+    };
+    i18n.acronyms = {
+      windowtitle:'Объяснение сокращений, используемых в таблицах экспорта',
+      printtitle: 'WUEMoCA Акроним Пояснения',
+      acronym: 'Акроним',
+      name: 'название',
+      crops: 'Информация по культурам',
+      additional : 'Дополнительные параметры',
+      croptypes : 'культура {crop}',
+      allcroptypes : 'каждая культура',
+      cwr: 'хлопок, рис, пшеница',
+      indicators : 'Индикаторная группа',
+      description: 'Описание',
+      _and: 'и',
+      RS:  'ДЗ = основывается на данных дистанционного зондирования',
+      stats:  'статс. = по статистическим данным',
+      ET:  'ET = основанный на эвапотранспирации'
 
     };
 
@@ -883,9 +829,11 @@ i18n.mapSelection ={
     },
 
     i18n.polygon = {
-          showPolygon             : 'Мои полигоны',
-          showPolygons: "Open 'My Polygons'",
-      hidePolygons:    "Exit 'My Polygons'",
+          showPolygon             : 'полигоны<br>Инструменты',
+                    showPolygonLong             : 'полигоны Инструменты',
+          showPolygons: "Open 'User polygon Toolbox'",
+      hidePolygons:    "Exit 'Toolbox'",
+            userPolygons: 'User polygons',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -939,7 +887,7 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
         outside: 'Outside the irrigated area polygons cannot be processed.',
         import_button_1: 'Импортировать',
         import_button_2: 'map unit',
-        import_tooltip: "Transfer the selected map unit to 'My Polygons' in order to calculate indicators",
+        import_tooltip: "Transfer the selected map unit to 'User polygon Toolbox' in order to calculate further indicators",
         removed_single: 'был удален.',
         removed_multi: 'были удалены.'
     };
@@ -956,26 +904,6 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
       inputOutput           : 'Выберите вывод отчета',
       btnCancel             : 'Отмена',
       btnSubmit             : 'Сохранить'
-    };
-
-    i18n.exportTemplate = {
-      landuseTable          : 'Таблица землепользования',
-      landuseChart          : 'График землепользования',
-      yieldTable            : 'Таблица урожайности',
-      yieldChart            : 'График урожайности',
-      name                  : 'Название: документ, показывающий информацию о выбранной области',
-      location              : 'Находится в',
-      sizeof                : 'Размер',
-      inha                  : 'в га',
-      area                  : 'Сельскохозяйственные / площадь орошаемых земель в',
-      ds                    : 'Источник данных',
-      dsDescr               : 'например "Дистанционное зондирование продукты, основанные на свободных от заряда доступных ' +
-                              'данных (MODIS 250) классификация, оценка доходности, ... Отчет показывает использование ' +
-                              'земельный участок Пшеница, хлопок, рис и пар, ее доля орошаемых (используется) Земельные ' +
-                              'участки (вкл . временно находящиеся под паром земля) в соответствующий блок (имя ' +
-                              'многоугольника). Постоянная неиспользуемые земли не считается ".',
-      footer                : 'Hижний колонтитул',
-      footerContent         : '© 2015 Отдел дистанционного зондирования, Вюрцбургский университет, Германия'
     };
 
     i18n.period = {
@@ -995,10 +923,6 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
   };
   i18n.filter_checkbox = {
     label                   : 'показывать только'
-  };
-  i18n.alert = {
-    ambiguous               : 'Выбранная точка является неоднозначной, пожалуйста, нажмите только на одну единицу (может ' +
-                            'быть увеличение)'
   };
 
   i18n.month = {

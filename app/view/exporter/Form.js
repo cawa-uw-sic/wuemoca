@@ -31,15 +31,20 @@ Ext.define('App.view.exporter.Form', {
   },
   items: [
     { xtype: 'app-exporter-cb-downloadselection', itemId: 'exporter-cb-downloadselection', name: 'filter'},
-    { xtype: 'app-exporter-cb-downloadtype', name: 'type'},
-    { xtype: 'app-exporter-tag-year', itemId: 'exporter-tag-year', name: 'year' },
-    { xtype: 'app-exporter-tag-indicator', itemId: 'exporter-tag-indicator', name: 'indicator' }
+    { xtype: 'app-exporter-cb-downloadtype',      itemId: 'exporter-cb-downloadtype',      name: 'type'},
+    { xtype: 'app-exporter-tag-year',             itemId: 'exporter-tag-year',             name: 'year' },
+    { xtype: 'app-exporter-tag-indicator',        itemId: 'exporter-tag-indicator',        name: 'indicator' }
   ],
-
+  buttonAlign: 'center',
   buttons: [{
+    itemId: 'exporter-btn-acronym',
+    text: i18n.exp.acronym,
+    height: 32,
+    handler: 'onShowAcronymWindow'
+  },{
     itemId: 'exporter-btn-submit',
     text: i18n.exp.download,
-    handler: 'onFormSubmit'
+    handler: 'onFormSubmit'    
   }]
 
 });

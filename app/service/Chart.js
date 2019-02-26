@@ -147,8 +147,8 @@ Ext.define('App.service.Chart', {
               var name = (first[ App.service.Watcher.get('Aggregation') + '_' + __Global.lang] || '') + ' '
                 + App.service.Watcher.getAggregation()[__Global.lang + 'NameShort'];
               //store multipolygon coordinates, extent and wkt_geometry
-              //Geometry format for reading and writing data in the WellKnownText (WKT) format.
-              var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates));        
+              //Geometry format for reading and writing data in the WellKnownText (WKT) format in WGS 84.
+              var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon(coordinates).transform(__Global.projection.Mercator, __Global.projection.Geographic));        
               App.service.Polygon.importSelectedGeometry(
                 coordinates, 
                 BackgroundLayers.highlight.getSource().getExtent(),

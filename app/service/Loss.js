@@ -136,7 +136,7 @@ Ext.define('App.service.Loss', {
 
               if (!data[year][indicator.id]) data[year][indicator.id] = {};
               if (dataFound) {
-                try { data[year][indicator.id][App.service.Loss.getKey(month, decade)] = eval(formula); } catch (err) { console.log(err.message) }
+                try { data[year][indicator.id][App.service.Loss.getKey(month, decade)] = eval(formula); } catch (err) { Ext.Msg.alert('', 'failure ' + err.message); }
               } else {
                 data[year][indicator.id][App.service.Loss.getKey(month, decade)] = '';
               }
@@ -145,7 +145,8 @@ Ext.define('App.service.Loss', {
         }
       });
     } catch (err) {
-      console.log(err.message);
+      Ext.Msg.alert('', 'failure ' + err.message);
+      //console.log(err.message);
     }
     return data;
   },
@@ -244,6 +245,8 @@ Ext.define('App.service.Loss', {
     }
     if (years.length == 0) return false;
 
+    //change year range to single years!!
+
     params.max_year = App.service.Helper.arrayMax(years);
     params.min_year = App.service.Helper.arrayMin(years);
 
@@ -269,7 +272,8 @@ Ext.define('App.service.Loss', {
         callback(response);
       },
       failure: function(response){
-        console.log('failure ' + response.responseText);
+        Ext.Msg.alert('', 'failure ' + response.responseText);
+        //console.log('failure ' + response.responseText);
       }
     });
   },
@@ -293,7 +297,7 @@ Ext.define('App.service.Loss', {
     return data;
   },
 
-  exportData: function (data) {
+/*  exportData: function (data) {
     var wb = XLSX.utils.book_new();
     wb.SheetNames.push('Export');
     var ws = XLSX.utils.json_to_sheet(data);
@@ -306,7 +310,7 @@ Ext.define('App.service.Loss', {
       return buff;
     }
     saveAs(new Blob([s2ab(wbout)], {type: 'application/octet-stream'}), 'export.xlsx');
-  },
+  },*/
 
   importData: function (file) {
     var reader = new FileReader();
@@ -321,7 +325,8 @@ Ext.define('App.service.Loss', {
     };
 
     reader.onerror = function(ex) {
-      console.log(ex);
+      Ext.Msg.alert('', 'failure ' + ex);
+      //console.log(ex);
     };
 
   }

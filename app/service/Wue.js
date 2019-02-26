@@ -363,7 +363,8 @@ Ext.define('App.service.Wue', {
       callback: function(){
       },
       failure: function(response){
-        console.log('failure ' + response.responseText);
+        Ext.Msg.alert('', 'failure ' + response.responseText);
+        //console.log('failure ' + response.responseText);
       }
     });
   },
@@ -408,7 +409,8 @@ Ext.define('App.service.Wue', {
     })(file);
 
     reader.onerror = function(ex) {
-      console.log(ex);
+      Ext.Msg.alert('', 'failure ' + ex);
+      //console.log(ex);
     };
 
     reader.readAsBinaryString(file);

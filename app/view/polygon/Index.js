@@ -52,7 +52,7 @@ Ext.define('App.view.polygon.Index', {
         width: 152,
         iconCls: 'x-fa fa-upload',
         ui: 'default-toolbar',
-        handler: function(){alert(i18n.polygon.uploadAlert);},
+        //handler: function(){alert(i18n.polygon.uploadAlert);},
         baseCls: 'x-btn'
       }
     /*},{

@@ -1,13 +1,13 @@
 var __LossInputIndicators = [{
     id: "eta",
-    enName: "ETa (calculated on the server)",
+    enName: "Actual Evapotranspiration (calculated on the server)",
     ruName: "Фактическая эвапотранспирация (рассчитывается на сервере)",
     enUnit: "mm",
     ruUnit: "мм",
     fromServer: true
 }, {
     id: "dayno",
-    enName: "The number of the day in the year on which it is calculated ETo",
+    enName: "The day of the year on which it is calculated ETo",
     ruName: "Номер дня в году на который расчитывается ETo",
     enUnit: "day",
     ruUnit: "день"
@@ -57,7 +57,7 @@ var __LossInputIndicators = [{
     id: "sunshu",
     enName: "Duration of sunshine",
     ruName: "Длительность солнечного сияния",
-    enUnit: "hour",
+    enUnit: "hours",
     ruUnit: "час"
 }, {
     id: "winspe",
@@ -102,81 +102,82 @@ var __LossInputIndicators = [{
     enUnit: "k",
     ruUnit: "k"
 }];
+
 var __LossCalcIndicators = [{
     id: "pressure",
     enName: "Atmosphere pressure",
     ruName: "Атмосферное давление",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "101.3 * Math.pow((293 - 0.0065 * {altitude}) / 293, 5.26)"
 }, {
     id: "radians",
     enName: "Latitude in radians",
     ruName: "Широта в радианах",
-    enUnit: "рад",
+    enUnit: "rad",
     ruUnit: "рад",
     formula: "3.141593 / 180 * {latitude}"
 }, {
     id: "tmean",
-    enName: "tmean",
+    enName: "Average air temperature",
     ruName: "Средняя температура воздуха",
     enUnit: "°С",
     ruUnit: "°С",
     formula: "({tmax} + {tmin}) / 2"
 }, {
     id: "dlt",
-    enName: "dlt",
+    enName: "Gradient vapor pressure curve",
     ruName: "Градиент кривой давления пара насыщения",
-    enUnit: "кПа/°С",
+    enUnit: "kPa/°С",
     ruUnit: "кПа/°С",
     formula: "4098 * (0.6108 * Math.exp((17.27 * {tmean}) / ({tmean} + 237.3))) / Math.pow({tmean} + 237.3, 2)"
 }, {
     id: "gamma",
-    enName: "gamma",
+    enName: "Psychrometric constant",
     ruName: "Психрометрическая постоянная",
-    enUnit: "кПа/°С",
+    enUnit: "kPa/°С",
     ruUnit: "кПа/°С",
     formula: "0.662 * Math.pow(10,-3) * {pressure}"
 }, {
     id: "e0min",
-    enName: "e0min",
+    enName: "Saturation vapor pressure at Tmin",
     ruName: "Давление пара насыщения при Тmin",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "0.6108 * Math.exp((17.27 * {tmin}) / ({tmin} + 237.3))"
 }, {
     id: "e0max",
-    enName: "e0max",
+    enName: "Saturation vapor pressure at Tmax",
     ruName: "Давление пара насыщения при Тmax",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "0.6108 * Math.exp((17.27 * {tmax}) / ({tmax} + 237.3))"
 }, {
     id: "es",
-    enName: "es",
+    enName: "Vapor pressure average",
     ruName: "Давление пара насыщения среднее",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "({e0min} + {e0max}) / 2"
 }, {
     id: "ea",
-    enName: "ea",
+    enName: "Actual vapor pressure",
     ruName: "Давление пара фактическое",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "({humid} / 100) * {es}"
 }, {
     id: "esa",
-    enName: "esa",
+    enName: "Lack of vapor pressure saturation",
     ruName: "Дефицит давления пара насыщения",
-    enUnit: "кПа",
+    enUnit: "kPa",
     ruUnit: "кПа",
     formula: "{es} - {ea}"
 }, {
     id: "mdlt",
     enName: "mdlt",
     ruName: "Солнечное наклонение",
-    enUnit: "рад",
+    enUnit: "rad",
     ruUnit: "рад",
     formula: "0.409 * Math.sin((2 * 3.141593 * {dayno} / 365) - 1.39)"
 }, {
@@ -188,65 +189,65 @@ var __LossCalcIndicators = [{
     formula: "((-Math.tan({radians})) * Math.tan({mdlt}))"
 }, {
     id: "omega",
-    enName: "omega",
+    enName: "Sunset angle",
     ruName: "Угол на закате",
-    enUnit: "рад",
+    enUnit: "rad",
     ruUnit: "рад",
     formula: "Math.acos({x})"
 }, {
     id: "dr",
-    enName: "dr",
+    enName: "Reverse relative distance Earth - Sun",
     ruName: "Обратное относительное растояние Земля - Солнце",
     enUnit: "",
     ruUnit: "",
     formula: "1 + 0.033 * Math.cos(2 * 3.141593 / 365 * {dayno})"
 }, {
     id: "ra",
-    enName: "ra",
+    enName: "Extraterrestrial Solar Radiation",
     ruName: "Внеземная солнечная радиация",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "1440 / 3.141593 * 0.082 * {dr} * ({omega} * Math.sin({radians}) * Math.sin({mdlt}) + Math.cos({radians}) * Math.cos({mdlt}) * Math.sin({omega}))"
 }, {
     id: "n",
-    enName: "n",
+    enName: "Maximum sunshine duration",
     ruName: "Максимально возможная продолжительность солнечного сияния",
-    enUnit: "час / сут",
+    enUnit: "hours/day",
     ruUnit: "час / сут",
     formula: "24 / 3.141593 * {omega}"
 }, {
     id: "rs",
-    enName: "rs",
+    enName: "Solar radiation reaching the earth's surface",
     ruName: "Солнечная радиация достигающая поверхности земли",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "(0.25 + 0.5 * {sunshu} / {n}) * {ra}"
 }, {
     id: "rso",
-    enName: "rso",
+    enName: "Solar radiation reaching the earth's surface in clear weather",
     ruName: "Солнечная радиация достигающая поверхности земли в ясную погоду",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "(0.75 + 2 * Math.pow(10, -5) * 582) * {ra}"
 }, {
     id: "rns",
-    enName: "rns",
+    enName: "Pure shortwave solar radiation",
     ruName: "Чистая коротковолновая солнечная радиация",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "(1 - 0.23) * {rs}"
 }, {
     id: "rnl",
-    enName: "rnl",
+    enName: "Pure longwave terrestrial radiation",
     ruName: "Чистая длиноволновая земная радиация",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "(4.903 * Math.pow(10, -9)) * (Math.pow({tmax} + 273.16, 4) + Math.pow({tmin} + 273.16, 4)) / 2 * (0.34 - 0.14 * Math.sqrt({ea})) * (1.35 * {rs} / {rso} - 0.35)"
 }, {
     id: "rn",
-    enName: "rn",
+    enName: "Pure radiation on the surface of plants",
     ruName: "Чистая радиация на поверхности растений",
-    enUnit: "МДж/м2 сут",
+    enUnit: "MJ/m² day",
     ruUnit: "МДж/м2 сут",
     formula: "{rns} - {rnl}"
 }, {
@@ -272,51 +273,51 @@ var __LossCalcIndicators = [{
     formula: "{dlt} + {gamma} * (1 + 0.34 * {winspe})"
 }, {
     id: "et0",
-    enName: "ETo",
+    enName: "Reference Evapotranspiration",
     ruName: "Эталонная эвапотранспирация",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "(({d_1} + {f_1}) / {k_1}) * {days}"
 }, {
     id: "etc",
-    enName: "ETc",
+    enName: "Evapotranspiration per crop",
     ruName: "Эвапотранспирация с/х культур",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "{kc} * {et0}"
 }, {
     id: "etc_a",
-    enName: "ETc_a",
+    enName: "Actual Evapotranspiration per crop",
     ruName: "Эвапотранспирация факт || с/х культур",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "({eta} || {etc})"
 }, {
     id: "eta_sum",
     enName: "eta_sum",
     ruName: "eta_sum",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "[eta]"
 }, {
     id: "et0_sum",
     enName: "et0_sum",
     ruName: "et0_sum",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "[et0]"
 }, {
     id: "etc_sum",
     enName: "etc_sum",
     ruName: "etc_sum",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "[etc]"
 }, {
     id: "etc_a_sum",
     enName: "etc_a_sum",
     ruName: "etc_a_sum",
-    enUnit: "мм",
+    enUnit: "mm",
     ruUnit: "мм",
     formula: "[etc_a]"
 }, {
@@ -349,7 +350,7 @@ var __LossCalcIndicators = [{
     formula: "{etc_sum} * {kw}"
 }, {
     id: "etfrs_a",
-    enName: "Forecast ET",
+    enName: "Adjusted forecast ET",
     ruName: "Откорректированная прогнозируемая эвапотранспирация",
     enUnit: "mm",
     ruUnit: "мм",

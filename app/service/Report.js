@@ -19,7 +19,7 @@ Ext.define('App.service.Report', {
       show: 'onReportWindow' },
     modal: true
   }),
-  //http://jsfiddle.net/insin/cmewv/  
+/*  //http://jsfiddle.net/insin/cmewv/  
   //https://gist.github.com/insin/1031969
   uri       : 'data:application/vnd.ms-excel;base64,',
   template  : '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
@@ -38,7 +38,7 @@ Ext.define('App.service.Report', {
     '<![endif]-->' +
   '</head><body><table>{table}</table></body></html>',
   base64    : function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
-  format    : function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
+  format    : function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },*/
 
 
   getYearData: function () {
@@ -68,11 +68,29 @@ Ext.define('App.service.Report', {
       params: {format_options: 'callback:Ext.data.JsonP.ReportResponse'},
       success: function (results) {
         self.isBusy = false;
+        //write Excel file
         var worksheetname = title1.replace(/ /g,"_") + '_' + params.type + '_' + year;
         if (worksheetname.length > 31){
           worksheetname = params.type + '_' + year;
         }
-        var ctx = { worksheet: worksheetname, table: self[params.type](results, title1 + ' ' + title2, year, oblast) };
+        var wb = XLSX.utils.book_new();
+        wb.SheetNames.push(worksheetname);
+        var content = self[params.type](results, title1 + ' ' + title2, year, oblast);
+        //write HTML table as worksheet
+        var ws = XLSX.utils.table_to_sheet(content.table);
+        //column width setting
+        ws['!cols'] = content.wscols;
+        wb.Sheets[worksheetname] = ws;
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'});
+        function s2ab (s) {
+          var buff = new ArrayBuffer(s.length);
+          var view = new Uint8Array(buff);
+          for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+          return buff;
+        }
+        saveAs(new Blob([s2ab(wbout)], {type: 'application/octet-stream'}), title1.replace(/ /g,"_") + '_' + title2 + '_' + params.type + '_' + year + '.xlsx');
+
+/*        var ctx = { worksheet: worksheetname, table: self[params.type](results, title1 + ' ' + title2, year, oblast) };
 
         //this trick will generate a temp <a /> tag
         var link = document.createElement("a");    
@@ -86,7 +104,7 @@ Ext.define('App.service.Report', {
         //this part will append the anchor tag and remove it after automatic click
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
+        document.body.removeChild(link);*/
 
        // window.location.href = self.uri + self.base64(self.format(self.template, ctx));
       }
@@ -95,25 +113,42 @@ Ext.define('App.service.Report', {
 
   cropPattern: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
+    var wscols = [
+      {wpx:200},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80}
+    ];
 
     var topTitle = i18n.report.titlePattern.replace('{object}', title);
-        topTitle = topTitle.replace('{year}', year);
+    topTitle = topTitle.replace('{year}', year);
     var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
     
     result.head = '<tr><th colspan="15">' + topTitle + '</th></tr>';
     result.head += '<tr>';
-    result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>';
+    result.head += '<th rowspan="3" style="width:200px">' + nameTH + '</th>'; 
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fir_bTH + '</th>'; 
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.firnTH + '</th>'; 
+    result.head += '<th colspan="2">' + i18n.report.industrialTH + '</th>'; 
+    result.head += '<th colspan="2">' + i18n.report.grainTH + '</th>'; 
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.vegTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fodderTH + '</th>';
-    result.head += '<th colspan="2">' + i18n.report.perennialTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fodderTH + '</th>'; 
+    result.head += '<th colspan="2">' + i18n.report.perennialTH + '</th>'; 
     result.head += '<th rowspan="2" style="width:80px">' + i18n.report.homesteadTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.otherTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.riceTH + '</th>';
-    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fallowTH + '</th>';
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.otherTH + '</th>'; 
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.riceTH + '</th>'; 
+    result.head += '<th rowspan="2" style="width:80px">' + i18n.report.fallowTH + '</th>'; 
     result.head += '</tr>';
 
     result.head += '<tr>';
@@ -166,14 +201,34 @@ Ext.define('App.service.Report', {
 
     result.body += this.getFooter();
 
-    return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+    var table = document.createElement("table");
+    table.innerHTML = '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+
+    var outcome = { table: table, wscols: wscols };
+
+    return outcome;
   },
 
   grossHarvest: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
-
+    var wscols = [
+      {wpx:200},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80}
+    ];
     var topTitle = i18n.report.titleHarvest.replace('{object}', title);
-        topTitle = topTitle.replace('{year}', year);
+    topTitle = topTitle.replace('{year}', year);
     var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
 
     result.head = '<tr><th colspan="14">' + topTitle + '</th></tr>';
@@ -239,14 +294,34 @@ Ext.define('App.service.Report', {
 
     result.body += this.getFooter();
 
-    return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+    var table = document.createElement("table");
+    table.innerHTML = '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+
+    var outcome = { table: table, wscols: wscols };
+
+    return outcome;
   },
 
   cropYield: function (data, title, year, oblast) {
     var result = { head: '', body: '' };
-
+    var wscols = [
+      {wpx:200},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80},
+      {wpx:80}
+    ];
     var topTitle = i18n.report.titleYield.replace('{object}', title);
-        topTitle = topTitle.replace('{year}', year);
+    topTitle = topTitle.replace('{year}', year);
 
     var nameTH = oblast ? i18n.report.nameRayonTH : i18n.report.nameUisTH;
     
@@ -313,7 +388,12 @@ Ext.define('App.service.Report', {
 
     result.body += this.getFooter();
 
-    return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+    var table = document.createElement("table");
+    table.innerHTML = '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
+
+    var outcome = { table: table, wscols: wscols };
+
+    return outcome;
   },
 
   getFooter: function () {

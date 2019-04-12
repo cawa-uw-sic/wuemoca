@@ -82,7 +82,6 @@ Ext.define('App.service.Exporter', {
         griddata.push({
           field: indicator.field, 
           name: indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']',
-          //'<span style="color:#970016">Productivity (stats.)</span>'
           group: i18n.acronyms.indicators + ': ' + indicator[__Global.lang + 'Group'].replace('<span style="color:#970016">','').replace('</span>',''),
           groupsort: indicator.groupsort,
           crops: croptext,
@@ -156,12 +155,9 @@ Ext.define('App.service.Exporter', {
     //set download button enabled/disabled and text
     var button = App.service.Helper.getComponentExt('exporter-btn-download');
     var no_export = false;
-    if (App.service.Watcher.getIndicator().chart == 'Multiannual' ||
-      //userPolygon ||
-      aggregation.id == 'grid' ||
-      !App.util.Layer.current){
-        no_export = true;
-        App.service.Helper.getComponentExt('exporter-window').hide(); 
+    if (App.service.Watcher.getIndicator().chart == 'Multiannual' || aggregation.id == 'grid' || !App.util.Layer.current){
+      no_export = true;
+      App.service.Helper.getComponentExt('exporter-window').hide(); 
     }
     if (!!App.util.Layer.current){
       if (!App.util.Layer.current.getVisible()){
@@ -265,14 +261,12 @@ Ext.define('App.service.Exporter', {
     downloadSelectionStore.removeAll();
     downloadSelectionStore.loadData(downloadSelectionData);
     //set combobox value to previously selected index if any
-    //if (selectedIndex == -1){
-      if (!!polygon){
-        selectedIndex = 1;        
-      }
-      else{
-        selectedIndex = 0;
-      }
-    //}
+    if (!!polygon){
+      selectedIndex = 1;        
+    }
+    else{
+      selectedIndex = 0;
+    }
     if (downloadSelectionStore.count() > selectedIndex){
       App.service.Helper.setComboboxSelectedIndex('exporter-cb-downloadselection', selectedIndex);
     }
@@ -485,17 +479,6 @@ Ext.define('App.service.Exporter', {
   },
 
   /**
-  * @method base64
-  * window.btoa() function creates a base-64 encoded ASCII string from string data.
-  * encodeURIComponent() function encodes a Uniform Resource Identifier (URI) component by replacing each instance of certain characters 
-  * by one, two, three, or four escape sequences representing the UTF-8 encoding of the character.
-  */
-  //base64: function (s)    { return window.btoa(unescape(encodeURIComponent(s))) },
-  /**
-  * @method format
-  */
-  //format: function (s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) },
-  /**
   * @method prepareData4Excel 
   * the polygon indicator values, stored in user database in JSON format, are written to Excel file with SheetJS
   */
@@ -581,166 +564,8 @@ Ext.define('App.service.Exporter', {
       var sheetName = i18n.unit.polygon;
 
       this.writeExcel(sortedData, fileName, sheetName);
-    //   var ctx = { worksheet: fileName, table: self.indicator_table(sortedData, year) };
-
-    //   App.service.Helper.openDocument(
-    //     self.uri + self.base64(self.format(self.template, ctx)), 
-    //     null, 
-    //     fileName + ".xls"
-    //   );
     }
   },
-
-  // indicator_table: function (data, year) {
-  //   var fieldCount = 0;
-  //   var result = { head: '', body: '' };
-   
-  //   result.head += '<tr>';
-
-  //   //This loop will extract the label from 1st index of on array
-  //   //keep indices in the same order for all loops
-  //   var indices = [];
-  //   for (var index in data[0]) {
-  //     fieldCount++;
-  //     result.head += '<th>' + index + '</th>';
-  //     indices.push(index);
-  //   }
-  //   result.head += '</tr>';
-
-  //   //1st loop is to extract each row
-  //   for (var i = 0; i < data.length; i++) {
-  //     result.body += '<tr>';
-  //     //2nd loop will extract each column
-  //     for (var idx = 0; idx < indices.length; idx++) {
-  //       //empty for null value
-  //       if (data[i][indices[idx]] == null){
-  //         result.body += '<td></td>';
-  //       }
-  //       //no number format for year and string
-  //       else if (isNaN(data[i][indices[idx]]) || indices[idx] == 'year'){
-  //         result.body += '<td>' + data[i][indices[idx]] + '</td>';            
-  //       }
-  //       //format with decimals and thousand separators
-  //       else{
-  //         var format = '0';
-  //         //read decimal places from the indicator list
-  //         __Indicator.map(function (indicator) {
-  //           if (indices[idx].indexOf(indicator.id) != -1 && indicator.decimals != undefined){
-  //             format = '#,##0';
-  //             if (indicator.decimals > 0){
-  //               format += '.';
-  //               for (var count = 1; count <= indicator.decimals; count++){
-  //                 format += '0';
-  //               }
-  //             } 
-  //           }
-  //         });
-  //         __Indicator_userPolygon.map(function (indicator) {
-  //           if (indices[idx].indexOf(indicator.id) != -1 && indicator.decimals != undefined){
-  //             format = '#,##0';
-  //             if (indicator.decimals > 0){
-  //               format += '.';
-  //               for (var count = 1; count <= indicator.decimals; count++){
-  //                 format += '0';
-  //               }
-  //             } 
-  //           }
-  //         });            
-  //         //workaround for problem with three decimals and German or Russian delimiter 
-  //         var value = parseFloat(data[i][indices[idx]]).toFixed(4);
-  //         //table columns that are not within the indicator list
-  //         if (indices[idx] == 'area_ha'){
-  //           format = '#,##0'; 
-  //         }
-  //         result.body += '<td style=\'mso-number-format:"' + format + '"\'>' + value + '</td>';      
-  //       }
-  //     }
-  //     result.body += '</tr>';
-  //   }
-    
-  //   //add column name explanation
-  //   result.body += '<tr></tr>'; 
-  //   result.body += '<tr>';     
-  //   result.body += '<th>' + i18n.exp.indicatorAcronym + '</th>'; 
-  //   result.body += '<th></th>';       
-  //   result.body += '<th>' + i18n.exp.indicatorName + '</th>';  
-  //   for (var i = 4; i <= fieldCount; i++){
-  //     result.body += '<th></th>';        
-  //   }
-  //   result.body += '</tr>';       
-  //   var export_indicators = this.indicator;
-
-  //   __Indicator.map(function (indicator) {
-  //     if (export_indicators == '' || export_indicators.indexOf(indicator.id) != -1){
-  //       if (indicator.userDB){
-  //         result.body += '<tr>';     
-  //         result.body += '<td><b>' + indicator.field + '</b></td>'; 
-  //         result.body += '<td></td>';       
-  //         result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
-  //         for (var i = 4; i <= fieldCount; i++){
-  //           result.body += '<td></td>';        
-  //         }   
-  //         result.body += '</tr>';          
-  //       }
-  //     }
-  //   });
-  //   if (
-  //     export_indicators != '' 
-  //     && export_indicators.indexOf('vir') != -1 
-  //     && export_indicators.indexOf('etf') == -1
-  //   ){
-  //     result.body += '<tr>';     
-  //     result.body += '<td><b>' + 'etf_non' + '</b></td>'; 
-  //     result.body += '<td></td>';   
-  //     var etf_indicator = App.service.Helper.getById( __Indicator, 'etf');    
-  //     result.body += '<td>' + etf_indicator[__Global.lang + 'Name'] + ' [' + etf_indicator[__Global.lang + 'Unit'] + ']</td>';
-  //     for (var i = 4; i <= fieldCount; i++){
-  //       result.body += '<td></td>';        
-  //     }   
-  //     result.body += '</tr>';       
-  //   }
-  //   __Indicator_userPolygon.map(function (indicator) {
-  //     var add = false;  
-  //     if (export_indicators == ''){
-  //       add = true;
-  //     } 
-  //     if (!add){
-  //       indicator.connectedTo.map(function (conn) {  
-  //         if (add) return false; 
-  //         if (export_indicators.indexOf(conn) != -1){
-  //           add = true;
-  //         } 
-  //       });    
-  //     } 
-  //     if (add){
-  //       result.body += '<tr>';     
-  //       result.body += '<td><b>' + indicator.field + '</b></td>'; 
-  //       result.body += '<td></td>';       
-  //       result.body += '<td>' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + ' [' + indicator[__Global.lang + 'Unit'] + ']</td>';
-  //       for (var i = 4; i <= fieldCount; i++){
-  //         result.body += '<td></td>';        
-  //       }   
-  //       result.body += '</tr>';     
-  //     }     
-  //   });         
-
-  //   result.body += '<tr></tr>'; 
-  //   result.body += '<tr>';     
-  //   result.body += '<th>' + i18n.exp.cropAcronym + '</th>'; 
-  //   result.body += '<th></th>';       
-  //   result.body += '<th>' + i18n.exp.cropName + '</th>';   
-  //   result.body += '</tr>';  
-
-  //   __Crop.map(function (crop) {
-  //     result.body += '<tr>';     
-  //     result.body += '<td><b>' + crop.id + '</b></td>'; 
-  //     result.body += '<td></td>';       
-  //     result.body += '<td>' + crop[__Global.lang + 'Name'] + '</td>';   
-  //     result.body += '</tr>';         
-  //   }); 
- 
-  //   return '<thead>' + result.head + '</thead><tbody>' + result.body + '</tbody>';
-  // },  
 
   getExportFields: function (userPolygon, export_indicators) {
     var indicator_fields = [];

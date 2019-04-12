@@ -130,6 +130,7 @@ Ext.define('App.view.Main', {
       } ,{         
         xtype: 'app-exporter' , 
         collapsed : true,
+        hidden: __Selection['UserPolygon'] == 'show',
         // adapted to content
         flex: 0        
       } ,{         

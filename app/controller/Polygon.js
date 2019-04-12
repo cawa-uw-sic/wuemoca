@@ -82,6 +82,7 @@ Ext.define('App.controller.Polygon', {
 
   onDblClick: function(table, record, tr, rowIndex, e){
     if (record.data.extent){
+      App.service.Helper.clearZoomCombos();
       App.service.Polygon.zoomToPolygon(record.data.extent);
     }
   },

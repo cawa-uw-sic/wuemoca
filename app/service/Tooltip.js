@@ -4,23 +4,11 @@ Ext.define('App.service.Tooltip', {
 
   isBusy: false,
 
-  //tooltip: Ext.create('App.view.tooltip.Index'),
-
   display: function (e) {
     var map = App.service.Map.instance;  
-    if (
-      e.dragging || 
+    if (e.dragging || 
       this.isBusy || 
-      //App.service.Polygon.activated || 
-      !App.service.Watcher.get('Indicator') //|| 
-      //!App.util.Layer.current.getVisible()
-    ) 
-    { 
-/*      if (!App.service.Watcher.get('Indicator') || !App.util.Layer.current.getVisible()){
-
-        App.service.Status.set('&#160;');
-        map.getTargetElement().style.cursor = '';           
-      }*/
+      !App.service.Watcher.get('Indicator')) { 
       return;
     }
     if (App.service.Watcher.get('UserPolygon') == 'show' && !App.service.Polygon.activated){
@@ -85,7 +73,6 @@ Ext.define('App.service.Tooltip', {
   },
 
   showTooltip: function (e, features) {
-    //this.tooltip.hide();
     if (features.length > 0) {
       var html = this.getFeatureHTML(features[0].properties);
       App.service.Status.set('<b>' + html.title + ' - ' + html.content + '</b>');
@@ -93,7 +80,6 @@ Ext.define('App.service.Tooltip', {
   },
 
   getFeatureHTML: function (properties) {
-
     var indicator = App.service.Watcher.getIndicator();
     var aggregation = App.service.Watcher.getAggregation();
 
@@ -125,8 +111,5 @@ Ext.define('App.service.Tooltip', {
       title   : title,
       content : content
     }
-
   }
-
-
 });

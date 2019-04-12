@@ -11,7 +11,6 @@ Ext.define('App.service.Highlight', {
       geometry: new ol.geom.MultiPolygon(coordinates).transform(__Global.projection.Geographic, __Global.projection.Mercator)
     });     
     BackgroundLayers.highlight.getSource().addFeature(feature);
-    //BackgroundLayers.highlight.getSource().addFeature(feature_transform);
   },
 
   clear: function () {

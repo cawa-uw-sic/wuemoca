@@ -4,13 +4,6 @@
 * superordnated map filters, etc. as configuration for aggregation map layer
 */
 var __Aggregation = [
-
-  /*{
-    id: 'admin',
-    enName: 'Administrative units',
-    ruName: 'Админиcтративные объекты',
-    isDefault: true,
-    items: [*/
   /**
   * @property {Object[]} [oblast={id,enName,ruName,enNameShort,ruNameShort,enTooltip,ruTooltip,super_filter,
   * glossary}] province aggregation level
@@ -57,27 +50,22 @@ var __Aggregation = [
     glossary       : 'bme00017.htm#bookme_anchor29'
   }, 
   /**
-  * @property wua
-  * WUA aggregation level
+  * @property grid
+  * regular raster aggregation level
   */    
   {
-    id             : 'wua',
-    enName         : 'WUA (Water User Association)',
-    ruName         : 'АВП (Ассоциация водопользователей)',
-    enNameShort    : 'WUA',
-    ruNameShort    : 'АВП' ,
-    enTooltip      : 'Available for Fergana and Khorezm provinces only',
-    ruTooltip      : 'Доступно только для Ферганской и Хорезмской областей',        
-    super_filter: 'oblast' ,
-    aoi_filter: [
-        "country_id='UZB'", 
-        "oblast_id=1730", 
-        "oblast_id=1733"
-    ],
+    id: 'grid',
+    enName: 'regular Raster',
+    ruName: 'Регулярный растр',
+    enNameShort    : 'regular Raster',
+    ruNameShort    : 'Рег. растр',
+    enTooltip      : 'Available for Aral Sea Basin',
+    ruTooltip      : 'Доступно для бассейна Аральского моря',   
+    super_filter: 'oblast',     
     tiled: true,
     //items: false,
-    glossary       : 'bme00017.htm#bookme_anchor26'
-  }, 
+    glossary       : 'bme00017.htm#bookme_anchor24'
+  },
   /**
   * @property buis
   * BISA aggregation level
@@ -93,7 +81,20 @@ var __Aggregation = [
     super_filter: 'buis', 
     aoi_filter: [
         "country_id='UZB'",
-        "oblast_id > 1700 and oblast_id < 1800",
+        "oblast_id=1703",
+        "oblast_id=1706",
+        "oblast_id=1708",
+        "oblast_id=1710",
+        "oblast_id=1712",
+        "oblast_id=1714",
+        "oblast_id=1718",
+        "oblast_id=1722",
+        "oblast_id=1724",
+        "oblast_id=1726",
+        "oblast_id=1727",
+        "oblast_id=1730",
+        "oblast_id=1733",
+        "oblast_id=1735",
         "buis_id",
         "uis_id"
     ],
@@ -115,7 +116,20 @@ var __Aggregation = [
     super_filter: 'buis' ,
     aoi_filter: [
         "country_id='UZB'",
-        "oblast_id > 1700 and oblast_id < 1800",
+        "oblast_id=1703",
+        "oblast_id=1706",
+        "oblast_id=1708",
+        "oblast_id=1710",
+        "oblast_id=1712",
+        "oblast_id=1714",
+        "oblast_id=1718",
+        "oblast_id=1722",
+        "oblast_id=1724",
+        "oblast_id=1726",
+        "oblast_id=1727",
+        "oblast_id=1730",
+        "oblast_id=1733",
+        "oblast_id=1735",
         "buis_id",
         "uis_id"
     ],
@@ -151,7 +165,30 @@ var __Aggregation = [
     ],
     //items: false,
     glossary       : 'bme00017.htm'
-  }, 
+  }, */
+
+  /**
+  * @property wua
+  * WUA aggregation level
+  */    
+  {
+    id             : 'wua',
+    enName         : 'WUA (Water User Association)',
+    ruName         : 'АВП (Ассоциация водопользователей)',
+    enNameShort    : 'WUA',
+    ruNameShort    : 'АВП' ,
+    enTooltip      : 'Available for Fergana and Khorezm provinces only',
+    ruTooltip      : 'Доступно только для Ферганской и Хорезмской областей',        
+    super_filter: 'oblast' ,
+    aoi_filter: [
+        "country_id='UZB'", 
+        "oblast_id=1730", 
+        "oblast_id=1733"
+    ],
+    tiled: true,
+    //items: false,
+    glossary       : 'bme00017.htm#bookme_anchor26'
+  },  
   /**
   * @property command
   * channel command area aggregation level
@@ -180,23 +217,6 @@ var __Aggregation = [
     tiled: true,
     //items: false ,
     glossary       : 'bme00017.htm#bookme_anchor25'
-  }, 
-  /**
-  * @property grid
-  * regular raster aggregation level
-  */    
-  {
-    id: 'grid',
-    enName: 'regular Raster',
-    ruName: 'Регулярный растр',
-    enNameShort    : 'regular Raster',
-    ruNameShort    : 'Рег. растр',
-    enTooltip      : 'Available for Aral Sea Basin',
-    ruTooltip      : 'Доступно для бассейна Аральского моря',   
-    super_filter: 'oblast',     
-    tiled: true,
-    //items: false,
-    glossary       : 'bme00017.htm#bookme_anchor24'
   }
 
 ];

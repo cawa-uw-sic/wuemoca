@@ -160,7 +160,7 @@ function toGeojson(geojsonData) {
                 geometry.coordinates = [];
                 var content = shpRecords[i].shape.content;
                 // ol.Extent: [minx, miny, maxx, maxy]
-                geometry.extent = [content.minX, content.minY, content.maxX, content.maxY];
+                //geometry.extent = [content.minX, content.minY, content.maxX, content.maxY];
                 geometry.parts = content.parts.length;
 
                 for (var pts = 0; pts < content.parts.length; pts++) {

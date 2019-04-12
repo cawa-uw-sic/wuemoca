@@ -13,11 +13,11 @@ Ext.define('App.util.ChartTypes', {
     var indicator = App.service.Watcher.getIndicator();
     var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;   
     var yField = indicator.field;
-    var color = indicator.color;
+    var color = indicator.color_chart;
     if (!!indicator.crops) {
       var crop = App.service.Watcher.getCrop();
       yField = yField.replace('{crop}', crop.id);
-      color = crop.color;
+      color = crop.color_chart;
     }
     var maximum = NaN;
     var threshold = 6;
@@ -187,8 +187,9 @@ Ext.define('App.util.ChartTypes', {
     return Ext.create('App.view.chart.VPanel', {
       items: [
         {
-          html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' +
-            i18n.chart.multiannualHeader2,
+          html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max,          
+          //html: i18n.chart.multiannualHeader1 + ' ' + __Global.year.Min + ' - ' + __Global.year.Max + '<br>' +
+            //i18n.chart.multiannualHeader2,
           cls: 't-center t-bold t-bigger mlu-header'
         },{
           html: mlu[__Global.lang + 'Name'] + ': ' + cropNameList[data[0].mlu - 1],
@@ -202,9 +203,10 @@ Ext.define('App.util.ChartTypes', {
             xtype: 'app-chart-gauge',
             width: '45%',
             height: 200,
+            padding: '20 0 0 0',
             insetPadding: 25,
             store: App.service.Chart.stores.lur,
-            gradients:__Chart.Gauge.getGradient(lur.legendcolors[0], lur.legendcolors[1], lur.legendcolors[2], 'lur'),
+            gradients:__Chart.Gauge.getGradient(lur.color_dark, lur.color_medium, lur.color_bright, 'lur'),
             colors: ['url(#gradient-lur)'],
             axes: __Chart.Gauge.getAxes(lur.minimum, lur.maximum, lur_steps, lur[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
@@ -218,9 +220,10 @@ Ext.define('App.util.ChartTypes', {
             xtype: 'app-chart-gauge',
             width: '45%',
             height: 200,
+            padding: '20 0 0 0',            
             insetPadding: 25,
             store: App.service.Chart.stores.flf,
-            gradients: __Chart.Gauge.getGradient(flf.legendcolors[0],flf.legendcolors[1],flf.legendcolors[2], 'flf'),
+            gradients: __Chart.Gauge.getGradient(flf.color_dark, flf.color_medium, flf.color_bright, 'flf'),
             colors: ['url(#gradient-flf)'],
             axes: __Chart.Gauge.getAxes(0, deltaYears, deltaYears/2, flf[__Global.lang + 'Name']),
             series: __Chart.Gauge.getSeries('data'),
@@ -238,11 +241,11 @@ Ext.define('App.util.ChartTypes', {
     var indicator = App.service.Watcher.getIndicator();
     var userPolygon = App.service.Polygon.getSelectedPolygons().length > 0;
     var yField = indicator.field;
-    var color = indicator.color;
+    var color = indicator.color_chart;
     if (!!indicator.crops) {
       var crop = App.service.Watcher.getCrop();
       yField = yField.replace('{crop}', crop.id);
-      color = crop.color;
+      color = crop.color_chart;
     }
     var display = 'over';
     var bigdata = 'no';

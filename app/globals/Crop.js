@@ -8,12 +8,15 @@ var __Crop = [
   * all crops
   */
   {
-    idx   : 0,
-    id    : 'sum',
-    enName: 'all crops',
-    ruName: 'Все зерновые культуры',
-    chart : 'Stacked',
-    color : sum_color
+    idx          : 0,
+    id           : 'sum',
+    enName       : 'all crops',
+    ruName       : 'Все зерновые культуры',
+    chart        : 'Stacked',
+    color_chart  : '#fd8d3c',
+    color_dark   : '#800026',
+    color_medium : '#fd8d3c',
+    color_bright : '#ffffcc'
   },
   /**
   * @property avg
@@ -25,7 +28,10 @@ var __Crop = [
     enName: 'weighted average',
     ruName: 'Средне взвешенная',
     chart : 'Defaults',
-    color : avg_color
+    color_chart  : '#989800',
+    color_dark   : '#2c7bb6',
+    color_medium : '#ffffbf',
+    color_bright : '#d7191c'    
   },
   /**
   * @property avg
@@ -37,7 +43,7 @@ var __Crop = [
     enName: 'irrigated cropland',
     ruName: 'орошаемая земля',
     chart : 'Defaults',
-    color : non_color
+    color_chart  : '#989800'
   },  
   /**
     * @property cotton
@@ -50,7 +56,10 @@ var __Crop = [
     ruName: 'хлопок',
     chart : 'Defaults',
     yield : 1,
-    color : cotton_color
+    color_chart  : '#76A882',
+    color_dark   : '#3B5441',
+    color_medium : '#76A882',
+    color_bright : '#F1F6F2'     
   },
   /**
     * @property wheat
@@ -63,7 +72,10 @@ var __Crop = [
     ruName: 'пшеница',
     chart : 'Defaults',
     yield : 1,    
-    color : wheat_color
+    color_chart  : '#FF7F00',
+    color_dark   : '#7F3F00',
+    color_medium : '#FF7F00',
+    color_bright : '#FFF2E5'  
   },
   /**
     * @property rice
@@ -76,7 +88,10 @@ var __Crop = [
     ruName: 'рис',
     chart : 'Defaults',
     yield : 1,    
-    color : rice_color
+    color_chart  : '#1F78B4',
+    color_dark   : '#0F3C5A',
+    color_medium : '#1F78B4',
+    color_bright : '#E8F1F7'  
   },
   /**
     * @property alfa
@@ -88,7 +103,10 @@ var __Crop = [
     enName: 'Alfalfa',
     ruName: 'люцерна',
     chart : 'Defaults',
-    color : alfa_color
+    color_chart  : '#33a02c',
+    color_dark   : '#195016',
+    color_medium : '#33a02c',
+    color_bright : '#EAF5E9'  
   },
   /**
     * @property orchard
@@ -100,7 +118,10 @@ var __Crop = [
     enName: 'Orchards/Vineyards',
     ruName: 'фруктовый сад/Виноградник',
     chart : 'Defaults',
-    color : orchard_color
+    color_chart  : '#00858E',
+    color_dark   : '#004247',
+    color_medium : '#00858E',
+    color_bright : '#E5F2F3'  
   },
   /**
     * @property garden
@@ -112,7 +133,10 @@ var __Crop = [
     enName: 'Urban Gardens',
     ruName: 'Городской сад',
     chart : 'Defaults',
-    color : garden_color
+    color_chart  : '#E31A1C',
+    color_dark   : '#710D0E',
+    color_medium : '#E31A1C',
+    color_bright : '#FCE8E8'  
   },
   /**
     * @property other
@@ -124,7 +148,10 @@ var __Crop = [
     enName: 'Other Crops',
     ruName: 'другая культура',
     chart : 'Defaults',
-    color : other_color
+    color_chart  : '#DD3497',
+    color_dark   : '#6E1A4B',
+    color_medium : '#DD3497',
+    color_bright : '#FBEAF4'  
   },
   /**
     * @property maize
@@ -136,7 +163,10 @@ var __Crop = [
     enName: 'Maize',
     ruName: 'кукуруза',
     chart : 'Defaults',
-    color : maize_color
+    color_chart  : '#e6550d',
+    color_dark   : '#732A06',
+    color_medium : '#e6550d',
+    color_bright : '#FCEEE6'  
   },
   /**
     * @property sun
@@ -148,7 +178,10 @@ var __Crop = [
     enName: 'Sunflowers',
     ruName: 'подсолнух',
     chart : 'Defaults',
-    color : sun_color
+    color_chart  : '#CCAA00',
+    color_dark   : '#7F6A00',
+    color_medium : '#FFD500',
+    color_bright : '#FFFAE5'  
   },
   /**
     * @property veg
@@ -160,7 +193,10 @@ var __Crop = [
     enName: 'Vegetables',
     ruName: 'овощной',
     chart : 'Defaults',
-    color : veg_color
+    color_chart  : '#6a3d9a',
+    color_dark   : '#351E4D',
+    color_medium : '#6a3d9a',
+    color_bright : '#F0EBF4'  
   }
 ];
 

@@ -85,7 +85,7 @@ Ext.define('App.view.polygon.Index', {
       itemId: 'polygon-btn-loss',
       tooltip: i18n.polygon.calculateLosslong,
       disabled: true,
-      hidden: false
+      hidden: true
     },{
       text: i18n.polygon.download,
       iconCls: 'x-fa fa fa-download',

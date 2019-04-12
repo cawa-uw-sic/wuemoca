@@ -76,12 +76,12 @@ Ext.define('App.view.legend.Window', {
     collapsed: true,
 
     items:[{
-      xtype: 'image',
+      xtype: 'component',
       itemId: 'legend-image',
       height: 150,
-      width: 40,
-      alt: 'legend',
-      src: ''
+      width: 40
+      //alt: 'legend'
+      //src: ''
     },{
       xtype: 'component',
       itemId: 'legend-text',

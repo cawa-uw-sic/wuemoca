@@ -38,7 +38,7 @@ var __Selection = {
   * @property Indicator
   * Indicator user selection, no default
   */
-  Indicator        : __LocalDB.get('Selections.Indicator'),  
+  Indicator        : __LocalDB.get('Selections.Indicator', 'uir'),  
   /**
   * @property Crop
   * Crop user selection, default: sum

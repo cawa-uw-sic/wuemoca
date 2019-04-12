@@ -12,7 +12,8 @@ Ext.define('App.service.Helper', {
   },
 
   resetComboboxes: function (components) {
-    for (var i = components.length - 1; i >= 0; i--) {
+    for (var i = 0; i < components.length; i++) {
+    //for (var i = components.length - 1; i >= 0; i--) {
       var cmp = this.getComponentExt(components[i]);
       if (cmp) cmp.clearValue();
     }

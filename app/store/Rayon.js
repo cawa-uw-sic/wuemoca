@@ -19,7 +19,7 @@ Ext.define('App.store.Rayon', {
     load: function (store, records , successful , operation , eOpts) {
       if (successful) {
         App.service.Helper.setComponentsValue([
-          { id: 'zoom-cb-rayon', selection: 'Rayon' }
+          { id: 'zoom-cb-rayon', selection: 'Rayon' }     
         ]);
       }
     }

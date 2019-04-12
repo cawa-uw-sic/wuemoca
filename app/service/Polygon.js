@@ -97,11 +97,13 @@ Ext.define('App.service.Polygon', {
       );
       //Geometry format for reading and writing data in the WellKnownText (WKT) format.
       var wkt_geometry = new ol.format.WKT().writeGeometry(geometry_wgs84);
-      var polygon = self.registerPolygon(geometry.getExtent(), wkt_geometry, '');
-      self.saveAll();
-      self.rerenderFeatures();
-      Ext.getStore('polygongrid').loadData(self.getGridData());
-      self.calculate();
+      var polygon = self.registerPolygon(geometry.getExtent(), wkt_geometry);
+      if (!!polygon){
+        self.saveAll();
+        self.rerenderFeatures();
+        Ext.getStore('polygongrid').loadData(self.getGridData());
+        self.calculate();
+      }
       //prevent from zoom in with dblclick - see https://github.com/openlayers/openlayers/issues/3610
       setTimeout(function(){self.deactivate();},251);
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
@@ -148,15 +150,15 @@ Ext.define('App.service.Polygon', {
       this.cleanLocalDB();
       this.rerenderFeatures();
       App.service.Status.set('&#160;');
-      App.service.Helper.getComponentExt('app-switcher').expand();
-      App.service.Helper.getComponentExt('app-zoom').collapse();
-      App.service.Helper.getComponentExt('app-exporter').collapse();
+      //App.service.Helper.getComponentExt('app-switcher').expand();
+      //App.service.Helper.getComponentExt('app-zoom').collapse();
+      //App.service.Helper.getComponentExt('app-exporter').collapse();
       App.service.Helper.getComponentExt('app-zoom').setTitle(i18n.adminFilters.title_userPolygon); 
       App.service.Helper.getComponentExt('user-polygon').setTitle(i18n.polygon.showPolygon);
       App.service.Map.filterAreaOfInterest('','0');
       App.service.Helper.getComponentExt('legend-cx-irrigation').setValue(true);
       legendwindow.hide();
-      App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
+      //App.service.Helper.getComponentExt('exporter-btn-download').setDisabled(true);
       App.service.Map.removeCurrentLayer();
       App.service.Helper.getComponentExt('map-container').addCls('polygon-panel');
       App.service.Helper.getComponentExt('map-controls').addCls('polygon-panel');
@@ -164,7 +166,9 @@ Ext.define('App.service.Polygon', {
     }
     App.service.Helper.getComponentExt('legend-cx-current').setValue(!val);
     App.service.Helper.getComponentExt('polygon-btn-activate').setDisabled(!val);
-    App.service.Helper.getComponentExt('exporter-btn-report').setDisabled(val);
+    //App.service.Helper.getComponentExt('exporter-btn-report').setDisabled(val);
+    App.service.Helper.getComponentExt('app-exporter').setVisible(!val);
+    App.service.Helper.getComponentExt('zoom-btn-reset').setVisible(!val);
     App.service.Exporter.setDownloadCombotext();
     App.service.Map.setMainTitle();
     App.service.Map.setIndicatorFilter(val);
@@ -351,10 +355,17 @@ Ext.define('App.service.Polygon', {
   },
 
   registerPolygon: function (extent, wkt_geometry) {
+    //check if geometry is valid and in wgs 84
+    //split all coordinates into a list
+    if (!wkt_geometry || wkt_geometry.indexOf('NaN') != -1 ) return false;
+    coordinate_list = wkt_geometry.replace(/MULTIPOLYGON|\(|\)/g, "").split(/,| /);
+    //check if numbers of the list are between -180 and 180
+    var isWgs84 = coordinate_list.find(function(element){return (parseFloat(element) <= 180 && parseFloat(element) >= -180);}) != undefined;
+    if (!isWgs84) return false;
+    if (!extent || extent.find(function(element){return isNaN(element);}) != undefined ) return false;
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the 11 characters after the decimal.
     var uniqueId = 'p-' + Math.random().toString(36).substr(2);
-    //var uniqueId = 'p-' + Date.now().toString().split('').reverse().join('');
     var polygon = {
       uid: uniqueId,
       info: { name: uniqueId, location: '' },
@@ -445,7 +456,7 @@ Ext.define('App.service.Polygon', {
   getGridData: function(){
     self = this;
     var griddata = [];
-    this.all.map(
+    self.all.map(
       function(polygon){
         var extent = polygon.extent;
         if (!extent){
@@ -477,25 +488,10 @@ Ext.define('App.service.Polygon', {
 
   rerenderFeatures: function () {
     var self = this;
-    //var source = self.layer.getSource();
-
     self.source.clear();
-    var removeIndices = [];
-    self.all.map(function (polygon, index) {
-      if (!!polygon.wkt_geometry){
-        self.source.addFeature(self.createFeature(polygon));
-      }
-      else{
-        removeIndices.push(index);
-      }
+    self.all.map(function (polygon) {
+      self.source.addFeature(self.createFeature(polygon));
     });
-    //remove polygons without geometry
-    for (i = 0; i < removeIndices.length; ++i){
-      self.all.splice(removeIndices[i], 1);
-      if (removeIndices[i+1]){
-        removeIndices[i+1] -= i+1;
-      }
-    }
   },
 
   /*getSelectedIndex: function () {
@@ -678,7 +674,6 @@ Ext.define('App.service.Polygon', {
             }
 
             message += (removearray.length == 1) ? ' ' + i18n.polygon.removed_single : ' ' + i18n.polygon.removed_multi;
-                      //message = polygon.info.name + ' ' + i18n.polygon.outside;
           }
           if (self.progressBar){
             self.progressBar.msgButtons.ok.enable();
@@ -689,7 +684,6 @@ Ext.define('App.service.Polygon', {
             );
           }
           Ext.getBody().setStyle('cursor','auto');
-
 
           self.saveAll();
           self.rerenderFeatures();
@@ -778,7 +772,6 @@ Ext.define('App.service.Polygon', {
               cls: 'polygon-window',
               title: i18n.chart.title_nodata, 
               message: message,
-              //buttons: Ext.Msg.OK,
               closeAction: 'destroy',
               closable: true,
               modal: false
@@ -822,17 +815,19 @@ Ext.define('App.service.Polygon', {
       var count = 0;
       //data.features are all polygons of the shapefile
       data.features.map(function (polygon) {
-          count++;
-          var extent = ol.proj.transformExtent(
-            polygon.geometry.extent,
-            __Global.projection.Geographic,
-            __Global.projection.Mercator
-          );
-          //workaround for bug of uploaded shapefiles with multipart geometry (considered as donut)
-          //Geometry format for reading and writing data in the WellKnownText (WKT) format.
-          var wkt_geometry = new ol.format.WKT().writeGeometry(new ol.geom.MultiPolygon([polygon.geometry.coordinates]))
+        //polygons are loaded in WGS84 projection (reprojected if Shapefile has projection file)
+        var olGeometry = new ol.geom.MultiPolygon([polygon.geometry.coordinates]);
+        //reproject extent to Pseudo Mercator
+        var extent3857 = ol.proj.transformExtent(
+          olGeometry.getExtent(),
+          __Global.projection.Geographic,
+          __Global.projection.Mercator
+        );
+        //workaround for bug of uploaded shapefiles with multipart geometry (considered as donut)
+        //Geometry format for reading and writing data in the WellKnownText (WKT) format in WGS84.
+        var wkt_geometry = new ol.format.WKT().writeGeometry(olGeometry);
 
-          App.service.Polygon.registerPolygon(extent, wkt_geometry);
+        if (App.service.Polygon.registerPolygon(extent3857, wkt_geometry)) count++;
       })
       if (count > 0){
         App.service.Polygon.saveAll();
@@ -882,7 +877,6 @@ Ext.define('App.service.Polygon', {
         parameters['uid_' + d] = polygon.uid;
         parameters['name_' + d] = polygon.info.name.replace(/'/g,"");
         parameters['location_' + d] = !!polygon.info.location ? polygon.info.location.replace(/'/g,"") : '';
-        //parameters['area_ha_' + d] = polygon.totalArea;
         for (f = 0; f < fieldlist.length; ++f) {
           var value = polygon.data[d][fieldlist[f]];
           if (!!value && value != Infinity && value != 'NaN'){
@@ -988,18 +982,8 @@ Ext.define('App.service.Polygon', {
       //index indicators can be -1 in the WUEMoCA DB, if so they are set to null in the user database
       //c can be calculated backwards
       for (var d = 0; d < data.length; d++){
-        //delete data[d]['vir'];
-        // if (!!data[d]['vir'] && data[d]['vir'] > 0){
-        //   //rule of three: vir = ((etf * firn) / (wf * 100000)).toFixed(2);
-        //   etf = data[d]['etf'];
-        //   firn = data[d]['firn'];
-        //   vir = data[d]['vir'];
-        //   data[d]['wf'] = ((etf * firn)/(vir * 100000)).toFixed(2);
-        // }
-        // else{
-          data[d]['wf'] = null;
-          data[d]['vir'] = null;
-        //}
+        data[d]['wf'] = null;
+        data[d]['vir'] = null;
         if (data[d]['eprod_avg'] < 0){
           data[d]['eprod_avg'] = null;
         }
@@ -1098,12 +1082,14 @@ Ext.define('App.service.Polygon', {
 
   newImportPolygon: function(name){
     var newpolygon = this.registerPolygon(this.importExtent, this.importWktGeometry);
-    newpolygon.data = this.importData;
-    newpolygon.info.name = name;
-    this.saveAll();
-    this.rerenderFeatures();
-    Ext.getStore('polygongrid').loadData(this.getGridData());
-    this.selectRowInGrid(newpolygon.uid);
+    if (newpolygon){
+      newpolygon.data = this.importData;
+      newpolygon.info.name = name;
+      this.saveAll();
+      this.rerenderFeatures();
+      Ext.getStore('polygongrid').loadData(this.getGridData());
+      this.selectRowInGrid(newpolygon.uid);
+    }
   },
 
   cleanLocalDB: function(){
@@ -1119,7 +1105,6 @@ Ext.define('App.service.Polygon', {
         if (self.replaceAbbr(polygon, 'y_wheat', 'yf_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'y_cotton', 'yf_cotton')) change = true;
         if (self.replaceAbbr(polygon, 'y_rice', 'yf_rice')) change = true;
-        //if (self.replaceAbbr(polygon, 'cr', 'lur')) change = true;
         if (self.replaceAbbr(polygon, 'v_wheat', 'vc_wheat')) change = true;
         if (self.replaceAbbr(polygon, 'v_cotton', 'vc_cotton')) change = true;
         if (self.replaceAbbr(polygon, 'v_rice', 'vc_rice')) change = true;

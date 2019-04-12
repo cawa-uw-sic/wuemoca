@@ -124,13 +124,15 @@ var i18n = {
 
   adminFilters: {
     title                   : 'Area filter (optional)',
-    title_userPolygon                   : 'Zoom to area',
+    title_userPolygon       : 'Zoom to area',
     country                 : 'Country',
     country_empty           : 'Aral Sea Basin',
     oblast                  : 'Province',
     oblast_empty            : 'Select province',
     rayon                   : 'District',
     rayon_empty             : 'Select district',
+    rayonsearch                   : 'search for district',
+    rayonsearch_empty             : 'type district name',    
     buis                    : 'BISA',
     buis_empty              : 'Select BISA',
     uis                     : 'ISA',
@@ -147,8 +149,13 @@ var i18n = {
     uisBtnTooltip           : 'Aggregations to ISA',
     buisBtnTooltip          : 'Aggregations to BISA',
     wuaBtnTooltip           : 'Aggregations to WUA',
-    _or: 'OR',
-    reset:'reset<br>filter'
+    _or                     : 'OR',
+    reset                   :'reset<br>filter',
+    selected_indicator: 'The selected indicator',
+          is_shown_as: 'is shown as',
+                change_of_aggreg: 'Change of aggregation level',
+                      zoom_to_selected: 'Zoom to selected',
+                      is_not_available_as: 'is not available as'
   },
 
   mapSelection:{
@@ -634,6 +641,8 @@ switch (locale){
       oblast_empty:'Выберите область',
       rayon                 : 'Район',
       rayon_empty:'Выберите район',
+    rayonsearch                   : 'поиск района',
+    rayonsearch_empty             : 'введите имя район',        
       buis                  : 'БУИС',
       buis_empty:'Выберите БУИС',
       uis                   : 'УИС',
@@ -651,7 +660,12 @@ switch (locale){
       buisBtnTooltip        : 'Агрегировать до БУИСа',
       wuaBtnTooltip         : 'Агрегировать до АВП',
     _or: 'ИЛИ',
-      reset:'сброс<br>фильтра'
+      reset:'сброс<br>фильтра',
+      selected_indicator: 'Выбранный индикатор',
+      is_shown_as: 'отображается как',
+      change_of_aggreg: 'Изменение уровня агрегации',
+      zoom_to_selected: 'Масштабировать до выбранного',
+    is_not_available_as: 'не доступен как'
 
 
     };
@@ -671,8 +685,9 @@ i18n.mapSelection ={
 
     i18n.aggreg = {
     label1                   : 'Выбрать',
-    label2                   : 'уровень аггрегирования',      
+    label2                   : 'уровень агрегирования',      
       map: 'карту'
+
     };
     i18n.indicator = {
       label                 : 'Выбрать показатель',

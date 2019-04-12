@@ -81,10 +81,6 @@ Ext.define('App.service.Prod', {
 
     var formitems = [];
 
-    /*formitems.push({
-      xtype: 'label', 
-      html: i18n.prod.fulldata
-    }); */
     var firstrow = {
       items: []
     };
@@ -309,11 +305,9 @@ Ext.define('App.service.Prod', {
         items: []
       };
       for (var year = __Global.year.Max; year >= __Global.year.Min; year--) {
-
         var index = polygon.data.map(function (d) { return d.year }).indexOf(year);
         var val = (index >= 0) ? polygon.data[index][indicator.id] : 0;
         fieldset.items.push({ name: indicator.id + '_' + year, value: val, fieldLabel: year.toString() });
-
       }      
       formitems.push(fieldset);
     });

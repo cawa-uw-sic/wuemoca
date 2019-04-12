@@ -4,8 +4,8 @@ var server_wfs = server + ':443';
 
 //SIC server settings
 //disable google analytics scripts in index.html
-server = server_sic;
-server_wfs = server;
+//server = server_sic;
+//server_wfs = server;
 
 var api = server + '/mvc-backend/';
 

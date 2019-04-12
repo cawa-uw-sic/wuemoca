@@ -11,7 +11,7 @@ Ext.define('App.service.Watcher', {
   },
 
   get: function (attr) {
-    var result = __Selection[attr];
+    var result = __Selection[attr]; 
     return result;
   },
 
@@ -27,14 +27,6 @@ Ext.define('App.service.Watcher', {
   },
 
   getAggregation: function () {
-    //var items = [];
-    //__Aggregation.map(function (aggregation) {
-      //if (!aggregation.items) 
-      //return items.push(aggregation);
-      /*aggregation.items.map(function (item) {
-        items.push(item);
-      });*/
-   // });
     return App.service.Helper.getById(__Aggregation, this.get('Aggregation'));
   },
 
@@ -45,47 +37,12 @@ Ext.define('App.service.Watcher', {
   getSuperFilterAggregation: function(aggregation){
     var super_filter = '';
     __Aggregation.map(function (unit) {
-      /*if (unit.items) {
-        unit.items.map(function (item) {
-          if (item.id == aggregation){
-            super_filter = item.super_filter;
-          }
-        });          
+      if (unit.id == aggregation){
+        super_filter = unit.super_filter;
       }
-      else{*/
-        if (unit.id == aggregation){
-          super_filter = unit.super_filter;
-        }
-      //}
     });  
     return super_filter; 
   },
-
-  /*activateFilters: function () {
-    var indicators = __Indicator;
-    for (var filter in __FilterSelection) {
-      if ( __FilterSelection.hasOwnProperty(filter) && !!__FilterSelection[filter] && __FilterSelection[filter] !== 'empty') {
-        if (['category', 'type', 'mapType'].indexOf(filter) >= 0) {
-          indicators = indicators.filter(function (indicator) {
-            return indicator[filter] == __FilterSelection[filter];
-          });
-        }
-        if (['years', 'crops'].indexOf(filter) >= 0) {
-          indicators = indicators.filter(function (indicator) {
-            return ((!indicator[filter] && __FilterSelection[filter] == 'no') || (!!indicator[filter] && __FilterSelection[filter] == 'yes'));
-          });
-        }
-      }
-    }
-    Ext.getStore('indicator').removeAll();
-    Ext.getStore('indicator').loadData(indicators);
-
-    //keep selected indicator only if it is still in filtered list after activation; don't show indicators which are filtered out
-    var selected_indicator = App.service.Helper.getComponentValue('switcher-cb-indicator');
-    if (!App.service.Helper.inArrayId(indicators, selected_indicator)){
-      App.service.Helper.resetComboboxes(['switcher-cb-indicator']); 
-    }
-  },*/
 
   syncDB: function () {
     var self = this;
@@ -141,7 +98,6 @@ Ext.define('App.service.Watcher', {
       }      
     }
     var maxlabel = App.service.Helper.getComponentExt('yearslider-lbl-max');
-    //maxlabel.update('<i class="fa  fa-caret-right"></i> ' + __Global.year.Max);    
     maxlabel.update(__Global.year.Max);
     __Selection['Year'] = __LocalDB.get('Selections.Year', __Global.year.Max);
   }

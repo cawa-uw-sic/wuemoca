@@ -5,7 +5,7 @@ Ext.define('App.view.legend.CxIrrigation', {
 
   itemId: 'legend-cx-irrigation',
 
-  boxLabel: '<span style="background-color:' + max_irr_area_color + ';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ' + i18n.settings.extent,
+  boxLabel: '<span style="background-color:#AADD00;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> ' + i18n.settings.extent,
   
   checked: App.service.Watcher.get('IrrigationExtent') == 'show' ? true : false,
 

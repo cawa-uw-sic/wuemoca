@@ -5,6 +5,7 @@ Ext.define('App.controller.Switcher', {
   extend: 'Ext.app.ViewController',
 
   alias: 'controller.switcher',
+
   /**
   * @method afterRender
   * set stored indicator and aggregation values to comboboxes, sort indicator entries
@@ -15,6 +16,7 @@ Ext.define('App.controller.Switcher', {
       ,{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }
     ]);
   },
+  
   /**
   * @method onIndicator
   * when indicator is changed, store new indicator, set cb label with tooltip, update yearslider, update chart
@@ -27,10 +29,6 @@ Ext.define('App.controller.Switcher', {
 
     if (!val){
       val == '';
-      //App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(true);
-    }
-    else{
-      //App.service.Helper.getComponentExt('switcher-btn-reset').setDisabled(false);
     }
 
     App.service.Watcher.set('Indicator', val);
@@ -47,7 +45,7 @@ Ext.define('App.controller.Switcher', {
     cb.setFieldLabel(label);
 
     App.service.Map.fillCrops();
-    App.service.Map.fillAggregations_new();
+    App.service.Map.fillAggregations();
 
     App.service.Yearslider.didRender();
     App.service.Yearslider.pause();
@@ -56,6 +54,7 @@ Ext.define('App.controller.Switcher', {
       App.service.Polygon.showChartWindow();
     }
   },
+
   /**
   * @method onCrop
   * when crop is changed, store new crop, set button group title with tooltip, update chart
@@ -88,32 +87,6 @@ Ext.define('App.controller.Switcher', {
     App.service.Map.onAggregation(cb, val);
   },
 
-
-  /**
-  * @method fillAggregations
-  * fill aggregation list and set combobox value
-  * @param aggregationData
-  * list of allowed aggregations
-  * @param unit
-  * unit
-  */
-  fillAggregations: function (aggregationData, unit) {
-    var aggregationStore = Ext.getStore('aggregation');
-
-    aggregationStore.removeAll();
-    App.service.Helper.hideComponents(['switcher-cb-aggregation']);
-    if (typeof aggregationData == 'object' && aggregationData.length > 0) {
-      aggregationStore.loadData(aggregationData);
-      App.service.Helper.showComponents(['switcher-cb-aggregation']);
-      if (aggregationData.map(function (d) { return d.id; }).indexOf(App.service.Watcher.get('Aggregation')) < 0 ) {
-        App.service.Watcher.set('Aggregation', App.service.Helper.getDefaultValue(aggregationData));
-        App.service.Helper.setComponentsValue([{ id: 'switcher-cb-aggregation', selection: 'Aggregation' }]);
-      }
-    }
-    if (!aggregationData) App.service.Watcher.set('Aggregation', unit);
-
-  },
-
   /**
   * @method resetSelection
   * reset original settings
@@ -123,7 +96,7 @@ Ext.define('App.controller.Switcher', {
   * click event: do not collapse/expand accordion panel
   */
   resetSelection: function(button, e){
-    //App.service.Helper.resetComboboxes(['switcher-cb-indicator']);
+    App.service.Map.filterAreaOfInterest('','0');
     App.service.Watcher.set('Indicator', undefined);
     App.service.Watcher.set('Aggregation', 'oblast');
     this.afterRender();

@@ -992,16 +992,14 @@ Ext.define('App.service.Polygon', {
         }
         var crops = ['cotton', 'wheat', 'rice'];
         crops.map(function (crop) {
-          if (!!data[d]['eprod_' + crop] && data[d]['eprod_' + crop] > 0 && data[d]['pirf_' + crop] > 0){
-            //rule of three: eprod = (pirf * c) / (etf * firf * 10)
-            var etf = data[d]['etf_' + crop];
-            var firf = data[d]['firf_' + crop];
-            var eprod = data[d]['eprod_' + crop];
+          if (!!data[d]['gp_' + crop] && data[d]['pirf_' + crop] > 0){
+            //rule of three: gp = pirf * c
+            //var etf = data[d]['etf_' + crop];
+            //var firf = data[d]['firf_' + crop];
+            //var eprod = data[d]['eprod_' + crop];
+            var gp = data[d]['gp_' + crop];
             var pirf = data[d]['pirf_' + crop];
-            data[d]['c_' + crop] = (eprod * etf * firf * 10) / pirf;
-          }
-          else{
-            data[d]['eprod_' + crop] = null;
+            data[d]['c_' + crop] = gp / pirf;
           }
           if (data[d]['vc_' + crop] < 0){
             data[d]['vc_' + crop] = null;
@@ -1051,30 +1049,30 @@ Ext.define('App.service.Polygon', {
     }
     else{
         var messagebox = Ext.Msg.show({
-          cls: 'polygon-window',
-          title: 'Name does already exist',
-          message: existingName + ' is already in the Polygon list.<br>Transfer it anyway?',
-          icon: Ext.Msg.QUESTION,
-          buttons: Ext.Msg.YESNO,
-          buttonText: {
-            yes: i18n.yesno.yes,
-            no: i18n.yesno.no
-          },
-          fn: function(btn) {
-            if (btn === 'yes') {
-              self.newImportPolygon(existingName + ' (copy)');
-            }
-            else{
-              self.selectRowInGrid(existingUid);
-            }
-              //clean memory - does not work!!
-            self.importGeometry = false;
-            self.importExtent = false;
-            self.importWktGeometry = false;
-            self.importData = false;
-            self.importName = false;
+        cls: 'polygon-window',
+        title: i18n.polygon.exist_already,
+        message: existingName + ' ' + i18n.polygon.transfer_anyway,
+        icon: Ext.Msg.QUESTION,
+        buttons: Ext.Msg.YESNO,
+        buttonText: {
+          yes: i18n.yesno.yes,
+          no: i18n.yesno.no
+        },
+        fn: function(btn) {
+          if (btn === 'yes') {
+            self.newImportPolygon(existingName + ' (copy)');
           }
-        });
+          else{
+            self.selectRowInGrid(existingUid);
+          }
+            //clean memory - does not work!!
+          self.importGeometry = false;
+          self.importExtent = false;
+          self.importWktGeometry = false;
+          self.importData = false;
+          self.importName = false;
+        }
+      });
     }
 
 

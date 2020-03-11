@@ -1,11 +1,12 @@
-var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
+var server = 'http://wuemoca.geographie.uni-wuerzburg.de';
+//var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
 var server_sic = 'http://wuemoca.net';
-var server_wfs = server + ':443';
+var server_wfs = 'https://wuemoca.geographie.uni-wuerzburg.de:443';
 
 //SIC server settings
 //disable google analytics scripts in index.html
-//server = server_sic;
-//server_wfs = server;
+server = server_sic;
+server_wfs = server;
 
 var api = server + '/mvc-backend/';
 
@@ -113,7 +114,7 @@ __Global.urls = {
     Faq           : 'bme00040.htm',
     Intro         : 'bme00001.htm',
     Imprint       : documents + 'Imprint_' + locale + '.pdf',
-    UserGuide     : documents + 'User_Guide.pdf',
+    UserGuide     : documents + 'User_Guide_' + locale + '.pdf',
     CawaReport    : documents + 'CAWa-report_phase-III_2015-2017_WP3_' + locale + '.pdf',
     AcronymPDF    : documents + 'WUEMoCA_Overview_indicators_' + locale + '.pdf',
     VideoHeader   : documents + 'WUEMoCA_general_information.gif'

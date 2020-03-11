@@ -14,7 +14,7 @@ var __Indicator = [
     id             : 'firn',
     field          : 'firn',
     enName         : 'Net irrigated area',
-    ruName         : 'Орошаемая площадь нетто ',
+    ruName         : 'Орошаемая площадь нетто',
     enTooltip      : 'Area equipped with irrigation infrastructure (used and not used irrigable cropland)',
     ruTooltip      : 'Площади, оснащенные ирригационной инфраструктурой (включая временно неиспользуемые земли)',
     enAffix        : '(RS)',
@@ -43,7 +43,7 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor14',
     prodform       :'2-noyears',
     enProdTooltip  :'changes affect all indicators based on Net irrigated area',
-    ruProdTooltip  :'changes affect all indicators based on Net irrigated area'
+    ruProdTooltip  :'изменения влияют на все показатели на основе Орошаемая площадь нетто'
   },   
   /**
   * @property firf
@@ -78,7 +78,7 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor11',
     prodform       :'1-years',
     enProdTooltip  :'changes affect all indicators based on crop acreage',
-    ruProdTooltip  :'changes affect all indicators based on crop acreage'
+    ruProdTooltip  :'изменения влияют на все показатели в зависимости от посевных площадей'
   },
   /**
   * @property uir
@@ -205,8 +205,8 @@ var __Indicator = [
     ruUnit         : '-',
     crops          : false,
     aggregation    : ['grid','wua'],
-    enGroup        : 'Land use (multi-annual, raster only)',
-    ruGroup        : 'Многолетняя, только Регулярный растр',
+    enGroup        : 'Land use (multi-annual)',
+    ruGroup        : 'Землепользование (многолетнее)',
     groupsort: '2',
     years          : false,
     mapType        : 'colored',
@@ -242,8 +242,8 @@ var __Indicator = [
     ruUnit         : '-',
     crops          : false,
     aggregation    : ['grid','wua'],
-    enGroup        : 'Land use (multi-annual, raster only)',
-    ruGroup        : 'Многолетняя, только Регулярный растр',
+    enGroup        : 'Land use (multi-annual)',
+    ruGroup        : 'Землепользование (многолетнее)',
     groupsort: '2',
     years          : false,
     mapType        : 'colored',
@@ -275,7 +275,7 @@ var __Indicator = [
     field          : 'mlu',
     enName         : 'Major land use',
     ruName         : 'Основные виды землепользования',
-    enTooltip      : 'Predominant land use based on average frequency',
+    enTooltip      : 'Predominant crop type based on average frequency',
     ruTooltip      : 'Преобладающие виды землепользования, исходя из средней частоты',
     enAffix        : '(RS)',
     ruAffix        : '(дз)',    
@@ -283,18 +283,21 @@ var __Indicator = [
     ruUnit         : '-',
     crops          : false,
     aggregation    : ['grid','wua'],
-    enGroup        : 'Land use (multi-annual, raster only)',
-    ruGroup        : 'Многолетняя, только Регулярный растр',
+    enGroup        : 'Land use (multi-annual)',
+    ruGroup        : 'Землепользование (многолетнее)',
     groupsort: '2',
     years          : false,
     mapType        : 'colored',
     enLegend       : 'Major land use',
     ruLegend       : 'Основные виды землепользования',
-    croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'alfa', 'orchard', 'garden', 'other'],
-    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat - Second crop', 'Alfalfa', 'Orchards/Vineyards',
-                    'Urban Gardens', 'Other crops'],
-    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница - другая культура', 'люцерна',
-                    'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
+    croplist       : ["cotton", "wheat", "rice", "alfa", "orchard", "garden", "other"],
+    enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Alfalfa', 'Orchards/Vineyards', 'Urban gardens', 'Other crops'],
+    ruCropNames    : ['хлопок', 'пшеница', 'рис', 'люцерна', 'фрукты/виноградники', 'Городской сад', 'другая культура'],
+    //croplist       : ['cotton', 'wheat', 'rice', 'fallow', 'double', 'alfa', 'orchard', 'garden', 'other'],
+    //enCropNames    : ['Cotton', 'Wheat', 'Rice', 'Fallow land', 'Wheat - Second crop', 'Alfalfa', 'Orchards/Vineyards',
+                    //'Urban Gardens', 'Other crops'],
+    //ruCropNames    : ['хлопок', 'пшеница', 'рис', 'Неиспользуемые земли', 'пшеница - другая культура', 'люцерна',
+                   // 'фруктовый сад/Виноградник', 'Городской сад', 'другая культура'],
     chart          : 'Multiannual',
     userDB         : false,
     serverDB       : true,
@@ -314,7 +317,7 @@ var __Indicator = [
     enAffix        : '(RS)',
     ruAffix        : '(дз)',    
     enUnit         : 'tons',
-    ruUnit         : 'тонны',
+    ruUnit         : 'тонн',
     crops          : ['1', '2', '3'],
     aggregation    : 'all',
     enGroup        : 'Productivity (RS)',
@@ -391,7 +394,7 @@ var __Indicator = [
     color_bright : '#a50026' ,      
     decimals       : 1,
     userDB         : true,
-    serverDB       : true,
+    serverDB       : false,
     userInput      : 'c',
     glossary       : 'bme00073.htm#bookme_anchor16'
 }, 
@@ -423,7 +426,7 @@ var __Indicator = [
     color_bright : '#a50026' ,      
     decimals       : 1,
     userDB         : true,
-    serverDB       : true,
+    serverDB       : false,
     userInput      : 'c',    
     glossary       : 'bme00073.htm#bookme_anchor16'
 },
@@ -434,7 +437,7 @@ var __Indicator = [
     ruName         : 'Количество на потребляемую воду',
     enNameShort    : 'Quantity per water',
     ruNameShort    : 'Количество на воду',    
-    enTooltip      : 'RS-based crop harvest per m³ surface water consumed<br>Crop_output_RS / Crop_water_intake',
+    enTooltip      : 'RS-based estimated crop harvest per m³ surface water consumed<br>Crop_output_RS / Crop_water_intake',
     ruTooltip      : 'Урожай культуры на 1 м3 потребленной поверхностной воды - на основе ДЗ<br>Crop_output_RS / Crop_water_intake',
     enAffix        : '(RS)',
     ruAffix        : '(дз)',    
@@ -501,7 +504,7 @@ var __Indicator = [
     enAffix        : '(stats.)',
     ruAffix        : '(статс.)',
     enUnit         : 'tons',
-    ruUnit         : 'тонны',
+    ruUnit         : 'тонн',
     crops          : 'all',
     aggregation    : 'all',
     enGroup        : '<span style="color:#970016">Productivity (stats.)</span>',
@@ -550,7 +553,7 @@ var __Indicator = [
     glossary       : 'bme00073.htm#bookme_anchor16',
     prodform       :'1-years',
     enProdTooltip  :'changes affect crop output',
-    ruProdTooltip  :'changes affect crop output'
+    ruProdTooltip  :'изменения влияют на урожайность'
    },    
 {
     id             : 'prod_gp',
@@ -774,11 +777,11 @@ var __Indicator = [
     field          : 'eprod_{crop}',
     enName         : 'Water productivity (ET)',
     ruName         : 'продуктивность воды (ЭТ)',
-    enTooltip      : 'RS-based crop-specific economic revenue per m³ water consumed, measured in ET<sub>act</sub><br>(Crop_output_RS * Crop_price) / ET<sub>act</sub>_crop',
-    ruTooltip      : 'Экономический доход по культурам на основе ДЗ на 1 м³ потребленной воды, измеряется в ET<sub>act</sub><br>(Crop_output_RS * Crop_price) / ET<sub>act</sub>_crop',
-    enUnit         : '$/m³',
-    ruUnit         : '$/м³',
-    crops          : ['avg', '1', '2', '3'],
+    enTooltip      : 'RS-based estimated crop harvest per m³ water consumed, measured in ET<sub>act</sub><br>Crop_output_RS / ET<sub>act</sub>_crop',
+    ruTooltip      : 'Оценка, на основе ДЗ, урожая культуры на 1 м³ потребленной воды, измеряется в ET<sub>act</sub><br>Crop_output_RS / ET<sub>act</sub>_crop',
+    enUnit         : 'kg/m³',
+    ruUnit         : 'кг/м³',
+    crops          : ['1', '2', '3'],
     aggregation    : 'all',
     enGroup        : 'Water use efficiency (RS)',
     ruGroup        : 'Эффективность использования воды (дз)',
@@ -822,10 +825,10 @@ var __Indicator = [
     median         : 0,
     maximum        : 0,
     chart          : 'Line',
-    color_chart    : '#41b6c4',
+    color_chart    : '#081d58',
     color_dark   : '#081d58',
     color_medium : '#41b6c4',
-    color_bright : '#ffffd9' ,    
+    color_bright : '#CFECD3' ,    
     decimals       : 2,
     userDB         : true,
     serverDB       : true,
@@ -876,7 +879,7 @@ var __Indicator_userPolygon = [
     enUnit         : 'mm',
     ruUnit         : 'мм',
     enProdTooltip  : 'Used for calculation of monthly irrigation efficiency',
-    ruProdTooltip  : 'Used for calculation of monthly irrigation efficiency',
+    ruProdTooltip  : 'Используется для расчета месячной эффективности полива',
     connectedTo      : ['vir']
    } ,
       {
@@ -888,7 +891,7 @@ var __Indicator_userPolygon = [
     enUnit         : 'mm',
     ruUnit         : 'мм',
     enProdTooltip  : 'Used for calculation of decadal irrigation efficiency',
-    ruProdTooltip  : 'Used for calculation of decadal irrigation efficiency',
+    ruProdTooltip  : 'Используется для расчета эффективности декадного орошения',
     connectedTo      : ['vir']
    } ,
   {
@@ -901,7 +904,7 @@ var __Indicator_userPolygon = [
     ruUnit         : 'Млн. М³',
     prodform       :'2-years',
     enProdTooltip  :'Used for calculation of all water productivity indicators and irrigation efficiency',
-    ruProdTooltip  :'Used for calculation of all water productivity indicators and irrigation efficiency',
+    ruProdTooltip  :'Используется для расчета всех показателей продуктивности воды и эффективности орошения',
     connectedTo      : ['vir', 'yw', 'pw', 'prod_yw', 'prod_pw', 'prod_wf']
 
    },
@@ -914,7 +917,7 @@ var __Indicator_userPolygon = [
     enUnit         : 'Mio. m³',
     ruUnit         : 'Млн. М³',
     enProdTooltip  : 'Used for calculation of monthly irrigation efficiency',
-    ruProdTooltip  : 'Used for calculation of monthly irrigation efficiency',     
+    ruProdTooltip  : 'Используется для расчета месячной эффективности полива',     
     connectedTo      : ['vir']
    },
     {
@@ -926,19 +929,19 @@ var __Indicator_userPolygon = [
     enUnit         : 'Mio. m³',
     ruUnit         : 'Млн. М³',
     enProdTooltip  : 'Used for calculation of decadal irrigation efficiency',
-    ruProdTooltip  : 'Used for calculation of decadal irrigation efficiency',    
+    ruProdTooltip  : 'Используется для расчета эффективности декадного орошения',    
     connectedTo      : ['vir']
    },
    {
     id             : 'wf_calc',
     field          : 'wf_calc_{crop}',
     enName         : 'Crop water intake based on multi-annual rates',
-    ruName         : 'Crop water intake based on multi-annual rates',
+    ruName         : 'Водозабор урожая на основе многолетних норм',
     decimals       : 2,    
     enUnit         : 'Mio. m³',
     ruUnit         : 'Млн. М³',
     enProdTooltip  :'Used for calculation of all water productivity indicators',
-    ruProdTooltip  :'Used for calculation of all water productivity indicators',    
+    ruProdTooltip  :'Используется для расчета всех показателей продуктивности воды',    
     crops          : 'sum',    
     connectedTo      : ['yw', 'pw', 'prod_yw', 'prod_pw', 'prod_wf']
    },
@@ -953,7 +956,7 @@ var __Indicator_userPolygon = [
     crops          : 'all',
     prodform       :'1-noyears',
     enProdTooltip  :'Used for calculation of crop water intake for all water productivity indicators',
-    ruProdTooltip  :'Used for calculation of crop water intake for all water productivity indicators',
+    ruProdTooltip  :'Используется для расчета водозабора культур для всех показателей продуктивности воды',
     connectedTo      : ['yw', 'pw', 'prod_yw', 'prod_pw', 'prod_wf']
    },  
    {
@@ -966,7 +969,7 @@ var __Indicator_userPolygon = [
     ruUnit         : 'мм',
     prodform       :'2-years',
     enProdTooltip  :'Used for calculation of specific water supply',
-    ruProdTooltip  :'Used for calculation of specific water supply',
+    ruProdTooltip  :'Используется для расчета удельной подачи воды',
     connectedTo      : ['prod_wf']
    },    
    {
@@ -979,7 +982,7 @@ var __Indicator_userPolygon = [
     ruUnit         : 'мм',
     prodform       :'2-noyears',
     enProdTooltip  :'Used for calculation of specific water supply',
-    ruProdTooltip  :'Used for calculation of specific water supply',
+    ruProdTooltip  :'Используется для расчета удельной подачи воды',
     connectedTo      : ['prod_wf']
    },
    {
@@ -993,9 +996,9 @@ var __Indicator_userPolygon = [
     crops          : 'all',
     prodform       :'1-years',
     enProdTooltip  :'Used for calculation of all monetary productivity indicators',
-    ruProdTooltip  :'Used for calculation of all monetary productivity indicators',
-    connectedTo      : ['gp', 'pw', 'pf', 'prod_gp', 'prod_pw', 'prod_pf', 'eprod']
-   },
+    ruProdTooltip  :'Используется для расчета всех показателей денежной производительности',
+    connectedTo      : ['gp', 'pw', 'pf', 'prod_gp', 'prod_pw', 'prod_pf']
+ /*  },
    {
     id             : 'kpd',
     field          : 'kpd',
@@ -1004,10 +1007,10 @@ var __Indicator_userPolygon = [
     decimals       : 2,    
     enUnit         : 'Index',
     ruUnit         : 'Индекс',
-    prodform       :'2-noyears',
+    //prodform       :'2-noyears',
     enProdTooltip  :'Irrigation efficiency coefficient of the system',
-    ruProdTooltip  :'Irrigation efficiency coefficient of the system',
-    connectedTo      : ['yw', 'pw', 'prod_yw', 'prod_pw', 'prod_wf']
+    ruProdTooltip  :'Коэффициент эффективности полива системы',
+    connectedTo      : ['yw', 'pw', 'prod_yw', 'prod_pw', 'prod_wf']*/
    }
 ];
 

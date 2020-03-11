@@ -65,14 +65,14 @@ Ext.define('App.service.Exporter', {
         if (!!indicator.crops){
           if (typeof indicator.crops == 'object'){
             if (isNaN(indicator.crops[0])){
-              croptext = indicator.crops[0] + ', ';
+              croptext = App.service.Helper.getById(__Crop, indicator.crops[0])[__Global.lang + 'Name'] + ', ';
             }
-            croptext += 'cotton, wheat, rice';
+            croptext += i18n.acronyms.cwr;
           }
           else{
             croptext = i18n.acronyms.allcroptypes;
             if (indicator.crops != 'all'){
-              croptext += ' ' + i18n.acronyms._and + ' ' + indicator.crops;
+              croptext += ' ' + i18n.acronyms._and + ' ' + App.service.Helper.getById(__Crop, indicator.crops)[__Global.lang + 'Name'];
             }
           }     
         }
@@ -169,7 +169,7 @@ Ext.define('App.service.Exporter', {
     }
     button.setDisabled(no_export);
     button.setText(
-      i18n.exp.download + ' ' + aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.exp.mapOrTable
+      i18n.exp.download2 + ' ' + aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.exp.mapOrTable
     );
     button.setTooltip(
       i18n.exp.btnTooltip1 + ' ' + aggregation[__Global.lang + 'NameShort'] + 
@@ -183,7 +183,7 @@ Ext.define('App.service.Exporter', {
     }
     else{
       var aggregationlevel = aggregation[__Global.lang + 'NameShort'];
-      name_text = i18n.exp.all + ' ' + aggregationlevel + i18n.exp.plural + i18n.exp.ASB;
+      name_text = i18n.exp.all + ' ' + i18n.exp.plural() + i18n.exp.ASB;
     }
     var downloadSelectionData =  [{
       id: '0', 

@@ -17,7 +17,9 @@ var i18n = {
     fulldata: 'Please provide complete annual data sets for all occurring crops!',
     userinput: 'User input is required to calculate Productivity indicators.<br>Pre-filled values are taken from the WUEMoCA database.',
     calculateProd: 'Calculate Productivity',
-    calculateProdSuccess: 'Productivity indicators calculated successfully!'
+    calculateProdSuccess: 'Productivity indicators calculated successfully!',
+      delete_all: 'delete all',
+      values: 'values'
   },
 
   yesno :{
@@ -45,12 +47,17 @@ var i18n = {
     manual                  : 'User Guide',
     faq                     : 'Frequently asked questions',
     glossary                : 'Glossary',
-    readmore: 'Click to read more about',
+   // readmore: 'Click to read more about',
+        readmore: '',
     uniwue                  : 'Department of Remote Sensing at Wuerzburg University',
     sic: 'SIC ICWC',
     sicurl: 'http://sic.icwc-aral.uz/index_e.htm',
     beta: 'BETA version',
-    video_general: 'Instruction Video - General Information'
+    video_general: 'Instruction Video - General Information',
+    cawa_report: 'Project report on WUEMoCA',
+    cawa_report_tooltip: 'CAWa project phase III 2015-2017 work package 3',
+    overview: 'Indicator overview'
+
   },
 
   pilot: {
@@ -77,7 +84,7 @@ var i18n = {
   report: {
     generate_button              : 'Generate Report',
     generate_window              : 'Generate Report',
-    btnTooltip1:'Show a selection of indicators as report in statistics format',
+    btnTooltip1:'Показать a selection of indicators as report in statistics format',
     btnTooltip2:'description',              
     year                    : 'Select year',
     selectCountry: 'Select country',
@@ -160,7 +167,9 @@ var i18n = {
 
   mapSelection:{
     title       :'Maps',
-    reset:'reset<br>selections'
+    reset:'reset<br>selections',
+    collapse: 'Collapse panel',
+    expand: 'Expand panel'
   },
 
   unit: {
@@ -173,9 +182,36 @@ var i18n = {
   },
 
   aggreg: {
+    label: function(aggreg_name){
+      return aggreg_name + ' ' + i18n.aggreg.label2;
+    },
     label1                   : 'Select',
     label2                   : 'aggregation level',
-    map                     : 'Map'
+    map                     : function(aggreg_index){
+      switch(aggreg_index){
+        case 'oblast':
+          return 'Province Map';
+          break;
+        case 'rayon':
+          return 'District Map';
+          break;
+        case 'grid':
+          return 'regular Raster Map';
+          break;  
+        case 'buis':
+          return 'BISA Map';
+          break;
+        case 'uis':
+          return 'ISA Map';
+          break;
+        case 'wua':
+          return 'WUA Map';
+          break; 
+        case 'command':
+          return 'Channel Command Area Map';
+          break;          
+      }
+    }
   },
 
   indicator: {
@@ -202,40 +238,41 @@ var i18n = {
     high                    : 'high',
     veryhigh                : 'very high'
   },
-  //function example
-  /*layer: {
-    yieldDescr              : function (crop_index, aggreg_index) {
-      if (crop_index == 'wheat'){
-        class1 = wheat_class1;
-        class2 = wheat_class2;
-        class3 = wheat_class3;
-        class4 = wheat_class4;
-        class5 = wheat_class5;
-        class6 = wheat_class6;
-        class7 = wheat_class7;
-      }
-      else if (crop_index == 'cotton'){
-        class1 = cotton_class1;
-        class2 = cotton_class2;
-        class3 = cotton_class3;
-        class4 = cotton_class4;
-        class5 = cotton_class5;
-        class6 = cotton_class6;
-        class7 = cotton_class7;
-      } else {
-        return '';
-      }
-      return '<br>The map shows the yield of ' + i18n.crop[crop_index] + ' (tons per hectare) classified in seven classes:
-      <br>- (' + class6 + ' - ' + class7 + ' t/ha) high
-      <br>- (' + class5 + ' - ' + class6 + ' t/ha)
-      <br>- (' + class4 + ' - ' + class5 + ' t/ha)
-      <br>- (' + class3 + ' - ' + class4 + ' t/ha) medium
-      <br>- (' + class2 + ' - ' + class3 + ' t/ha)
-      <br>- (' + class1 + ' - ' + class2 + ' t/ha)
-      <br>- (0.01 - ' + class1 + ' t/ha) low
-      <br>in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + ').';
-    }
-  },*/
+
+  // //function example
+  // layer: {
+  //   yieldDescr              : function (crop_index, aggreg_index) {
+  //     if (crop_index == 'wheat'){
+  //       class1 = wheat_class1;
+  //       class2 = wheat_class2;
+  //       class3 = wheat_class3;
+  //       class4 = wheat_class4;
+  //       class5 = wheat_class5;
+  //       class6 = wheat_class6;
+  //       class7 = wheat_class7;
+  //     }
+  //     else if (crop_index == 'cotton'){
+  //       class1 = cotton_class1;
+  //       class2 = cotton_class2;
+  //       class3 = cotton_class3;
+  //       class4 = cotton_class4;
+  //       class5 = cotton_class5;
+  //       class6 = cotton_class6;
+  //       class7 = cotton_class7;
+  //     } else {
+  //       return '';
+  //     }
+  //     return '<br>The map shows the yield of ' + i18n.crop[crop_index] + ' (tons per hectare) classified in seven classes:'
+  //     <br>- (' + class6 + ' - ' + class7 + ' t/ha) high
+  //     <br>- (' + class5 + ' - ' + class6 + ' t/ha)
+  //     <br>- (' + class4 + ' - ' + class5 + ' t/ha)
+  //     <br>- (' + class3 + ' - ' + class4 + ' t/ha) medium
+  //     <br>- (' + class2 + ' - ' + class3 + ' t/ha)
+  //     <br>- (' + class1 + ' - ' + class2 + ' t/ha)
+  //     <br>- (0.01 - ' + class1 + ' t/ha) low
+  //     <br>in the respective unit (' + i18n.aggreg[aggreg_index + 'Short'] + ').';'
+  //   }
+  // },
 
   settings: {
     legend                  : 'Legend',
@@ -301,6 +338,7 @@ var i18n = {
     allOblastsCountry       : 'all Provinces of Country',
     allOblastsCA : 'all Provinces of CA',
     download: 'Download',
+        download2: 'Download',
     asSHP: 'as SHP',
     filtered: 'filtered',
     tooltipSHP1: 'A ',
@@ -320,7 +358,9 @@ var i18n = {
     selected: 'selected',
     conjunction: 's' + ' of ',
     all: 'all',
-    plural: 's',
+    plural: function(){
+      return App.service.Watcher.getAggregation()['enNameShort'] + 's';
+    },
     ASB: ' of ASB',
     acronym: 'Acronym<br>explanations',
           
@@ -371,7 +411,7 @@ var i18n = {
     btnImport2               : 'Excel file',
     tooltipImport               : 'Browse for Excel file with water intake values',
     btnImportTemplates      : 'Excel templates for import',
-    tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally',
+    tooltipImportTemplates: 'Select an Excel template for water intake values, and store it locally on your computer',
     byDecade                : 'by decade',
     byMonth                 : 'monthly',
     byYear                  : 'yearly',
@@ -440,12 +480,14 @@ var i18n = {
     drawTooltip: 'Draw a polygon within the irrigated area.<br>Indicators are calculated automatically after drawing.',
     smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
     smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
-    outside: 'Outside the irrigated area polygons cannot be processed.',
+    outside: 'Polygons outside the irrigated area cannot be processed.',
     import_button_1: 'Import',
     import_button_2: 'map unit',
-    import_tooltip: "Transfer the selected map unit to 'Toolbox' in order to calculate indicators",
+    import_tooltip: "Transfer the selected map unit to 'User Polygon Toolbox' in order to calculate indicators",
     removed_single: 'has been removed.',
-    removed_multi: 'have been removed.'
+    removed_multi: 'have been removed.',
+    exist_already: 'Name does already exist',
+    transfer_anyway: 'is already in the Polygon list.<br>Transfer it anyway?'
   },
 
   exportUI: {
@@ -528,8 +570,10 @@ switch (locale){
       tab2: 'Ввод других параметров',
       fulldata: 'Просьба представить полные годовые данные для всех встречающихся культур!',
       userinput: 'Пользовательский ввод необходим для расчета продуктивность.<br>Предварительно заполненные значения берутся из базы данных WUEMoCA.',
-      calculateProd: 'Расчитать продуктивность',
-      calculateProdSuccess: 'Расчет продуктивность успешно!'
+      calculateProd: 'Рассчитать продуктивность',
+      calculateProdSuccess: 'Расчет продуктивность успешно!',
+      delete_all: 'удалить все значения',
+      values: ''
     };
 
     i18n.yesno = {
@@ -558,12 +602,16 @@ switch (locale){
 	    manual                  : 'Руководство пользователя',
 	    faq                     : 'Часто задаваемые вопросы',
 	    glossary                : 'Глоссарий',
-      readmore: 'Подробнее о',
+      //readmore: 'Нажмите, чтобы узнать подробнее',
+            readmore: '',
       uniwue                : 'Проект CAWa кафедра дистанционного зондирования в Университете Вюрцбурга',
       sic: 'НИЦ МКВК',
       sicurl: 'http://sic.icwc-aral.uz/index.htm',
       beta: 'Бета-версия',
-      video_general: 'Instruction Video - General Information'
+      video_general: 'Видеоинструкция - Общая информация',
+    cawa_report: 'Отчет по проекту WUEMoCA',
+    cawa_report_tooltip: 'Фаза III проекта CAWa (2015-2017 гг.) рабочие пакеты 3',
+    overview: 'Обзор показателей'
     };
 
     i18n.pilot = {
@@ -591,9 +639,9 @@ switch (locale){
     i18n.report = {
       generate_button              : 'Получить отчет',
       generate_window              : 'Получить отчет',
-            btnTooltip1:'Show a selection of indicators as report in statistics format',
-            btnTooltip2:'Attention: WUEMoCA does not provide exactly the same indicators,<br>that are usually included in statistics,<br>thus not all fields are filled in.',   
-      year                  : 'Выберать год',
+            btnTooltip1:'Показать выбор показателей в виде отчета в формате статистики',
+            btnTooltip2:'Внимание: WUEMoCA не предоставляет точно такие же показатели,<br>которые обычно включаются в статистику,<br>поэтому не все поля заполнены.',   
+      year                  : 'Выбрать год',
       selectCountry: 'Выбрать страну',
       selectOblast: 'Выбрать область',
       selectBUIS: 'Выбрать БУИС',
@@ -617,7 +665,7 @@ switch (locale){
       vegTH                 : 'Овощи и бахча',
       fodderTH              : 'Кормовые',
       perennialTH           : 'Многолетные насаждения',
-      orchardTH             : 'Сады',
+      orchardTH             : 'фрукты',
       grapesTH              : 'Винограды',
       homesteadTH           : 'Приусадебные',
       otherTH               : 'Прочие',
@@ -633,7 +681,7 @@ switch (locale){
 
 
     i18n.adminFilters = {
-      title                 : 'Выбрать территорию<br>(не обязательно)',
+      title                 : 'Выбрать территорию<br>(необязательно)',
       title_userPolygon                   : 'Масштабировать до территории',
       country               : 'Страна',
       country_empty:'Бассейн Аральского моря',
@@ -671,7 +719,9 @@ switch (locale){
     };
 i18n.mapSelection ={
    title       :'Слои',
-      reset:'сброс<br>настроек'
+      reset:'сброс<br>настроек',
+          collapse: 'Свернуть',
+    expand: 'Развернуть'
 };
 
     i18n.unit = {
@@ -684,10 +734,36 @@ i18n.mapSelection ={
     };
 
     i18n.aggreg = {
+    label: function(aggreg_name){
+      return i18n.aggreg.label2 + ' ' + aggreg_name;
+    },      
     label1                   : 'Выбрать',
-    label2                   : 'уровень агрегирования',      
-      map: 'карту'
-
+    label2                   : 'Уровень агрегирования',      
+    map                     : function(aggreg_index){
+      switch(aggreg_index){
+        case 'oblast':
+          return 'Карта области';
+          break;
+        case 'rayon':
+          return 'Карта района';
+          break;
+        case 'grid':
+          return 'Карта регулярного растра';
+          break;  
+        case 'buis':
+          return 'Карта БУИС';
+          break;
+        case 'uis':
+          return 'Карта УИС';
+          break;
+        case 'wua':
+          return 'Карта АВП';
+          break; 
+        case 'command':
+          return 'Карта подкомандной зоны канала';
+          break;          
+      }
+    }
     };
     i18n.indicator = {
       label                 : 'Выбрать показатель',
@@ -741,12 +817,12 @@ i18n.mapSelection ={
       multiannualHeader1          : 'Многолетний анализ',
       multiannualHeader2          : '(одна ячейка = 5км x 5км)',
       noChart    : 'Нет диаграмма для',
-      sumDoubleFallow: 'Все посевы включают второй сезон, без неиспользуемых земель',
-      calculate_indicators: 'Calculate indicators',
-      transfer: 'Transfer',
-      toMyPolygons: "to 'User polygon Toolbox'",
-      showCropPrices: 'Show crop prices',
-      legendNotIncluded: 'Chart legend is not included',
+      sumDoubleFallow: 'Все культуры включают второй сезон, без неиспользуемых земель',
+      calculate_indicators: 'Рассчитать показатели',
+      transfer: 'Перенос',
+      toMyPolygons: "в 'Инструмент полигона'",
+      showCropPrices: 'Показать цены на урожай',
+      legendNotIncluded: 'Легенда диаграммы не включена',
       title_nodata: 'Требуется ввод пользователя',
       nodata: 'Просьба представить статистические данные',
       nodata2: 'для расчета',
@@ -756,7 +832,7 @@ i18n.mapSelection ={
 
     i18n.exp = {
       title                 : 'Экспорт и отчет',
-      opts                  : 'опции скачивания',
+      opts                  : 'Варианты скачивания',
       tableCsv              : 'Таблица как CSV',
       tableExcel              : 'Таблица как EXCEL',
     indicatorAcronym: 'индикатор акроним',
@@ -775,11 +851,12 @@ i18n.mapSelection ={
       singleRayon           : 'single rayon',
       allRayonsOblast       : 'all rayons of oblast',
 
-      selectOblasts         : 'Select Province (oblast)',
-      singleOblast          : 'single Province (oblast)',
-      allOblastsCountry     : 'all Provinces of Country',
-      allOblastsCA : 'all Provinces of CA',
+      selectOblasts         : 'Выберите область',
+      singleOblast          : 'единая область',
+      allOblastsCountry     : 'все области страны',
+      allOblastsCA : 'все области центральной азии',
                 download: 'Скачать',
+                        download2: 'Скачать карту или таблицу',
           asSHP: 'как SHP',
           filtered: 'фильтруют',
           tooltipSHP1: '',
@@ -787,49 +864,73 @@ i18n.mapSelection ={
           tooltipSHP2: 'промелькнутое Shapefile с будут созданы все значения показателей всех лет',
           map: 'карту',
           table: 'таблица',
-          mapOrTable : 'карту или таблица',
-          btnTooltip1: 'Download indicator map or table on',
-          btnTooltip2: 'aggregation level. Select filter, format, year(s), and indicator(s).',
+          mapOrTable : '',
+          btnTooltip1: 'Скачать карту или таблицу показателей по уровню агрегирования',
+          btnTooltip2: '. Выберите фильтр, формат, год (ы) и индикатор (ы).',
           selectFilter: 'Выбрать фильтр',
           selectOutput: 'Выберите формат вывод',
           download: 'Скачать',
           nofilter: 'Фильтр территории не активирован',
           noselection1: 'нет',
-          noselection2: 'выбран (на карту)',
+          noselection2: 'выбран (на карте)',
           selected: 'выбранные',
           conjunction: ' ',
                     all: 'все',
-                    plural: '',
-                              ASB: ' of ASB',
-                    acronym: 'Акроним<br>объяснения',
+                    plural: function(){
+                            switch(App.service.Watcher.getAggregation()['id']){
+                              case 'oblast':
+                                return 'области';
+                                break;
+                              case 'rayon':
+                                return 'районы';
+                                break;
+                              case 'grid':
+                                return 'регулярные растры';
+                                break;  
+                              case 'buis':
+                                return 'БУИС';
+                                break;
+                              case 'uis':
+                                return 'УИС';
+                                break;
+                              case 'wua':
+                                return 'АВП';
+                                break; 
+                              case 'command':
+                                return 'подкомандной зоны канала';
+                                break;          
+                            }
+                    },
+                              ASB: ' БАМ',
+                    acronym: 'Пояснение<br>обозначений',
 
-              allpolygons: 'all polygons',
-              noselectionPolygon: 'no polygon selected'
+              allpolygons: 'все полигоны',
+              noselectionPolygon: 'полигон не выбран'
 
     };
     i18n.acronyms = {
-      windowtitle:'Объяснение сокращений, используемых в таблицах экспорта',
-      printtitle: 'WUEMoCA Акроним Пояснения',
+      windowtitle:'Расшифровка сокращений из экспортных таблиц',
+      printtitle: 'WUEMoCA Расшифровка сокращений',
       acronym: 'Акроним',
       name: 'название',
       crops: 'Информация по культурам',
       additional : 'Дополнительные параметры',
       croptypes : 'культура {crop}',
-      allcroptypes : 'каждая культура',
+      allcroptypes : 'По отдельной культуре',
       cwr: 'хлопок, рис, пшеница',
-      indicators : 'Индикаторная группа',
+      indicators : 'Группа показателей',
       description: 'Описание',
       _and: 'и',
       RS:  'ДЗ = основывается на данных дистанционного зондирования',
       stats:  'статс. = по статистическим данным',
-      ET:  'ET = основанный на эвапотранспирации'
+      ET:  'ЭТ = основанный на эвапотранспирации'
 
     };
 
     i18n.timeSlider = {
       title                 : 'Выбранный год: ',
-      startAnimation        : 'Начать временную анимацию',
-      stopAnimation         : 'Остановить временную анимацию'
+      startAnimation        : 'Начать анимацию во времени',
+      stopAnimation         : 'Остановить анимацию во времени'
     };
 
     i18n.popup = {
@@ -842,33 +943,32 @@ i18n.mapSelection ={
 
     i18n.wue = {
       windowTitle             : 'Форма ввода водоподачи (Вставить значения в млн куб.м)',
-      btnSubmit               : 'Calculate<br>Irrigation Efficiency',
-      calculateVir     : 'Calculate Irrigation Efficiency',
-      calculateVirSuccess     : 'Irrigation Efficiency calculated successfully!<br>Download selected polygon to get ' +
-                                'monthly and decadal results.' ,
-      aggregateETact          : 'Aggregate monthly and decadal ET<sub>act</sub> for ',
+      btnSubmit               : 'Рассчитать<br>эффективность орошения',
+      calculateVir     : 'Рассчитать эффективность орошения',
+      calculateVirSuccess     : 'Эффективность орошения рассчитана успешно!<br>Загрузите выбранный полигон, чтобы получить результаты за месяц и декаду.' ,
+      aggregateETact          : 'Совокупный месячный и десятилетний ЭТ<sub>факт</sub> за ',
       btnImport1              : 'Импорт',
-      btnImport2              : 'Excel file',
-      tooltipImport           : 'Browse for Excel file with water intake values',
+      btnImport2              : 'Файл Excel',
+      tooltipImport           : 'Найдите файл Excel со значениями водозабора',
       btnImportTemplates      : 'Шаблоны для импорта',
-      tooltipImportTemplates  : 'Select Excel template for value import, and store it locally',
+      tooltipImportTemplates  : 'Выберите шаблон Excel, чтобы импортировать значения и сохранить его локально на вашем компьютере',
       byDecade                : 'по декаде',
       byMonth                 : 'по месяцам',
       byYear                  : 'по годам',
       year                    : 'Год',
       decade                  : 'Декада',
       month                   : 'Месяц',
-          resetForm: 'Clear water intake form<br>(delete all yearly, monthly and decadal values)',
-    calculateSums: 'Calculate monthly and yearly sums<br>(original values are overwritten)'
+          resetForm: 'Форма для приема чистой воды<br>(удалите все годовые, месячные и десятилетние значения)',
+    calculateSums: 'Рассчитать месячные и годовые суммы<br>(исходные значения перезаписываются)'
       //pressWUE                : 'Press "Calculate WUE" and insert Water intake'
     },
 
     i18n.polygon = {
-          showPolygon             : 'полигоны<br>Инструменты',
-                    showPolygonLong             : 'полигоны Инструменты',
-          showPolygons: "Open 'User polygon Toolbox'",
-      hidePolygons:    "Exit 'Toolbox'",
-            userPolygons: 'User polygons',
+          showPolygon             : 'Инструмент<br>полигона пользователя',
+                    showPolygonLong             : 'Инструмент полигона пользователя',
+          showPolygons: "Открыть 'Инструмент полигона пользователя'",
+      hidePolygons:    "Выход из 'Инструментарий'",
+            userPolygons: 'Полигоны пользователя',
       notPressed            : 'Режим рисования полигонов',
       pressed               : 'Выйти из режима рисования полигонов',
       exportPressed         : 'Режим экспорта',
@@ -876,21 +976,21 @@ i18n.mapSelection ={
       removeAll             : 'Удалить все полигоны',
       removeSel             : 'Удалить выбранный полигон',
 
-      activate              : 'Нарисовать полигон',
-      deactivate            : 'Прекратить рисование',
+      activate              : 'Нарисовать<br>полигон',
+      deactivate            : 'Прекратить<br>рисование',
       upload                : 'Загрузить<br>Shapefile',
-      calculateWUE          : 'Расчет Индекс<br>эффективности ирригации',
-      calculateWUE2          : 'Расчет Индекс эффективности ирригации',
-calculateWUElong          : 'Расчет Индекс<br>эффективности ирригации',
+      calculateWUE          : 'Рассчитать эффек-<br>тивность орошения',
+      calculateWUE2          : 'Рассчитать эффективность орошения',
+calculateWUElong          : 'Рассчитать Индекс<br>эффективность орошения',
               download                  : 'Скачать<br>полигон(ы)',
-      calculateProd         : 'Расчет<br>продуктивности',
-      calculateProd2        : 'Расчет продуктивности',
-      calculateProdlong     : 'Расчет продуктивности',
-      calculateLoss         : 'Расчет<br>потерь урожайности',
-      calculateLosslong     : 'Расчет потерь урожайности',
+      calculateProd         : 'Рассчитать<br>продуктивность',
+      calculateProd2        : 'Рассчитать продуктивность',
+      calculateProdlong     : 'Рассчитать продуктивность',
+      calculateLoss         : 'Рассчитать<br>потерь урожайности',
+      calculateLosslong     : 'Рассчитать потерь урожайности',
       edit                  : 'Редактировать',
-      calculate             : 'расчет<br>индикатора',
-      progressTitle : 'расчет индикатора',
+      calculate             : 'Рассчитать<br>индикатора',
+      progressTitle : 'Рассчитать индикатора',
           progressMsg1: 'Суммарные значения до',
           progressMsg2single: 'полигона...',
           progressMsg2multi: 'полигонов...',
@@ -908,7 +1008,7 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
     shift: 'Выберите один или несколько многоугольник многоугольники с нажатой клавишей SHIFT',
     uploadAlert: 'Выберите промелькнутое Polygon Shapefile с системой координат WGS 84.\nIndicators are calculated ' +
                 'automatically after uploading.',
-    list: 'Список Полигон',
+    list: 'Список полигонов',
     doubleclick:'Двойной щелчок для увеличения',
     name:'Название',
     tools:'Инструменты',
@@ -917,16 +1017,17 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
     sortDescText: 'Сортировка по убыванию',
     sortClearText: 'Очистить Сортировать',
     selectgeodata: 'Выберите формат геоданных',
-    drawTooltip: 'Draw a polygon within the maximum irrigation extent.<br>Indicators are calculated automatically after ' +
-                  'drawing.',
-        smallerThan30ha_single: 'Attention: Irrigated area is smaller than 30 ha, results might not be valid!',
-        smallerThan30ha_multi: 'Attention: Irrigated area of some polygons is smaller than 30 ha, results might not be valid!',
-        outside: 'Outside the irrigated area polygons cannot be processed.',
+    drawTooltip: 'Нарисуйте многоугольник на орошаемой территории. Показатели рассчитываются автоматически после нанесения.',
+        smallerThan30ha_single: 'Внимание: площадь орошаемых земель меньше 30 га, результаты могут быть недействительными!',
+        smallerThan30ha_multi: 'Внимание: площадь орошения некоторых полигонов меньше 30 га, результаты могут быть недействительными!',
+        outside: 'Полигоны за пределами орошаемой площади не могут быть обработаны.',
         import_button_1: 'Импортировать',
         import_button_2: 'map unit',
-        import_tooltip: "Transfer the selected map unit to 'User polygon Toolbox' in order to calculate further indicators",
+        import_tooltip: "Перенесите выбранный блок карты в «полигоны Инструментарий», чтобы рассчитать дальнейшие показатели.",
         removed_single: 'был удален.',
-        removed_multi: 'были удалены.'
+        removed_multi: 'были удалены.',
+    exist_already: 'Объект с таким именем уже существует',
+    transfer_anyway: 'уже существует в списке полигонов.<br>Все равно продолжить?'
     };
 
     i18n.exportUI = {
@@ -936,7 +1037,7 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
       totalArea: 'Total area',
       inputCrop             : 'Выберите культуру(ы)',
       inputPeriod           : 'Выберите период',
-      inputYear             : 'Выберите года',
+      inputYear             : 'Выбрать год',
       inputIndicator          : 'Выбрать показатель',
       inputOutput           : 'Выберите вывод отчета',
       btnCancel             : 'Отмена',
@@ -978,9 +1079,9 @@ calculateWUElong          : 'Расчет Индекс<br>эффективнос
   };
 
   i18n.decade = {
-    1:                      'First decade of month',
-    2:                      'Second decade of month',
-    3:                      'Third decade of month'
+    1:                      'Первая декада месяца',
+    2:                      'Вторая декада месяца',
+    3:                      'Третья декада месяца'
   };
 
   i18n.loss = {

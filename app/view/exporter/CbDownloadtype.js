@@ -31,11 +31,11 @@ Ext.define('App.view.exporter.CbDownloadtype', {
       },{
         id: 'SHAPE-ZIP',
         enName: 'Shapefile (zip)',
-        ruName: 'Шейпфайл (промелькнутое)'
+        ruName: 'Шейпфайл (zip)'
       },{
         id: 'application/vnd.google-earth.kml+xml',
         enName: 'KML (Google Earth)',
-        ruName: 'KML (Гугл Земля)'
+        ruName: 'KML (Google Earth)'
       },{
         id: 'application/json',
         enName: 'GeoJSON',

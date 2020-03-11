@@ -9,7 +9,7 @@ Ext.define('App.service.Loss', {
   window: Ext.create('App.util.Window', {
     cls: 'polygon-window',
     title: i18n.loss.title,
-    items: [{ xtype: 'app-loss-form-tab' }],
+   //items: [{ xtype: 'app-loss-form-tab' }],
     modal: true,
     height: 500,
     width: 1000,

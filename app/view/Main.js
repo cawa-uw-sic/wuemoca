@@ -16,7 +16,7 @@ Ext.define('App.view.Main', {
     'Ext.data.proxy.Ajax',
 
     'Ext.ux.statusbar.StatusBar',
-
+'Ext.window.Toast',
     'App.controller.Main',
 
     'App.view.Map',
@@ -121,23 +121,31 @@ Ext.define('App.view.Main', {
           collapse: function(p, eOpts){
             __LocalDB.set('AreaFilter', 'noshow');
           }          
-        }
+        },
+        collapseToolText: i18n.mapSelection.collapse,
+        expandToolText: i18n.mapSelection.expand
       } ,{ 
         xtype: 'app-switcher' , 
         collapsed : false,
         // fill space but larger
-        flex: 2
+        flex: 2,
+                collapseToolText: i18n.mapSelection.collapse,
+        expandToolText: i18n.mapSelection.expand
       } ,{         
         xtype: 'app-exporter' , 
         collapsed : true,
         hidden: __Selection['UserPolygon'] == 'show',
         // adapted to content
-        flex: 0        
+        flex: 0,
+                collapseToolText: i18n.mapSelection.collapse,
+        expandToolText: i18n.mapSelection.expand       
       } ,{         
         xtype: 'app-overview' , 
         collapsed : true,
         // fill space but smaller
-        flex: 1
+        flex: 1,
+                collapseToolText: i18n.mapSelection.collapse,
+        expandToolText: i18n.mapSelection.expand
       }]
     },
    

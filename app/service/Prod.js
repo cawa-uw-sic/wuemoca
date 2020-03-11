@@ -153,7 +153,7 @@ Ext.define('App.service.Prod', {
       var label = '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
         '"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + 
         newindicatorname + ' [' + indicator[__Global.lang + 'Unit'] + ']'  +
-        '<a id="' + indicator.id + '_' + crop + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="delete all ' + newindicatorname + ' values' +
+        '<a id="' + indicator.id + '_' + crop + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="' + i18n.prod.delete_all + ' ' + newindicatorname + ' ' + i18n.prod.values +
         '"><i class="fa fa-times-circle" style="padding:0 5px 0 10px;"></i></a>';
       labels.push(label);
     });
@@ -288,8 +288,9 @@ Ext.define('App.service.Prod', {
         xtype: 'fieldset',
         title: '<a data-qtip="' + indicator[__Global.lang + 'ProdTooltip'] + 
           '"><i class="fa fa-info" style="padding:0 10px 0 5px;"></i></a>' + indicator[__Global.lang + 'Name'] + ' [' + indicator[__Global.lang + 'Unit'] + ']'  +
-          '<a id="' + indicator.id + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="delete all ' + indicator[__Global.lang + 'Name'] + ' values' +
+          '<a id="' + indicator.id + '" href="#" onclick="App.service.Prod.deleteValues(this.id);" data-qtip="' + i18n.prod.delete_all + ' ' + indicator[__Global.lang + 'Name'] + ' ' + i18n.prod.values +
          '"><i class="fa fa-times-circle" style="padding:0 5px 0 10px;"></i></a>',
+         
         width: 735,
         defaults: {
           xtype: 'numberfield',
@@ -592,39 +593,39 @@ Ext.define('App.service.Prod', {
       d['cd'] = parseFloat(cd.toFixed(3));
     }
 
-    // eprod_crop, eprod_avg and vc_avg depending on pirf, firf and c  
+    // eprod_crop, and vc_avg depending on pirf, firf
     var crops = ['cotton', 'wheat', 'rice'];
-    var eprod_avg_numerator = 0;
-    var eprod_avg_denominator = 0;  
+    // var eprod_avg_numerator = 0;
+    // var eprod_avg_denominator = 0;  
     var vc_avg_numerator = 0;        
     for (var i = 0; i < crops.length; i++) {
       d['eprod_' + crops[i]] = null;
-      var c = d['c_' + crops[i]];
+      //var c = d['c_' + crops[i]];
       var pirf = d['pirf_' + crops[i]];
       var etf = d['etf_' + crops[i]];
       var firf = d['firf_' + crops[i]];   
       var vc = d['vc_' + crops[i]];  
-      if (c != null && c > 0) { 
+      //if (c != null && c > 0) { 
         var pirf = d['pirf_' + crops[i]];
         var etf = d['etf_' + crops[i]];
         var firf = d['firf_' + crops[i]];
         if (pirf > 0 && etf > 5 && firf > 0){   
-          var eprod = (pirf * c) / (etf * firf * 10);
+          var eprod = (pirf * 1000) / (etf * firf * 10);
           d['eprod_' + crops[i]] = parseFloat(eprod.toFixed(3));
-          eprod_avg_numerator += (eprod * etf * firf);
-          eprod_avg_denominator += (etf * firf);
+          // eprod_avg_numerator += (eprod * etf * firf);
+          // eprod_avg_denominator += (etf * firf);
         }
-      }
+      //}
       vc_avg_numerator += vc * firf;
       firf_sum_cwr += firf;
     }
 
-    // eprod_avg (weighted average)
-    d['eprod_avg'] = null;
-    if (eprod_avg_numerator > 0 && eprod_avg_denominator > 0){    
-      var eprod_avg = eprod_avg_numerator / eprod_avg_denominator;
-      d['eprod_avg'] = parseFloat(eprod_avg.toFixed(3));
-    }
+    // // eprod_avg (weighted average)
+    // d['eprod_avg'] = null;
+    // if (eprod_avg_numerator > 0 && eprod_avg_denominator > 0){    
+    //   var eprod_avg = eprod_avg_numerator / eprod_avg_denominator;
+    //   d['eprod_avg'] = parseFloat(eprod_avg.toFixed(3));
+    // }
     // vc_avg (weighted average)
     d['vc_avg'] = null;
     if (vc_avg_numerator > 0){    

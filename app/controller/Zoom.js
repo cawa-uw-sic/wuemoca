@@ -282,12 +282,11 @@ Ext.define('App.controller.Zoom', {
         changeAggreg = false;
         var aggreg_name = App.service.Helper.getById(__Aggregation, aggreg)[__Global.lang + 'NameShort'];
         var msg_title = i18n.adminFilters.zoom_to_selected + ' ' + aggreg_name; 
-        if (App.service.Watcher.get(aggreg.charAt(0).toUpperCase() + aggreg.slice(1)) == 'all'){
-          msg_title += i18n.exp.plural;
-        }
-        //Ext.Msg.alert(msg_title, "'" + indicator[__Global.lang + 'Name'] + "' is not available as " + aggreg_name + ' Map.'); 
+        //if (App.service.Watcher.get(aggreg.charAt(0).toUpperCase() + aggreg.slice(1)) == 'all'){
+          //msg_title += i18n.exp.plural; to do!
+        //}
         Ext.toast({
-          html: "'" + indicator[__Global.lang + 'Name'] + "' " + i18n.adminFilters.is_not_available_as + " " + aggreg_name + ' ' + i18n.aggreg.map + '.',
+          html: "'" + indicator[__Global.lang + 'Name'] + "' " + i18n.adminFilters.is_not_available_as + " " + i18n.aggreg.map(aggreg) + '.',
           title: msg_title,
           //width: 200,
           align: 't',

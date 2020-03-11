@@ -3,7 +3,6 @@ Ext.define('App.view.loss.Form', {
 
   requires: [
     'App.controller.Loss',
-
     'App.view.loss.Tab'
   ],
 

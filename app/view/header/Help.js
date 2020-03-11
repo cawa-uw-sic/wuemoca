@@ -22,7 +22,7 @@ Ext.define('App.view.header.Help', {
         click: 'onUserGuide'
       }     
     },{
-      text: 'Indicator Overview',
+      text:  i18n.header.overview,
       //tooltip: i18n.header.faq_tooltip,
       iconCls: 'x-fa fa-info',
       listeners: {
@@ -33,11 +33,11 @@ Ext.define('App.view.header.Help', {
       //tooltip: i18n.header.glossary_tooltip,
       iconCls: 'x-fa fa-book',
       listeners: {
-        click: 'onGlossary'
+        //click: 'onGlossary'
       }
    },{
-      text: 'Project report on WUEMoCA',
-      tooltip: 'CAWa project phase III 2015-2017 work package 3',
+      text: i18n.header.cawa_report,
+      tooltip: i18n.header.cawa_report_tooltip,
       iconCls: 'x-fa fa-file-text',
       listeners: {
         click: 'onCawaReport'

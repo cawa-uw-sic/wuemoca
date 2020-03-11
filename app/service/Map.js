@@ -204,10 +204,10 @@ Ext.define('App.service.Map', {
     var panel = App.service.Helper.getComponentExt('map-container');
     if (panel.isVisible()) {
       var indicator = App.service.Watcher.getIndicator();
-      var aggregation = App.service.Watcher.getAggregation();
+      var aggregation = App.service.Watcher.get('Aggregation');
       var title = '';
       if (!userPolygon){
-        title += aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map + ':<br>';
+        title += i18n.aggreg.map(aggregation) + ':<br>';
       }
       else{
         title += i18n.polygon.userPolygons + ':<br>';
@@ -277,10 +277,10 @@ Ext.define('App.service.Map', {
 
   setLegend: function () {
     var self = this;
-    var aggregation = App.service.Watcher.getAggregation();
+    var aggregation = App.service.Watcher.get('Aggregation')
     App.service.Helper.getComponentExt('legend-current').setVisible(true);
     App.service.Helper.getComponentExt('legend-panel').setVisible(true);
-    var boxlabel = aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.map;
+    var boxlabel = i18n.aggreg.map(aggregation);
     if (App.service.Watcher.get('UserPolygon') == 'noshow'){
       boxlabel += ': ' + self.getLegendTitle(true, 'no');
     }
@@ -364,11 +364,13 @@ Ext.define('App.service.Map', {
       if (!!indicator.median) {
         if (!!indicator.crops){
           var index = crop.idx;
-          if (indicator.legend == 'classified'){
-            image_style = 'url(resources/images/' + indicator.id + '_' + crop.id + '.png)';
-            if (typeof indicator.crops == 'object'){    
+          if (typeof indicator.crops == 'object'){ 
+            if (!isNaN(indicator.crops[0]))  {
               index = crop.idx - 1;
             }
+          }          
+          if (indicator.legend == 'classified'){
+            image_style = 'url(resources/images/' + indicator.id + '_' + crop.id + '.png)';
           }
           else if (!indicator.color_dark){
             image_style = 'linear-gradient(' + crop.color_dark + ',' + crop.color_medium + ',' + crop.color_bright + ')'; 
@@ -433,7 +435,7 @@ Ext.define('App.service.Map', {
   },
 
   getLegendMedianStyle: function () {
-    return (App.service.Watcher.getIndicator().id == 'mlu') ? '135%' : '165%';
+    return (App.service.Watcher.getIndicator().id == 'mlu') ? '170%' : '165%';
   },
 
   onAggregation: function(cb, val){
@@ -502,8 +504,8 @@ Ext.define('App.service.Map', {
 
     var aggregation = App.service.Watcher.getAggregation();
     if (cb.getItemId() == 'switcher-cb-aggregation'){
-      var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
-        '" data-qtip="' + aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.label2 + '<br>' +
+      //var label = '<a href="' + __Global.urls.GlossaryBase + aggregation['glossary'] + 
+      var label = '<a data-qtip="' + i18n.aggreg.label(aggregation[__Global.lang + 'NameShort']) + '<br>' + //aggregation[__Global.lang + 'NameShort'] + ' ' + i18n.aggreg.label2 + '<br>' +
         aggregation[__Global.lang + 'Tooltip'] + '<br>' +
         i18n.header.readmore + 
         '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.aggreg.label1 + ' ' + i18n.aggreg.label2;  
@@ -623,7 +625,7 @@ Ext.define('App.service.Map', {
     var aggreg_names = [];
     aggregationData.map(function (aggregation) {
       aggreg_ids.push(aggregation.id);
-      aggreg_names.push("'" + aggregation[__Global.lang + 'NameShort'] + "' " + i18n.aggreg.map);
+      aggreg_names.push(i18n.aggreg.map(aggregation.id));
     });
     var aggregation_id = App.service.Watcher.get('Aggregation');
     if (aggreg_ids.indexOf(aggregation_id) < 0) {

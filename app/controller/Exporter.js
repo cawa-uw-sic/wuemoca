@@ -41,7 +41,7 @@ Ext.define('App.controller.Exporter', {
     App.service.Exporter.download(vals);
     App.service.Helper.getComponentExt('exporter-window').hide();
   },
-  onShowAcronymWindow: function (eö, form, val){
+  onShowAcronymWindow: function (el, form, val){
     App.service.Exporter.window.show();
   }
 

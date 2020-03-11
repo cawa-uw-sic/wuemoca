@@ -221,7 +221,6 @@ __Chart.VBar = {
         text: title
       },
       grid: true,
-      //limits: limits,      
       renderer: function (axis, value) {
         var label = '';
         if (bigdata == 'thousand'){

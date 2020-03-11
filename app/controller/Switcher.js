@@ -36,9 +36,9 @@ Ext.define('App.controller.Switcher', {
     * get stored indicator object
     */
     var indicator = App.service.Watcher.getIndicator();
- 
-    var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] + 
-      '" data-qtip="' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + 
+
+   // var label = '<a href="' + __Global.urls.GlossaryBase + indicator['glossary'] +  
+    var label = '<a data-qtip="' + indicator[__Global.lang + 'Name'] + ' ' + (indicator[__Global.lang + 'Affix'] || '') + 
       ':<br> ' + indicator[__Global.lang + 'Tooltip'] + '<br>' + i18n.header.readmore +
       '" target="glossary"><i class="fa fa-info" style="padding:0 20px 0 5px;"></i></a>' + i18n.indicator.label;  
 

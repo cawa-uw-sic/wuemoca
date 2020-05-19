@@ -1,3 +1,6 @@
+/**
+* Yield loss calculation tool (draft version)
+*/
 Ext.define('App.service.Loss', {
 
   singleton: true,
@@ -9,7 +12,7 @@ Ext.define('App.service.Loss', {
   window: Ext.create('App.util.Window', {
     cls: 'polygon-window',
     title: i18n.loss.title,
-   //items: [{ xtype: 'app-loss-form-tab' }],
+    items: [{ xtype: 'app-loss-form-tab' }],
     modal: true,
     height: 500,
     width: 1000,
@@ -18,11 +21,16 @@ Ext.define('App.service.Loss', {
   }),
 
   loadData: function (data) {
-    var polygon = App.service.Polygon.getSelectedPolygons()[0];
+    var polygon = App.service.Polygon.getSelectedPolygons()[0];    
     var store = Ext.getStore('loss');
-    store.removeAll();
-
-    store.loadData(data || App.service.Loss.initData(polygon.loss, 'input'));
+    if (!store){
+      store = Ext.create('App.store.Loss', { data: App.service.Loss.initData(polygon.loss, 'input') });
+    } 
+    else{
+      store.removeAll();
+      store.loadData(data || App.service.Loss.initData(polygon.loss, 'input'));
+    } 
+    
   },
 
   saveInputData: function () {

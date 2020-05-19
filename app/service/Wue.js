@@ -1,3 +1,6 @@
+/**
+* Irrigation efficiency calculation tool methods
+*/
 Ext.define('App.service.Wue', {
 
   singleton: true,

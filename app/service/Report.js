@@ -1,3 +1,6 @@
+/**
+* excel report methods
+*/
 Ext.define('App.service.Report', {
 
   singleton: true,

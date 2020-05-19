@@ -84,7 +84,7 @@ var i18n = {
   report: {
     generate_button              : 'Generate Report',
     generate_window              : 'Generate Report',
-    btnTooltip1:'Показать a selection of indicators as report in statistics format',
+    btnTooltip1:'Show a selection of indicators as report in statistics format',
     btnTooltip2:'description',              
     year                    : 'Select year',
     selectCountry: 'Select country',

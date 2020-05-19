@@ -1,16 +1,19 @@
-var server = 'http://wuemoca.geographie.uni-wuerzburg.de';
+//var server = 'http://wuemoca.geographie.uni-wuerzburg.de';
 //var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
-var server_sic = 'http://wuemoca.net';
+//var server_sic = 'http://wuemoca.net';
 var server_wfs = 'https://wuemoca.geographie.uni-wuerzburg.de:443';
+
+var server_frontend = 'https://cawa.geo.uni-halle.de';
+var server_backend = 'http://wuemoca.geographie.uni-wuerzburg.de';
 
 //SIC server settings
 //disable google analytics scripts in index.html
-server = server_sic;
-server_wfs = server;
+//server = server_sic;
+server_wfs = server_frontend;
 
-var api = server + '/mvc-backend/';
+var api = server_backend + '/mvc-backend/';
 
-var documents = server + '/mvc-documents/';
+var documents = server_backend + '/mvc-documents/';
 
 var geoserver_workspace = 'wuemoca_v3';
 
@@ -77,6 +80,8 @@ __Global.decade = {
 * script for writing values and geometry to temporary DB table
 * @property api.WUE
 * script for DB aggregation on-the-fly of monthly and decadal ET actual
+* @property api.ET
+* script for DB aggregation on-the-fly of monthly and decadal ET actual within Yield loss tool
 */
 __Global.api = {
     Report        : api + 'report.jsp?',
@@ -96,7 +101,7 @@ __Global.api = {
 *  collection of URLs of backend documents
 */
 __Global.urls = {
-    Mapserver     : server + '/geoserver/',
+    Mapserver     : server_frontend + '/geoserver/',
     Mapserver_WFS : server_wfs + '/geoserver/' + geoserver_workspace + '/ows?' +
         'service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&',
     //important: http://scriptasylum.com/tutorials/frameredirect/frameredirect.html

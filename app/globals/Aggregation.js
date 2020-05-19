@@ -30,7 +30,6 @@ var __Aggregation = [
     ruTooltip      : 'Доступно для бассейна Аральского моря',        
     super_filter: 'oblast' ,        
     isDefault      : true,
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor30'
   }, 
   /**
@@ -46,7 +45,6 @@ var __Aggregation = [
     enTooltip      : 'Available for Aral Sea Basin',
     ruTooltip      : 'Доступно для бассейна Аральского моря',         
     super_filter: 'oblast' ,
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor29'
   }, 
   /**
@@ -63,7 +61,6 @@ var __Aggregation = [
     ruTooltip      : 'Доступно для бассейна Аральского моря',   
     super_filter: 'oblast',     
     tiled: true,
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor24'
   },
   /**
@@ -98,7 +95,6 @@ var __Aggregation = [
         "buis_id",
         "uis_id"
     ],
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor28'
   }, 
   /**
@@ -133,40 +129,8 @@ var __Aggregation = [
         "buis_id",
         "uis_id"
     ],
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor27'
   }, 
-  /*{
-     id             : 'uis_rayon',
-    enName         : 'District fractions of ISA',
-    ruName         : 'Район фракции УИС',
-    enNameShort    : 'Districts of ISA',
-    ruNameShort    : 'Районы УИС' ,
-    enTooltip      : 'Available for Uzbekistan only',
-    ruTooltip      : 'Доступно для Узбекистана только',         
-    super_filter: 'buis' ,
-    aoi_filter: [
-        "country_id='UZB'",
-        "oblast_id=1703",
-        "oblast_id=1706",
-        "oblast_id=1708",
-        "oblast_id=1710",
-        "oblast_id=1712",
-        "oblast_id=1714",
-        "oblast_id=1718",
-        "oblast_id=1722",
-        "oblast_id=1724",
-        "oblast_id=1727",
-        "oblast_id=1730",
-        "oblast_id=1733",
-        "oblast_id=1735",
-        "buis_id",
-        "uis_id"
-    ],
-    //items: false,
-    glossary       : 'bme00017.htm'
-  }, */
-
   /**
   * @property wua
   * WUA aggregation level
@@ -186,7 +150,6 @@ var __Aggregation = [
         "oblast_id=1733"
     ],
     tiled: true,
-    //items: false,
     glossary       : 'bme00017.htm#bookme_anchor26'
   },  
   /**
@@ -215,7 +178,6 @@ var __Aggregation = [
         "oblast_id=3503"
     ],
     tiled: true,
-    //items: false ,
     glossary       : 'bme00017.htm#bookme_anchor25'
   }
 

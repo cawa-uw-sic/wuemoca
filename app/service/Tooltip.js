@@ -1,3 +1,6 @@
+/**
+* Original tooltip class, feature information now displayed in the statusbar
+*/
 Ext.define('App.service.Tooltip', {
 
   singleton: true,

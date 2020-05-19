@@ -1,3 +1,6 @@
+/**
+* User Polygon toolbox
+*/
 Ext.define('App.service.Polygon', {
 
   requires: [
@@ -88,7 +91,10 @@ Ext.define('App.service.Polygon', {
       self.selectRowInGrid(uid);
 
     });
-
+    /**
+    * @method drawControl.onDrawend
+    * At the end of drawing a polygon, the geometry is stored in the localStorage, all indicators are aggregated to the geometry
+    */
     self.drawControl.on('drawend', function (e) {
       var geometry = e.feature.getGeometry();
       var geometry_wgs84 = geometry.clone().transform(
@@ -109,6 +115,7 @@ Ext.define('App.service.Polygon', {
       App.service.Helper.hideComponents(['polygon-btn-deactivate']);
       App.service.Helper.showComponents(['polygon-btn-activate']);
     });
+
     self.windowChart.on("boxready", function (window) {
       window.setWidth(((__Global.year.Max - __Global.year.Min) + 1) * __Global.chart.BarWidth);
       window.setHeight(__Global.chart.Height);
@@ -121,7 +128,12 @@ Ext.define('App.service.Polygon', {
       }
     });
   },
-
+  /**
+  * @method switchView
+  * special settings for user polygon mode switched on/off: show or hide layers and gui elements, change color, etc.
+  * @param val
+  * show or noshow
+  */
   switchView: function(val){
     App.service.Watcher.set('UserPolygon', val ? 'show' : 'noshow');
     App.service.Helper.getComponentExt('legend-userpolygon').setVisible(val);
@@ -188,7 +200,10 @@ Ext.define('App.service.Polygon', {
     this.selected = false;
     App.service.Polygon.toggleDisabledButtons(true);
   },
-
+  /**
+  * @method activate
+  * activate the draw control, deactivate select control
+  */
   activate: function () {
     this.drawControl.setActive(true);
     this.selectControl.setActive(false);
@@ -196,13 +211,21 @@ Ext.define('App.service.Polygon', {
     this.windowChart.close();
     this.deselectMapAndList();
   },
-
+  /**
+  * @method deactivate
+  * deactivate the draw control, activate select control
+  */
   deactivate: function () {
     this.drawControl.setActive(false);
     this.selectControl.setActive(true);
     this.activated = false;
   },
-
+  /**
+  * @method getDefaultColor
+  * default color of user polygons
+  * @param feature
+  * polygon
+  */
   getDefaultColor: function (feature) {
     var fillColor = '';
     var fillColorEmpty = 'rgba(127,205,187, 0.5)';
@@ -226,7 +249,12 @@ Ext.define('App.service.Polygon', {
       })
     });
   },
-
+  /**
+  * @method getSelectColor
+  * select color of user polygons
+  * @param feature
+  * polygon
+  */
   getSelectColor: function (feature) {
     var fillColor = '';
     var fillColorEmpty = 'rgba(255,64,64, 0.6)';
@@ -253,7 +281,10 @@ Ext.define('App.service.Polygon', {
       })
     });
   },
-
+  /**
+  * @method updateWindowEdit
+  * update text boxes of edit window
+  */
   updateWindowEdit: function (polygon) {
     var changeSelection = true;
     var selectedPolygons = this.getSelectedPolygons();
@@ -283,7 +314,10 @@ Ext.define('App.service.Polygon', {
       ,{ id: 'exportui-area',       value: area_ha }
     ]);
   },
-
+  /**
+  * @method whenSelect
+  * selecting a polygon, check if polygon has name and data
+  */
   whenSelect: function () {
     self = this;
     App.service.Chart.window.close();
@@ -353,9 +387,12 @@ Ext.define('App.service.Polygon', {
       App.service.Exporter.setDownloadCombotext();
     }
   },
-
+  /**
+  * @method registerPolygon
+  * register drawn polygon, check if geometry is valid and in wgs84
+  */
   registerPolygon: function (extent, wkt_geometry) {
-    //check if geometry is valid and in wgs 84
+    //check if geometry is valid and in wgs84
     //split all coordinates into a list
     if (!wkt_geometry || wkt_geometry.indexOf('NaN') != -1 ) return false;
     coordinate_list = wkt_geometry.replace(/MULTIPOLYGON|\(|\)/g, "").split(/,| /);

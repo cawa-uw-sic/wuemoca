@@ -5,6 +5,7 @@ Ext.define('App.controller.Map', {
   extend: 'Ext.app.ViewController',
   alias: 'controller.map',
 /**
+* @method onAfterRender
 * create overview map
 */
   onAfterRender: function (view) {

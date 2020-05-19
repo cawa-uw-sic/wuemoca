@@ -1,3 +1,6 @@
+/**
+* map methods
+*/
 Ext.define('App.service.Map', {
 
   singleton: true,
@@ -21,7 +24,9 @@ Ext.define('App.service.Map', {
     __LocalDB.updateLocalDB();
     return this.instance;
   },
-
+  /**
+  * @method setMapExtent
+  */
   setMapExtent: function (extent, transformation) {
     if (typeof extent == 'string') extent = extent.split(',');
 
@@ -38,7 +43,9 @@ Ext.define('App.service.Map', {
     );
     App.service.Chart.window.close();
   },
-
+  /**
+  * @method loadLayer
+  */
   loadLayer: function () {
     var self = this;
     var map = self.instance;
@@ -64,7 +71,9 @@ Ext.define('App.service.Map', {
       self.loadAdminLayer();
     }
   },
-
+  /**
+  * @method loadCurrentLayer
+  */
   loadCurrentLayer: function () {
     var self = this;
     var map = self.instance;
@@ -81,7 +90,9 @@ Ext.define('App.service.Map', {
     map.addLayer(App.util.Layer.current);
     App.service.Yearslider.didRender();
   },
-
+  /**
+  * @method loadAdminLayer
+  */
   loadAdminLayer: function () {
     var map = this.instance;
 
@@ -109,7 +120,9 @@ Ext.define('App.service.Map', {
       BackgroundLayers.country.setZIndex(14);
     }
   },
-
+  /**
+  * @method removeCurrentLayer
+  */
   removeCurrentLayer: function(){
     var map = this.instance;
     if (!!App.util.Layer.current){
@@ -123,7 +136,13 @@ Ext.define('App.service.Map', {
     App.service.Helper.getComponentExt('legend-panel').setVisible(false);
     App.service.Yearslider.didRender();
   },
-
+  /**
+  * @method getLayerSource
+  * @param yearIncluded
+  * boolean
+  * @param style
+  * boolean
+  */
   getLayerSource: function (yearIncluded, style) {
     var self = this;
     var aggregation = App.service.Watcher.getAggregation();
@@ -151,9 +170,6 @@ Ext.define('App.service.Map', {
     else if (App.service.Watcher.get('UserPolygon') == 'noshow'){
       App.service.Helper.clearZoomCombos();
     }
-    // else {
-    //   App.service.Helper.clearZoomCombos();
-    // }
 
     if (CQLfilter != ''){
       if (!!year_filter) {
@@ -177,12 +193,16 @@ Ext.define('App.service.Map', {
 
     return aggregation.tiled ? new ol.source.TileWMS(opts) : new ol.source.ImageWMS(opts);
   },
-
+  /**
+  * @method compareLayers
+  */
   compareLayers: function () {
     var oldLayer = App.util.Layer.current.getSource().getParams();
     return oldLayer.LAYERS + oldLayer.STYLES == this.getLayerName() + this.getLayerStyles();
   },
-
+  /**
+  * @method getLayerName
+  */
   getLayerName: function () {
     var layerName = __Global.geoserverWorkspace + ':ca_' + App.service.Watcher.get('Aggregation');
     if (!App.service.Watcher.getIndicator().years) {
@@ -190,7 +210,9 @@ Ext.define('App.service.Map', {
     }
     return layerName;
   },
-
+  /**
+  * @method getLayerStyles
+  */
   getLayerStyles: function () {
     var styles = 'a_' + App.service.Watcher.get('Indicator');
     if (!!App.service.Watcher.get('Crop')) styles += '_' + App.service.Watcher.get('Crop');
@@ -198,7 +220,9 @@ Ext.define('App.service.Map', {
     if (!App.service.Watcher.getIndicator().years) styles += '_grid_no_years';
     return styles;
   },
-
+  /**
+  * @method setMainTitle
+  */
   setMainTitle: function () {
     var userPolygon = App.service.Watcher.get('UserPolygon') == 'show';
     var panel = App.service.Helper.getComponentExt('map-container');
@@ -232,7 +256,9 @@ Ext.define('App.service.Map', {
       panel.setTitle(title);
     }
   },
-
+  /**
+  * @method changeYear
+  */
   changeYear: function () {
     this.setMainTitle();
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
@@ -251,7 +277,14 @@ Ext.define('App.service.Map', {
         'CQL_FILTER': CQLfilter
       });
   },
-
+  /**
+  * @method getUrl
+  * @param coordinate
+  * @param allYears
+  * boolean
+  * @param style
+  * boolean
+  */
   getUrl: function (coordinate, allYears, style) {
     var view = this.instance.getView();
     var viewResolution = view.getResolution();
@@ -266,7 +299,9 @@ Ext.define('App.service.Map', {
       }
     );
   },
-
+  /**
+  * @method itsPolygon
+  */
   itsPolygon: function (e) {
     return !!this.instance.forEachFeatureAtPixel(e.pixel,
       function(feature, layer) {
@@ -274,7 +309,9 @@ Ext.define('App.service.Map', {
       }
     );
   },
-
+  /**
+  * @method setLegend
+  */
   setLegend: function () {
     var self = this;
     var aggregation = App.service.Watcher.get('Aggregation')
@@ -303,24 +340,9 @@ Ext.define('App.service.Map', {
       App.service.Helper.getComponentExt('legend-panel').setVisible(false);
     }
   },
-
-  // getLegendImage: function () {
-  //   var image_style = '';
-  //   if (App.service.Watcher.get('UserPolygon') == 'noshow'){
-  //     var indicator = App.service.Watcher.getIndicator();
-  //     if (indicator.mapType == 'colored' || App.service.Watcher.get('Aggregation') == 'grid'){
-  //       if (!!App.service.Watcher.get('Crop')){
-  //         var crop = App.service.Watcher.getCrop();
-  //         image_style = 'linear-gradient(' + crop.color_dark + ',' + crop.color_medium + ',' + crop.color_bright + ')';        
-  //       }
-  //       else if (indicator.maximum){
-  //         image_style = 'linear-gradient(' + indicator.color_dark + ',' + indicator.color_medium + ',' + indicator.color_bright + ')';  
-  //       }
-  //     }
-  //   }
-  //   return image_style;
-  // },
-
+  /**
+  * @method getLegendTitle
+  */
   getLegendTitle: function(withUnit, bigdata){
     var legend_title = '';
     var indicator = App.service.Watcher.getIndicator();
@@ -348,7 +370,9 @@ Ext.define('App.service.Map', {
     }
     return legend_title;
   },
-
+  /**
+  * @method getLegendImageAndText
+  */
   getLegendImageAndText: function () {
     var indicator = App.service.Watcher.getIndicator();
     var crop = App.service.Watcher.getCrop();
@@ -433,11 +457,19 @@ Ext.define('App.service.Map', {
       text: text
     }
   },
-
+  /**
+  * @method getLegendMedianStyle
+  */
   getLegendMedianStyle: function () {
     return (App.service.Watcher.getIndicator().id == 'mlu') ? '170%' : '165%';
   },
-
+  /**
+  * @method onAggregation
+  * @param cb
+  * Combobox
+  * @param val
+  * Value  
+  */
   onAggregation: function(cb, val){
     //reset comboboxes
     var aoi_filter = App.service.Watcher.get('Aoi_Filter');
@@ -518,7 +550,17 @@ Ext.define('App.service.Map', {
       App.service.Polygon.showChartWindow();
     }
   },
-
+  /**
+  * @method filterAreaOfInterest
+  * @param aoi
+  * Area of interest
+  * @param id
+  * Id of Aoi  
+  * @param super_aoi
+  * Superordinated area of interest  
+  * @param super_id
+  * Id of Super Aoi    
+  */
   filterAreaOfInterest: function(aoi, id, super_aoi, super_id){
     if (App.service.Watcher.get('UserPolygon') == 'show'){
       aoi = '';
@@ -586,7 +628,9 @@ Ext.define('App.service.Map', {
     }
 
   },
-
+  /**
+  * @method fillAggregations
+  */
   fillAggregations: function () {
     var indicator = App.service.Watcher.getIndicator();
     availableAggregations = indicator.aggregation;
@@ -653,8 +697,6 @@ Ext.define('App.service.Map', {
   /**
   * @method fillCrops
   * create crop buttons depending on current indicator
-  * @param button_group
-  * button group
   */
   fillCrops: function () {
     var button_group = App.service.Helper.getComponentExt('switcher-btns-crop');
@@ -724,7 +766,9 @@ Ext.define('App.service.Map', {
       i18n.crop.label + '</span>';
     button_group.setTitle(label);
   },
-
+  /**
+  * @method setIndicatorFilter
+  */
   setIndicatorFilter: function(userPolygon){
     var indicatorStore = Ext.getStore('indicator');
     var current_indicator = App.service.Watcher.getIndicator();

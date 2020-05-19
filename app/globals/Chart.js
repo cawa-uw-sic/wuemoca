@@ -94,51 +94,6 @@ __Chart.Gauge = {
   }
 };
 
-
-/*__Chart.HBar = {
-
-  getAxes: function (x, y) {
-    return [{
-      type: 'numeric',
-      position: 'bottom',
-      fields: [y],
-      grid: true,
-      minimum: 0
-    }, {
-      type: 'category',
-      position: 'left',
-      fields: [x]
-    }];
-  },
-
-  getSeries: function (x, y, measure, colors) {
-    return [{
-      type: 'bar',
-      axis: 'bottom',
-      colors: colors,
-      label: {
-        display: 'insideEnd',
-        field: y,
-        orientation: 'horizontal',
-        contrast: true,
-        'text-anchor': 'start',
-        font: "bold 15px Helvetica, sans-serif",
-        renderer: function(v){
-          return v.toFixed(0) + ' ' + measure;
-        }
-      },
-      xField: x,
-      yField: y,
-      renderer: function(sprite, record, attr, index, store) {
-        var colors = ['#e86d68', '#f5834b'];
-        return Ext.apply(attr, {
-            fill: colors[index]
-        });
-      }
-    }];
-  }
-};*/
-
 /**
 * vertical bar chart
 */
@@ -159,57 +114,6 @@ __Chart.VBar = {
   * @return {Ext.chart.axis.Numeric | Ext.chart.axis.Category}
   */
   getAxes: function (x, y, bigdata, title, maximum, decimals, currentYear) {
-  /* getAxes: function (x, y, measure, maximum, decimals, yield_classes) {
-    var limits = [];
-    if (typeof yield_classes == 'object'){
-      //yield_classes.map(function(yield_class){
-        limits.push({
-          value: yield_classes[0],
-          line: {
-            strokeStyle: 'black',
-            lineWidth: 2,
-            lineDash: [6, 3],
-            title: {
-              text: 'low',
-              fontSize: 15,
-              fontWeight : 'bold',
-              strokeStyle : 'white',
-              lineWidth: 0.5
-            }
-          }
-        });        
-        limits.push({
-          value: yield_classes[3],
-          line: {
-            strokeStyle: 'black',
-            lineWidth: 2,
-            lineDash: [6, 3],
-            title: {
-              text: 'medium',
-              fontSize: 15,
-              fontWeight : 'bold',
-              strokeStyle : 'white',
-              lineWidth: 0.5
-            }
-          }
-        });
-        limits.push({
-          value: yield_classes[6],
-          line: {
-            strokeStyle: 'black',
-            lineWidth: 2,
-            lineDash: [6, 3],
-            title: {
-              text: 'high',
-              fontSize: 15,
-              fontWeight : 'bold',
-              strokeStyle : 'white',
-              lineWidth: 0.5
-            }
-          }
-        });        
-      //});
-    }*/
     return [{
       type: 'numeric',
       position: 'left',
@@ -389,37 +293,6 @@ __Chart.StackedVBar = {
         }
       }
     });
-    /*if (y != ''){
-      series.push({ 
-        type: 'line',
-        title: name,
-        xField: x,
-        yField: y,
-        showInLegend: false,
-        style: {
-          lineWidth: 2,
-          lineDash: [8,2] 
-        },
-        marker: {
-          type: 'circle',
-          radius: 3,
-          lineWidth: 1.5 
-        },
-        label:{
-          field: y,
-          display: 'under',
-          fontWeight: 'bold',
-          shadowColor: "white",
-          shadowOffsetX: 2,
-          shadowOffsetY: 2,
-          shadowBlur: 3,
-          renderer: function(text, sprite, config, rendererData, index){
-            return (index == parseInt(rendererData.store.data.length/2)) ? name + ': ' + text + ' ' + measure : '';
-          }
-        }        
-      });     
-    }*/
-
     return series;
   }
 };
@@ -550,20 +423,7 @@ __Chart.Line = {
             return label;
           }
         }
-      }/*,     
-      tooltip: {
-        trackMouse: true,
-        renderer: function(storeItem, item) {
-          return this.getTooltip().update(
-            parseFloat(item.get(y)).toFixed(decimals) + ' ' + measure
-          );
-        }
-      },
-      renderer: function(sprite, attr, record, index, store) {
-        return Ext.apply(attr, {
-          fill: color
-        });
-      }*/
+      }
     }];
   }
 };

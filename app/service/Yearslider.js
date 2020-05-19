@@ -1,3 +1,6 @@
+/**
+* Yearslider methods
+*/
 Ext.define('App.service.Yearslider', {
 
   singleton: true,

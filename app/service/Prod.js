@@ -1,3 +1,6 @@
+/**
+* productivity calculation tool methods
+*/
 Ext.define('App.service.Prod', {
 
   singleton: true,

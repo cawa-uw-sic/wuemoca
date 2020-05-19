@@ -1,3 +1,4 @@
+//not used
 var __FilterSelection = {
   category : __LocalDB.get('FilterSelections.category'),
   type     : __LocalDB.get('FilterSelections.type'),

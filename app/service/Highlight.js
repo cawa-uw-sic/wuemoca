@@ -1,3 +1,6 @@
+/**
+* Highlighting of clicked map units
+*/
 Ext.define('App.service.Highlight', {
 
   singleton: true,

@@ -1,3 +1,6 @@
+/**
+* watcher methods (runtime storage of current variables)
+*/
 Ext.define('App.service.Watcher', {
 
   singleton: true,

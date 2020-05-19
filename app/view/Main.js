@@ -16,7 +16,7 @@ Ext.define('App.view.Main', {
     'Ext.data.proxy.Ajax',
 
     'Ext.ux.statusbar.StatusBar',
-'Ext.window.Toast',
+    'Ext.window.Toast',
     'App.controller.Main',
 
     'App.view.Map',

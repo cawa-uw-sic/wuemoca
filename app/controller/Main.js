@@ -8,10 +8,6 @@ Ext.define('App.controller.Main', {
 
   interval: false,
 
-  /*onMainAfterRender: function () {
-  //App.service.Helper.getComponentExt('app-introwindow').show();
-  },*/
-  
   /**
   * @method onMapAfterRender
   * show legend window if Legend='show' in localStorage
@@ -83,8 +79,10 @@ Ext.define('App.controller.Main', {
     }
   },
   /**
-  * @method onReportWindow
-  * open report window and set year
+  * @method onExporterWindow
+  * open acronym window
+  * @param window
+  * acronym window
   */
   onExporterWindow: function (window) {
     window.add({ xtype: 'app-exporter-grid' });

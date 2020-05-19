@@ -33,7 +33,7 @@ Ext.define('App.view.header.Help', {
       //tooltip: i18n.header.glossary_tooltip,
       iconCls: 'x-fa fa-book',
       listeners: {
-        //click: 'onGlossary'
+        click: 'onGlossary'
       }
    },{
       text: i18n.header.cawa_report,
@@ -42,13 +42,13 @@ Ext.define('App.view.header.Help', {
       listeners: {
         click: 'onCawaReport'
       }
-   // },{    
-   //    text: i18n.header.video_general,
-   //    //tooltip: i18n.header.glossary_tooltip,
-   //    iconCls: 'x-fa fa-youtube-play',
-   //    listeners: {
-   //      click: 'onVideoHeader'
-   //    }    
+   },{    
+      text: i18n.header.video_general,
+      //tooltip: i18n.header.glossary_tooltip,
+      iconCls: 'x-fa fa-youtube-play',
+      listeners: {
+        click: 'onVideoHeader'
+      }    
     }]
   })
 });

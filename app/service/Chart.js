@@ -1,5 +1,5 @@
 /**
-* chart
+* chart methods
 */
 Ext.define('App.service.Chart', {
 

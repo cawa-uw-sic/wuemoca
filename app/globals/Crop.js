@@ -142,7 +142,7 @@ var __Crop = [
     * @property other
   * other crop
   */  
-  {
+  /*{
     idx   : 7,
     id    : 'other',
     enName: 'Other Crops',
@@ -152,7 +152,7 @@ var __Crop = [
     color_dark   : '#6E1A4B',
     color_medium : '#DD3497',
     color_bright : '#FBEAF4'  
-  },
+  },*/
   /**
     * @property maize
   * maize crop

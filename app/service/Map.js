@@ -461,7 +461,7 @@ Ext.define('App.service.Map', {
   * @method getLegendMedianStyle
   */
   getLegendMedianStyle: function () {
-    return (App.service.Watcher.getIndicator().id == 'mlu') ? '170%' : '165%';
+    return (App.service.Watcher.getIndicator().id == 'mlu') ? '195%' : '165%';
   },
   /**
   * @method onAggregation

@@ -1,10 +1,11 @@
-//var server = 'http://wuemoca.geographie.uni-wuerzburg.de';
+//var server_frontend = 'http://wuemoca.geographie.uni-wuerzburg.de';
 //var server = 'https://wuemoca.geographie.uni-wuerzburg.de';
 //var server_sic = 'http://wuemoca.net';
-var server_wfs = 'https://wuemoca.geographie.uni-wuerzburg.de:443';
+//var server_wfs = 'http://wuemoca.geographie.uni-wuerzburg.de:443';
+var server_wfs = 'https://cawa.geo.uni-halle.de:443';
 
 var server_frontend = 'https://cawa.geo.uni-halle.de';
-var server_backend = 'http://wuemoca.geographie.uni-wuerzburg.de';
+var server_backend = server_frontend;
 
 //SIC server settings
 //disable google analytics scripts in index.html
@@ -35,6 +36,7 @@ __Global.proxy = {
 };
 
 __Global.lang            = locale;
+
 /**
 * projection collection
 */

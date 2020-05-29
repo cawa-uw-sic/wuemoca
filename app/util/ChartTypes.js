@@ -192,7 +192,7 @@ Ext.define('App.util.ChartTypes', {
             //i18n.chart.multiannualHeader2,
           cls: 't-center t-bold t-bigger mlu-header'
         },{
-          html: mlu[__Global.lang + 'Name'] + ': ' + cropNameList[data[0].mlu - 1],
+          html: mlu[__Global.lang + 'Name'] + ': ' + cropNameList[cropList.indexOf(data[0].mlu)],
           cls: 't-center t-bigger mlu-landuse'
         },{
           layout: {
@@ -213,7 +213,7 @@ Ext.define('App.util.ChartTypes', {
             sprites: __Chart.Gauge.getSprites(lur[__Global.lang + 'Legend']  + ': ' + parseFloat(data[0].lur).toFixed(1)),
             margin: '10 0 0 0'
           },{
-            html: '<img src="' + Ext.getResourcePath('images/' + cropList[data[0].mlu - 1] + '_icon.png', null, '') +
+            html: '<img src="' + Ext.getResourcePath('images/' + data[0].mlu + '_icon.png', null, '') +
               '">',
             cls: 't-center mlu-crop-img'
           },{
